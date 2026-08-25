@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Tsubuyaki Processing Harness</title>
+<style>html,body{margin:0;background:#222}canvas{display:block}</style>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+<script>
+// Usage:
+// 1. Place the sketch under test beside this file as sketch.js.
+// 2. Open this page in a browser/headless browser.
+// 3. Wait for window.__TSUBUYAKI_READY__ === true.
+// 4. Set window.__TSUBUYAKI_CAPTURE_FRAME__ to the desired frame number.
+//    The harness pauses immediately after that frame renders.
+// 5. Screenshot the canvas and run scripts/check-visual.mjs on the PNG.
+window.__TSUBUYAKI_CAPTURE_FRAME__=0;
+window.__TSUBUYAKI_READY__=false;
+window.__TSUBUYAKI_ERROR__=null;
+addEventListener('error',e=>window.__TSUBUYAKI_ERROR__=String(e.error||e.message));
+</script>
+<script src="sketch.js"></script>
+<script>
+addEventListener('load',()=>{
+  const watch=setInterval(()=>{
+    const c=document.querySelector('canvas');
+    if(c) window.__TSUBUYAKI_READY__=true;
+    if(window.__TSUBUYAKI_CAPTURE_FRAME__>0&&window.frameCount>=window.__TSUBUYAKI_CAPTURE_FRAME__){
+      noLoop();
+      window.__TSUBUYAKI_CAPTURED_FRAME__=window.frameCount;
+      clearInterval(watch);
+    }
+  },16);
+});
+</script>
