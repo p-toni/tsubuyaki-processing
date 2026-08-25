@@ -1,96 +1,111 @@
 # Mathematical Patterns for Dense Organic Tsubuyaki Processing
 
-This is a vocabulary for **inventing new formulas**, not a catalog to copy literally. Use roles and relationships; change equations, ratios, exponents, projections, and topology for every new work.
+This is a vocabulary for **inventing new formulas**, not a catalog to copy literally. Change equations, ratios, exponents, projections, and topology for every new work.
 
-## 1. Core mental model: sample → latent body → deformation → projection
+## 1. Core model: sample → latent body → deformation → projection
 
-A strong sketch can often be understood as four layers:
-
-1. **sample parameter(s)** — where are we on the hidden manifold?
-2. **latent body coordinates** — what is the local axial/radial geometry?
-3. **deformation field** — how is it folded, frilled, pinched, or breathed?
-4. **projection** — where does that point land on the 2D canvas?
-
-Readable schematic:
+Think in four layers even if the golfed program collapses them:
 
 ```js
-u = sample / scale;
-k = lateral(u, t);
-e = axial(u, t);
-d = hypot(k, e);
-q = radius(k, e, d, u, t);
-c = phase(k, e, d, u, t);
-X = centerX + projectionX(q, c, ...);
-Y = centerY + projectionY(q, c, ...);
-point(X, Y);
+sample coordinates
+→ k,e,d              // latent body
+→ q,c                // deformation / phase
+→ X,Y                // projection
 ```
 
-The code-golf form may collapse all of this into one expression, but the design process should retain these conceptual layers.
+The strongest tiny systems reuse the same latent quantities across several layers.
 
-## 2. The `k/e/d` latent-body family
+## 2. Sampling topology is a visual decision
 
-A highly productive family is:
+Topology determines what material the point field can naturally become.
+
+### Flattened 2D — default for dense tissue/sheets
 
 ```js
-k = A * cos(u * f + phase);
-e = u / s - offset;
-d = mag(k, e);
+x=i%n
+y=i/n
+```
+
+This samples two independent coordinates from one loop. It is the recommended starting point when the target is a membrane, folded surface, shell tissue, cavity-rich organism, or other dense sheet-like form.
+
+Typical range: 20k–40k points.
+
+### 1D — deliberately for filaments/ribbons/axial bodies
+
+```js
+u=i/s
+```
+
+A 1D manifold is intrinsically a **curve**, not a cloud. Consecutive `i` values normally land at neighboring points. Increasing point count makes the curve smoother; it does not change its dimensionality.
+
+A 1D sketch can still produce excellent dense organic work, but it must intentionally fold or decorrelate neighboring samples using devices such as:
+
+- sufficiently separated harmonic scales
+- nonlinear phase such as `d*d`
+- residue classes / multiple strands
+- reciprocal singular deformation
+- projection that repeatedly folds the trajectory through image space
+
+Use it when a filamentary or axial skeleton is part of the desired character. If the result reads as a wire or generic spirograph when tissue was intended, change topology before endlessly tuning constants.
+
+### Iterated state — trajectories as material
+
+```js
+x+=F(x,y,t)
+y+=G(x,y,t)
+point(project(x,y))
+```
+
+Use when the body should emerge from a dynamical trajectory rather than independent samples.
+
+## 3. Sample count is not density
+
+Ten thousand or forty thousand points can still occupy only a thin curve if many land on nearly the same image-space path.
+
+Treat image-space occupancy, overlap structure, cavities, and framing as separate from point count. Sample count is mainly a performance/resolution parameter.
+
+## 4. The `k/e/d` latent-body family
+
+A productive body model is:
+
+```js
+k=A*cos(u*f+phase)
+e=u/s-o
+d=mag(k,e)
 ```
 
 Interpretation:
 
-- `e` behaves like a spine/head-to-tail coordinate
-- `k` oscillates laterally around that spine
-- `d` measures distance in the latent cross-section
+- `e`: axial/spine coordinate
+- `k`: lateral/radial oscillation
+- `d`: body distance
 
-Vary it aggressively:
+For 2D sampling, `k` and `e` can derive independently from `x` and `y` rather than a single `u`.
+
+Vary aggressively:
 
 ```js
-k=(A+sin(u*g-t)*B)*cos(u*f)
-k=A*cos(u*f)*sin(u*h)
-e=u/s-o+sin(u*j+t)*C
+k=(A+sin(x*g-t)*B)*cos(y*f)
+e=y/s-o+sin(x*j+t)*C
 d=mag(k,e)**p/r+b
 ```
 
-This can produce bells, pods, shells, centipede-like tissue, or floral tubes depending on projection.
+## 5. Nonlinear distance transforms
 
-## 3. Nonlinear distance transforms
-
-`d=mag(k,e)` is only the start.
-
-### Square / cube
+`d=mag(k,e)` is only the start:
 
 ```js
 d=mag(k,e)**2/s
-```
-
-or
-
-```js
 d=mag(k,e)**3/s+b
-```
-
-Higher powers create stronger separation between core and exterior and often turn smooth tubes into shells/frills.
-
-### Breathing offset
-
-```js
 d=mag(k,e)/s+sin(t)**4
-```
-
-Using an even power of sine creates a nonnegative pulse: expansion/contraction without sign reversal.
-
-### Mixed body/ripple distance
-
-```js
 d=mag(k,e)+sin(e*f+t)*a-b
 ```
 
-This makes the phase surface itself ripple along the body axis.
+Higher powers separate core/exterior more strongly. Even sine powers provide nonnegative breathing envelopes.
 
-## 4. Polar projection
+## 6. Polar / folded projection
 
-The most compact “living body” projection often uses:
+Compact living-body projections often use:
 
 ```js
 c=d*r-t*s
@@ -98,38 +113,18 @@ X=cx+q*cos(c)
 Y=cy+q*sin(c)+axialOffset
 ```
 
-The important move is not polar coordinates by themselves; it is to make `q` and `c` depend on the same latent variables that define the body.
+The important move is not polar coordinates themselves; `q` and `c` should depend on the same variables that define the body.
 
-Possible axial offset:
-
-```js
-+d*A
-+e*A
-+u/s
-```
-
-This turns a ring into a descending/ascending organism.
-
-## 5. Half-angle and multi-angle projections
-
-Using `c/2`, `c*2`, `c*4` in one coordinate breaks rigid circularity:
+Use half/multi-angle relationships to break rigid circularity:
 
 ```js
 X=R*sin(c)
 Y=S*sin(c/2)+...
 ```
 
-or
+## 7. Reciprocal singularities
 
-```js
-Y=R*sin(c*4)+...
-```
-
-This produces lobes, folds, mirrored bell shapes, and multi-petal cross-sections.
-
-## 6. Reciprocal singularities: tendrils and spikes
-
-Small reciprocal terms create dramatic structure cheaply:
+Small terms such as:
 
 ```js
 .3/k
@@ -137,196 +132,108 @@ Small reciprocal terms create dramatic structure cheaply:
 k/d*wave
 ```
 
-Visual effect:
+can create tendrils, cusps, spines and flares very cheaply. Keep coefficients controlled and inspect zero crossings so singularity does not become an accidental `NaN`/off-screen cascade.
 
-- near `k=0`: thin lateral cusp/tendril
-- near `d=0`: central eruption or filament
+## 8. Nested and quadratic phase
 
-Rules:
-
-- use small coefficients
-- inspect the region around zero
-- allow some points to fly away only if the silhouette remains coherent
-- avoid accidental all-frame `Infinity/NaN` cascades
-
-A controlled singularity is one of the most character-efficient ways to create “anatomy.”
-
-## 7. Nested trigonometric phase
-
-Organic detail often comes from one periodic function warping another:
+High-leverage phase families:
 
 ```js
 sin(e*f-d*g+t*h)
 sin(cos(e)*f-d*g+t)
-sin(d*d-t+cos(e+t/2))
-```
-
-Why it works:
-
-- the outer sine bounds the deformation
-- the inner phase varies nonlinearly across the body
-- reuse of `d/e/t` couples texture to form
-
-Avoid piling unrelated nested functions. One or two phase couplings are usually richer than five decorative waves.
-
-## 8. Quadratic phase: `d*d`
-
-```js
 sin(d*d-t)
-```
-
-This increases frequency with distance from the center, producing shell/ripple/frill structures. It is especially effective when multiplied by `k`, `e`, or `k/d`.
-
-Variations:
-
-```js
-sin(d*d-t+m)
-sin(d*d*.5-t*2)
 cos(d*d+e-t)
 ```
 
-## 9. Harmonic body texture
+`d*d` increases phase frequency with distance and is particularly effective for shells, frills and ripple bands.
 
-Use integer-ish ratios to create coherent segmentation:
+## 9. Harmonic hierarchy
 
-```js
-sin(k*2)
-cos(e*9)
-sin(d*3)
-sin(y/25)
-```
+Use related scales rather than unrelated decorative waves:
 
-The ratios do not need to be musical or exact integers. The important property is **related scales**: one broad wave and one fine wave sharing the same coordinate.
+- macro frequency: broad silhouette
+- meso: folds / ribs / lobes
+- micro: texture
 
-Good exploration strategy:
+One broad wave plus one or two related higher frequencies is generally richer than many independent terms.
 
-- macro frequency: ~0.03–0.3 cycles/unit
-- meso frequency: 2–5× macro
-- micro frequency: 2–4× meso
-
-Then compress numeric constants after visual tuning.
-
-## 10. Parity and modulo as anatomy
-
-Alternation:
+## 10. Parity and modulo are anatomy, not density
 
 ```js
 i%2
-```
-
-can switch two lobes, twist sides, or offset a phase by roughly π.
-
-Segment families:
-
-```js
 i%5
 i%9
-i%16
 ```
 
-can create petals/arms/strands without arrays.
+Residue classes can create bilateral sides, petals, strands or segment families without arrays.
 
-Instead of a branch:
-
-```js
-phase += i%2*3
-```
-
-The value `3` is a cheap approximation to π when exact opposition is not required.
+They **do not increase intrinsic sampling dimensionality**. `i%2*3` can give a 1D trajectory two anatomical sides, but it does not by itself turn a curve into a sheet.
 
 ## 11. Bilateral symmetry with controlled disagreement
-
-Pure mirroring often looks synthetic. Let parity create two related but phase-shifted sides:
 
 ```js
 side=i%2
 c=base+side*p
-q=body+side*smallWarp
+q=body+side*warp
 ```
 
-Then let the same `side` enter a nested sine. This produces bilateral “creature” cues while preserving dynamical variation.
+Pure mirroring looks synthetic. Let side/parity also alter one internal phase so both halves share anatomy but not identical deformation.
 
 ## 12. Radial petals without explicit petal loops
 
-Use a modulo family as a phase bucket:
+Use residue classes or angular harmonics:
 
 ```js
 m=i%n
 k=A*cos(u*f+m*p)
 ```
 
-or encode petal count inside an angular harmonic:
+or
 
 ```js
 q=base+A*sin(c*n+warp)
 ```
 
-The latter is often shorter and smoother.
+The harmonic form is often shorter and smoother.
 
 ## 13. Axial taper
-
-Creature/flower forms need varying width along the body.
 
 Cheap envelopes:
 
 ```js
 A-e*e/s
 A/(1+abs(e))
-A+e*sin(...)
 A*(1-(e/s)**2)
-```
-
-For golf, sometimes a term already present can serve as the envelope:
-
-```js
 k*e
 k/d
-u/s*k
 ```
 
-The best tiny equations make one term perform two jobs.
+A good tiny term often performs more than one job.
 
 ## 14. Phase-coupled radius
 
-Rather than a static radius:
-
 ```js
 q=R+k*(A+B*sin(...))
-```
-
-or
-
-```js
 q=R-e*sin(k)+k/d*(A+B*sin(...))
 ```
 
-This makes the silhouette itself ripple and breathe.
+When radius depends on the same body coordinates as the phase, the silhouette itself appears to breathe and reorganize.
 
 ## 15. Time architecture
 
-Use a **slow master clock** and derive local speeds algebraically.
-
-Typical readable approach:
+Use one slow master clock and derive local rates algebraically:
 
 ```js
-t += Math.PI / 180;
-```
-
-Then:
-
-```js
+t+=PI/180
 -t/8
 +t/2
 +t*2
 +sin(t)*A
-+sin(t*9-phase)
 ```
 
-Do not use independent frame counters for different motions. One clock with multiple rational-ish rates creates coherence and saves characters.
+One clock with heterogeneous local multipliers is coherent and golfable.
 
 ## 16. Breathing envelopes
-
-Smooth amplitude modulation:
 
 ```js
 sin(t)
@@ -335,50 +242,34 @@ sin(t)**4
 (1+sin(t))/2
 ```
 
-Even powers are compact nonnegative envelopes. High even powers produce short pulses with long rests.
+High even powers produce brief pulses and long rests.
 
-## 17. Drifting phase vs rotating object
+## 17. Internal drift, not rigid motion
 
-Avoid merely rotating a finished shape. Instead alter the internal phase:
+Prefer:
 
 ```js
 c=d/2-t/8
 warp=sin(e*9-d*2+t)
 ```
 
-The geometry reorganizes itself as time passes, which reads as growth/breathing rather than rigid motion.
+over computing a static object and rotating it wholesale. Time should reorganize internal geometry.
 
-## 18. One-dimensional dense manifolds
+## 18. One-dimensional manifold checklist
 
-A single sample `u` can generate elaborate 2D forms when several frequencies derive from it:
+Use 1D when:
 
-```js
-u=i/s
-k=A*cos(u*f)
-e=u/g-o
-d=mag(k,e)
-```
+- the piece should contain a visible filament/ribbon/spine
+- the trajectory intentionally folds through itself many times
+- phase changes are strong enough that adjacent samples do not merely reveal a wire
 
-Advantages:
+Before accepting a 1D result, render it and inspect occupancy. If tissue was intended and coverage remains very low, switch to flattened 2D rather than assuming 20k points will solve it.
 
-- tiny loop syntax
-- smooth filament/surface-like density
-- easy to push to 10k+ points
-
-Use when the form should read as a continuous ribbon/body.
-
-## 19. Flattened two-dimensional manifolds
-
-Derive two coordinates from one index:
+## 19. Flattened two-dimensional manifold checklist
 
 ```js
 x=i%n
 y=i/n
-```
-
-Then:
-
-```js
 k=x/s-o
 e=y/g-p
 d=mag(k,e)
@@ -386,35 +277,25 @@ d=mag(k,e)
 
 Advantages:
 
-- true surface sampling
+- true sheet sampling
+- reliable membrane/cavity density
 - easy bilateral/radial structures
-- 20k–40k points reveal smooth sheets
+- one countdown loop still suffices
 
-Avoid integer-flooring `y` if the continuous quotient creates a pleasing diagonal sampling and no indexing semantics require integers.
+Do not automatically floor `y`; the continuous quotient can create useful diagonal sampling.
 
 ## 20. Iterated dynamical systems
 
-Instead of mapping independent samples, update state:
-
 ```js
-x += dt * F(x,y,z,t)
-y += dt * G(x,y,z,t)
-z += dt * H(x,y,z,t)
+x+=dt*F(x,y,z,t)
+y+=dt*G(x,y,z,t)
+z+=dt*H(x,y,z,t)
 point(project(x,y,z,t))
 ```
 
-Attractor-like systems produce a different authenticity: the dense shape emerges from a trajectory rather than a static manifold.
+Attractor-like systems create dense material from a trajectory. Destructuring is useful when simultaneous-update semantics matter.
 
-Golf opportunities:
-
-- tiny `d=5e-4`-style integration step
-- one loop with 20k–30k iterations
-- array destructuring when simultaneous update semantics matter
-- projection can add a periodic shell/rotation on top of the attractor
-
-## 21. Sequentially coupled mini-attractor
-
-For original experiments, a cheap iterative map can be:
+## 21. Sequential mini-attractors
 
 ```js
 r=sin(x*y*a+t)+cos(y*b)
@@ -422,11 +303,11 @@ x=sin(y*c)+r*d
 y=cos(x*e)+r*f
 ```
 
-Because `y` uses the newly updated `x`, this is not a textbook simultaneous system—it is its own discrete map. That is fine if treated as intentional.
+Sequential updates define their own discrete map. Treat that as intentional rather than pretending it is a textbook system.
 
 ## 22. Pseudo-3D without WEBGL
 
-A latent third coordinate can affect scale/angle rather than using a 3D renderer:
+Depth can be encoded through radius, phase and overlap rather than paying for a 3D renderer:
 
 ```js
 s=1/(z+K)
@@ -434,57 +315,38 @@ X=cx+x*s
 Y=cy+y*s
 ```
 
-But division/perspective boilerplate can be expensive. A cheaper “depth” cue is often:
-
-- radius changes with `d/e`
-- alpha is fixed but overlap density varies
-- phase shifts with latent depth
-
-This is why many striking organic Tsubuyaki works remain plain 2D `point()` sketches.
+Often a cheaper depth cue is simply `d/e`-dependent radius plus density shading.
 
 ## 23. Density as shading
 
-With translucent stroke, the equation does not need explicit lighting. Regions where many samples land near each other become brighter.
+With translucent points, overlap is a rendering model:
 
-This creates:
+- denser overlap → stronger ridge
+- sparse overlap → cavity
+- moving overlap → changing apparent illumination
 
-- surface curvature cues
-- dark cavities
-- luminous ribs
-- motion blur-like tissue
-
-Design implication: **sample distribution is part of the shading model**.
+On a dark ground, pale overlap becomes brighter. On a light ground, dark translucent ink becomes darker. The geometry can remain the same while the alpha regime changes.
 
 ## 24. Controlled degeneracy
 
-Useful forms often arise where a mapping nearly collapses a dimension:
-
-```js
-q≈0
-k≈0
-d≈constant
-```
-
-Near-degenerate regions create seams, cusps, spines, and sheets. Do not optimize them away merely because they look “mathematically awkward.”
+Near-collapse regions such as `q≈0`, `k≈0`, or nearly constant `d` create seams, cusps and sheets. Do not remove them merely because they look mathematically awkward.
 
 ## 25. Formula invention procedure
 
-For a new sketch, do this in readable code:
-
-1. Pick sample topology: 1D, flattened 2D, or iterative.
-2. Define a boring body: `k`, `e`, `d`.
-3. Produce a recognizable base silhouette with `q` and `c`.
-4. Add **one** macro deformation tied to `d/e`.
-5. Add **one** meso harmonic tied to `k/e`.
-6. Add **one** temporal coupling.
-7. Optionally add one controlled singularity or parity split.
-8. Remove any term whose deletion does not materially change the piece.
-9. Tune constants until both still frames and motion feel intentional.
-10. Only then golf.
+1. Decide desired material: sheet, filament, or trajectory.
+2. Choose topology accordingly; **default to flattened 2D for dense tissue**.
+3. Define a boring body: `k`, `e`, `d`.
+4. Produce a recognizable base silhouette with `q` and `c`.
+5. Add one macro deformation tied to the body.
+6. Add one meso harmonic.
+7. Add one temporal coupling.
+8. Optionally add one controlled singularity or anatomical parity split.
+9. Render representative frames.
+10. Inspect occupancy, robust bbox, centroid and clipping; fix topology/framing before decoration.
+11. Remove any term whose deletion does not materially change the piece.
+12. Only then golf.
 
 ## 26. Variation matrix
-
-To make meaningful variants, change rows rather than random constants.
 
 | Axis | A | B | C |
 |---|---|---|---|
@@ -493,20 +355,20 @@ To make meaningful variants, change rows rather than random constants.
 | Distance | `mag` | squared | cubed + offset |
 | Projection | polar | half-angle folded | axial/radial hybrid |
 | Detail | harmonic | reciprocal cusp | parity segmentation |
-| Time | slow drift | breathing envelope | nonlinear phase pulse |
+| Time | slow drift | breathing envelope | nonlinear pulse |
 
-A good variant changes at least three axes unless the goal is a controlled study.
+A useful variant changes at least three axes unless the goal is a controlled study.
 
 ## 27. Anti-patterns
 
-Avoid these unless intentionally subverting the style:
+Avoid unless intentionally subverting the style:
 
 - Perlin-noise flow field as the entire algorithm
-- hundreds of independent randomized particles
-- rainbow HSB cycling with no mathematical role
-- explicit SVG-like flower petals
-- static Lissajous curve plus rotation
+- independent randomized particle confetti
+- explicit SVG-like anatomy
+- static Lissajous plus rotation
 - generic spirograph
-- dozens of arbitrary magic numbers that do not share latent coordinates
+- assuming high sample count implies dense image-space coverage
+- adding terms merely because tweet budget remains
 
-The target is not merely “complex-looking.” It is **compressed causal geometry**.
+The target is **compressed causal geometry**.
