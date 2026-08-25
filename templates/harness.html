@@ -6,14 +6,14 @@
 <script>
 // Usage:
 // 1. Place the sketch under test beside this file as sketch.js.
-// 2. Open this page in a browser/headless browser.
-// 3. Wait for window.__TSUBUYAKI_READY__ === true.
-// 4. Set window.__TSUBUYAKI_CAPTURE_FRAME__ to the desired frame number.
-//    The harness pauses immediately after that frame renders.
-// 5. Screenshot the canvas and run scripts/check-visual.mjs on the PNG.
-window.__TSUBUYAKI_CAPTURE_FRAME__=0;
+// 2. Open harness.html?frame=90 (or another target frame).
+// 3. Wait for window.__TSUBUYAKI_CAPTURED_FRAME__ to equal/exceed the target.
+// 4. Screenshot the canvas and run scripts/check-visual.mjs on the PNG.
+const params=new URLSearchParams(location.search);
+window.__TSUBUYAKI_CAPTURE_FRAME__=+(params.get('frame')||0);
 window.__TSUBUYAKI_READY__=false;
 window.__TSUBUYAKI_ERROR__=null;
+window.__TSUBUYAKI_CAPTURED_FRAME__=null;
 addEventListener('error',e=>window.__TSUBUYAKI_ERROR__=String(e.error||e.message));
 </script>
 <script src="sketch.js"></script>
@@ -27,6 +27,6 @@ addEventListener('load',()=>{
       window.__TSUBUYAKI_CAPTURED_FRAME__=window.frameCount;
       clearInterval(watch);
     }
-  },16);
+  },8);
 });
 </script>
