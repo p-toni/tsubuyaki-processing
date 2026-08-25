@@ -1,6 +1,6 @@
 # Style Guide: Authentic Dense Organic #つぶやきProcessing
 
-This guide narrows a broad historical practice to the requested contemporary mathematical-organic point aesthetic.
+This guide narrows the broad historical practice to the contemporary mathematical-organic point aesthetic targeted by this skill.
 
 ## 1. Core aesthetic
 
@@ -13,85 +13,92 @@ Desired qualities:
 - organic without literal illustration
 - mostly deterministic rather than random
 - smoothly animated rather than noisy
-- rich at both silhouette and micro-detail scales
+- strong silhouette plus local structure
 - visually surprising relative to source length
 
-A useful phrase is **apparent animacy**: geometry should seem to breathe, flex, unfurl, contract, or reorganize itself even though the code contains no anatomy.
+A useful phrase is **apparent animacy**: geometry seems to breathe, flex, unfurl, contract, or reorganize itself even though the code contains no anatomy.
 
-## 2. Point density is the material
+## 2. Topology determines material
 
-`point()` is not merely a cheap primitive. Thousands of overlapping samples create a luminous density field.
+For dense membranes, folded tissue, cavities and sheets, prefer a **flattened 2D manifold** as the starting point.
 
-Default target:
+A 1D manifold naturally draws a curve. It is excellent for ribbons, axial organisms and filamentary bodies, but high sample count alone does not make it surface-like. If a 1D result reads as a visible wire, change topology or deliberately decorrelate adjacent samples before tuning more constants.
 
-- 10k–40k samples/frame
-- one or two pixels of effective mark size
-- pale stroke with moderate alpha
-- nearly black ground
+Iterated systems are a third lineage: a dense body can emerge from one long trajectory.
 
-The points should merge perceptually into membranes, ribs, threads, and surfaces.
+## 3. Point count is not density
 
-If individual points dominate at normal viewing size, either increase density or make the point size less visually explicit.
+`point()` is the material, but sample count only tells you how many marks were attempted. It does not tell you how much image space they occupy.
 
-## 3. Monochrome first
+Typical ranges:
 
-Start with grayscale:
+- flattened 2D: 20k–40k points/frame
+- 1D/iterative: often 10k–30k
+- one or two pixels effective mark size
 
-- background: 6–12
-- stroke: white-ish, alpha 35–110
+Twenty thousand samples can still collapse into a 1% wire. Judge **image-space coverage and overlap**, not count alone.
 
-Why:
+When screenshots are available, run `scripts/check-visual.mjs` and interpret occupancy diagnostically:
 
-- every character contributes to geometry, not palette plumbing
-- overlapping alpha naturally creates shading
-- shape quality is easier to judge without color
-- monochrome is strongly represented in contemporary high-density works
+- `<2%`: likely wire/sparse unless that is intentional
+- `2–4%`: inspect carefully
+- `4–15%`: common useful range for this specialization
+- `>15%`: valid, but inspect for overfill and disappearing cavities
 
-Only add color if it encodes a structural variable or the user explicitly asks for it.
+These are heuristics, not universal aesthetic gates.
 
-## 4. Canvas
+## 4. Dark ground baseline
 
-Default: **400×400**.
+The most common default for this specialization:
 
-Reasons:
+- background: grayscale 6–12
+- stroke: pale gray/white, alpha roughly 35–110
 
-- widely seen in contemporary p5.js examples
-- cheap square assignment: `createCanvas(w=400,w)`
-- center is a convenient ~200
-- `w` can be reused as an over-range white channel
-- enough resolution for dense 1px points
+Overlap naturally produces brighter ridges and darker cavities. Start monochrome because geometry is easier to judge without palette plumbing.
 
-Other valid historical/community sizes include 500, 540, 600, 720, 800, 900 and beyond. Choose another size only when visual/output requirements justify the extra source cost.
+## 5. Light / paper ground
 
-## 5. Silhouette hierarchy
+Light ground is equally valid when the surrounding product/site requires it.
 
-At thumbnail scale, the work should have one dominant silhouette:
+Use:
 
-- bell
-- pod
-- shell
-- folded disk
-- larval ribbon
-- bilateral mask
-- blossom/tube
-- knot
+- the actual paper/background tone
+- dark ink instead of pale points
+- usually lower alpha than the dark-ground equivalent
 
-At full size, secondary structure should emerge:
+The compositing logic inverts: overlap becomes **darker**, not brighter. Do not use an absolute brightness threshold to judge density. `check-visual.mjs` estimates the background and measures contrast relative to it so both regimes can be inspected with the same tool.
 
-- ribs
-- pleats
-- repeated lobes
-- cavities
-- tendrils
-- density bands
+On very warm/off-white paper, tune ink color structurally only if the extra source cost is justified; otherwise grayscale/dark neutral remains the golf-friendly baseline.
 
-At zoom, tertiary point texture should be visible.
+## 6. Canvas and framing
+
+Default canvas: **400×400**.
+
+A good formula can still be badly composed. Projection offsets, reciprocal terms and axial drift can move the visible centroid away from the mathematical center.
+
+For the usual single-organism composition:
+
+- dominant robust span often works around 55–85% of the canvas
+- visible centroid usually stays within ~10–15% of canvas center on each axis
+- avoid meaningful clipping unless it is intentional
+
+Do not turn these into hard rules. Tall, narrow, asymmetric and negative-space-heavy compositions can be excellent.
+
+When measuring, prefer a **robust bounding box** (for example central 98% of visible pixels) over raw min/max, because one singular runaway point should not define the framing.
+
+## 7. Silhouette hierarchy
+
+At thumbnail scale: one dominant silhouette.
+
+At normal size: secondary ribs, pleats, lobes, cavities, tendrils or density bands.
+
+At zoom: tertiary point texture.
 
 If there is no hierarchy—only uniform noise—the formula is not doing enough compositional work.
 
-## 6. Symmetry
+## 8. Symmetry
 
-Use symmetry as scaffolding, not as the final effect.
+Use symmetry as scaffolding, not the final effect.
 
 Good:
 
@@ -101,140 +108,114 @@ Good:
 
 Weak:
 
-- perfect mandala rotating as one rigid object
+- perfect mandala rotating rigidly
 - obvious kaleidoscope with no local variation
 
-A tiny parity or modulo term often provides enough disagreement to make a symmetric body feel alive.
+Parity/modulo provides anatomy cheaply. It does **not** solve a density/topology problem by itself.
 
-## 7. Motion
+## 9. Motion
 
-Preferred motion is **internal**:
+Preferred motion is internal:
 
 - phase fields drift
 - fold spacing changes
 - body radius pulses
 - lobes exchange prominence
-- a singular feature migrates
-- surface density breathes
+- singular features migrate
+- density breathes
 
-Avoid motion that is only:
+Avoid motion that is only whole-object spin, translation or random jitter.
 
-- whole-object spin
-- whole-object translation
-- random jitter
+Common master increments range roughly `PI/240` to `PI/20`. Slower is often more convincing for organic work; local multipliers can produce faster micro-motion.
 
-### Speed
+Inspect several separated frames, not just the first attractive still.
 
-Use a slow master clock. Common observed increments span roughly `PI/240` to `PI/20`; slower is often more convincing for organic work. Local phase multipliers can create faster micro-motion without making the whole object frantic.
-
-The animation should reveal structure over several seconds, not exhaust its idea in half a second.
-
-## 8. Mathematical reuse
+## 10. Mathematical reuse
 
 The most authentic equations reuse latent quantities:
 
-- `d` shapes both projection and deformation
-- `e` controls axial placement and wrinkle phase
-- `k` controls both lateral radius and tendril strength
-- `t` enters multiple phases at different rates
+- `d` shapes projection and deformation
+- `e` controls placement and wrinkle phase
+- `k` controls radius and singular anatomy
+- `t` enters several phases at different rates
 
 This creates causal unity.
 
-Anti-pattern: every term has its own unrelated `sin(i*randomConstant+t*randomConstant)`. That can look busy but not organism-like.
+Anti-pattern: every visible detail has its own unrelated `sin(i*constant+t*constant)`.
 
-## 9. Controlled singularities
+## 11. Controlled singularities
 
-Terms like `1/k`, `1/d`, `tan(...)`, or extreme powers are welcome when they create a stable anatomical feature.
+Terms like `1/k`, `1/d`, `tan(...)`, or extreme powers are welcome when they create stable anatomical features.
 
-Desired:
+Desired: one spine, cusp, flare, tendril or frill.
 
-- one thin spine
-- a flare/tendril near the core
-- a cusp at a lobe boundary
-- a sudden but bounded frill
+Undesired: most points off-screen, flickering `NaN` gaps, or framing dominated by rare runaway samples.
 
-Undesired:
+## 12. Density as shading
 
-- most points shooting off-screen
-- flickering NaN gaps
-- shape disappearing when a denominator crosses zero
+Translucent points form a cheap volumetric shader:
 
-Tune singularities visually in motion, not only on one frame.
+- more overlap → stronger contrast
+- sparse regions → cavities
+- changing overlap → apparent illumination/motion
 
-## 10. Density/shading
+Exploit this before adding explicit shadow/highlight code.
 
-Translucent points act like a cheap volumetric shader:
+## 13. Randomness and noise
 
-- more overlapping samples → brighter ridges
-- sparse regions → dark cavities
-- moving manifolds → changing highlights
+Historical #つぶやきProcessing includes random/noise work, but this specialization is formula-driven.
 
-Do not add explicit shadow/highlight code until the density field itself has been exploited.
+Randomness may add slight imperfection or perturbation. It should not replace the mathematical body.
 
-## 11. Randomness and noise
+## 14. Primitive hierarchy
 
-Historical #つぶやきProcessing includes plenty of random/noise work, but the requested target style is more formula-driven.
+Preferred:
 
-Use randomness/noise only when it adds a specific behavior:
+1. `point()`
+2. `circle()` when mark diameter is meaningful
+3. `line()` for explicitly filamentary systems
+4. WEBGL primitives for a different lineage
 
-- slight imperfection
-- birth/death variation
-- perturbation of a coherent field
+Many primitive types in one tiny work usually signal conventional scene construction rather than compressed field design.
 
-Do not let `noise()` replace the mathematical body design.
+## 15. Performance
 
-## 12. Primitive hierarchy
-
-Preferred for this specialization:
-
-1. `point()` — default
-2. `circle()` — when diameter/density is a meaningful variable
-3. `line()` — for filament/ribbon systems
-4. WEBGL primitives — valid, but a different lineage and often more character-expensive
-
-Do not use many primitive types in one tiny work; it usually signals conventional scene construction rather than compressed field design.
-
-## 13. Performance
-
-High point counts are normal, but every extra nested trig call is paid 10k–40k times per frame.
-
-Performance tactics that also help code size:
+High point counts are normal, but every nested trig call is paid thousands of times per frame.
 
 - reuse assigned subexpressions
-- avoid callback-heavy `.map()` in the hottest loop unless it saves enough code and runs acceptably
-- prefer one loop to nested loops
-- avoid allocating arrays/objects per sample
-- keep expensive randomness/noise out of the inner loop unless essential
+- avoid allocations in the hot loop
+- prefer one flattened loop
+- keep noise/random out of the inner loop unless essential
 
-A beautiful 40k-point equation that renders at 3 FPS is not production-ready animation.
+A beautiful equation at 3 FPS is not production-ready animation.
 
-## 14. Originality boundary
-
-This skill is informed by a community vocabulary and by analysis of artists such as @yuruyurau. It should **not** produce a near-duplicate of a cited work.
+## 16. Originality boundary
 
 Do:
 
-- reuse abstract devices such as latent radial coordinates, dense point sampling, nested phase coupling, or modulo anatomy
+- reuse abstract devices such as dense sampling, latent radial coordinates, nested phase coupling and modulo anatomy
 - invent new equations and ratios
-- change sampling topology and projection
+- change topology and projection
 
 Do not:
 
 - copy a published one-liner and swap constants
 - preserve the same formula skeleton with token substitutions
-- claim a generated piece is by or endorsed by a real artist
+- claim generated work is by or endorsed by a real artist
 
-## 15. Final visual checklist
+## 17. Visual verification checklist
 
-Before golfing, ask:
+Before golfing:
 
 - Does it have a strong silhouette at 25% scale?
-- Do dense points resolve into a surface rather than confetti?
-- Is there at least one macro, meso, and micro structure?
-- Does motion deform the system internally?
-- Are most visual effects consequences of shared latent variables?
-- Is randomness secondary or absent?
-- Would removing one term noticeably simplify the organism?
-- Does it still look compelling in monochrome?
+- Does the intended material read correctly: sheet, filament or trajectory?
+- Do points resolve into structure rather than confetti?
+- Is there macro, meso and micro organization?
+- Does the form occupy the canvas intentionally?
+- Is the centroid/framing stable across representative frames?
+- Are important features clipped?
+- Does motion deform internally?
+- Are effects consequences of shared latent variables?
+- Would removing one term materially simplify the organism?
 
-If yes, it is ready for compression.
+If screenshots are available, use the mechanical diagnostics as evidence alongside visual judgment. **The metrics support taste; they do not replace it.**
