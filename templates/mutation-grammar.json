@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "routes": {
+    "family": {
+      "label": "repeated math family",
+      "stages": [
+        {"stage": 1, "name": "local family/deformation", "classes": ["numeric-scale", "phase-spacing", "latent-harmonic", "deformation-intensity", "time-coupling"]},
+        {"stage": 2, "name": "family structure", "classes": ["family-count", "harmonic-family", "distance-power", "deformation-operator"]},
+        {"stage": 3, "name": "projection family", "classes": ["projection-family"]}
+      ]
+    },
+    "recurrence": {
+      "label": "recurrence / living knot",
+      "stages": [
+        {"stage": 1, "name": "recurrence and family roles", "classes": ["recurrence-parameter", "integration-step", "family-count", "phase-spacing", "projection-constant"]},
+        {"stage": 2, "name": "projection/deformation structure", "classes": ["projection-family", "deformation-operator", "time-coupling"]},
+        {"stage": 3, "name": "broader recurrence variant", "classes": ["recurrence-family"]}
+      ]
+    },
+    "sheet": {
+      "label": "dense 2D sheet / membrane",
+      "stages": [
+        {"stage": 1, "name": "projection/deformation family", "classes": ["projection-family", "deformation-intensity", "distance-power", "time-coupling"]},
+        {"stage": 2, "name": "sampling and structural geometry", "classes": ["sampling-resolution", "latent-scale", "fold-frequency", "structural-spacing"]},
+        {"stage": 3, "name": "broader sheet-compatible projection", "classes": ["projection-structure"]}
+      ]
+    },
+    "filament": {
+      "label": "intentional 1D filament / ribbon",
+      "stages": [
+        {"stage": 1, "name": "local numeric", "classes": ["numeric-amplitude", "numeric-frequency", "numeric-radius", "numeric-fold", "numeric-twist", "numeric-time", "density"]},
+        {"stage": 2, "name": "axial-preserving structure", "classes": ["family-count", "harmonic-family", "fold-law", "phase-relation"]},
+        {"stage": 3, "name": "projection/topology change", "classes": ["projection-family", "topology"], "requiresBriefChange": true}
+      ]
+    },
+    "morphology": {
+      "label": "morphology-first explicit anatomy",
+      "stages": [
+        {"stage": 1, "name": "local validated controls", "classes": ["semantic-control", "local-deformation", "motion-phase", "surface-detail"]},
+        {"stage": 2, "name": "contract-preserving structure", "classes": ["family-parameter", "attachment-parameter", "shared-projection", "shared-deformation"]},
+        {"stage": 3, "name": "body-plan mutation", "classes": ["body-plan"], "experimental": true}
+      ]
+    }
+  }
+}
