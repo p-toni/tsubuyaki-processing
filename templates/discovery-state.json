@@ -1,7 +1,11 @@
 {
-  "version": 1,
+  "version": 2,
   "route": "filament",
-  "grammar": "templates/mutation-grammar.json",
+  "grammar": {
+    "path": "templates/mutation-grammar.json",
+    "version": 1,
+    "sha256": "<captured-at-init>"
+  },
   "stage": 1,
   "eliteId": "E0",
   "brief": {
@@ -29,6 +33,16 @@
     }
   },
   "events": [
-    {"seq": 1, "type": "init", "eliteId": "E0", "route": "filament", "stage": 1}
+    {
+      "seq": 1,
+      "type": "init",
+      "eliteId": "E0",
+      "route": "filament",
+      "stage": 1,
+      "grammar": {
+        "version": 1,
+        "sha256": "<captured-at-init>"
+      }
+    }
   ]
 }
