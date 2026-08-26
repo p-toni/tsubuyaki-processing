@@ -1,0 +1,51 @@
+{
+  "budget": {
+    "challengersPerConditionPerRoute": 40,
+    "D1": "1 start; four sequential rounds of 10",
+    "B4": "4 starts; 10 challengers per start",
+    "B8": "8 starts; 5 challengers per start"
+  },
+  "recurrence": {
+    "brief": "storm organ",
+    "primaryRanking": ["D1", "B8", "B4"],
+    "blindRanking": ["D1", "B4", "B8"],
+    "robustWinner": "D1",
+    "selector": {
+      "top1Agreement": true,
+      "pairwiseAgreement": 0.6666666667,
+      "spearmanRho": 0.5
+    },
+    "D1Lineage": ["Rstart1", "D1-R1-3", "D1-R2-10", "D1-R3-5"],
+    "coverage": {
+      "D1": {"viable": 34, "structuralSignatures": 11},
+      "B4": {"viable": 37, "structuralSignatures": 20},
+      "B8": {"viable": 32, "structuralSignatures": 20}
+    },
+    "conclusion": "depth wins despite broader structural coverage"
+  },
+  "family": {
+    "brief": "drifting spores",
+    "primaryRanking": ["B4", "B8", "D1"],
+    "blindRanking": ["B8", "B4", "D1"],
+    "robustWinnerClass": "breadth",
+    "exactBreadthWinnerResolved": false,
+    "selector": {
+      "top1Agreement": false,
+      "winnerClassAgreement": true,
+      "pairwiseAgreement": 0.6666666667,
+      "spearmanRho": 0.5
+    },
+    "D1Lineage": ["Fstart1", "FD1-R1-5", "FD1-R2-1", "FD1-R3-5", "FD1-R4-1"],
+    "breadthWinningBasin": 4,
+    "coverage": {
+      "D1": {"viable": 40, "structuralSignatures": 26},
+      "B4": {"viable": 38, "structuralSignatures": 28},
+      "B8": {"viable": 39, "structuralSignatures": 33}
+    },
+    "conclusion": "breadth wins by finding a stronger basin; B4 vs B8 is selector-unstable"
+  },
+  "globalConclusion": "route-dependent: breadth finds basins, depth exploits promising basins",
+  "nextHypothesis": "hybrid portfolio search: sample several starts shallowly, then allocate remaining budget to one or a few promising basins",
+  "productionChangeRecommended": false,
+  "selectorLimitation": "same-model blinded retest only; no independent model evaluator"
+}
