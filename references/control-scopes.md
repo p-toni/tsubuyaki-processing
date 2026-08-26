@@ -1,6 +1,6 @@
 # Hierarchical Control Scopes
 
-v0.4 makes semantic control measurable against the morphology hierarchy rather than against one global image-diff statistic.
+v0.4.1 makes semantic control measurable against the morphology hierarchy **and against both geometric states being compared**.
 
 ## Why global diff was insufficient
 
@@ -10,8 +10,6 @@ Therefore these two questions are different:
 
 1. **How much changed?** — global image difference.
 2. **Did change stay inside the influence that this control is supposed to have?** — semantic scope.
-
-v0.4 addresses the second question.
 
 ## Morphology hierarchy
 
@@ -39,19 +37,13 @@ Every semantic control used for locality testing declares one scope.
 
 Expected to act primarily inside one region.
 
-Example:
-
 ```json
 "tendrilLength": {"region":"tendrils","scope":"region"}
 ```
 
-Use for appendage length, local cavity depth, local taper, local phase offset, etc.
-
 ### `subtree`
 
 Expected to act on a region **and all descendants**.
-
-Example:
 
 ```json
 "bellWidth": {"region":"bell","scope":"subtree"}
@@ -63,19 +55,15 @@ This is the correct scope for a parent geometry control when attached children i
 
 A local appearance/deformation control whose spatial permission is the named region, but whose intended meaning is surface/detail rather than body-plan structure.
 
-Example:
-
 ```json
 "foldFrequency": {"region":"bell","scope":"surface"}
 ```
 
-The current validator treats `surface` spatially like `region`; the distinct label matters for interpretation and future metrics.
+The validator treats `surface` spatially like `region`; the separate label matters for interpretation and future metrics.
 
 ### `global`
 
 Expected to affect the whole organism.
-
-Example:
 
 ```json
 "pulseStrength": {"region":"root","scope":"global"}
@@ -83,54 +71,87 @@ Example:
 
 Do not penalize global controls for wide influence.
 
-## Producing masks
+## The moving-geometry problem
 
-Masks should describe the **expected image-space support of a region at the exact frame being tested**.
+A region mask rendered only from the baseline state is insufficient for controls that move or resize anatomy.
 
-Recommended process:
+If a tail endpoint moves from A to B, the image difference contains:
 
-1. keep readable source instrumentable;
-2. expose `window.__TSUBUYAKI_REGION__` as a debug selector;
-3. render the same frame once per region via:
+- disappearing pixels at A;
+- appearing pixels at B.
+
+A baseline-only tail mask covers A but not B. A correct local tail control can therefore look like it has large semantic spill.
+
+**v0.4.1 rule:** for geometry-affecting controls, allowed spatial support is the union of the region mask rendered in the baseline state and the matching mask rendered in the variant state.
+
+For a `subtree` control, union baseline+variant support for every region in the subtree.
+
+## Producing dual-state masks
+
+Keep the readable source instrumentable and render masks at the **exact same frame/time** as each phenotype.
+
+Example baseline:
 
 ```text
-harness.html?frame=90&s=sketch.js&region=bell
+harness.html?frame=90&s=baseline.js&region=tendrils
 ```
 
-4. draw the selected region as bright marks on a black/transparent ground;
-5. save those PNGs under the paths named by the contract.
+Example variant:
 
-The mask does not need to be tweet-sized. It belongs only to the readable/testing representation.
+```text
+harness.html?frame=90&s=variant.js&region=tendrils
+```
 
-### Mask design rule
+Store them in parallel directories, preserving the mask filenames used by the morphology contract:
 
-A region mask should answer:
+```text
+baseline-masks/
+  root.png
+  bell.png
+  tendrils.png
+variant-masks/
+  root.png
+  bell.png
+  tendrils.png
+```
 
-> If this anatomical region were isolated at this frame, which pixels could reasonably belong to it or its attachment zone?
-
-Do not make masks so tight that harmless anti-aliasing becomes spill. Do not make them so broad that every control appears local.
-
-## Validation
-
-Run:
+Then run:
 
 ```sh
 node scripts/check-control-scope.mjs \
-  baseline.png variant.png morphology-contract.json tendrilLength
+  baseline.png variant.png morphology-contract.json tendrilLength \
+  --baseline-mask-dir=baseline-masks \
+  --variant-mask-dir=variant-masks
 ```
 
-The validator computes luminance-difference energy and reports:
+Without dual-state mask directories the checker still runs for compatibility, but emits a warning for non-global controls because static masks can overestimate spill.
+
+## Optional mask dilation
+
+Small raster differences can arise from antialiasing, point footprints and shared attachment boundaries. A small tolerance can be applied:
+
+```sh
+--dilate=1
+```
+
+Dilation expands the **already unioned** allowed support by the given pixel radius.
+
+Use it conservatively. Do not increase dilation simply to make a poor control score look good. A large tolerance erases the distinction between legitimate attachment halos and real dependency leakage.
+
+## What the validator reports
 
 - total difference energy;
 - allowed difference energy;
 - unexpected spill energy;
-- **spill ratio** = difference energy outside allowed scope / total difference energy;
-- fraction of thresholded changed pixels inside allowed scope;
-- per-region difference-energy fractions.
+- **spill ratio** = difference energy outside allowed support / total difference energy;
+- fraction of thresholded changed pixels inside allowed support;
+- per-region difference-energy fractions;
+- baseline/variant/union mask sizes, so suspiciously broad masks are visible;
+- mask mode (`dual-state`, `baseline-override`, or `contract-static`).
 
-For `subtree`, the allowed mask is the union of the declared region and every descendant.
+For `subtree`, the allowed mask is the union of the region and descendants in both states.
 
-For `region` and `surface`, it is the named region mask.
+For `region` and `surface`, it is the named region in both states.
 
 For `global`, organism-wide influence is permitted.
 
@@ -143,7 +164,8 @@ Good tests:
 - compare a local control before/after refactoring;
 - compare several controls in one organism;
 - compare the same control across animation frames;
-- deliberately create a smeared dependency and verify that spill rises.
+- deliberately create a smeared dependency and verify that spill rises;
+- verify that a geometry control's spill does **not** jump simply because its anatomy moved farther.
 
 A local control with consistently low spill is more selective than one with the same global changed fraction but high spill.
 
@@ -152,9 +174,9 @@ A local control with consistently low spill is more selective than one with the 
 Organic attachment creates legitimate boundary effects:
 
 - appendage roots can alter parent attachment pixels;
-- translucent overlap can make a child control change brightness in a shared region;
-- antialiasing creates a small halo;
-- positional inheritance can shift nearby tissue.
+- translucent overlap can change brightness in a shared region;
+- positional inheritance can shift nearby tissue;
+- rasterization creates a small halo.
 
 The goal is **predictable influence**, not artificial isolation.
 
@@ -165,7 +187,7 @@ A perfectly local knob can still be useless if its effect is visually tiny. Eval
 1. **effect strength** — did enough image energy change to matter?
 2. **selectivity** — did most of that change occur where expected?
 
-`check-control-scope.mjs` provides both total difference energy and spill ratio so a nearly-no-op control cannot look successful merely because it has zero spill.
+The checker reports both total difference energy and spill ratio so a nearly-no-op control cannot look successful merely because it has zero spill.
 
 ## Structural routing
 
@@ -184,4 +206,4 @@ Skip them when:
 - an attractor's parameters are intentionally global;
 - the user only needs a final aesthetic output rather than a controllable design system.
 
-This keeps v0.4 from taxing simpler Tsubuyaki workflows.
+This keeps morphology measurement from taxing simpler Tsubuyaki workflows.
