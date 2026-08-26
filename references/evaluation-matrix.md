@@ -1,10 +1,10 @@
-# v0.4.1 Evaluation Matrix
-
-The v0.3 jellyfish/bell experiment was a fair regression test for the feature it introduced, but not a fair test of general improvement. v0.4/v0.4.1 therefore evaluate whether compound-morphology machinery activates only when it should, whether semantic controls stay inside their intended moving scope, and whether defining morphology survives code golf.
+# v0.5 Evaluation Matrix
 
 Use the same cold-agent protocol across all four classes: load the skill fresh, generate readable source, render representative frames, run relevant checks, golf, and verify the final post.
 
-## 1. Compound creature — morphology + scope validation should activate
+v0.5 adds a new requirement for explicitly controllable compound work: **scope correctness and effect correctness must be tested separately**.
+
+## 1. Compound creature — morphology + semantic validation should activate
 
 Prompt shape:
 
@@ -14,23 +14,63 @@ Expected route:
 
 - flattened 2D root mass when membrane/tissue-like;
 - morphology contract required;
-- `morphology-composition.md` loaded;
-- `control-strategies.md` + `control-scopes.md` loaded;
+- morphology + control scope + semantic effect references loaded;
 - baseline + variant region masks rendered at identical frames;
 - geometry controls validated with dual-state mask union;
-- parent geometry control likely `subtree`;
-- organ-local length/span control likely `region`;
-- defining positive anatomy and intentional voids declared as `survivalFeatures`;
-- scope spill + morphology survival reported.
+- simple effect descriptors attached where the requested semantic change has a measurable observable;
+- defining positive anatomy and intentional voids declared as survival features;
+- expanded and golfed **state-specific feature masks** rendered;
+- scope, effect and survival reported independently.
+
+### Required positive control test
+
+Example:
+
+```text
+finSpan +20%
+expected scope: fins
+expected effect: fin mask width increases materially
+```
+
+It should pass both locality and effect checks.
+
+### Required wrong-effect adversary
+
+Construct a variant that stays inside the same allowed region but changes the **wrong observable**.
+
+Example:
+
+```text
+finSpan variant changes fin height but not width
+```
+
+Expected result:
+
+- scope spill remains low;
+- semantic effect check fails.
+
+This proves the effect layer contributes information beyond scope locality.
+
+### Required smeared adversary
+
+Construct a variant that produces the correct local effect **plus** an unrelated change elsewhere.
+
+Expected result:
+
+- effect may pass;
+- scope spill should worsen materially.
+
+This proves scope and effect are orthogonal.
 
 Failure signals:
 
 - literal per-organ code;
-- toroidal cloth with appendages pasted on;
-- static-mask validation falsely penalizes moved anatomy;
-- a deliberately smeared control scores similarly to a selective one;
-- morphology disappears after golf while occupancy/bbox still look healthy;
-- survival features are gamed with overbroad masks.
+- generic toroidal cloth with appended parts;
+- static-mask validation penalizes moved anatomy;
+- wrong-effect adversary passes semantic effect validation;
+- smeared adversary scores like a selective control;
+- defining morphology disappears after golf but state-aware survival does not reveal it;
+- masks are broadened merely to improve metrics.
 
 ## 2. 1D axial filament creature — legitimate 1D path
 
@@ -41,17 +81,16 @@ Prompt shape:
 Expected route:
 
 - intentional 1D manifold;
-- no forced 2D-sheet conversion merely to increase occupancy;
-- morphology reference optional unless the side filaments are treated as a true attached family;
-- low occupancy may be acceptable by intent;
-- no region-mask/control-survival overhead unless explicit controllable subregions are requested;
-- authenticity judged by folding/decorrelation, hierarchy and motion rather than tissue density.
+- no forced 2D conversion because of occupancy heuristics;
+- morphology/control machinery optional unless explicitly requested;
+- low occupancy acceptable by intent;
+- authenticity judged by folding, hierarchy and motion.
 
 Failure signals:
 
-- agent switches to 2D because `<2%` occupancy is treated as a hard gate;
-- compound morphology machinery overwhelms a simple axial system;
-- generic spirograph or static Lissajous rotation.
+- 2D forced solely to increase occupancy;
+- compound-control contracts become boilerplate;
+- generic spirograph/static Lissajous result.
 
 ## 3. Coupled / iterative attractor — morphology should mostly stay out
 
@@ -62,16 +101,16 @@ Prompt shape:
 Expected route:
 
 - iterated state selected early;
-- `mathematical-patterns.md` + style guidance sufficient;
+- mathematical/style guidance sufficient;
 - no morphology contract by default;
-- no region masks or semantic-scope testing unless explicitly requested;
-- visual QA + length verification still apply.
+- no scope/effect/survival tooling unless explicitly requested;
+- visual QA + length verification remain required.
 
 Failure signals:
 
-- agent invents crown/appendage anatomy without request;
-- morphology graph becomes mandatory boilerplate;
-- attractor is forced into a 2D sheet.
+- invented anatomy without request;
+- morphology graph becomes mandatory;
+- attractor forced into a 2D sheet.
 
 ## 4. Abstract dense sheet — essentially v0.2 path
 
@@ -82,17 +121,17 @@ Prompt shape:
 Expected route:
 
 - flattened 2D default;
-- shared latent fields / density shading;
+- shared latent fields/density shading;
 - no anatomy contract;
-- no control scopes unless explicit controls requested;
-- check visual occupancy/framing across several frames;
-- golf after visual stability.
+- no semantic-control overhead;
+- visual occupancy/framing across multiple frames;
+- golf only after visual stability.
 
 Failure signals:
 
-- agent adds body-plan nouns because morphology tooling exists;
-- unnecessary control/mask overhead;
-- generic toroidal cloth not challenged by silhouette reasoning.
+- unnecessary body-plan nouns/contracts;
+- control/mask overhead appears without request;
+- generic toroidal cloth is accepted without silhouette reasoning.
 
 # Report dimensions
 
@@ -100,32 +139,41 @@ For every class record:
 
 - chosen route/topology;
 - references loaded;
-- number of iterations to viable form;
-- occupancy / robust bbox / centroid / clipping;
+- iterations to viable form;
+- occupancy / bbox / centroid / clipping;
 - motion quality;
-- whether morphology machinery was activated;
+- morphology machinery activation;
 - raw + X-weighted length;
-- final qualitative authenticity score.
+- qualitative authenticity.
 
-For compound work also record:
+For compound work additionally record:
 
-- expanded→golfed defining-feature survival;
-- positive-region energy retention;
-- intentional-void fill delta;
-- which morphology features were intentionally simplified to meet the tweet budget.
+- state-aware expanded→golfed feature geometry;
+- feature area/width/height ratios;
+- normalized centroid shift;
+- presence-feature appearance retention;
+- intentional-void fill behavior;
+- deliberate simplifications made to meet tweet budget.
 
 For controllable compound work additionally record:
 
-- morphology hierarchy;
-- control → declared scope mapping;
-- baseline and variant region-mask support sizes;
-- total difference energy;
-- dual-state spill ratio;
-- spill stability over at least 3 representative frames;
-- one adversarial smeared-control case that should score worse than the intended selective control.
+- hierarchy and control scopes;
+- effect descriptor per machine-testable control;
+- dual-state spill across at least 3 frames;
+- effect metric baseline/variant/delta and pass/fail;
+- wrong-effect adversarial result;
+- smeared-control adversarial result.
 
 # Key release criterion
 
-v0.4.1 is successful only if it improves **selective controllability for moving compound anatomy, detects morphology loss during golf, and does not tax simpler topologies**.
+v0.5 succeeds only if it can distinguish:
 
-The skill should behave like a router, not like a universal morphology framework.
+```text
+correct place + correct effect
+correct place + wrong effect
+correct effect + wrong place
+```
+
+while state-aware survival distinguishes **feature moved** from **feature disappeared**, and simpler topologies remain unburdened.
+
+The skill is a router plus falsification stack, not a universal scalar optimizer.
