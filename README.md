@@ -1,219 +1,157 @@
 # tsubuyaki-processing
 
-A production-oriented Agent Skill for generating authentic, tweet-sized **#つぶやきProcessing**: dense mathematical p5.js sketches whose organic forms emerge from compact coupled equations.
+A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems that render dense organic forms and controllable compound morphology.
 
-## v0.4.1 — moving-scope correctness + morphology survival
+## v0.5 — semantic effect validation
 
-The first v0.4 cold test exposed two measurement gaps:
+v0.4.1 answered **where did a control change the organism?** with dual-state region/subtree masks. A second cold test exposed the next gap: a control can have perfect locality and still do the wrong thing.
 
-1. **static region masks overestimated semantic spill for geometry controls that move/resize anatomy**;
-2. occupancy/bbox parity could look healthy even when code golf erased a defining morphological feature.
-
-v0.4.1 fixes both without changing the core morphology architecture.
-
-## Repository additions / changes
+v0.5 separates three validation questions:
 
 ```text
-tsubuyaki-processing/
-├── SKILL.md
-├── README.md
-├── references/
-│   ├── morphology-composition.md
-│   ├── control-strategies.md
-│   ├── control-scopes.md
-│   ├── evaluation-matrix.md
-│   └── ...
-├── templates/
-│   ├── morphology-contract.json
-│   ├── harness.html
-│   ├── p5-lite.js
-│   └── ...
-└── scripts/
-    ├── check-length.mjs
-    ├── check-visual.mjs
-    ├── check-control.mjs
-    ├── check-control-scope.mjs
-    └── check-morphology-survival.mjs
+scope     → where may the control act?
+effect    → what observable should change?
+survival  → what defining morphology must remain after golf?
 ```
 
-## 1. Dual-state control scopes
+These are complementary diagnostics, not one optimization score.
 
-A geometry control creates difference pixels at both the **old** and **new** positions of the anatomy it moves.
+## Control contracts
 
-A baseline-only mask therefore creates a false-positive spill pattern:
+A control can declare both spatial scope and a simple measurable effect:
 
-```text
-old position   →   new position
-baseline mask      not covered
+```json
+"finSpan": {
+  "region": "fins",
+  "scope": "region",
+  "effect": {
+    "source": "mask",
+    "metric": "width",
+    "direction": "increase",
+    "minRelativeChange": 0.05
+  }
+}
 ```
 
-v0.4.1 defines allowed region support as:
+Supported low-dimensional effect observables include region-mask `area`, `width`, `height`, `centroidX`, `centroidY`, and image-space `visibleFraction` / `meanContrast` inside each state's own region support.
 
-```text
-baseline region mask ∪ variant region mask
-```
+The goal is falsification: `finSpan` should fail if it stays local to the fins but changes only fin height.
 
-For `subtree` controls, that union is applied to the parent region and every descendant.
+## Validate where + what
 
-### Recommended workflow
+Render baseline and variant at the same frame, plus region masks for both states.
 
-Render baseline + variant at the same frame, then render matching diagnostic masks into parallel directories:
-
-```text
-baseline-masks/
-  root.png
-  wings.png
-  tail.png
-variant-masks/
-  root.png
-  wings.png
-  tail.png
-```
-
-Run:
+### Scope
 
 ```sh
 node scripts/check-control-scope.mjs \
-  baseline.png variant.png morphology-contract.json tailLength \
+  baseline.png variant.png morphology-contract.json finSpan \
   --baseline-mask-dir=baseline-masks \
   --variant-mask-dir=variant-masks
 ```
 
-The checker reports:
+Dual-state support prevents legitimate moved geometry from being counted as spill.
 
-- total / allowed / spill difference energy;
-- spill ratio;
-- changed-pixel containment;
-- region energy fractions;
-- baseline/variant/union mask sizes;
-- whether mask mode is `dual-state`, `baseline-override`, or `contract-static`.
-
-Static-mask mode remains available for compatibility but emits a warning for non-global controls.
-
-### Optional dilation
+### Effect
 
 ```sh
---dilate=1
+node scripts/check-control-effect.mjs \
+  baseline.png variant.png morphology-contract.json finSpan \
+  --baseline-mask-dir=baseline-masks \
+  --variant-mask-dir=variant-masks
 ```
 
-A tiny dilation can tolerate raster halos or attachment boundaries. It should not be increased merely to improve a score.
+A useful semantic control should pass both tests and still make visual sense.
 
-## 2. Morphology survival through code golf
+## State-aware morphology survival
 
-Compound morphology should survive **semantic compression**, not merely retain similar image occupancy.
+v0.4.1 introduced feature-wise expanded→golfed survival, but fixed expanded-state feature masks could penalize anatomy that survived while moving during compression.
 
-A golfed phenotype may preserve framing while losing:
+v0.5 supports separate feature masks for both phenotypes:
 
-- a cavity;
-- a split body plan;
-- a wing/fin family;
-- a secondary appendage family;
-- another defining region.
+```text
+expanded-features/
+  root.png
+  appendages.png
+  cavity.png
 
-`morphology-contract.json` now supports design-time `survivalFeatures`:
-
-```json
-{
-  "survivalFeatures": {
-    "rootMass": {
-      "mask": "masks/root.png",
-      "kind": "presence"
-    },
-    "appendageFamily": {
-      "mask": "masks/appendages.png",
-      "kind": "presence"
-    },
-    "centralCavity": {
-      "mask": "masks/cavity.png",
-      "kind": "void"
-    }
-  }
-}
+golfed-features/
+  root.png
+  appendages.png
+  cavity.png
 ```
+
+The harness exposes `?feature=<name>` for diagnostic feature rendering.
 
 Run:
 
 ```sh
 node scripts/check-morphology-survival.mjs \
-  expanded.png golfed.png morphology-contract.json
+  expanded.png golfed.png morphology-contract.json \
+  --expanded-feature-dir=expanded-features \
+  --golfed-feature-dir=golfed-features
 ```
 
-For `presence` features it reports contrast-energy retention and visible-coverage change.
+The checker reports feature-wise geometry and appearance instead of one pixel-similarity score:
 
-For `void` features it reports whether the final phenotype filled the intended negative space.
+- area ratio
+- width / height ratio
+- normalized centroid shift
+- contrast / visible-fraction behavior
+- special negative-space interpretation for `void` features
 
-This is intentionally **feature-wise**, not one global similarity score. A legitimate golfed system may deform substantially while preserving its defining morphology.
+This distinguishes **feature moved** from **feature disappeared**.
 
-## 3. Routing remains selective
+## Workflow routing
 
-Morphology is not mandatory:
+Morphology remains optional:
 
-- abstract dense field → mathematical workflow;
-- intentional filament/ribbon → 1D path;
-- coupled/iterative attractor → dynamical-system path;
-- compound organism → morphology composition;
-- compound + named semantic controls → control scopes;
-- compound + tweet-ready compression → morphology-survival check.
+- abstract dense sheet → base mathematical workflow;
+- filament / axial ribbon → legitimate 1D path;
+- iterative attractor → dynamical-system path;
+- compound anatomy → morphology composition;
+- explicitly controllable compound anatomy → scope + semantic-effect validation.
 
-The skill should behave like a router, not a universal morphology framework.
+See `SKILL.md` for routing and output requirements.
 
-## 4. Offline-first harness
-
-Use:
+## Core files
 
 ```text
-templates/harness.html?frame=90&s=my-sketch.js
+references/morphology-composition.md
+references/control-strategies.md
+references/control-scopes.md
+references/semantic-effects.md
+references/evaluation-matrix.md
+scripts/check-visual.mjs
+scripts/check-control-scope.mjs
+scripts/check-control-effect.mjs
+scripts/check-morphology-survival.mjs
+templates/morphology-contract.json
+templates/harness.html
 ```
 
-The bundled `p5-lite.js` supports the common Tsubuyaki point/circle/line subset without network access. Add `&full=1` only when a sketch requires broader p5 APIs and network access exists.
+## Tweet constraint
 
-Diagnostic region masks use:
-
-```text
-templates/harness.html?frame=90&s=my-sketch.js&region=wings
-```
-
-## 5. Visual and length gates remain unchanged
-
-Visual QA:
-
-```sh
-node scripts/check-visual.mjs frame-0.png frame-90.png frame-180.png
-```
-
-Tweet verification:
+The recommended executable form `CODE//#つぶやきProcessing` leaves **259 X-weighted characters for code**. Always verify the complete post:
 
 ```sh
 node scripts/check-length.mjs post.txt
 ```
 
-The recommended `CODE//#つぶやきProcessing` form leaves **259 X-weighted characters for `CODE`**.
+280 is a ceiling, not a target.
 
-## Continuous research-loop decision
+## Evaluation stance
 
-We evaluated `davebcn87/pi-autoresearch` as a possible autonomous optimization loop. Its edit → benchmark → keep/revert infrastructure is a strong fit **once the objective is stable**.
+Do not collapse these measurements into a single autonomous objective yet. Low spill can be gamed by broad masks; effect thresholds can be gamed by exaggerated geometry; pixel survival can be gamed while aesthetic quality falls.
 
-We are intentionally **not integrating it yet**. At this stage, automatically optimizing a scalar such as spill ratio or morphology retention would risk Goodharting immature diagnostics: an agent could broaden masks, weaken controls, or preserve pixels while reducing artistic quality.
+The intended stack is:
 
-The repository is being made loop-ready first:
+```text
+hard correctness gates
++ scope evidence
++ effect evidence
++ feature survival
++ human/agent visual judgment
+```
 
-- deterministic rendering;
-- explicit control scopes;
-- measurable spill;
-- feature-wise morphology survival;
-- independent visual / runtime / length safeguards;
-- cross-topology evaluation matrix.
-
-Once these measurements are calibrated across a broader corpus, an autoresearch session can safely optimize a multi-metric objective under hard backpressure checks rather than optimizing one proxy blindly.
-
-## Core design principles preserved
-
-- **reusable roles, not literal nouns**;
-- more apparent parts than independent formulas;
-- parent-relative attachment;
-- shared positional fields interpreted into regions;
-- repetition with variation;
-- hierarchical motion;
-- structure before surface detail;
-- fix generic toroidal cloth at the body-plan level;
-- 280 is a ceiling, not a target.
+Once these metrics are calibrated across the compound, filament, attractor and abstract-sheet benchmark classes, the repository will be suitable for a continuous keep/revert experiment loop.
