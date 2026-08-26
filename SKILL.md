@@ -47,7 +47,7 @@ When the prompt also requires named semantic controls or controllability evaluat
 - `references/control-strategies.md`
 - `references/control-scopes.md`
 
-Declare each tested control's expected influence as `region`, `subtree`, `surface` or `global`. Use region masks and `scripts/check-control-scope.mjs` to measure unexpected spill outside that declared scope.
+Declare each tested control's expected influence as `region`, `subtree`, `surface` or `global`. For geometry controls, validate against **baseline + variant region masks**, not a baseline-only mask.
 
 ### D. Code golf / tweet-ready output
 
@@ -66,6 +66,7 @@ For historical/community precedent, load `references/real-examples.md` only as n
 5. **Render representative frames.** Use `templates/harness.html?frame=90&s=your-sketch.js`. The bundled `p5-lite.js` works offline for the common point/circle/line subset; use `&full=1` only when full p5.js APIs are required and network access is available.
 6. **Inspect image-space behavior.** Run `scripts/check-visual.mjs`; treat metrics as diagnostics, not universal aesthetic gates.
 7. **Only then compress semantically and code-golf.** Verify the final complete post with `scripts/check-length.mjs`.
+8. **For compound pieces, verify morphology survives golf.** Track defining positive regions and intentional voids with `scripts/check-morphology-survival.mjs`.
 
 ## Compound morphology gate
 
@@ -97,11 +98,15 @@ For explicitly controllable compound work:
 1. define a small readable set of semantic controls;
 2. declare the region hierarchy and each control's expected scope in a morphology contract;
 3. perturb one control at a time at the **same frame/time**;
-4. render baseline, variant, and matching region masks;
-5. run:
+4. render baseline + variant phenotypes;
+5. render the declared region masks for **both** baseline and variant states;
+6. run:
 
 ```sh
-node scripts/check-control-scope.mjs baseline.png variant.png morphology-contract.json controlName
+node scripts/check-control-scope.mjs \
+  baseline.png variant.png morphology-contract.json controlName \
+  --baseline-mask-dir=baseline-masks \
+  --variant-mask-dir=variant-masks
 ```
 
 Interpretation:
@@ -111,9 +116,31 @@ Interpretation:
 - `surface` — spatially local to a region but intended as appearance/deformation rather than body-plan structure;
 - `global` — organism-wide influence is expected.
 
-Use **spill ratio** as comparative evidence: lower spill means more of the observed change stayed inside the declared region/subtree. Do not optimize spill to zero blindly; attachment boundaries, overlap and antialiasing create legitimate cross-region effects.
+For moving/resizing geometry, the allowed support is the **union of baseline and variant masks**. Baseline-only masks systematically overestimate spill because legitimate new region positions appear outside the old support.
+
+Use **spill ratio** as comparative evidence. Lower spill means more of the observed change stayed inside the declared support. A small optional `--dilate=1` tolerance can absorb raster/attachment halos, but never increase dilation merely to improve a score.
 
 The older `scripts/check-control.mjs` remains useful as a global diff diagnostic, but it is not a semantic locality validator.
+
+## Morphology survival through golf
+
+For compound work, the final tweet should preserve the **defining body plan**, not merely similar occupancy/bbox.
+
+Add `survivalFeatures` to the morphology contract. Use:
+
+- `kind: "presence"` for defining masses/families that should remain visibly represented;
+- `kind: "void"` for defining negative-space features such as cavities/splits that should remain open.
+
+Then compare the readable and exact golfed renders at the same representative frame:
+
+```sh
+node scripts/check-morphology-survival.mjs \
+  expanded.png golfed.png morphology-contract.json
+```
+
+Interpret feature-wise evidence rather than collapsing morphology into one pixel-similarity score. A golfed system may deform or simplify while still preserving its defining regions; conversely, healthy global occupancy can hide the loss of a cavity or secondary organ family.
+
+If a defining feature disappears after golf, restore the high-leverage generator and remove lower-value detail instead.
 
 ## Visual diagnostics
 
@@ -176,7 +203,7 @@ Readable source with semantic controls separated from implementation where usefu
 One executable line including `//#つぶやきProcessing` or another valid hashtag placement.
 
 ### Verification
-Raw code points, X-weighted length, pass/fail, plus rendered visual diagnostics when available. For scope-aware controllable work, report the tested controls, declared scopes and spill ratios.
+Raw code points, X-weighted length, pass/fail, plus rendered visual diagnostics when available. For scope-aware controllable work, report tested controls, declared scopes and spill ratios. For compound golf, report which defining morphology features survived or regressed.
 
 ### Variation knobs
 3–5 mathematical/morphological controls, not merely colors.
@@ -189,7 +216,7 @@ Diagnose the level before tuning constants:
 - **generic torus/cloth** → root polarity/body plan
 - **floating parts** → attachment/local frame
 - **everything equally loud** → regional hierarchy/envelopes
-- **local control has high unexpected spill** → control dependency or attachment-scope design
-- **good readable form collapses after golf** → restore high-leverage generator; remove lower-value detail
+- **local control has high unexpected spill with dual-state masks** → control dependency or attachment-scope design
+- **good readable form collapses after golf** → restore high-leverage morphology; remove lower-value detail
 
 A strong result should resemble a **small developmental program**, not a miniature conventional scene graph.
