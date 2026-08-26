@@ -1,6 +1,6 @@
 ---
 name: tsubuyaki-processing
-description: "Create authentic #つぶやきProcessing p5.js sketches: compact mathematical systems whose animated phenotype is disproportionately richer than the source. Discover a strong readable system, explore it with progressive route-aware elite-preserving search, then produce a verified <=280-character tweet version."
+description: "Create authentic #つぶやきProcessing p5.js sketches: compact mathematical systems whose animated phenotype is disproportionately richer than the source. Discover a strong readable system with progressive route-aware elite-preserving search, rank it visually, then use adaptive compression-survival promotion before producing a verified <=280-character tweet version."
 ---
 
 # Tsubuyaki Processing
@@ -13,7 +13,7 @@ The skill is a **discovery process**, not only a one-shot formula generator.
 
 1. Complete post <=280 X-weighted characters and <=280 raw Unicode code points.
 2. Use p5.js global mode unless asked otherwise.
-3. Work in readable mathematical roles first; golf only after selection.
+3. Work in readable mathematical roles first; golf only after deployment promotion.
 4. Prefer shared latent variables, recurrence, residue families and reusable generators over independent decorative effects.
 5. Final code must execute.
 6. 280 is a ceiling, not a target.
@@ -58,8 +58,10 @@ Load `references/discovery-search.md` once a viable incumbent exists.
 
 For multi-round search, also load `references/discovery-state.md` and use `scripts/discovery-state.mjs`. The state is provenance + guardrails, not an aesthetic scorer.
 
-### Golf
-Load `references/code-golf-techniques.md` only after selecting the winner.
+### Deployment promotion + golf
+After visual/temporal ranking, load `references/compression-promotion.md`.
+
+Load `references/code-golf-techniques.md` only after a candidate passes compression-survival preflight and becomes the deployment finalist.
 
 ## Default workflow
 
@@ -123,11 +125,11 @@ node scripts/discovery-state.mjs add _local/search-state.json E7 \
 
 Historical legality matters: a candidate may only claim mutation classes already unlocked at its recorded stage. Unlock validation must also prove the cited review existed before the unlock and belonged to the exhausted stage.
 
-### 5. Preserve and promote the elite
+### 5. Preserve and promote the artistic elite
 
 The incumbent remains available in every round. Search may improve, tie or fail; never force regression.
 
-Promote only after:
+Promote the **artistic elite** only after:
 
 ```text
 valid = pass
@@ -135,22 +137,53 @@ adherent = pass
 preference = prefer
 ```
 
-`prefer` means visual + temporal comparison against the elite—not a scalar critic.
+`prefer` means visual + temporal comparison against the elite—not a scalar critic and not character count.
 
-### 6. Select after exploration
+A later compression failure does not retroactively make an artistic promotion wrong. Preserve that discovery in lineage/history.
+
+### 6. Rank visually after exploration
 
 Novelty/coverage decides what deserves inspection, **not what wins**.
 
-Keep these dimensions separate:
+Order the strongest brief-adherent candidates using:
 
-- brief adherence;
 - aesthetic preference;
-- mathematical leverage;
 - temporal quality;
-- distinctiveness;
-- likely tweet viability.
+- mathematical leverage;
+- distinctiveness.
 
-### 7. Validate only what needs validation
+Keep description length out of this ranking. Do not rank by shorter source, tweetability or a compressibility score.
+
+### 7. Promote adaptively into deployment
+
+Use `references/compression-promotion.md`.
+
+Starting from the highest visually ranked candidate:
+
+1. name the high-leverage mathematical relationships that define the candidate;
+2. construct the cheapest plausible semantic compression that preserves them;
+3. render representative times from that compressed form when plausible;
+4. decide compression survival as pass/fail.
+
+If it passes, promote that candidate to **deployment finalist** and stop preflighting.
+
+If it fails:
+
+- keep it as the artistic discovery;
+- record the compression-survival failure;
+- preflight the next visually worthwhile candidate.
+
+Continue only as needed. Do **not** hard-code a universal shortlist size such as top-2/top-3/top-5.
+
+The gate asks:
+
+```text
+Can the defining relationships survive the deployment medium?
+```
+
+It does not ask which candidate is shortest.
+
+### 8. Validate only what needs validation
 
 Validators are falsification tools, not creative fitness.
 
@@ -161,9 +194,9 @@ Validators are falsification tools, not creative fitness.
 - expanded→golfed compound survival → `scripts/check-morphology-survival.mjs`
 - density/framing → `scripts/check-visual.mjs`
 
-### 8. Golf only the selected winner
+### 9. Golf only the deployment finalist
 
-Preserve high-leverage mathematical relationships, compress semantically, then golf JavaScript.
+Preserve the relationships that passed preflight, compress semantically, then golf JavaScript.
 
 Verify the complete post:
 
@@ -173,7 +206,7 @@ node scripts/check-length.mjs post.txt
 
 `CODE//#つぶやきProcessing` leaves about **259 X-weighted characters for code**.
 
-Render the exact tweet code and confirm the defining phenotype survived compression.
+Render the exact tweet code and confirm the defining phenotype still survives compression. Preflight reduces wasted golf effort; it does not replace exact final survival verification.
 
 ## Important cautions
 
@@ -182,6 +215,9 @@ Render the exact tweet code and confirm the defining phenotype survived compress
 - Chaotic kernel perturbations can legitimately diverge globally; do not demand locality from them.
 - Morphology is conditional, not the universal source of complexity.
 - Do not hard-code experiment budgets as production policy.
+- Do not hard-code a fixed compression-preflight shortlist size.
+- Description length is a deployment promotion constraint, not a creative-search objective.
+- A candidate can fit <=280 and still fail compression survival.
 - Filament stage 3 requires an actual brief change.
 - Morphology body-plan mutation remains experimental.
 - If the pinned mutation grammar changes during a search, start/migrate a new state rather than silently reinterpreting history.
@@ -204,13 +240,16 @@ Only for explicit body-plan work.
 Summarize the recorded elite lineage, search stages, paired causal changes and review-bound unlock evidence.
 
 ### Expanded p5.js
-Readable winner.
+Readable artistic winner.
+
+### Deployment promotion
+Name the defining relationships, report compression-survival preflight for the selected visual candidate, and note any visual-rank fallback before the deployment finalist.
 
 ### Tweet-ready
-One executable line with valid hashtag placement.
+One executable line with valid hashtag placement from the deployment finalist.
 
 ### Verification
-Raw + X-weighted length, representative-time visual diagnostics, discovery-state validation when used, plus relevant semantic/survival evidence.
+Raw + X-weighted length, representative-time visual diagnostics, exact compression-survival result, discovery-state validation when used, plus relevant semantic evidence.
 
 ### Variation knobs
 3–5 high-leverage mathematical/morphological controls.
@@ -228,6 +267,8 @@ Raw + X-weighted length, representative-time visual diagnostics, discovery-state
 - grammar pin changes → search-rule provenance failure
 - aggregate effect passes but siblings disagree → math-family failure
 - control leaks into unrelated anatomy → scope failure
-- readable phenotype loses identity after golf → compression-survival failure
+- visual elite cannot preserve defining relationships under plausible compact form → keep artistic elite, preflight next ranked candidate
+- source fits <=280 but loses selected identity → compression-survival failure; length pass is not phenotype pass
+- exact tweet loses identity after successful preflight → final compression-survival failure
 
-A strong result comes from an **elite-preserving mathematical discovery process with faithful causal provenance**, not merely a better first guess.
+A strong result comes from an **elite-preserving mathematical discovery process with faithful causal provenance and adaptive deployment promotion**, not merely a better first guess or a shorter formula.
