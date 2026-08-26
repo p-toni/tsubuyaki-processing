@@ -2,9 +2,9 @@
 
 A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems whose animated phenotype is disproportionately richer than the source.
 
-## Current direction — progressive discovery with faithful provenance
+## Current direction — discovery first, deployment pressure later
 
-The project treats generation as an **elite-preserving mathematical discovery process**:
+The project treats generation as an **elite-preserving mathematical discovery process with adaptive deployment promotion**:
 
 ```text
 intent
@@ -13,13 +13,62 @@ intent
 → brief invariants
 → progressive route-aware search
 → faithful causal lineage
-→ visual + temporal selection
-→ semantic checks where relevant
-→ golf winner
+→ visual + temporal ranking
+→ adaptive compression-survival preflight
+→ deployment finalist
+→ golf
 → exact verification
 ```
 
-v0.10 established progressive route-aware search. v0.11 made elite/lineage state executable. v0.12 added compound-cause recording, evidence-backed unlocks, historical-stage validation and grammar pinning. v0.13 closes the remaining known ambiguity in that record without changing the search or aesthetic policy.
+v0.10 established progressive route-aware search. v0.11 made elite/lineage state executable. v0.12–v0.13 made causal/search provenance faithful. The description-length experiments then showed that character pressure belongs **after artistic ranking but before deployment commitment**.
+
+## v0.14 adaptive compression-survival promotion
+
+Description length is now treated as a **deployment constraint on promotion**, not a creative-search objective.
+
+The production policy is:
+
+```text
+visual / temporal ranking
+→ preflight current best
+   ├─ survives compression → deployment finalist
+   └─ fails → preserve artistic discovery and try next-ranked candidate
+→ full golf
+→ exact survival verification
+```
+
+The key distinction is:
+
+```text
+fits <=280 != defining phenotype survived
+```
+
+A candidate can fit the character limit and still fail because the compact form removed the relationships that made the expanded phenotype good.
+
+### No fixed shortlist size
+
+The adaptive follow-up found that rank 2 was enough in the tested archive, but the production rule is **not** `top 2`.
+
+Preflight candidates sequentially in visual-rank order and stop at the first one whose defining mathematical relationships survive plausible compact representation.
+
+Continue only while remaining candidates are still artistically worth deployment.
+
+### No compression fitness
+
+Do not add character count, compressibility, tweetability or description length to creative fitness.
+
+Keep the roles separate:
+
+```text
+hard validity → reject broken work
+brief invariants → reject off-task work
+novelty → diversify review candidates
+visual + temporal judgment → rank the art
+discovery state → preserve what actually happened
+compression survival → gate deployment promotion
+```
+
+See `references/compression-promotion.md`.
 
 ## v0.13 discovery-state evidence fidelity
 
@@ -59,7 +108,7 @@ node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
   --evidence=E9
 ```
 
-But the state now records the exact historical review event for each cited candidate:
+The state records the exact historical review event for each cited candidate:
 
 ```json
 "evidence": [
@@ -68,54 +117,19 @@ But the state now records the exact historical review event for each cited candi
 ]
 ```
 
-Validation verifies that each review belongs to that candidate, came from the exhausted stage, was complete, and occurred before the unlock. Repointing an old unlock at an unrelated existing candidate therefore invalidates the state.
+Validation verifies that each review belongs to that candidate, came from the exhausted stage, was complete, and occurred before the unlock.
 
 ### Historical-stage legality + grammar provenance
 
 Candidate changes are validated against the mutation permissions available at the candidate's historical stage.
 
-Initialization also pins:
+Initialization pins the grammar version and exact SHA-256, so later grammar changes cannot silently reinterpret an old search record.
 
-```json
-"grammar": {
-  "path": "templates/mutation-grammar.json",
-  "version": 1,
-  "sha256": "..."
-}
-```
-
-Every later action verifies this exact rule set.
-
-### State version
-
-v0.13 uses discovery-state `version: 3`. v0.12 states fail closed because they do not contain paired causes or review-event-bound unlock evidence.
-
-## Regression coverage
-
-Run:
-
-```sh
-node scripts/test-discovery-state.mjs
-```
-
-The v0.13 regression checks:
-
-- later-stage mutation classes fail while locked;
-- unlocks without evidence fail;
-- compound `{class, operator}` causes remain paired;
-- unlock evidence points to the exact prior review event;
-- promotion still requires validity + adherence + visual/temporal preference;
-- filament topology change remains brief-gated;
-- historical-stage corruption fails validation;
-- malformed causal pairs fail validation;
-- rewired / future review evidence fails validation;
-- grammar-byte drift fails validation.
-
-There is deliberately **no scalar beauty score**.
+v0.13 uses discovery-state `version: 3`.
 
 ## Progressive route-aware search
 
-The production unlock schedules remain unchanged:
+The production unlock schedules remain:
 
 ### Repeated math family
 1. local family/deformation/harmonic parameters;
@@ -145,32 +159,10 @@ See:
 ```text
 references/discovery-search.md
 references/discovery-state.md
+references/compression-promotion.md
 templates/mutation-grammar.json
 scripts/discovery-state.mjs
 ```
-
-## Selection principles
-
-Elitism remains mandatory:
-
-```text
-elite + challengers
-→ review
-→ promote only a better brief-adherent challenger
-```
-
-Keep roles separate:
-
-```text
-hard validity → reject broken work
-brief invariants → reject off-task work
-novelty → diversify review candidates
-validators → falsify claims
-visual + temporal judgment → choose the art
-state → preserve what actually happened
-```
-
-Novelty, occupancy and lightweight critics are not aesthetic fitness functions.
 
 ## Math-first representation
 
@@ -184,14 +176,23 @@ Use explicit morphology only when the user actually needs named anatomy, attachm
 
 ## Evidence
 
-Search experiments are preserved under:
+Search and deployment experiments are preserved under:
 
 ```text
 experiments/search-lab/
 experiments/paired-route-search/
+experiments/description-length-pressure/
 ```
 
-They justify progressive route-aware search; their diagnostic budgets/critics are not production requirements.
+The description-length timing experiment found:
+
+- late-only pressure: 3 / 4 deployable winners;
+- shortlist preflight: 4 / 4;
+- early compactness filtering: 4 / 4 while removing 17 / 48 candidates before artistic review.
+
+The adaptive follow-up found the same deployment outcome with sequential fallback and no universal shortlist K.
+
+These experiments justify production policy; their candidate counts, diagnostic budgets and critic proxies are not production constants.
 
 ## Still unresolved
 
@@ -201,6 +202,7 @@ The project does not yet establish:
 - optimal mutation probabilities;
 - independent LLM starts vs deeper search around one start;
 - broad morphology-first structural search;
+- morphology-first compression-preflight behavior;
 - an automatic aesthetic scorer;
 - a universal cross-route genotype;
 - fully autonomous candidate mutation.
@@ -221,6 +223,6 @@ node scripts/check-length.mjs post.txt
 
 ## Current thesis
 
-> **good mathematical representation + progressive route-aware search + faithful causal provenance + brief-aware visual selection + elitism.**
+> **good mathematical representation + progressive route-aware search + faithful causal provenance + brief-aware visual ranking + adaptive compression-survival deployment promotion.**
 
-The goal is to reliably discover a **large phenotype from a small mathematical cause** while preserving enough evidence to know how it was actually found.
+The goal is to reliably discover a **large phenotype from a small mathematical cause** without making description length suppress the creative search that discovers it.
