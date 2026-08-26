@@ -1,0 +1,33 @@
+{
+  "controls": {
+    "familyExtent": {
+      "region": "arms",
+      "scope": "region",
+      "effect": {
+        "source": "math-family",
+        "family": "arms",
+        "field": "radial",
+        "metric": "max",
+        "direction": "increase",
+        "variantFactor": 1.2,
+        "minMedianRelativeChange": 0.05,
+        "minAgreement": 0.8,
+        "maxRelativeMAD": 0.15
+      }
+    },
+    "familyPhase": {
+      "region": "arms",
+      "scope": "region",
+      "effect": {
+        "source": "math-family",
+        "family": "arms",
+        "field": "phase",
+        "metric": "mean",
+        "direction": "any",
+        "variantFactor": 1.2,
+        "minMedianRelativeChange": 0.02,
+        "minAgreement": 0.8
+      }
+    }
+  }
+}
