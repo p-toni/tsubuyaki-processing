@@ -1,18 +1,20 @@
 ---
 name: tsubuyaki-processing
-description: "Create authentic #つぶやきProcessing p5.js sketches: dense mathematical, organic, point-based animated forms compressed to a tweet-sized program. Use for Tsubuyaki Processing, tweet-sized p5.js, mathematical creature/floral forms, controllable compound organisms, or code-golfed generative art. Produce an original readable sketch plus a verified <=280-character tweet version."
+description: "Create authentic #つぶやきProcessing p5.js sketches: compact mathematical systems whose animated phenotype is disproportionately richer than the source. Discover a strong readable system, explore it with a topology-aware elite-preserving search policy when useful, then produce a verified <=280-character tweet version."
 ---
 
 # Tsubuyaki Processing
 
-Create **original #つぶやきProcessing**, not generic generative art that happens to be short. The output should feel larger than its source: a compact mathematical cause producing a surprisingly rich phenotype.
+Create **original #つぶやきProcessing**: a small mathematical cause producing a surprising, coherent animated phenotype.
+
+The skill is a **discovery process**, not only a one-shot formula generator.
 
 ## Hard constraints
 
 1. Complete post <=280 X-weighted characters and <=280 raw Unicode code points.
 2. Use p5.js global mode unless asked otherwise.
-3. Design readable source first; golf only after rendering and visual judgment.
-4. Prefer shared latent variables, recurrence, and reusable generators over independent decorative effects.
+3. Work in readable mathematical roles first; golf only after selection.
+4. Prefer shared latent variables, recurrence, residue families and reusable generators over independent decorative effects.
 5. Final code must execute.
 6. 280 is a ceiling, not a target.
 7. Do not reconstruct or lightly mutate a published artist's formula.
@@ -21,20 +23,15 @@ Create **original #つぶやきProcessing**, not generic generative art that hap
 
 Choose the **smallest mathematical representation that fits the request**.
 
-### A. Single-field / abstract form
-
+### Single-field / abstract
 Load `references/mathematical-patterns.md` + `references/style-guide.md`.
 
 - flattened 2D for dense membrane/tissue;
-- 1D deliberately for filament/ribbon material;
-- iterated state for attractor/trajectory systems.
+- intentional 1D for filament/ribbon;
+- iterative state for attractor/trajectory systems.
 
-### B. Math-first emergent organism
-
-When an organism-like form can emerge from compact dynamics, harmonics, residue families, or nonlinear projection **without explicit anatomy**, load:
-
-- `references/math-first-generators.md`
-- `references/mathematical-patterns.md`
+### Math-first emergent form
+When organism-like structure can emerge from dynamics/harmonics/residue families without explicit anatomy, also load `references/math-first-generators.md`.
 
 Think:
 
@@ -42,186 +39,126 @@ Think:
 kernel → latent coordinates → family operator → deformation → projection
 ```
 
-Do not invent a scene graph merely because the output resembles an animal. Strong tiny-code forms often derive apparent anatomy from a dynamical kernel or one phase-conditioned family generator.
+Do not invent a scene graph merely because the output resembles an animal.
 
-### C. Morphology-first compound organism
+### Morphology-first explicit anatomy
+When the user needs named regions, attachment hierarchy or local anatomical editing, load `references/morphology-composition.md`.
 
-When the user explicitly needs differentiated regions, attachment, body-plan hierarchy, or named anatomy, also load `references/morphology-composition.md`.
+Core rule: **reusable roles, not literal nouns**.
 
-Core rule: **reusable roles, not literal nouns**. One attached appendage-family generator is better than separate formulas for each appendage.
-
-### D. Explicitly controllable compound / repeated-family system
-
-When named semantic controls or controllability evaluation are required, additionally load:
+### Explicit controllability
+When semantic controls matter, additionally load:
 
 - `references/control-strategies.md`
 - `references/control-scopes.md`
 - `references/semantic-effects.md`
 
-Use the strongest available source of truth:
+### Quality-sensitive discovery
+Load `references/discovery-search.md` once a viable incumbent exists.
 
-- **math-family effect** — how repeated generator instances changed in latent space;
-- **scope** — where the rendered change was allowed;
-- **image/mask effect** — simple phenotype observable when useful;
-- **visual judgment** — whether the phenotype is actually good.
+### Golf
+Load `references/code-golf-techniques.md` only after selecting the winner.
 
-### E. Code golf / tweet-ready output
+## Default workflow
 
-After the readable system is stable, load `references/code-golf-techniques.md`.
+### 1. Build a viable incumbent
 
-## Base generation loop
+- choose kernel/topology;
+- identify shared latent fields;
+- identify family/residue law before individual parts;
+- establish silhouette/material before microtexture;
+- couple internal motion;
+- render representative times and run visual/runtime diagnostics.
 
-1. Choose kernel/topology.
-2. Identify shared latent fields (`k/e/d/c/p/q/t` or equivalent).
-3. If repetition exists, identify the family law (`i%N`, parity, phase class) before naming individual parts.
-4. Establish silhouette/coherence before microtexture. Generic toroidal cloth is a structural failure, not a frequency-tuning problem.
-5. Couple internal motion rather than rigidly transforming a static object.
-6. Render representative frames with `templates/harness.html?frame=90&s=your-sketch.js`.
-7. Run `scripts/check-visual.mjs` for density/framing diagnostics.
-8. Validate semantic controls before golf.
-9. Compress semantically, golf, and verify the complete post with `scripts/check-length.mjs`.
-10. For compound work, test defining morphology through expanded → exact-golfed compression.
+A generic torus/cloth, wire scribble, textbook attractor or detached body plan is a **representation failure**. Repair the cause before broad search.
 
-## Math-first contract
+### 2. Freeze brief invariants
 
-Before equations, identify:
+Record only the constraints that define the requested niche, e.g.:
 
-- **kernel** — recurrence / 1D / 2D / attractor;
-- **latent fields** — the small coordinate/state vocabulary;
-- **family law** — instance expression/count if repeated;
-- **deformation** — nonlinear field creating differentiation;
-- **projection** — how latent state reaches screen coordinates;
-- **time entry points** — where animation changes kernel, deformation, or projection.
-
-Prefer controls attached to these mathematical roles over arbitrary canvas offsets.
-
-For recurrence-driven work, distinguish the underlying dynamical state from its projection. A chaotic kernel parameter can legitimately change the entire future trajectory; do not apply local-family expectations to it.
-
-## Pure math probes for repeated families
-
-When repeated family semantics matter, expose a design-time pure probe. Use `templates/math-probe.mjs` as the interface pattern:
-
-```js
-{
-  family:'arms',
-  instance:3,
-  x:...,y:...,
-  latent:{radial:...,axial:...,phase:...}
-}
+```text
+multi-instance family → distinct related bodies from one generator
+filament → intentional axial/1D identity
+membrane → true 2D sheet + legible negative space
+living knot → recurrent state + transformed projection
 ```
 
-Then validate a control directly in latent space:
+A beautiful mutation that violates a defining invariant is a side discovery, not the winner for the current request.
 
-```sh
-node scripts/check-family-math.mjs \
-  probe.mjs math-contract.json armLength --factor=1.2
-```
+### 3. Search by topology
 
-A coherent repeated-family control should usually show:
+The completed search-lab experiment rejects one universal mutation policy.
 
-- the intended median per-instance change;
-- high directional agreement across siblings;
-- reasonable dispersion/MAD when coherent family response is intended.
+Use this routing summary; load `references/discovery-search.md` for mechanics:
 
-This catches aggregate-image cheats where a few siblings grow dramatically while others shrink.
+| representation | default exploration |
+|---|---|
+| repeated math family | structural + parameter search; preserve family niche |
+| recurrence / living knot | structural divergent search |
+| dense 2D sheet | actively explore projection/deformation family |
+| intentional 1D filament | incumbent + local numeric search first |
+| morphology-first anatomy | conservative local search; broad policy unproven |
 
-The probe and contract are **design-time artifacts only**. They never consume tweet characters.
+### 4. Preserve the elite
 
-## Morphology-first invariants
+The incumbent remains available in every search round. Never force regression because search was attempted.
 
-For explicit body plans, write a short morphology contract: polarity, root mass, regions, organ families, symmetry/repetition, parent-relative attachment, inherited motion and surface detail.
+Search may improve, tie, or fail to improve the incumbent.
 
-Preserve:
+### 5. Select after exploration
 
-- more apparent parts than independent formulas;
-- children inherit parent structure;
-- structure and surface are separable in readable code;
-- repeated siblings share one generator;
-- morphology remains optional for attractors, math-first emergent forms, simple filaments and abstract sheets.
+Novelty/coverage decides what deserves inspection, **not what wins**.
 
-## Semantic control validation
+Review challengers at multiple representative times and prefer a challenger only when it remains brief-adherent and is aesthetically stronger than the incumbent.
 
-Perturb one readable control at a time at the **same time/frame**.
+Keep these dimensions separate:
 
-### 1. Generator semantics — what changed mathematically?
+- brief adherence;
+- aesthetic preference;
+- mathematical leverage;
+- temporal quality;
+- distinctiveness;
+- likely tweet viability.
 
-For repeated families with a meaningful latent identity, prefer `effect.source="math-family"` and run `check-family-math.mjs`.
+Do not collapse them into one beauty score.
 
-Use this to validate family-wide latent roles such as radial extent, axial extent, phase, or another explicit probe field.
+### 6. Validate only what needs validation
 
-### 2. Scope — where did the rendered change occur?
+Validators are falsification tools, not creative fitness.
 
-```sh
-node scripts/check-control-scope.mjs \
-  baseline.png variant.png morphology-contract.json controlName \
-  --baseline-mask-dir=baseline-masks \
-  --variant-mask-dir=variant-masks
-```
+- repeated-family latent semantics → `scripts/check-family-math.mjs`
+- rendered scope → `scripts/check-control-scope.mjs`
+- simple visible effect → `scripts/check-control-effect.mjs`
+- expanded→golfed compound survival → `scripts/check-morphology-survival.mjs`
+- density/framing → `scripts/check-visual.mjs`
 
-For moving geometry, allowed support is the **union of baseline and variant masks**. `subtree` applies that union to the region and descendants. Use spill comparatively; do not broaden masks merely to improve a score.
+For detailed contracts/commands, use the relevant references rather than expanding the core workflow.
 
-### 3. Simple phenotype effect — did a visible observable move?
+### 7. Golf only the selected winner
 
-When useful:
+Preserve the high-leverage mathematical relationships, compress semantically, then golf JavaScript.
 
-```sh
-node scripts/check-control-effect.mjs \
-  baseline.png variant.png morphology-contract.json controlName \
-  --baseline-mask-dir=baseline-masks \
-  --variant-mask-dir=variant-masks
-```
-
-Mask/image descriptors remain useful for width, height, area, centroid, contrast, or visibility. For repeated families, math-family validation is stronger than one aggregate bounding box.
-
-A control is semantically convincing when **math + scope + visible effect + visual judgment** are mutually consistent.
-
-## Morphology survival through golf
-
-For compound pieces, declare defining `survivalFeatures`:
-
-- `presence` — defining mass/family should remain represented;
-- `void` — cavity/split should remain open.
-
-Render feature masks for **both expanded and golfed phenotypes** and run:
-
-```sh
-node scripts/check-morphology-survival.mjs \
-  expanded.png golfed.png morphology-contract.json \
-  --expanded-feature-dir=expanded-features \
-  --golfed-feature-dir=golfed-features
-```
-
-Review feature existence/scale/placement and appearance separately. Do not collapse survival into one similarity score.
-
-## Visual diagnostics
-
-```sh
-node scripts/check-visual.mjs frame-0.png frame-90.png frame-180.png
-```
-
-Useful dense-organic heuristics:
-
-- `<2%` occupancy: likely wire/sparse unless intentionally filamentary
-- `2–4%`: inspect carefully
-- `4–15%`: common useful territory, not a hard target
-- `>15%`: inspect for overfill/lost cavities
-- robust dominant span `<55%`: often framed too small
-- centroid offset `>15%`: inspect composition
-- edge contact: inspect clipping
-
-Sample count is not density.
-
-## Tweet budget
-
-`#つぶやきProcessing` costs 19 X-weighted characters. Recommended `CODE//#つぶやきProcessing` leaves **259 weighted characters for CODE**.
+Verify the complete post:
 
 ```sh
 node scripts/check-length.mjs post.txt
 ```
 
+`CODE//#つぶやきProcessing` leaves about **259 X-weighted characters for code**.
+
+Render the exact tweet code and confirm the defining phenotype survived compression.
+
+## Important mode-specific cautions
+
+- Low occupancy can be correct for filaments and distributed families.
+- High descriptor novelty can be actively harmful; the search-lab filament route demonstrated this strongly.
+- Chaotic kernel perturbations can legitimately diverge globally; do not demand locality from them.
+- Morphology is conditional, not the universal source of complexity.
+- Search budget/mutation probabilities are not yet established; do not hard-code the experiment's 24-candidate budget as production policy.
+
 ## Required output
 
-Unless the user asks for less, return:
+Unless the user asks for less:
 
 ### Concept
 One or two sentences.
@@ -230,30 +167,32 @@ One or two sentences.
 For math-first work: kernel, latent fields, family law, deformation and projection.
 
 ### Morphology plan
-Only when explicit body-plan structure is used.
+Only for explicit body-plan work.
+
+### Discovery notes
+Briefly state the incumbent, what route-specific alternatives were explored, and why the winner survived selection.
 
 ### Expanded p5.js
-Readable source with semantic controls.
+Readable winner.
 
 ### Tweet-ready
-One executable line with a valid hashtag placement.
+One executable line with valid hashtag placement.
 
 ### Verification
-Raw + X-weighted length, visual diagnostics, and when applicable: math-family response, scope spill, simple effect result, and feature-wise survival.
+Raw + X-weighted length, representative-time visual diagnostics, plus relevant semantic/survival evidence when applicable.
 
 ### Variation knobs
-3–5 meaningful mathematical/morphological controls.
+3–5 high-leverage mathematical/morphological controls.
 
 ## Failure routing
 
 - wire/confetti → topology/sample distribution
-- generic torus/cloth → kernel/projection/body-plan failure
-- emergent math is coherent but explicit anatomy is hard to edit → add morphology layer only where needed
-- floating parts → attachment/local frame
-- high dual-state spill → dependency/scope failure
-- low spill but wrong aggregate effect → semantic-effect failure
+- generic torus/cloth → kernel/projection/body-plan failure; repair incumbent before search
+- broad search leaves brief → tighten invariants/search route, not aesthetic score
+- incumbent beats all mutations → keep incumbent; no improvement is a valid result
+- filament search becomes loops/flowers → return to axial incumbent/local parameters
 - aggregate effect passes but siblings disagree → math-family failure
-- chaotic recurrence diverges globally → classify control as kernel/global; do not force locality
-- good readable phenotype loses defining regions/voids after golf → compression-survival failure
+- control leaks into unrelated anatomy → scope failure
+- good readable phenotype loses identity after golf → compression-survival failure
 
-A strong result should encode a **large phenotype in a small mathematical cause**.
+A strong result comes from an **elite-preserving mathematical discovery process**, not merely a better first guess.
