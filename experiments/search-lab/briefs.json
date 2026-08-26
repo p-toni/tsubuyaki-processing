@@ -1,0 +1,46 @@
+{
+  "plankton_family": {
+    "prompt": "Create a constellation of related organism-like bodies from one compact mathematical generator. They should read like plankton/spores/shell-creatures without explicit per-creature drawing. Use a repeated family law and coherent internal motion.",
+    "route": "math-first family",
+    "adherence": [
+      "one shared generator rather than separate formulas per body",
+      "multiple visibly related but non-identical instances",
+      "motion is internally generated, not rigid translation",
+      "no explicit anatomy graph required"
+    ],
+    "allowed_structural_genes": ["family_count", "family_phase", "latent_harmonics", "distance_power", "deformation_operator", "projection_family", "time_coupling"]
+  },
+  "living_knot": {
+    "prompt": "Create an original recurrent or iterative system that reads like a living knot, vascular colony, or drifting micro-organism. The recurrence should be latent material rather than a textbook attractor plot.",
+    "route": "math-first recurrence",
+    "adherence": [
+      "stateful recurrence or iterative kernel",
+      "projection materially transforms the raw state",
+      "coherent bounded composition at representative frames",
+      "not a literal textbook attractor rendering"
+    ],
+    "allowed_structural_genes": ["recurrence_variant", "residue_family", "deformation_operator", "projection_family", "time_coupling"]
+  },
+  "dense_membrane": {
+    "prompt": "Create a dense abstract folded membrane with cavities and slow internal phase drift. It should feel organic but not creature-like.",
+    "route": "single-field flattened 2D",
+    "adherence": [
+      "true 2D sampling rather than a disguised 1D curve",
+      "dense membrane or sheet material",
+      "negative space or cavities remain legible",
+      "no unnecessary named anatomy"
+    ],
+    "allowed_structural_genes": ["sheet_sampling", "distance_power", "deformation_operator", "projection_family", "time_coupling"]
+  },
+  "filament_ribbon": {
+    "prompt": "Create a long translucent larval ribbon or filamentary organism with an axial identity and traveling contraction/folding waves. Keep it visibly filamentary rather than membrane-like.",
+    "route": "intentional 1D",
+    "adherence": [
+      "1D or axial topology remains intentional",
+      "reads as ribbon/filament rather than dense sheet",
+      "traveling internal deformation rather than static Lissajous rotation",
+      "low occupancy is allowed"
+    ],
+    "allowed_structural_genes": ["axial_harmonics", "family_parity", "fold_operator", "projection_family", "time_coupling"]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "plankton_family": {
+    "topology": "family",
+    "familyCount": 11,
+    "latentHarmonics": [3, 5, 3],
+    "bodyScale": 8,
+    "distancePower": 2,
+    "distanceDivisor": 80,
+    "familyPhaseStep": 0.5,
+    "deformation": "power-sine",
+    "projection": "harmonic",
+    "projectionHarmonic": 3,
+    "phaseDivisor": 14,
+    "timeDivisor": 20,
+    "samples": 22000,
+    "alpha": 70
+  },
+  "living_knot": {
+    "topology": "recurrence",
+    "recurrence": "lorenz-like",
+    "sigma": 9,
+    "rho": 27,
+    "beta": 2.2,
+    "dt": 0.00055,
+    "familyCount": 5,
+    "familyPhaseStep": 1.25,
+    "projection": "polar",
+    "radialOffset": 72,
+    "stateDivisor": 56,
+    "timeDivisor": 42,
+    "samples": 24000,
+    "alpha": 62
+  },
+  "dense_membrane": {
+    "topology": "sheet",
+    "columns": 150,
+    "xScale": 8,
+    "yScale": 7,
+    "foldFrequency": 6,
+    "warp": 13,
+    "distancePower": 2,
+    "projection": "folded",
+    "samples": 26000,
+    "alpha": 45
+  },
+  "filament_ribbon": {
+    "topology": "filament",
+    "primaryFrequency": 2.5,
+    "secondaryFrequency": 5,
+    "radius": 72,
+    "fold": 22,
+    "twist": 0.7,
+    "familyCount": 2,
+    "projection": "axial",
+    "samples": 14000,
+    "alpha": 85
+  }
+}
