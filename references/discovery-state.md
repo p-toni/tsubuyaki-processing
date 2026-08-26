@@ -15,9 +15,10 @@ search-state.json
   brief invariants
   current stage
   elite + lineage
-  compound mutation cause
+  paired causal changes
   review decisions
-  evidence-backed unlock / promotion history
+  review-bound unlock evidence
+  promotion history
 
 scripts/discovery-state.mjs
   enforces state transitions and historical legality
@@ -36,17 +37,7 @@ node scripts/discovery-state.mjs init _local/search-state.json \
   --invariant="legible negative space"
 ```
 
-Initialization records:
-
-```json
-"grammar": {
-  "path": "templates/mutation-grammar.json",
-  "version": 1,
-  "sha256": "..."
-}
-```
-
-Every later command verifies that both the grammar version and exact file bytes still match this pin. If the grammar changes, the old search state no longer silently inherits new rules.
+Initialization pins the grammar path, version and SHA-256. Every later command verifies the exact pin. Grammar drift invalidates the old state rather than silently changing its search rules.
 
 Routes currently encoded:
 
@@ -58,25 +49,34 @@ filament
 morphology
 ```
 
-## Add a challenger with its complete cause
+## Add a challenger with paired causal changes
 
-A phenotype can result from more than one mathematical change. Record all causal classes and the concrete operators that matter:
+One phenotype may result from several mathematical changes. Each causal class is stored together with its concrete operator:
 
 ```sh
 node scripts/discovery-state.mjs add _local/search-state.json E7 \
   --parent=E1 \
-  --class=fold-frequency \
-  --class=latent-scale \
-  --operator="ribFreq:0->0.85" \
-  --operator="sx:8.4->7.2, sy:8.0->8.8" \
+  --change=fold-frequency::ribFreq:0->0.85 \
+  --change=latent-scale::sx:8.4->7.2,sy:8.0->8.8 \
   --artifact=_local/E7-f90.png
 ```
 
-`--class` and `--operator` are repeatable.
+State shape:
 
-The classes are causal categories governed by the unlock grammar. Operators record the concrete mathematical edit. At least one explicit operator is required; the state should not claim reproducibility while only saying "some fold mutation happened."
+```json
+"mutation": {
+  "changes": [
+    {"class": "fold-frequency", "operator": "ribFreq:0->0.85"},
+    {"class": "latent-scale", "operator": "sx:8.4->7.2,sy:8.0->8.8"}
+  ]
+}
+```
 
-A class that is not unlocked at the current stage is rejected at write time.
+This avoids parallel `classes[]` / `operators[]` arrays whose pairing could become ambiguous.
+
+For command compatibility, equal-count repeated `--class` and `--operator` arguments are still accepted and are immediately converted into paired `changes`. Prefer `--change=CLASS::OPERATOR` for new work.
+
+A class not unlocked at the current stage is rejected at write time.
 
 ## Review
 
@@ -102,9 +102,11 @@ incumbent
 
 `prefer` must come from visual + temporal comparison with the current elite, not from a density/novelty/critic scalar.
 
-## Unlock with evidence
+Each review is an event with its own sequence number.
 
-An unlock is a causal decision and must cite the reviewed candidates that justify broadening search:
+## Unlock with historical review evidence
+
+An unlock must cite reviewed candidates that justify broadening search:
 
 ```sh
 node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
@@ -113,25 +115,28 @@ node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
   --evidence=E9
 ```
 
-Evidence candidates must:
-
-- exist;
-- be searched challengers rather than the original incumbent;
-- belong to the current stage;
-- have completed review.
-
-The unlock event records:
+At write time each evidence candidate must be a reviewed challenger from the current stage. The unlock records the exact review event that existed at that moment:
 
 ```json
 {
   "type": "unlock",
   "stage": 2,
   "reason": "...",
-  "evidenceCandidateIds": ["E8", "E9"]
+  "evidence": [
+    {"candidateId": "E8", "reviewSeq": 12},
+    {"candidateId": "E9", "reviewSeq": 15}
+  ]
 }
 ```
 
-This makes "why did we expose broader structure?" inspectable instead of relying on conversational memory.
+Validation later reconstructs that history. It checks that:
+
+- the candidate existed in the exhausted stage (`unlock.stage - 1`);
+- `reviewSeq` names a review event for that exact candidate;
+- the review happened before the unlock event;
+- the cited review was complete rather than `unknown` / `undecided`.
+
+This means an unlock cannot later be rewritten to point at an unrelated existing candidate without invalidating the state.
 
 Strong guards remain:
 
@@ -157,20 +162,20 @@ The former elite becomes `prior-elite`; it remains in lineage evidence.
 
 ## Historical legality
 
-`validate` no longer asks only whether a mutation class exists somewhere in the route.
+`validate` checks every paired causal change against the mutation classes available at the candidate's **historical stage**.
 
-It checks whether every class recorded for a candidate was already unlocked at that candidate's **historical stage**.
+A manually edited record like this fails even after the search later reaches stage 2:
 
-Therefore a manually edited state like:
-
-```text
-candidate.stage = 1
-mutation.classes = ["harmonic-family"]   # filament stage-2 class
+```json
+{
+  "stage": 1,
+  "mutation": {
+    "changes": [
+      {"class": "harmonic-family", "operator": "5->7"}
+    ]
+  }
+}
 ```
-
-fails validation even if the current search has since reached stage 2.
-
-This protects the scientific record from retroactively granting earlier candidates permissions they did not have.
 
 ## Inspect / validate
 
@@ -179,18 +184,23 @@ node scripts/discovery-state.mjs summary _local/search-state.json
 node scripts/discovery-state.mjs validate _local/search-state.json
 ```
 
-`summary` includes the pinned grammar identity, elite, stage, unlocked classes and candidate/status counts.
-
 `validate` checks:
 
 - state version / basic integrity;
 - grammar version + SHA-256 pin;
 - route and stage existence;
 - candidate parentage;
-- compound mutation shape;
-- historical-stage legality of all mutation classes;
-- event ordering;
-- evidence references on unlock events.
+- paired mutation shape;
+- historical-stage legality;
+- strictly ordered events;
+- unlock evidence candidate/stage identity;
+- exact historical review-event identity and ordering.
+
+## Schema version
+
+v0.13 uses discovery state `version: 3`.
+
+v0.12 (`version: 2`) states fail closed rather than being silently reinterpreted because their parallel causal arrays and candidate-ID-only unlock evidence do not contain enough information to guarantee the v0.13 provenance model.
 
 ## What belongs in state
 
@@ -200,12 +210,11 @@ Record facts needed to reproduce a discovery decision:
 - pinned grammar path/version/hash;
 - route and current stage;
 - candidate parent;
-- all causal mutation classes;
-- concrete mathematical operators;
+- paired causal `{class, operator}` changes;
 - representative artifacts;
 - validity and brief-adherence review;
 - pairwise visual/temporal preference;
-- unlock reason + evidence candidate IDs;
+- unlock reason + exact cited review events;
 - promotion reason.
 
 Do **not** put one aggregate quality score in the state.
@@ -218,4 +227,4 @@ This layer still does not define one universal mathematical genotype or automati
 
 That remains intentional. Current evidence supports a common **search process and provenance record** more strongly than it supports one formula representation across recurrence, sheets, filaments, repeated families and explicit morphology.
 
-The readable mathematical system remains the semantic source of truth; v0.12 makes the discovery record faithful enough to inspect and reproduce the search decisions around it.
+The readable mathematical system remains the semantic source of truth. v0.13 closes the remaining known ambiguity in causal pairing and unlock-history evidence; further state machinery should require a concrete failure from a real discovery run.

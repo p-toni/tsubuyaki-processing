@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "route": "filament",
   "grammar": {
     "path": "templates/mutation-grammar.json",
@@ -30,6 +30,27 @@
         "preference": "incumbent",
         "reason": "initial viable incumbent"
       }
+    },
+    "E1": {
+      "id": "E1",
+      "parentId": "E0",
+      "stage": 1,
+      "mutation": {
+        "changes": [
+          {"class": "numeric-frequency", "operator": "secondaryFrequency:5->6"},
+          {"class": "numeric-fold", "operator": "fold:14->17"}
+        ],
+        "detail": null
+      },
+      "status": "archived",
+      "artifacts": [],
+      "notes": [],
+      "review": {
+        "valid": "pass",
+        "adherent": "pass",
+        "preference": "archive",
+        "reason": "valid near-neighbor"
+      }
     }
   },
   "events": [
@@ -39,10 +60,36 @@
       "eliteId": "E0",
       "route": "filament",
       "stage": 1,
-      "grammar": {
-        "version": 1,
-        "sha256": "<captured-at-init>"
-      }
+      "grammar": {"version": 1, "sha256": "<captured-at-init>"}
+    },
+    {
+      "seq": 2,
+      "type": "add",
+      "id": "E1",
+      "parentId": "E0",
+      "stage": 1,
+      "changes": [
+        {"class": "numeric-frequency", "operator": "secondaryFrequency:5->6"},
+        {"class": "numeric-fold", "operator": "fold:14->17"}
+      ]
+    },
+    {
+      "seq": 3,
+      "type": "review",
+      "id": "E1",
+      "valid": "pass",
+      "adherent": "pass",
+      "preference": "archive"
+    },
+    {
+      "seq": 4,
+      "type": "unlock",
+      "stage": 2,
+      "name": "axial-preserving structure",
+      "reason": "stage 1 saturated",
+      "evidence": [
+        {"candidateId": "E1", "reviewSeq": 3}
+      ]
     }
   ]
 }

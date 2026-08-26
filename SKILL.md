@@ -107,24 +107,21 @@ Do not unlock topology-breaking moves merely for novelty.
 For multi-round search:
 
 - pin the mutation grammar version + SHA-256 at initialization;
-- record **all** causal mutation classes for a candidate, not only one convenient label;
-- record concrete mathematical operators separately;
+- record every real causal edit as a paired `{class, operator}` change;
 - attach representative artifacts;
 - keep validity, adherence and preference separate;
-- cite reviewed candidate IDs as evidence for every stage unlock;
+- bind every stage-unlock evidence candidate to the exact prior review event that justified the unlock;
 - preserve prior elites and parentage.
 
-Example compound cause:
+Preferred compound-cause form:
 
 ```sh
 node scripts/discovery-state.mjs add _local/search-state.json E7 \
-  --class=fold-frequency \
-  --class=latent-scale \
-  --operator="ribFreq:0->0.85" \
-  --operator="sx:8.4->7.2"
+  --change=fold-frequency::ribFreq:0->0.85 \
+  --change=latent-scale::sx:8.4->7.2
 ```
 
-Historical legality matters: a candidate may only claim mutation classes that were already unlocked at its recorded stage.
+Historical legality matters: a candidate may only claim mutation classes already unlocked at its recorded stage. Unlock validation must also prove the cited review existed before the unlock and belonged to the exhausted stage.
 
 ### 5. Preserve and promote the elite
 
@@ -188,6 +185,7 @@ Render the exact tweet code and confirm the defining phenotype survived compress
 - Filament stage 3 requires an actual brief change.
 - Morphology body-plan mutation remains experimental.
 - If the pinned mutation grammar changes during a search, start/migrate a new state rather than silently reinterpreting history.
+- v0.12 discovery-state files fail closed under v0.13; do not infer missing cause-pairing or review-history provenance.
 
 ## Required output
 
@@ -203,7 +201,7 @@ For math-first work: kernel, latent fields, family law, deformation and projecti
 Only for explicit body-plan work.
 
 ### Discovery notes
-Summarize the recorded elite lineage, search stages, compound causal changes and evidence-backed unlocks.
+Summarize the recorded elite lineage, search stages, paired causal changes and review-bound unlock evidence.
 
 ### Expanded p5.js
 Readable winner.
@@ -224,7 +222,8 @@ Raw + X-weighted length, representative-time visual diagnostics, discovery-state
 - stage produces only near-neighbors → review them, cite them as unlock evidence, then unlock next brief-preserving class
 - broader stage leaves brief → roll back to elite; do not reward novelty
 - incumbent beats all mutations → keep incumbent; no improvement is valid
-- mutation record omits a real causal change → discovery-state fidelity failure
+- mutation record separates class/operator pairing ambiguously → discovery-state fidelity failure
+- unlock evidence cannot be tied to a prior review event → discovery-state integrity failure
 - historical candidate claims a later-stage class → discovery-state integrity failure
 - grammar pin changes → search-rule provenance failure
 - aggregate effect passes but siblings disagree → math-family failure

@@ -2,7 +2,7 @@
 
 A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems whose animated phenotype is disproportionately richer than the source.
 
-## v0.12 direction — faithful discovery provenance
+## Current direction — progressive discovery with faithful provenance
 
 The project treats generation as an **elite-preserving mathematical discovery process**:
 
@@ -12,66 +12,69 @@ intent
 → viable incumbent
 → brief invariants
 → progressive route-aware search
-→ explicit causal lineage
+→ faithful causal lineage
 → visual + temporal selection
 → semantic checks where relevant
 → golf winner
 → exact verification
 ```
 
-v0.10 established progressive route-aware search. v0.11 made its elite/lineage state executable. The dense-sheet validation then exposed a provenance weakness: one winning phenotype can result from several mathematical changes, while the old state recorded only one `mutation.class`; unlock reasons also had no explicit evidence links, and validation did not enforce the rules that existed at a candidate's historical stage.
+v0.10 established progressive route-aware search. v0.11 made elite/lineage state executable. v0.12 added compound-cause recording, evidence-backed unlocks, historical-stage validation and grammar pinning. v0.13 closes the remaining known ambiguity in that record without changing the search or aesthetic policy.
 
-v0.12 fixes that layer without changing the aesthetic/search policy.
+## v0.13 discovery-state evidence fidelity
 
-## v0.12 discovery-state fidelity
+### Paired causal changes
 
-The multi-round state now records and enforces:
-
-### Compound mathematical causes
-
-A candidate may record multiple causal classes and concrete operators:
+A candidate records each mutation class together with its concrete operator:
 
 ```sh
 node scripts/discovery-state.mjs add _local/search-state.json E7 \
-  --class=fold-frequency \
-  --class=latent-scale \
-  --operator="ribFreq:0->0.85" \
-  --operator="sx:8.4->7.2, sy:8.0->8.8"
+  --change=fold-frequency::ribFreq:0->0.85 \
+  --change=latent-scale::sx:8.4->7.2
 ```
 
-The state stores:
+Stored form:
 
 ```json
 "mutation": {
-  "classes": ["fold-frequency", "latent-scale"],
-  "operators": ["ribFreq:0->0.85", "sx:8.4->7.2, sy:8.0->8.8"]
+  "changes": [
+    {"class": "fold-frequency", "operator": "ribFreq:0->0.85"},
+    {"class": "latent-scale", "operator": "sx:8.4->7.2"}
+  ]
 }
 ```
 
-At least one explicit operator is required. The state should preserve the mathematical cause, not merely label a picture as "structurally mutated."
+This replaces ambiguous parallel `classes[]` / `operators[]` arrays.
 
-### Evidence-backed stage unlocks
+Equal-count legacy `--class` / `--operator` CLI arguments are still accepted and converted immediately into paired changes; new work should use `--change=CLASS::OPERATOR`.
 
-Broadening search must cite reviewed candidates from the current stage:
+### Review-bound stage unlocks
+
+Broadening search still requires reviewed evidence:
 
 ```sh
 node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
-  --reason="stage 1 around E1 produced only near-neighbors" \
+  --reason="stage 1 produced only near-neighbors" \
   --evidence=E8 \
   --evidence=E9
 ```
 
-Unlock history therefore contains both the reasoning and the candidate IDs that support it.
+But the state now records the exact historical review event for each cited candidate:
 
-### Historical-stage legality
+```json
+"evidence": [
+  {"candidateId": "E8", "reviewSeq": 12},
+  {"candidateId": "E9", "reviewSeq": 15}
+]
+```
 
-Validation checks a candidate against the mutation classes available **when that candidate was created**.
+Validation verifies that each review belongs to that candidate, came from the exhausted stage, was complete, and occurred before the unlock. Repointing an old unlock at an unrelated existing candidate therefore invalidates the state.
 
-A stage-1 filament candidate cannot later claim `harmonic-family` merely because the search eventually reached stage 2.
+### Historical-stage legality + grammar provenance
 
-### Pinned mutation grammar
+Candidate changes are validated against the mutation permissions available at the candidate's historical stage.
 
-Initialization pins the rule system:
+Initialization also pins:
 
 ```json
 "grammar": {
@@ -81,7 +84,11 @@ Initialization pins the rule system:
 }
 ```
 
-Every subsequent CLI action verifies the version and exact SHA-256. A grammar change therefore cannot silently reinterpret an existing search history.
+Every later action verifies this exact rule set.
+
+### State version
+
+v0.13 uses discovery-state `version: 3`. v0.12 states fail closed because they do not contain paired causes or review-event-bound unlock evidence.
 
 ## Regression coverage
 
@@ -91,21 +98,24 @@ Run:
 node scripts/test-discovery-state.mjs
 ```
 
-The v0.12 regression checks:
+The v0.13 regression checks:
 
-- locked mutation classes fail at write time;
-- unlocks without reviewed evidence fail;
-- compound mutation classes/operators survive state writes;
-- elite promotion still requires validity + adherence + visual/temporal preference;
+- later-stage mutation classes fail while locked;
+- unlocks without evidence fail;
+- compound `{class, operator}` causes remain paired;
+- unlock evidence points to the exact prior review event;
+- promotion still requires validity + adherence + visual/temporal preference;
 - filament topology change remains brief-gated;
-- manual historical-stage corruption fails validation;
+- historical-stage corruption fails validation;
+- malformed causal pairs fail validation;
+- rewired / future review evidence fails validation;
 - grammar-byte drift fails validation.
 
-There is still deliberately **no scalar beauty score**.
+There is deliberately **no scalar beauty score**.
 
 ## Progressive route-aware search
 
-The production unlock schedules remain:
+The production unlock schedules remain unchanged:
 
 ### Repeated math family
 1. local family/deformation/harmonic parameters;
