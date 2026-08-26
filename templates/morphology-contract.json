@@ -1,34 +1,29 @@
 {
   "regions": {
-    "root": {
-      "parent": null,
-      "mask": "masks/root.png"
-    },
-    "crown": {
-      "parent": "root",
-      "mask": "masks/crown.png"
-    },
-    "appendages": {
-      "parent": "root",
-      "mask": "masks/appendages.png"
-    }
+    "root": {"parent": null, "mask": "masks/root.png"},
+    "crown": {"parent": "root", "mask": "masks/crown.png"},
+    "appendages": {"parent": "root", "mask": "masks/appendages.png"}
   },
   "controls": {
     "rootWidth": {
       "region": "root",
-      "scope": "subtree"
+      "scope": "subtree",
+      "effect": {"source":"mask","metric":"width","direction":"increase","minRelativeChange":0.05}
     },
     "crownDepth": {
       "region": "crown",
-      "scope": "region"
+      "scope": "region",
+      "effect": {"source":"mask","metric":"height","direction":"increase","minRelativeChange":0.05}
     },
     "appendageLength": {
       "region": "appendages",
-      "scope": "region"
+      "scope": "region",
+      "effect": {"source":"mask","metric":"height","direction":"increase","minRelativeChange":0.05}
     },
     "foldFrequency": {
       "region": "root",
-      "scope": "surface"
+      "scope": "surface",
+      "effect": {"source":"image","metric":"visibleFraction","direction":"any","minRelativeChange":0.02}
     },
     "pulseStrength": {
       "region": "root",
@@ -36,17 +31,8 @@
     }
   },
   "survivalFeatures": {
-    "rootMass": {
-      "mask": "masks/root.png",
-      "kind": "presence"
-    },
-    "appendageFamily": {
-      "mask": "masks/appendages.png",
-      "kind": "presence"
-    },
-    "centralCavity": {
-      "mask": "masks/cavity.png",
-      "kind": "void"
-    }
+    "rootMass": {"mask":"masks/root.png","kind":"presence"},
+    "appendageFamily": {"mask":"masks/appendages.png","kind":"presence"},
+    "centralCavity": {"mask":"masks/cavity.png","kind":"void"}
   }
 }
