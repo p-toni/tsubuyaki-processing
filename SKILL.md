@@ -5,76 +5,151 @@ description: "Create authentic #つぶやきProcessing p5.js sketches: dense mat
 
 # Tsubuyaki Processing
 
-Create **original #つぶやきProcessing**, not generic generative art that happens to be short. The output should feel larger than its source: a compact mathematical system whose sampling, body coordinates, deformation and motion produce a coherent organism or field.
+Create **original #つぶやきProcessing**, not generic generative art that happens to be short. The output should feel larger than its source: a compact mathematical cause producing a surprisingly rich phenotype.
 
 ## Hard constraints
 
 1. Complete post <=280 X-weighted characters and <=280 raw Unicode code points.
 2. Use p5.js global mode unless asked otherwise.
 3. Design readable source first; golf only after rendering and visual judgment.
-4. Prefer shared latent variables and reusable generators over independent decorative effects.
+4. Prefer shared latent variables, recurrence, and reusable generators over independent decorative effects.
 5. Final code must execute.
 6. 280 is a ceiling, not a target.
 7. Do not reconstruct or lightly mutate a published artist's formula.
 
 ## Route before designing
 
-Choose the **smallest workflow that fits the request**.
+Choose the **smallest mathematical representation that fits the request**.
 
-### A. Single-field / abstract dense form
-Load `references/mathematical-patterns.md` + `references/style-guide.md`. Default dense tissue to flattened 2D; use 1D deliberately for filament/ribbon material and iterated state for trajectory systems.
+### A. Single-field / abstract form
 
-### B. Compound organism
-When the prompt asks for differentiated regions, appendages, symmetry or attachment, also load `references/morphology-composition.md`.
+Load `references/mathematical-patterns.md` + `references/style-guide.md`.
+
+- flattened 2D for dense membrane/tissue;
+- 1D deliberately for filament/ribbon material;
+- iterated state for attractor/trajectory systems.
+
+### B. Math-first emergent organism
+
+When an organism-like form can emerge from compact dynamics, harmonics, residue families, or nonlinear projection **without explicit anatomy**, load:
+
+- `references/math-first-generators.md`
+- `references/mathematical-patterns.md`
+
+Think:
+
+```text
+kernel → latent coordinates → family operator → deformation → projection
+```
+
+Do not invent a scene graph merely because the output resembles an animal. Strong tiny-code forms often derive apparent anatomy from a dynamical kernel or one phase-conditioned family generator.
+
+### C. Morphology-first compound organism
+
+When the user explicitly needs differentiated regions, attachment, body-plan hierarchy, or named anatomy, also load `references/morphology-composition.md`.
 
 Core rule: **reusable roles, not literal nouns**. One attached appendage-family generator is better than separate formulas for each appendage.
 
-### C. Explicitly controllable compound organism
+### D. Explicitly controllable compound / repeated-family system
+
 When named semantic controls or controllability evaluation are required, additionally load:
 
 - `references/control-strategies.md`
 - `references/control-scopes.md`
 - `references/semantic-effects.md`
 
-Each tested control may declare:
+Use the strongest available source of truth:
 
-- **scope** — where influence is allowed (`region`, `subtree`, `surface`, `global`);
-- **effect** — what observable should change (`width`, `height`, `area`, centroid, contrast, visibility) and in which direction.
+- **math-family effect** — how repeated generator instances changed in latent space;
+- **scope** — where the rendered change was allowed;
+- **image/mask effect** — simple phenotype observable when useful;
+- **visual judgment** — whether the phenotype is actually good.
 
-Validate scope and effect independently.
+### E. Code golf / tweet-ready output
 
-### D. Code golf / tweet-ready output
 After the readable system is stable, load `references/code-golf-techniques.md`.
 
 ## Base generation loop
 
-1. Choose material/topology.
-2. Build shared body coordinates (`k/e/d/c/q/t` or equivalent).
-3. Establish silhouette/polarity before texture. Generic toroidal cloth is a **body-plan failure**, not a frequency-tuning problem.
-4. Couple internal motion rather than rigidly transforming a static object.
-5. Render representative frames with `templates/harness.html?frame=90&s=your-sketch.js`.
-6. Run `scripts/check-visual.mjs` for density/framing diagnostics.
-7. For compound controls, validate semantic behavior before golf.
-8. Compress semantically, golf, and verify the complete post with `scripts/check-length.mjs`.
-9. For compound work, test defining morphology through expanded → exact-golfed compression.
+1. Choose kernel/topology.
+2. Identify shared latent fields (`k/e/d/c/p/q/t` or equivalent).
+3. If repetition exists, identify the family law (`i%N`, parity, phase class) before naming individual parts.
+4. Establish silhouette/coherence before microtexture. Generic toroidal cloth is a structural failure, not a frequency-tuning problem.
+5. Couple internal motion rather than rigidly transforming a static object.
+6. Render representative frames with `templates/harness.html?frame=90&s=your-sketch.js`.
+7. Run `scripts/check-visual.mjs` for density/framing diagnostics.
+8. Validate semantic controls before golf.
+9. Compress semantically, golf, and verify the complete post with `scripts/check-length.mjs`.
+10. For compound work, test defining morphology through expanded → exact-golfed compression.
 
-## Compound morphology invariants
+## Math-first contract
 
-Write a short morphology contract before equations: polarity, root mass, regions, organ families, symmetry/repetition, parent-relative attachment, inherited motion and surface detail.
+Before equations, identify:
+
+- **kernel** — recurrence / 1D / 2D / attractor;
+- **latent fields** — the small coordinate/state vocabulary;
+- **family law** — instance expression/count if repeated;
+- **deformation** — nonlinear field creating differentiation;
+- **projection** — how latent state reaches screen coordinates;
+- **time entry points** — where animation changes kernel, deformation, or projection.
+
+Prefer controls attached to these mathematical roles over arbitrary canvas offsets.
+
+For recurrence-driven work, distinguish the underlying dynamical state from its projection. A chaotic kernel parameter can legitimately change the entire future trajectory; do not apply local-family expectations to it.
+
+## Pure math probes for repeated families
+
+When repeated family semantics matter, expose a design-time pure probe. Use `templates/math-probe.mjs` as the interface pattern:
+
+```js
+{
+  family:'arms',
+  instance:3,
+  x:...,y:...,
+  latent:{radial:...,axial:...,phase:...}
+}
+```
+
+Then validate a control directly in latent space:
+
+```sh
+node scripts/check-family-math.mjs \
+  probe.mjs math-contract.json armLength --factor=1.2
+```
+
+A coherent repeated-family control should usually show:
+
+- the intended median per-instance change;
+- high directional agreement across siblings;
+- reasonable dispersion/MAD when coherent family response is intended.
+
+This catches aggregate-image cheats where a few siblings grow dramatically while others shrink.
+
+The probe and contract are **design-time artifacts only**. They never consume tweet characters.
+
+## Morphology-first invariants
+
+For explicit body plans, write a short morphology contract: polarity, root mass, regions, organ families, symmetry/repetition, parent-relative attachment, inherited motion and surface detail.
 
 Preserve:
 
 - more apparent parts than independent formulas;
 - children inherit parent structure;
 - structure and surface are separable in readable code;
-- repeated siblings share a generator but can vary through continuous body fields;
-- morphology remains optional for attractors, simple filaments and abstract sheets.
+- repeated siblings share one generator;
+- morphology remains optional for attractors, math-first emergent forms, simple filaments and abstract sheets.
 
 ## Semantic control validation
 
-Perturb one readable control at a time at the **same frame/time** and render both baseline and variant region masks.
+Perturb one readable control at a time at the **same time/frame**.
 
-### 1. Scope: where did it change?
+### 1. Generator semantics — what changed mathematically?
+
+For repeated families with a meaningful latent identity, prefer `effect.source="math-family"` and run `check-family-math.mjs`.
+
+Use this to validate family-wide latent roles such as radial extent, axial extent, phase, or another explicit probe field.
+
+### 2. Scope — where did the rendered change occur?
 
 ```sh
 node scripts/check-control-scope.mjs \
@@ -83,11 +158,11 @@ node scripts/check-control-scope.mjs \
   --variant-mask-dir=variant-masks
 ```
 
-For moving geometry, allowed support is the **union of baseline and variant masks**. `subtree` applies that union to the region and descendants. Use spill ratio comparatively; do not optimize masks/dilation to manufacture low spill.
+For moving geometry, allowed support is the **union of baseline and variant masks**. `subtree` applies that union to the region and descendants. Use spill comparatively; do not broaden masks merely to improve a score.
 
-### 2. Effect: did it change the intended observable?
+### 3. Simple phenotype effect — did a visible observable move?
 
-If the control has an `effect` descriptor:
+When useful:
 
 ```sh
 node scripts/check-control-effect.mjs \
@@ -96,29 +171,18 @@ node scripts/check-control-effect.mjs \
   --variant-mask-dir=variant-masks
 ```
 
-Examples:
+Mask/image descriptors remain useful for width, height, area, centroid, contrast, or visibility. For repeated families, math-family validation is stronger than one aggregate bounding box.
 
-- `finSpan` → fin-region mask width should increase;
-- `tailLength` → tail-region mask height should increase;
-- attachment position → declared centroid axis should move;
-- rib/surface strength → contrast or visible fraction should materially change.
-
-A control is semantically convincing only when **scope + effect + visual judgment** agree. Low spill alone proves only dependency locality.
+A control is semantically convincing when **math + scope + visible effect + visual judgment** are mutually consistent.
 
 ## Morphology survival through golf
 
-For compound pieces, declare defining `survivalFeatures` as:
+For compound pieces, declare defining `survivalFeatures`:
 
-- `presence` — root/wing/appendage family should remain visibly represented;
+- `presence` — defining mass/family should remain represented;
 - `void` — cavity/split should remain open.
 
-Render feature masks for **both expanded and golfed phenotypes** at the same frame. The harness exposes:
-
-```text
-?feature=featureName
-```
-
-Then run:
+Render feature masks for **both expanded and golfed phenotypes** and run:
 
 ```sh
 node scripts/check-morphology-survival.mjs \
@@ -127,9 +191,7 @@ node scripts/check-morphology-survival.mjs \
   --golfed-feature-dir=golfed-features
 ```
 
-State-aware survival compares each feature in its own phenotype support: area, width/height, normalized centroid shift and appearance. Do not collapse this into one similarity score. Fixed-mask mode is legacy only because it can falsely penalize a feature that survives but moves during golf.
-
-If a defining feature disappears or materially collapses after golf, restore the high-leverage generator and remove lower-value detail.
+Review feature existence/scale/placement and appearance separately. Do not collapse survival into one similarity score.
 
 ## Visual diagnostics
 
@@ -164,8 +226,11 @@ Unless the user asks for less, return:
 ### Concept
 One or two sentences.
 
+### Mathematical plan
+For math-first work: kernel, latent fields, family law, deformation and projection.
+
 ### Morphology plan
-Only for compound work: root, regions, families, attachment/symmetry and motion inheritance.
+Only when explicit body-plan structure is used.
 
 ### Expanded p5.js
 Readable source with semantic controls.
@@ -174,7 +239,7 @@ Readable source with semantic controls.
 One executable line with a valid hashtag placement.
 
 ### Verification
-Raw + X-weighted length, visual diagnostics, and for controllable compound work: scope spill, declared-effect result, and feature-wise morphology-survival notes.
+Raw + X-weighted length, visual diagnostics, and when applicable: math-family response, scope spill, simple effect result, and feature-wise survival.
 
 ### Variation knobs
 3–5 meaningful mathematical/morphological controls.
@@ -182,11 +247,13 @@ Raw + X-weighted length, visual diagnostics, and for controllable compound work:
 ## Failure routing
 
 - wire/confetti → topology/sample distribution
-- generic torus/cloth → root polarity/body plan
+- generic torus/cloth → kernel/projection/body-plan failure
+- emergent math is coherent but explicit anatomy is hard to edit → add morphology layer only where needed
 - floating parts → attachment/local frame
-- everything equally loud → hierarchy/envelopes
 - high dual-state spill → dependency/scope failure
-- low spill but wrong effect descriptor → semantic-control failure
+- low spill but wrong aggregate effect → semantic-effect failure
+- aggregate effect passes but siblings disagree → math-family failure
+- chaotic recurrence diverges globally → classify control as kernel/global; do not force locality
 - good readable phenotype loses defining regions/voids after golf → compression-survival failure
 
-A strong result should resemble a **small developmental program**, not a miniature conventional scene graph.
+A strong result should encode a **large phenotype in a small mathematical cause**.

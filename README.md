@@ -1,134 +1,165 @@
 # tsubuyaki-processing
 
-A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems that render dense organic forms and controllable compound morphology.
+A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems that render dense organic forms, emergent creatures, and controllable compound morphology.
 
-## v0.5 — semantic effect validation
+## v0.6 — math-aware generators
 
-v0.4.1 answered **where did a control change the organism?** with dual-state region/subtree masks. A second cold test exposed the next gap: a control can have perfect locality and still do the wrong thing.
+The v0.5 cold test exposed a limit in image-first semantic validation: a repeated family could increase its aggregate bounding width even while several individual siblings shrank.
 
-v0.5 separates three validation questions:
+v0.6 moves one layer closer to the source of truth:
 
 ```text
-scope     → where may the control act?
-effect    → what observable should change?
-survival  → what defining morphology must remain after golf?
+math / latent generator → instance semantics
+raster phenotype        → spatial scope
+visual inspection       → aesthetic judgment
 ```
 
-These are complementary diagnostics, not one optimization score.
+The core idea is simple:
 
-## Control contracts
+> when the mathematics already contains family identity or dynamical structure, inspect that mathematics directly instead of reconstructing semantics from pixels.
 
-A control can declare both spatial scope and a simple measurable effect:
+## Two generation paths
 
-```json
-"finSpan": {
-  "region": "fins",
-  "scope": "region",
-  "effect": {
-    "source": "mask",
-    "metric": "width",
-    "direction": "increase",
-    "minRelativeChange": 0.05
+### Math-first emergent form
+
+For compact systems where organism-like structure emerges from equations:
+
+```text
+kernel → latent fields → family operator → nonlinear deformation → projection
+```
+
+Examples include:
+
+- iterative/chaotic state with nonlinear projection;
+- harmonic latent bodies with modulo-conditioned phase families;
+- folded parametric systems whose apparent anatomy is emergent rather than explicitly assembled.
+
+See `references/math-first-generators.md`.
+
+### Morphology-first explicit anatomy
+
+Use the existing morphology stack when the user explicitly needs named regions, attachment hierarchy, or local anatomical editing.
+
+These paths can be combined: a math-first kernel can provide the root phenotype while a morphology layer adds only the controls that truly need explicit structure.
+
+## What the @yuruyurau examples suggest
+
+The useful lesson is structural, not formula copying.
+
+One shared piece contains a Lorenz-like recurrent core with artistic parameters equivalent to:
+
+```text
+x' = 9(y-x)
+y' = x(28-z)-y
+z' = xy-2z
+```
+
+and then transforms that state through time/residue-dependent nonlinear projection. The visible form is therefore not a literal plot of `(x,y,z)` and not a conventional scene graph.
+
+Another shared piece uses one bounded harmonic latent body plus a discrete `i%16` family variable. Sixteen apparent siblings come from one generator with phase-conditioned deformation.
+
+That pattern motivates v0.6's math-first decomposition and family probes.
+
+## Pure math probes
+
+For a repeated family, keep a design-time pure probe alongside the readable sketch:
+
+```js
+export function sample(i,t,p){
+  return {
+    family:'arms',
+    instance:i%5,
+    x:...,
+    y:...,
+    latent:{radial:...,axial:...,phase:...}
   }
 }
 ```
 
-Supported low-dimensional effect observables include region-mask `area`, `width`, `height`, `centroidX`, `centroidY`, and image-space `visibleFraction` / `meanContrast` inside each state's own region support.
+`templates/math-probe.mjs` shows the interface.
 
-The goal is falsification: `finSpan` should fail if it stays local to the fins but changes only fin height.
+The probe is never part of the tweet-ready code.
 
-## Validate where + what
+## Instance-level semantic validation
 
-Render baseline and variant at the same frame, plus region masks for both states.
+A control can now use `effect.source="math-family"`:
 
-### Scope
-
-```sh
-node scripts/check-control-scope.mjs \
-  baseline.png variant.png morphology-contract.json finSpan \
-  --baseline-mask-dir=baseline-masks \
-  --variant-mask-dir=variant-masks
+```json
+{
+  "source":"math-family",
+  "family":"arms",
+  "field":"radial",
+  "metric":"max",
+  "direction":"increase",
+  "variantFactor":1.2,
+  "minMedianRelativeChange":0.05,
+  "minAgreement":0.8,
+  "maxRelativeMAD":0.15
+}
 ```
-
-Dual-state support prevents legitimate moved geometry from being counted as spill.
-
-### Effect
-
-```sh
-node scripts/check-control-effect.mjs \
-  baseline.png variant.png morphology-contract.json finSpan \
-  --baseline-mask-dir=baseline-masks \
-  --variant-mask-dir=variant-masks
-```
-
-A useful semantic control should pass both tests and still make visual sense.
-
-## State-aware morphology survival
-
-v0.4.1 introduced feature-wise expanded→golfed survival, but fixed expanded-state feature masks could penalize anatomy that survived while moving during compression.
-
-v0.5 supports separate feature masks for both phenotypes:
-
-```text
-expanded-features/
-  root.png
-  appendages.png
-  cavity.png
-
-golfed-features/
-  root.png
-  appendages.png
-  cavity.png
-```
-
-The harness exposes `?feature=<name>` for diagnostic feature rendering.
 
 Run:
 
 ```sh
-node scripts/check-morphology-survival.mjs \
-  expanded.png golfed.png morphology-contract.json \
-  --expanded-feature-dir=expanded-features \
-  --golfed-feature-dir=golfed-features
+node scripts/check-family-math.mjs \
+  probe.mjs math-contract.json familyExtent --factor=1.2
 ```
 
-The checker reports feature-wise geometry and appearance instead of one pixel-similarity score:
+The checker reports each sibling plus family-level:
 
-- area ratio
-- width / height ratio
-- normalized centroid shift
-- contrast / visible-fraction behavior
-- special negative-space interpretation for `void` features
+- median relative change;
+- directional agreement;
+- response MAD / dispersion;
+- min/max instance response.
 
-This distinguishes **feature moved** from **feature disappeared**.
+This distinguishes a coherent family response such as:
+
+```text
++9%, +7%, +9%, +8%, +8%
+```
+
+from an aggregate-box cheat such as:
+
+```text
++4%, -3%, +77%, +66%, -6%
+```
+
+## Validation stack
+
+For explicitly controllable repeated morphology:
+
+```text
+check-family-math      → did each generator instance change correctly?
+check-control-scope    → did rendered change stay in allowed anatomy?
+check-control-effect   → does a simple visible observable agree?
+visual QA              → is the phenotype compelling?
+morphology survival    → did defining structure survive golf?
+```
+
+No one layer replaces the others.
+
+For chaotic recurrence parameters, local-family validation is usually inappropriate: small kernel perturbations may legitimately diverge globally. Prefer local controls in projection/deformation/family layers when predictable editing is desired.
 
 ## Workflow routing
-
-Morphology remains optional:
 
 - abstract dense sheet → base mathematical workflow;
 - filament / axial ribbon → legitimate 1D path;
 - iterative attractor → dynamical-system path;
-- compound anatomy → morphology composition;
-- explicitly controllable compound anatomy → scope + semantic-effect validation.
+- emergent organism from dynamics/harmonics/families → **math-first path**;
+- explicit compound anatomy → morphology composition;
+- repeated family with named controls → math probe + scope/effect checks when appropriate.
 
-See `SKILL.md` for routing and output requirements.
-
-## Core files
+## Core v0.6 files
 
 ```text
-references/morphology-composition.md
-references/control-strategies.md
-references/control-scopes.md
+references/math-first-generators.md
 references/semantic-effects.md
-references/evaluation-matrix.md
-scripts/check-visual.mjs
-scripts/check-control-scope.mjs
-scripts/check-control-effect.mjs
-scripts/check-morphology-survival.mjs
-templates/morphology-contract.json
-templates/harness.html
+scripts/check-family-math.mjs
+templates/math-probe.mjs
+templates/math-contract.json
 ```
+
+Existing visual/scope/survival tools remain unchanged.
 
 ## Tweet constraint
 
@@ -142,16 +173,12 @@ node scripts/check-length.mjs post.txt
 
 ## Evaluation stance
 
-Do not collapse these measurements into a single autonomous objective yet. Low spill can be gamed by broad masks; effect thresholds can be gamed by exaggerated geometry; pixel survival can be gamed while aesthetic quality falls.
+Do not collapse math coherence, raster locality, feature survival, and aesthetics into one optimization target yet. The repository should first accumulate cold-agent evidence across:
 
-The intended stack is:
+- recurrence-driven emergent form;
+- repeated harmonic family;
+- explicit morphology;
+- 1D filament;
+- abstract dense sheet.
 
-```text
-hard correctness gates
-+ scope evidence
-+ effect evidence
-+ feature survival
-+ human/agent visual judgment
-```
-
-Once these metrics are calibrated across the compound, filament, attractor and abstract-sheet benchmark classes, the repository will be suitable for a continuous keep/revert experiment loop.
+The desired outcome is not “more validators.” It is a better match between **the mathematical cause of the art and the way we reason about/control it**.
