@@ -36,7 +36,34 @@ Use visual + temporal judgment to order the strongest brief-adherent candidates.
 
 Keep the artistic winner even if it later fails deployment. A non-deployable phenotype can still be an important discovery and should remain in the archive / lineage.
 
-## 2. Preflight candidates adaptively in visual-rank order
+## 2. Choose the meaningful temporal horizon before preflight
+
+Compression survival is temporal, not merely a static-frame property.
+
+Before preflighting the first candidate, identify a **meaningful behavioral horizon** for the representation: long enough to expose the motion, phase relationships, recurrence drift or structural behavior that defines the selected phenotype.
+
+Examples:
+
+- a slow membrane may need enough time to show a complete fold / breathing change;
+- a repeated family should expose meaningful relative phase behavior among siblings;
+- a traveling filament should show the deformation moving through the axial body;
+- a recurrent / chaotic system may need a substantially longer horizon to expose collapse, thinning or loss of crossings.
+
+Do **not** hard-code universal frame numbers or one universal duration. The horizon is representation- and phenotype-dependent.
+
+The production invariant is:
+
+```text
+choose meaningful horizon H
+-> compression preflight over H
+-> exact final verification over the same H
+```
+
+Preflight and final verification may sample different frame density within `H`, but the final check must not rely on a materially longer behavioral horizon than the promotion decision.
+
+If a longer final horizon reveals a failure that preflight could not see, treat that as a **preflight false pass** and strengthen the horizon before promoting another candidate.
+
+## 3. Preflight candidates adaptively in visual-rank order
 
 Start with the current visual elite.
 
@@ -45,23 +72,23 @@ For each candidate:
 1. name the high-leverage mathematical relationships that define its identity;
 2. sketch the cheapest plausible semantic compression that preserves those relationships;
 3. estimate whether the resulting cause can plausibly fit the practical code budget;
-4. if plausible, render representative times from the compressed form;
-5. decide pass/fail on phenotype survival.
+4. if plausible, render the compressed form across the chosen temporal horizon;
+5. decide pass/fail on phenotype survival across that horizon.
 
 If it passes, stop and promote that candidate to **deployment finalist**.
 
-If it fails, keep it as an artistic discovery and move to the next visually worthwhile candidate.
+If it fails, keep it as an artistic discovery and move to the next visually worthwhile candidate, using the same horizon unless that candidate's defining behavior requires a broader one.
 
 Do not hard-code a universal shortlist size. The evidence supports adaptive sequential fallback, not `top 2`, `top 3`, or another fixed K.
 
 Stop fallback when there are no remaining candidates that are artistically worth deployment.
 
-## 3. The preflight is a falsification gate
+## 4. The preflight is a falsification gate
 
 It answers:
 
 ```text
-Can this candidate's defining relationships survive the deployment medium?
+Can this candidate's defining relationships survive the deployment medium over the meaningful behavioral horizon?
 ```
 
 It does **not** answer:
@@ -73,7 +100,7 @@ Which candidate has the best compressibility score?
 
 Do not introduce a scalar `compressibility`, `tweetability`, or `descriptionLengthFitness` objective into creative search.
 
-## 4. What counts as a defining relationship
+## 5. What counts as a defining relationship
 
 Examples:
 
@@ -87,21 +114,26 @@ Constants can often move or disappear. High-leverage relationships cannot.
 
 A compact version that keeps the silhouette but loses the causal relationship responsible for the selected identity is a failure.
 
-## 5. Full golf happens only after deployment promotion
+Temporal persistence can itself be part of the relationship. A recurrent knot that looks correct early but later collapses into a thin glyph has **not** survived compression.
+
+## 6. Full golf happens only after deployment promotion
 
 Once a candidate passes preflight:
 
 1. preserve the named high-leverage relationships;
-2. compress semantically;
-3. golf JavaScript representation;
-4. verify the complete X-weighted post;
-5. execute the exact tweet code;
-6. render representative times;
-7. confirm the defining phenotype still survives.
+2. preserve the chosen temporal horizon as part of the deployment contract;
+3. compress semantically;
+4. golf JavaScript representation;
+5. verify the complete X-weighted post;
+6. execute the exact tweet code;
+7. render the exact code across the same meaningful temporal horizon;
+8. confirm the defining phenotype still survives.
 
 Preflight reduces the risk of wasting a full golf pass on the wrong candidate. It does not replace exact final verification.
 
-## 6. Relationship to the discovery elite
+A final failure inside the already-chosen horizon means the semantic preflight was too optimistic. Return to deployment fallback; do not quietly weaken the phenotype criterion.
+
+## 7. Relationship to the discovery elite
 
 Keep two concepts distinct without turning them into competing fitness functions:
 
@@ -117,7 +149,7 @@ Often they are the same candidate.
 
 When they differ, do not demote or rewrite the visual elite. Record that deployment constraints caused fallback.
 
-## 7. Evidence
+## 8. Evidence
 
 The description-length timing experiment compared three conditions over 48 shared candidates across family, sheet, filament and recurrence routes:
 
@@ -131,6 +163,8 @@ The adaptive follow-up reused the same archive:
 - adaptive sequential fallback: 4 / 4 with five total preflights;
 - fixed top-2 / top-3 / top-5 added no deployment benefit over adaptive fallback.
 
+The fresh v0.14 cold test added a temporal result. On a new recurrence brief, a short preflight window made the artistic winner look deployable, while the longer final-verification horizon exposed later thinning and loss of persistent internal crossing. Aligning the horizons correctly rejected that candidate and promoted the next-ranked recurrence candidate; a fresh sheet control passed at rank 1.
+
 The strongest current policy is therefore:
 
-> **discover and rank freely; apply description length only as an adaptive promotion gate into deployment.**
+> **discover and rank freely; apply description length only as an adaptive promotion gate into deployment, and evaluate preflight and exact verification over the same meaningful behavioral horizon.**

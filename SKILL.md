@@ -158,12 +158,14 @@ Keep description length out of this ranking. Do not rank by shorter source, twee
 
 Use `references/compression-promotion.md`.
 
+Before preflighting the first candidate, choose a **meaningful temporal horizon** for the representation: long enough to expose the motion, phase relationship, recurrence drift or structural behavior that defines the phenotype. Do not hard-code universal frame numbers.
+
 Starting from the highest visually ranked candidate:
 
 1. name the high-leverage mathematical relationships that define the candidate;
 2. construct the cheapest plausible semantic compression that preserves them;
-3. render representative times from that compressed form when plausible;
-4. decide compression survival as pass/fail.
+3. render the compressed form across the chosen temporal horizon when plausible;
+4. decide compression survival as pass/fail across that horizon.
 
 If it passes, promote that candidate to **deployment finalist** and stop preflighting.
 
@@ -178,7 +180,7 @@ Continue only as needed. Do **not** hard-code a universal shortlist size such as
 The gate asks:
 
 ```text
-Can the defining relationships survive the deployment medium?
+Can the defining relationships survive the deployment medium over the meaningful behavioral horizon?
 ```
 
 It does not ask which candidate is shortest.
@@ -206,7 +208,9 @@ node scripts/check-length.mjs post.txt
 
 `CODE//#つぶやきProcessing` leaves about **259 X-weighted characters for code**.
 
-Render the exact tweet code and confirm the defining phenotype still survives compression. Preflight reduces wasted golf effort; it does not replace exact final survival verification.
+Render the exact tweet code across the **same meaningful temporal horizon used for deployment preflight** and confirm the defining phenotype still survives compression. Frame density may differ, but the final check must not rely on a materially longer behavioral horizon than the promotion decision.
+
+Preflight reduces wasted golf effort; it does not replace exact final survival verification.
 
 ## Important cautions
 
@@ -216,6 +220,8 @@ Render the exact tweet code and confirm the defining phenotype still survives co
 - Morphology is conditional, not the universal source of complexity.
 - Do not hard-code experiment budgets as production policy.
 - Do not hard-code a fixed compression-preflight shortlist size.
+- Do not hard-code universal preflight frame numbers; choose a representation-appropriate behavioral horizon.
+- Compression preflight and exact verification must cover the same meaningful temporal horizon.
 - Description length is a deployment promotion constraint, not a creative-search objective.
 - A candidate can fit <=280 and still fail compression survival.
 - Filament stage 3 requires an actual brief change.
@@ -243,13 +249,13 @@ Summarize the recorded elite lineage, search stages, paired causal changes and r
 Readable artistic winner.
 
 ### Deployment promotion
-Name the defining relationships, report compression-survival preflight for the selected visual candidate, and note any visual-rank fallback before the deployment finalist.
+Name the defining relationships, state the meaningful temporal horizon, report compression-survival preflight for the selected visual candidate, and note any visual-rank fallback before the deployment finalist.
 
 ### Tweet-ready
 One executable line with valid hashtag placement from the deployment finalist.
 
 ### Verification
-Raw + X-weighted length, representative-time visual diagnostics, exact compression-survival result, discovery-state validation when used, plus relevant semantic evidence.
+Raw + X-weighted length, visual diagnostics across the same preflight temporal horizon, exact compression-survival result, discovery-state validation when used, plus relevant semantic evidence.
 
 ### Variation knobs
 3–5 high-leverage mathematical/morphological controls.
@@ -269,6 +275,7 @@ Raw + X-weighted length, representative-time visual diagnostics, exact compressi
 - control leaks into unrelated anatomy → scope failure
 - visual elite cannot preserve defining relationships under plausible compact form → keep artistic elite, preflight next ranked candidate
 - source fits <=280 but loses selected identity → compression-survival failure; length pass is not phenotype pass
-- exact tweet loses identity after successful preflight → final compression-survival failure
+- short preflight passes but longer final horizon reveals collapse → temporal-horizon mismatch; strengthen/reuse the meaningful horizon before promotion
+- exact tweet loses identity inside the preflight horizon → final compression-survival failure
 
 A strong result comes from an **elite-preserving mathematical discovery process with faithful causal provenance and adaptive deployment promotion**, not merely a better first guess or a shorter formula.
