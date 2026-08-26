@@ -1,0 +1,27 @@
+{
+  "conditions": {
+    "family": {"A": "F12", "B": "F12", "C": "F12"},
+    "sheet": {"A": "S4", "B": "S4", "C": "S4"},
+    "filament": {"A": "L9", "B": "L9", "C": "L9"},
+    "recurrence": {"A": "R12", "B": "R6", "C": "R6"}
+  },
+  "deploymentSuccess": {"A": 3, "B": 4, "C": 4},
+  "totalCandidates": 48,
+  "earlyPressure": {
+    "retained": 31,
+    "removed": 17,
+    "routes": {
+      "family": {"retained": 11, "total": 12},
+      "sheet": {"retained": 8, "total": 12},
+      "filament": {"retained": 10, "total": 12},
+      "recurrence": {"retained": 2, "total": 12}
+    }
+  },
+  "exactDeployments": {
+    "F12": {"expandedRank": 1, "codeChars": 246, "xWeighted": 267, "runtime": "pass", "survival": "pass-moderate"},
+    "S4": {"expandedRank": 1, "codeChars": 212, "xWeighted": 233, "runtime": "pass", "survival": "pass-strong"},
+    "L9": {"expandedRank": 1, "codeChars": 235, "xWeighted": 256, "runtime": "pass", "survival": "pass-strong"},
+    "R6": {"expandedRank": 2, "codeChars": 257, "xWeighted": 278, "runtime": "pass", "survival": "pass"},
+    "R12": {"expandedRank": 1, "codeChars": 229, "xWeighted": 250, "runtime": "pass", "survival": "fail"}
+  }
+}
