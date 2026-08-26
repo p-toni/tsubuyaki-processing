@@ -1,169 +1,206 @@
 # tsubuyaki-processing
 
-A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems that render dense organic forms, emergent creatures, and controllable compound morphology.
+A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems whose animated phenotype is disproportionately richer than the source.
 
-## v0.6 — math-aware generators
+## v0.8 direction — discovery, not just formula invention
 
-The v0.5 cold test exposed a limit in image-first semantic validation: a repeated family could increase its aggregate bounding width even while several individual siblings shrank.
+The completed frozen search-lab experiment changed the project’s default approach.
 
-v0.6 moves one layer closer to the source of truth:
+The question is no longer only:
+
+> can the model invent a better formula?
+
+It is now:
+
+> can the system establish a strong mathematical incumbent, search the right degrees of freedom for that representation, preserve the elite, and select a genuinely better phenotype without Goodharting novelty?
+
+The working pipeline is:
 
 ```text
-math / latent generator → instance semantics
-raster phenotype        → spatial scope
-visual inspection       → aesthetic judgment
+intent
+→ compact representation
+→ viable incumbent
+→ brief invariants
+→ route-aware search
+→ elite preservation
+→ aesthetic + temporal selection
+→ semantic checks where relevant
+→ golf winner
+→ exact verification
 ```
 
-The core idea is simple:
+## Evidence behind the change
 
-> when the mathematics already contains family identity or dynamical structure, inspect that mathematics directly instead of reconstructing semantics from pixels.
+The completed `experiments/search-lab/full-results.md` run used the frozen v0.6 grammar:
 
-## Two generation paths
+```text
+4 briefs × 10 seeds × (1 fixed incumbent + 24 parameter mutations + 24 structural+parameter mutations)
+= 1,960 raw candidates
+```
 
-### Math-first emergent form
+After blind review, structural+parameter search was strongly productive for recurrent systems and dense sheets, conditionally useful for repeated plankton families, and actively harmful as a broad default for intentional 1D filaments.
 
-For compact systems where organism-like structure emerges from equations:
+Most importantly:
+
+> **route interaction dominated the result.**
+
+A single universal mutation policy is the wrong architecture.
+
+## Current route-aware policy
+
+### Repeated math family
+
+Use structural + parameter exploration, but preserve the requested family niche.
+
+Useful degrees of freedom:
+
+- family count / phase spacing;
+- latent harmonics;
+- distance power;
+- deformation operator;
+- selected projection changes;
+- time coupling.
+
+Do not let novelty turn “multiple distinct bodies” into an unrelated connected fan/colony and call it a win.
+
+### Recurrence / living knot
+
+Use structural divergent search.
+
+Explore recurrence roles, residue/family structure, deformation and projection. The recurrent state is latent material rather than a textbook attractor plot.
+
+### Dense 2D sheet
+
+Actively explore projection/deformation family. The frozen experiment repeatedly found high-value disconnected niches through structural projection changes.
+
+### Intentional 1D filament / ribbon
+
+Preserve the incumbent and search locally first.
+
+Broad topology/projection mutation produced much more behavioral diversity but substantially worse discovery for this route.
+
+### Morphology-first explicit anatomy
+
+Search conservatively. The current experiment did not establish a broad structural-search policy for explicit body plans, so preserve morphology and explore validated controls/family/motion parameters until dedicated evidence says otherwise.
+
+## Elitism is mandatory
+
+A practical search loop should never discard a good current solution simply because it decided to search.
+
+Every search round includes the incumbent unchanged:
+
+```text
+incumbent
++ challengers
+→ compare
+→ keep incumbent unless a better brief-adherent challenger appears
+```
+
+This corrects a defect in the frozen experiment where B/C mutation populations did not retain the parent.
+
+## Novelty is not quality
+
+Behavioral diversity is useful for deciding what deserves inspection. It is not the final objective.
+
+The frozen experiment’s clearest warning was the filament route: structural mutation produced roughly **5×** the behavioral coverage of numeric mutation while performing dramatically worse aesthetically/adherently.
+
+Therefore:
+
+```text
+novel != good
+coverage != quality
+occupancy != success
+```
+
+Final selection remains visual/temporal and brief-aware.
+
+## Math-first representation remains central
+
+v0.6’s core decomposition still defines the strongest compact representation path:
 
 ```text
 kernel → latent fields → family operator → nonlinear deformation → projection
 ```
 
-Examples include:
-
-- iterative/chaotic state with nonlinear projection;
-- harmonic latent bodies with modulo-conditioned phase families;
-- folded parametric systems whose apparent anatomy is emergent rather than explicitly assembled.
-
 See `references/math-first-generators.md`.
 
-### Morphology-first explicit anatomy
+When repeated-family semantics matter, `scripts/check-family-math.mjs` can inspect each generator instance before rasterization.
 
-Use the existing morphology stack when the user explicitly needs named regions, attachment hierarchy, or local anatomical editing.
+## Morphology remains conditional
 
-These paths can be combined: a math-first kernel can provide the root phenotype while a morphology layer adds only the controls that truly need explicit structure.
+Use explicit morphology when the user needs named anatomy, attachment hierarchy or local editing.
 
-## What the @yuruyurau examples suggest
+The project does **not** treat morphology as the universal source of visual complexity. A small indirect mathematical generator may produce richer phenotypes precisely because it does not explicitly encode every visible part.
 
-The useful lesson is structural, not formula copying.
+## Discovery search reference
 
-One shared piece contains a Lorenz-like recurrent core with artistic parameters equivalent to:
+`references/discovery-search.md` defines the production policy:
 
-```text
-x' = 9(y-x)
-y' = x(28-z)-y
-z' = xy-2z
-```
-
-and then transforms that state through time/residue-dependent nonlinear projection. The visible form is therefore not a literal plot of `(x,y,z)` and not a conventional scene graph.
-
-Another shared piece uses one bounded harmonic latent body plus a discrete `i%16` family variable. Sixteen apparent siblings come from one generator with phase-conditioned deformation.
-
-That pattern motivates v0.6's math-first decomposition and family probes.
-
-## Pure math probes
-
-For a repeated family, keep a design-time pure probe alongside the readable sketch:
-
-```js
-export function sample(i,t,p){
-  return {
-    family:'arms',
-    instance:i%5,
-    x:...,
-    y:...,
-    latent:{radial:...,axial:...,phase:...}
-  }
-}
-```
-
-`templates/math-probe.mjs` shows the interface.
-
-The probe is never part of the tweet-ready code.
-
-## Instance-level semantic validation
-
-A control can now use `effect.source="math-family"`:
-
-```json
-{
-  "source":"math-family",
-  "family":"arms",
-  "field":"radial",
-  "metric":"max",
-  "direction":"increase",
-  "variantFactor":1.2,
-  "minMedianRelativeChange":0.05,
-  "minAgreement":0.8,
-  "maxRelativeMAD":0.15
-}
-```
-
-Run:
-
-```sh
-node scripts/check-family-math.mjs \
-  probe.mjs math-contract.json familyExtent --factor=1.2
-```
-
-The checker reports each sibling plus family-level:
-
-- median relative change;
-- directional agreement;
-- response MAD / dispersion;
-- min/max instance response.
-
-This distinguishes a coherent family response such as:
-
-```text
-+9%, +7%, +9%, +8%, +8%
-```
-
-from an aggregate-box cheat such as:
-
-```text
-+4%, -3%, +77%, +66%, -6%
-```
+- incumbent first;
+- brief invariants before search;
+- topology-aware mutation permissions;
+- elitism;
+- novelty only for archive/review diversity;
+- visual + temporal challenger selection;
+- staged search effort rather than a hard-coded candidate count;
+- golf only after discovery.
 
 ## Validation stack
 
-For explicitly controllable repeated morphology:
+Validators are falsification tools, not creative fitness functions:
 
 ```text
-check-family-math      → did each generator instance change correctly?
-check-control-scope    → did rendered change stay in allowed anatomy?
-check-control-effect   → does a simple visible observable agree?
-visual QA              → is the phenotype compelling?
+check-family-math      → did repeated generator instances change coherently?
+check-control-scope    → did rendered change stay in allowed structure?
+check-control-effect   → did a simple visible observable move as intended?
+visual/temporal review → is the phenotype actually worth keeping?
 morphology survival    → did defining structure survive golf?
 ```
 
-No one layer replaces the others.
+Do not collapse these into one scalar beauty objective.
 
-For chaotic recurrence parameters, local-family validation is usually inappropriate: small kernel perturbations may legitimately diverge globally. Prefer local controls in projection/deformation/family layers when predictable editing is desired.
+## Search-lab evidence
 
-## Workflow routing
-
-- abstract dense sheet → base mathematical workflow;
-- filament / axial ribbon → legitimate 1D path;
-- iterative attractor → dynamical-system path;
-- emergent organism from dynamics/harmonics/families → **math-first path**;
-- explicit compound anatomy → morphology composition;
-- repeated family with named controls → math probe + scope/effect checks when appropriate.
-
-## Core v0.6 files
+The experiment remains preserved under:
 
 ```text
-references/math-first-generators.md
-references/semantic-effects.md
-scripts/check-family-math.mjs
-templates/math-probe.mjs
-templates/math-contract.json
+experiments/search-lab/
 ```
 
-Existing visual/scope/survival tools remain unchanged.
+Important files:
+
+```text
+epistemology.md
+briefs.json
+search.mjs
+render-genotype.mjs
+scorecard.md
+pilot-results.md
+full-results.md
+```
+
+The experiment also identified its own limitations: fixed rather than independently sampled A baselines, no parent elitism in B/C, one evaluator, three-frame rather than full-animation review, and one fixed 24-candidate search budget.
+
+Those are inputs to the next causal study, not reasons to erase the result.
+
+## What is intentionally *not* hard-coded yet
+
+The evidence does not yet establish:
+
+- an optimal search budget;
+- optimal mutation probabilities;
+- whether many independent starts beat deeper search around one start;
+- broad structural search for morphology-first explicit anatomy;
+- an automatic aesthetic scorer;
+- candidate-level continuous optimization.
+
+The next paired experiment should measure those before they become architecture.
 
 ## Tweet constraint
 
-The recommended executable form `CODE//#つぶやきProcessing` leaves **259 X-weighted characters for code**. Always verify the complete post:
+The recommended executable form `CODE//#つぶやきProcessing` leaves **259 X-weighted characters for code**.
+
+Always verify the complete post:
 
 ```sh
 node scripts/check-length.mjs post.txt
@@ -171,14 +208,12 @@ node scripts/check-length.mjs post.txt
 
 280 is a ceiling, not a target.
 
-## Evaluation stance
+## Current thesis
 
-Do not collapse math coherence, raster locality, feature survival, and aesthetics into one optimization target yet. The repository should first accumulate cold-agent evidence across:
+The project is no longer best described as a formula generator plus validators.
 
-- recurrence-driven emergent form;
-- repeated harmonic family;
-- explicit morphology;
-- 1D filament;
-- abstract dense sheet.
+The strongest current model is:
 
-The desired outcome is not “more validators.” It is a better match between **the mathematical cause of the art and the way we reason about/control it**.
+> **good mathematical representation + topology-aware search + brief-aware selection + elitism.**
+
+The goal is to reliably discover a **large phenotype from a small mathematical cause**.
