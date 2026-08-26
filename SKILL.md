@@ -1,6 +1,6 @@
 ---
 name: tsubuyaki-processing
-description: "Create authentic #つぶやきProcessing p5.js sketches: compact mathematical systems whose animated phenotype is disproportionately richer than the source. Discover a strong readable system, explore it with a topology-aware elite-preserving search policy when useful, then produce a verified <=280-character tweet version."
+description: "Create authentic #つぶやきProcessing p5.js sketches: compact mathematical systems whose animated phenotype is disproportionately richer than the source. Discover a strong readable system, explore it with progressive route-aware elite-preserving search, then produce a verified <=280-character tweet version."
 ---
 
 # Tsubuyaki Processing
@@ -70,7 +70,7 @@ Load `references/code-golf-techniques.md` only after selecting the winner.
 - couple internal motion;
 - render representative times and run visual/runtime diagnostics.
 
-A generic torus/cloth, wire scribble, textbook attractor or detached body plan is a **representation failure**. Repair the cause before broad search.
+A generic torus/cloth, wire scribble, textbook attractor or detached body plan is a **representation failure**. Repair the cause before search.
 
 ### 2. Freeze brief invariants
 
@@ -85,31 +85,37 @@ living knot → recurrent state + transformed projection
 
 A beautiful mutation that violates a defining invariant is a side discovery, not the winner for the current request.
 
-### 3. Search by topology
+### 3. Search progressively by route
 
-The completed search-lab experiment rejects one universal mutation policy.
+Route-aware policy controls **unlock order**, not a permanent mutation boundary.
 
-Use this routing summary; load `references/discovery-search.md` for mechanics:
+Load `references/discovery-search.md` for the full schedules.
 
-| representation | default exploration |
-|---|---|
-| repeated math family | structural + parameter search; preserve family niche |
-| recurrence / living knot | structural divergent search |
-| dense 2D sheet | actively explore projection/deformation family |
-| intentional 1D filament | incumbent + local numeric search first |
-| morphology-first anatomy | conservative local search; broad policy unproven |
+| representation | stage 1 | later unlocks |
+|---|---|---|
+| repeated math family | local family/deformation/harmonic search | family structure → selected projection changes |
+| recurrence / living knot | broad recurrence/family roles | projection/deformation → broader recurrence variant |
+| dense 2D sheet | projection/deformation family | sampling geometry / structural parameters |
+| intentional 1D filament | local numeric search | axial-preserving harmonic/family/fold structure |
+| morphology-first anatomy | local validated controls | limited contract-preserving family/attachment changes |
 
-### 4. Preserve the elite
+Only unlock a broader stage when the current stage produces no clearly better adherent challenger or appears saturated.
 
-The incumbent remains available in every search round. Never force regression because search was attempted.
+Do not unlock topology-breaking moves merely for novelty.
 
-Search may improve, tie, or fail to improve the incumbent.
+### 4. Preserve and promote the elite
+
+The incumbent remains available in every round.
+
+Search may improve, tie, or fail to improve it. Never force regression because search was attempted.
+
+If a challenger is clearly better and brief-adherent, promote it to the new elite and normally search around it next.
 
 ### 5. Select after exploration
 
 Novelty/coverage decides what deserves inspection, **not what wins**.
 
-Review challengers at multiple representative times and prefer a challenger only when it remains brief-adherent and is aesthetically stronger than the incumbent.
+Review challengers at multiple representative times and compare them against the elite.
 
 Keep these dimensions separate:
 
@@ -120,7 +126,7 @@ Keep these dimensions separate:
 - distinctiveness;
 - likely tweet viability.
 
-Do not collapse them into one beauty score.
+Do not collapse them into one beauty score. Lightweight critics may reduce review volume, but visual/temporal judgment chooses the winner.
 
 ### 6. Validate only what needs validation
 
@@ -132,7 +138,7 @@ Validators are falsification tools, not creative fitness.
 - expanded→golfed compound survival → `scripts/check-morphology-survival.mjs`
 - density/framing → `scripts/check-visual.mjs`
 
-For detailed contracts/commands, use the relevant references rather than expanding the core workflow.
+Use the relevant references for detailed contracts/commands.
 
 ### 7. Golf only the selected winner
 
@@ -151,10 +157,12 @@ Render the exact tweet code and confirm the defining phenotype survived compress
 ## Important mode-specific cautions
 
 - Low occupancy can be correct for filaments and distributed families.
-- High descriptor novelty can be actively harmful; the search-lab filament route demonstrated this strongly.
+- High descriptor novelty can be actively harmful.
 - Chaotic kernel perturbations can legitimately diverge globally; do not demand locality from them.
 - Morphology is conditional, not the universal source of complexity.
-- Search budget/mutation probabilities are not yet established; do not hard-code the experiment's 24-candidate budget as production policy.
+- Do not hard-code the experiment's `4/8/16/24` budgets as production policy.
+- For filaments, after numeric search saturates, unlock **axial-preserving** family/harmonic/fold structure before considering any projection/topology change.
+- For sheets, start with projection/deformation but allow sampling/structural exploration when early gains saturate.
 
 ## Required output
 
@@ -170,7 +178,7 @@ For math-first work: kernel, latent fields, family law, deformation and projecti
 Only for explicit body-plan work.
 
 ### Discovery notes
-Briefly state the incumbent, what route-specific alternatives were explored, and why the winner survived selection.
+State the incumbent, which search stages were explored/unlocked, and why the winner survived selection.
 
 ### Expanded p5.js
 Readable winner.
@@ -188,11 +196,12 @@ Raw + X-weighted length, representative-time visual diagnostics, plus relevant s
 
 - wire/confetti → topology/sample distribution
 - generic torus/cloth → kernel/projection/body-plan failure; repair incumbent before search
-- broad search leaves brief → tighten invariants/search route, not aesthetic score
-- incumbent beats all mutations → keep incumbent; no improvement is a valid result
-- filament search becomes loops/flowers → return to axial incumbent/local parameters
+- stage produces only near-neighbors → unlock next brief-preserving structural class
+- broader stage repeatedly leaves brief → roll back to elite; do not reward novelty
+- incumbent beats all mutations → keep incumbent; no improvement is valid
+- filament numeric search saturates → unlock axial-preserving discrete structure, not radial projection
 - aggregate effect passes but siblings disagree → math-family failure
 - control leaks into unrelated anatomy → scope failure
 - good readable phenotype loses identity after golf → compression-survival failure
 
-A strong result comes from an **elite-preserving mathematical discovery process**, not merely a better first guess.
+A strong result comes from an **elite-preserving mathematical discovery process with progressive search depth**, not merely a better first guess.
