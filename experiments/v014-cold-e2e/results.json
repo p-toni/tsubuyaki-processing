@@ -1,0 +1,29 @@
+{
+  "routes": {
+    "recurrence": {
+      "brief": "tidal living knot",
+      "artisticRanking": ["R12", "R3", "R9", "R6"],
+      "preflights": [
+        {"candidate":"R12","rank":1,"estimatedXWeighted":272,"survival":"fail-long-horizon"},
+        {"candidate":"R3","rank":2,"estimatedXWeighted":258,"survival":"pass"}
+      ],
+      "deploymentFinalist": "R3",
+      "deploymentRank": 2,
+      "exact": {"codeChars":237,"estimatedXWeighted":258,"rawPostCodepoints":254,"frames":150,"pointCalls":4500000,"badPoints":0,"runtime":"pass","survival":"pass"}
+    },
+    "sheet": {
+      "brief": "split veil / folded petal membrane",
+      "artisticRanking": ["S5", "S8", "S10", "S3"],
+      "preflights": [
+        {"candidate":"S5","rank":1,"estimatedXWeighted":262,"survival":"pass"}
+      ],
+      "deploymentFinalist": "S5",
+      "deploymentRank": 1,
+      "exact": {"codeChars":241,"estimatedXWeighted":262,"rawPostCodepoints":258,"frames":150,"pointCalls":3823650,"badPoints":0,"runtime":"pass","survival":"pass"}
+    }
+  },
+  "totalPreflights": 3,
+  "fallbacks": 1,
+  "deploymentSuccess": "2/2",
+  "newFinding": "preflight and final verification must inspect the same meaningful temporal horizon"
+}
