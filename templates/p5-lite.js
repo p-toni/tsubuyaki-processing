@@ -3,7 +3,7 @@
 // when a sketch needs full p5.js and network access is available.
 (()=>{
   const g=globalThis;
-  g.PI=Math.PI;g.TAU=Math.PI*2;
+  g.PI=Math.PI;g.TAU=g.TWO_PI=Math.PI*2;
   for(const n of ['sin','cos','tan','abs','sqrt','pow','floor','ceil','round','min','max'])g[n]=Math[n];
   g.mag=(...a)=>Math.hypot(...a);
   g.random=(a=1,b)=>b==null?Math.random()*a:a+Math.random()*(b-a);
@@ -15,7 +15,7 @@
     if(args.length===1)g=b=r;
     return `rgba(${r},${g},${b},${a/255})`;
   };
-  g.createCanvas=(w,h)=>{c=document.createElement('canvas');c.width=g.width=w;c.height=g.height=h;document.body.appendChild(c);x=c.getContext('2d');x.imageSmoothingEnabled=false;return {canvas:c,stroke:(...a)=>(g.stroke(...a),this)}};
+  g.createCanvas=(w,h)=>{c=document.createElement('canvas');c.width=g.width=w;c.height=g.height=h;document.body.appendChild(c);x=c.getContext('2d');x.imageSmoothingEnabled=false;return {canvas:c,stroke:(...a)=>(g.stroke(...a),g)}};
   g.pixelDensity=()=>1;
   g.background=(...a)=>{x.save();x.globalCompositeOperation='source-over';x.fillStyle=css(a);x.fillRect(0,0,c.width,c.height);x.restore()};
   g.stroke=(...a)=>(strokeStyle=css(a),useStroke=true,g);
@@ -24,7 +24,7 @@
   g.noFill=()=>useFill=false;
   g.strokeWeight=n=>weight=n;
   g.point=(a,b)=>{if(!useStroke)return;x.fillStyle=strokeStyle;x.fillRect(a-weight/2,b-weight/2,weight,weight)};
-  g.circle=(a,b,d)=>{x.beginPath();x.arc(a,b,d/2,0,TAU);if(useFill){x.fillStyle=fillStyle;x.fill()}if(useStroke){x.strokeStyle=strokeStyle;x.lineWidth=weight;x.stroke()}};
+  g.circle=(a,b,d)=>{x.beginPath();x.arc(a,b,d/2,0,g.TWO_PI);if(useFill){x.fillStyle=fillStyle;x.fill()}if(useStroke){x.strokeStyle=strokeStyle;x.lineWidth=weight;x.stroke()}};
   g.line=(a,b,c1,d)=>{if(!useStroke)return;x.beginPath();x.moveTo(a,b);x.lineTo(c1,d);x.strokeStyle=strokeStyle;x.lineWidth=weight;x.stroke()};
   g.noLoop=()=>run=false;
   g.frameCount=0;

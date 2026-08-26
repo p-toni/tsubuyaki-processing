@@ -1,11 +1,13 @@
-// v0.3 readable scaffold: compound morphology before golf.
+// v0.4 readable scaffold: compound morphology before golf.
 // Design-time goal: one root mass + one repeated attached family + one surface field.
 // Keep semantic controls separate until sensitivity testing is complete.
+// For region masks, use harness.html?...&region=root|crown|appendages.
 
 let time = 0;
 const SIZE = 400;
 const SAMPLES = 30000;
 const COLS = 180;
+const DEBUG_REGION = globalThis.__TSUBUYAKI_REGION__ || null;
 
 // STRUCTURE CONTROLS
 const rootWidth = 68;
@@ -22,7 +24,7 @@ const foldFrequency = 7;
 
 function setup() {
   createCanvas(SIZE, SIZE);
-  stroke(255, 55);
+  stroke(255, DEBUG_REGION ? 255 : 55);
 }
 
 function sampleOrganism(index) {
@@ -43,6 +45,17 @@ function sampleOrganism(index) {
   const cavity = cavityStrength * crown * sin(distance * 0.8 - time);
   const rootRadius = pulse * (rootWidth + distance * 3 + crownDepth * crown * 24 - cavity);
 
+  // Root-only projection is also the diagnostic support for root/crown masks.
+  const rootFold = 7 * sin(distance * foldFrequency / 5 + axial - time * 2);
+  const rootX = SIZE / 2 + (rootRadius + rootFold) * cos(rootPhase);
+  const rootY = SIZE / 2 + rootRadius * sin(rootPhase) / 2 + axial * 8;
+
+  if (DEBUG_REGION === 'root') return point(rootX, rootY);
+  if (DEBUG_REGION === 'crown') {
+    if (crown > 0.08) point(rootX, rootY);
+    return;
+  }
+
   // Repeated organ family. Residue identifies an instance; global fields make
   // siblings related but not exact copies.
   const organ = index % appendageCount;
@@ -57,6 +70,11 @@ function sampleOrganism(index) {
   const x = SIZE / 2 + (radius + surfaceFold) * cos(childPhase);
   const y = SIZE / 2 + radius * sin(childPhase) / 2 + axial * 8;
 
+  if (DEBUG_REGION === 'appendages') {
+    if (familyInfluence > 0.08) point(x, y);
+    return;
+  }
+
   point(x, y);
 }
 
@@ -68,6 +86,7 @@ function draw() {
 
 // Before golfing:
 // 1. Render representative frames.
-// 2. Perturb rootWidth, appendageLength, cavityStrength and childPhaseLag separately.
-// 3. Confirm each control changes the intended morphology.
-// 4. Factor repeated anatomy/selectors only after control behavior is stable.
+// 2. Perturb rootWidth, crownDepth, appendageLength, cavityStrength and childPhaseLag separately.
+// 3. Render matching region masks at the same frame using &region=...
+// 4. Validate declared region/subtree influence with check-control-scope.mjs.
+// 5. Factor repeated anatomy/selectors only after control behavior is stable.

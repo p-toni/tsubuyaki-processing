@@ -25,23 +25,31 @@ Choose the **smallest workflow that fits the request**.
 
 ### A. Single-field / abstract dense form
 
-Use the base mathematical workflow. Load:
+Load:
 
 - `references/mathematical-patterns.md`
 - `references/style-guide.md`
 
 Default dense tissue/sheet material to flattened 2D sampling. Use 1D deliberately for filaments/ribbons/axial curves, and iterative state for trajectory-driven forms.
 
-### B. Compound organism / controllable anatomy
+### B. Compound organism
 
-Only when the prompt asks for differentiated regions, appendages, symmetry, attachment, or explicit morphological control, also load:
+Only when the prompt asks for differentiated regions, appendages, symmetry or attachment, also load:
 
 - `references/morphology-composition.md`
-- `references/control-strategies.md`
 
 Core rule: **reusable roles, not literal nouns**. “Four instances of one attached appendage family” is better than “draw tentacle 1, tentacle 2, …”.
 
-### C. Code golf / tweet-ready output
+### C. Explicitly controllable compound organism
+
+When the prompt also requires named semantic controls or controllability evaluation, additionally load:
+
+- `references/control-strategies.md`
+- `references/control-scopes.md`
+
+Declare each tested control's expected influence as `region`, `subtree`, `surface` or `global`. Use region masks and `scripts/check-control-scope.mjs` to measure unexpected spill outside that declared scope.
+
+### D. Code golf / tweet-ready output
 
 After the readable system is stable, load:
 
@@ -55,7 +63,7 @@ For historical/community precedent, load `references/real-examples.md` only as n
 2. **Build shared body coordinates.** Reuse compact latent variables such as lateral/radial `k`, axial `e`, distance `d`, phase `c`, radius/offset `q`, and one master clock `t`.
 3. **Create hierarchy before texture.** Establish a recognizable silhouette and polarity before micro-folds. If the result is generic toroidal cloth, fix the body plan rather than adding detail.
 4. **Couple internal motion.** Prefer phase drift, breathing, folding and region deformation over rigid rotation/translation.
-5. **Render representative frames.** Use `templates/harness.html?frame=90&s=your-sketch.js`. The default bundled `p5-lite.js` works offline for the common point/circle/line subset; use `&full=1` only when full p5.js APIs are required and network access is available.
+5. **Render representative frames.** Use `templates/harness.html?frame=90&s=your-sketch.js`. The bundled `p5-lite.js` works offline for the common point/circle/line subset; use `&full=1` only when full p5.js APIs are required and network access is available.
 6. **Inspect image-space behavior.** Run `scripts/check-visual.mjs`; treat metrics as diagnostics, not universal aesthetic gates.
 7. **Only then compress semantically and code-golf.** Verify the final complete post with `scripts/check-length.mjs`.
 
@@ -82,13 +90,30 @@ Preserve these invariants:
 - **Repetition has variation.** Combine residue identity with continuous body fields rather than exact cloning.
 - **Morphology is optional.** Do not force this machinery onto an attractor, filament, or abstract field that does not need it.
 
-## Semantic-control testing
+## Scope-aware semantic-control testing
 
-For controllable compound work, define a small readable set of semantic controls such as root width, attachment height, appendage count/length, cavity strength, pulse strength or fold frequency.
+For explicitly controllable compound work:
 
-Perturb one control at a time at the **same frame/time**. `scripts/check-control.mjs` can report global changed-pixel fraction and robust difference bounds, but in v0.3.1 it is **diagnostic only**: hierarchical attachment can make a correct parent control propagate into descendants, so global diff size/centroid cannot establish semantic locality by itself.
+1. define a small readable set of semantic controls;
+2. declare the region hierarchy and each control's expected scope in a morphology contract;
+3. perturb one control at a time at the **same frame/time**;
+4. render baseline, variant, and matching region masks;
+5. run:
 
-Use the tool as evidence for visual review, not as a pass/fail control validator.
+```sh
+node scripts/check-control-scope.mjs baseline.png variant.png morphology-contract.json controlName
+```
+
+Interpretation:
+
+- `region` — influence should stay mainly in one named region;
+- `subtree` — influence may propagate through that region and descendants;
+- `surface` — spatially local to a region but intended as appearance/deformation rather than body-plan structure;
+- `global` — organism-wide influence is expected.
+
+Use **spill ratio** as comparative evidence: lower spill means more of the observed change stayed inside the declared region/subtree. Do not optimize spill to zero blindly; attachment boundaries, overlap and antialiasing create legitimate cross-region effects.
+
+The older `scripts/check-control.mjs` remains useful as a global diff diagnostic, but it is not a semantic locality validator.
 
 ## Visual diagnostics
 
@@ -98,7 +123,7 @@ Run:
 node scripts/check-visual.mjs frame-0.png frame-90.png frame-180.png
 ```
 
-Optional robust-bbox quantiles are documented in the script usage, e.g.:
+Optional robust-bbox quantiles:
 
 ```sh
 node scripts/check-visual.mjs frame.png --quantiles=.01,.99
@@ -151,7 +176,7 @@ Readable source with semantic controls separated from implementation where usefu
 One executable line including `//#つぶやきProcessing` or another valid hashtag placement.
 
 ### Verification
-Raw code points, X-weighted length, pass/fail, plus rendered visual diagnostics when available. For compound pieces, state which controls were perturbed and note that v0.3.1 control diffs are diagnostic rather than semantic pass/fail.
+Raw code points, X-weighted length, pass/fail, plus rendered visual diagnostics when available. For scope-aware controllable work, report the tested controls, declared scopes and spill ratios.
 
 ### Variation knobs
 3–5 mathematical/morphological controls, not merely colors.
@@ -164,7 +189,7 @@ Diagnose the level before tuning constants:
 - **generic torus/cloth** → root polarity/body plan
 - **floating parts** → attachment/local frame
 - **everything equally loud** → regional hierarchy/envelopes
-- **one local knob changes unrelated anatomy** → control dependency design
+- **local control has high unexpected spill** → control dependency or attachment-scope design
 - **good readable form collapses after golf** → restore high-leverage generator; remove lower-value detail
 
 A strong result should resemble a **small developmental program**, not a miniature conventional scene graph.
