@@ -2,31 +2,34 @@
 <meta charset="utf-8">
 <title>Tsubuyaki Processing Harness</title>
 <style>html,body{margin:0;background:#222}canvas{display:block}</style>
-<script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
 <script>
-// Usage:
-// 1. Place the sketch under test beside this file as sketch.js.
-// 2. Open harness.html?frame=90 (or another target frame).
-// 3. Wait for window.__TSUBUYAKI_CAPTURED_FRAME__ to equal/exceed the target.
-// 4. Screenshot the canvas and run scripts/check-visual.mjs on the PNG.
+// Offline-first harness.
+//   harness.html?frame=90&s=my-sketch.js
+// uses the bundled p5-lite runtime and selected sketch.
+// Add &full=1 to request full p5.js from CDN when a sketch needs APIs outside p5-lite.
 const params=new URLSearchParams(location.search);
+const sketch=params.get('s')||'sketch.js';
+const full=params.get('full')==='1';
 window.__TSUBUYAKI_CAPTURE_FRAME__=+(params.get('frame')||0);
 window.__TSUBUYAKI_READY__=false;
 window.__TSUBUYAKI_ERROR__=null;
 window.__TSUBUYAKI_CAPTURED_FRAME__=null;
 addEventListener('error',e=>window.__TSUBUYAKI_ERROR__=String(e.error||e.message));
-</script>
-<script src="sketch.js"></script>
-<script>
-addEventListener('load',()=>{
-  const watch=setInterval(()=>{
-    const c=document.querySelector('canvas');
-    if(c) window.__TSUBUYAKI_READY__=true;
-    if(window.__TSUBUYAKI_CAPTURE_FRAME__>0&&window.frameCount>=window.__TSUBUYAKI_CAPTURE_FRAME__){
-      noLoop();
-      window.__TSUBUYAKI_CAPTURED_FRAME__=window.frameCount;
-      clearInterval(watch);
-    }
-  },8);
-});
+const load=src=>new Promise((ok,no)=>{let s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+(async()=>{
+  try{
+    if(full) await load('https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js');
+    else await load('p5-lite.js');
+    await load(sketch);
+    const watch=setInterval(()=>{
+      const c=document.querySelector('canvas');
+      if(c) window.__TSUBUYAKI_READY__=true;
+      if(window.__TSUBUYAKI_CAPTURE_FRAME__>0&&window.frameCount>=window.__TSUBUYAKI_CAPTURE_FRAME__){
+        noLoop();
+        window.__TSUBUYAKI_CAPTURED_FRAME__=window.frameCount;
+        clearInterval(watch);
+      }
+    },8);
+  }catch(e){window.__TSUBUYAKI_ERROR__=String(e.stack||e)}
+})();
 </script>
