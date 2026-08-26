@@ -253,14 +253,14 @@ incumbent
 
 Stop when:
 
-- the incumbent/challenger is clearly strong enough to golf;
+- the incumbent/challenger is clearly strong enough for final artistic review;
 - new candidates are mostly near-neighbors;
 - broader stages repeatedly violate the brief;
 - the additional search cost no longer produces visually meaningful alternatives.
 
 Do not continue merely to maximize archive size.
 
-## 6. Promotion and elitism
+## 6. Promotion and artistic elitism
 
 At the end of each round:
 
@@ -270,9 +270,13 @@ At the end of each round:
 4. compare challengers pairwise with the current elite;
 5. promote only a challenger that is both brief-adherent and aesthetically preferable.
 
-When a challenger becomes the new elite, future mutations should normally search around that challenger rather than the original incumbent.
+When a challenger becomes the new artistic elite, future mutations should normally search around that challenger rather than the original incumbent.
 
 But retain prior elites when useful; creative search can have multiple promising lineages.
+
+Description length does **not** participate in this promotion decision.
+
+If an artistic elite later fails compression-survival preflight, keep it as the artistic discovery; deployment fallback does not rewrite discovery history.
 
 ## 7. Novelty is an exploration mechanism, not a quality function
 
@@ -309,15 +313,36 @@ Therefore:
 - brief invariants can reject off-task candidates;
 - novelty can choose a diverse review set;
 - validators can falsify semantic claims;
-- **visual + temporal judgment chooses the winner**.
+- **visual + temporal judgment chooses the artistic ranking**.
 
-Do not collapse framing, density, novelty, semantic correctness and aesthetics into one scalar fitness function.
+Do not collapse framing, density, novelty, semantic correctness, aesthetics and source length into one scalar fitness function.
 
-## 9. Search the cause before golfing
+## 9. Description length enters at deployment promotion
 
-All discovery search operates on readable mathematical roles.
+All creative discovery operates on readable mathematical roles without a character-count objective.
 
-Prefer mutations like:
+After exploration:
+
+1. visually / temporally rank the strongest brief-adherent candidates;
+2. load `references/compression-promotion.md`;
+3. preflight the highest-ranked candidate for survival of its defining mathematical relationships under plausible compact representation;
+4. if it passes, promote it to **deployment finalist**;
+5. if it fails, keep it as an artistic discovery and preflight the next visually worthwhile candidate;
+6. continue only as needed.
+
+Do not hard-code a fixed shortlist size. The adaptive follow-up found success saturated at rank 2 in that archive, but the production lesson is sequential fallback, not `K=2`.
+
+The preflight is a falsification gate:
+
+```text
+fits <=280 != defining phenotype survived
+```
+
+Do not introduce a scalar compressibility/tweetability score into discovery.
+
+## 10. Golf the deployment finalist, not automatically the visual elite
+
+Prefer semantic compression of relationships like:
 
 ```text
 family law
@@ -331,15 +356,17 @@ time coupling
 
 over character-level mutation of minified code.
 
-Once a winner is selected:
+Once a candidate passes deployment preflight:
 
-1. preserve the high-leverage mathematical relationship;
+1. preserve the high-leverage relationships that justified the pass;
 2. validate relevant semantic claims;
 3. compile/golf;
 4. verify runtime + length;
 5. confirm the exact golfed phenotype still has the selected identity.
 
-## 10. Evidence hierarchy after the paired experiment
+Preflight prevents premature commitment. It does not replace final exact verification.
+
+## 11. Evidence hierarchy after route + description-length experiments
 
 Strongly supported:
 
@@ -349,7 +376,11 @@ Strongly supported:
 - structural search is high leverage for recurrence and sheets;
 - repeated families need niche preservation;
 - filaments benefit from local search first and axial-preserving structural search second;
-- coverage/critic proxies are not reliable aesthetic objectives.
+- coverage/critic proxies are not reliable aesthetic objectives;
+- description length should not filter the creative population early;
+- description length should enter after visual ranking but before full golf;
+- compression survival is distinct from merely fitting the 280-character limit;
+- adaptive sequential deployment fallback is preferable to a fixed shortlist size.
 
 Still unresolved:
 
@@ -358,11 +389,12 @@ Still unresolved:
 - multiple independent LLM starts versus deeper search;
 - morphology-first broad search;
 - independent human/model aesthetic agreement;
-- continuous autonomous optimization.
+- continuous autonomous optimization;
+- how compression-survival preflight generalizes to morphology-first work.
 
 Do not hard-code unresolved items as universal rules.
 
-## 11. Executable search state
+## 12. Executable search state
 
 For a search that spans multiple rounds, use the lightweight executable state layer rather than relying on conversational memory alone:
 
@@ -388,7 +420,9 @@ The CLI enforces important guardrails: locked mutation classes cannot be added, 
 
 It deliberately contains **no aggregate beauty score**. The readable mathematics remains the source of truth; this layer makes the discovery process reproducible.
 
-## 12. Working discovery model
+Deployment preflight is not added to discovery-state v3 in this release. It is a post-ranking deployment decision, not a mutation/search permission.
+
+## 13. Working discovery model
 
 ```text
 intent
@@ -397,14 +431,16 @@ intent
 -> freeze brief invariants
 -> initialize discovery state when search becomes multi-round
 -> stage 1: route-aware high-confidence search
--> retain/promote elite
+-> retain/promote artistic elite
 -> if saturated: unlock stage 2 brief-preserving structure
--> retain/promote elite
+-> retain/promote artistic elite
 -> stage 3 only when justified by route + brief
--> visual + temporal selection
+-> visual + temporal ranking
+-> adaptive compression-survival preflight
+-> promote first surviving candidate to deployment finalist
 -> semantic checks where relevant
--> golf selected winner
+-> golf deployment finalist
 -> verify exact phenotype
 ```
 
-The desired system is an **elite-preserving mathematical discovery process with progressive search depth**, not a formula generator with a fixed mutation whitelist.
+The desired system is an **elite-preserving mathematical discovery process with progressive search depth and adaptive deployment promotion**, not a formula generator with a fixed mutation whitelist or a character-count fitness function.
