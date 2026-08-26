@@ -1,0 +1,34 @@
+{
+  "regions": {
+    "root": {
+      "parent": null,
+      "mask": "masks/root.png"
+    },
+    "bell": {
+      "parent": "root",
+      "mask": "masks/bell.png"
+    },
+    "tendrils": {
+      "parent": "bell",
+      "mask": "masks/tendrils.png"
+    }
+  },
+  "controls": {
+    "bellWidth": {
+      "region": "bell",
+      "scope": "subtree"
+    },
+    "tendrilLength": {
+      "region": "tendrils",
+      "scope": "region"
+    },
+    "foldFrequency": {
+      "region": "bell",
+      "scope": "surface"
+    },
+    "pulseStrength": {
+      "region": "root",
+      "scope": "global"
+    }
+  }
+}
