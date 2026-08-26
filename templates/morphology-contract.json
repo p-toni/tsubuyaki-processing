@@ -34,5 +34,19 @@
       "region": "root",
       "scope": "global"
     }
+  },
+  "survivalFeatures": {
+    "rootMass": {
+      "mask": "masks/root.png",
+      "kind": "presence"
+    },
+    "appendageFamily": {
+      "mask": "masks/appendages.png",
+      "kind": "presence"
+    },
+    "centralCavity": {
+      "mask": "masks/cavity.png",
+      "kind": "void"
+    }
   }
 }
