@@ -4,6 +4,17 @@ Use this layer when discovery lasts more than one small round and the agent need
 
 It is scientific bookkeeping and guardrails, not an aesthetic optimizer.
 
+## v0.13 fidelity model
+
+v0.13 binds two relationships that v0.12 only represented indirectly:
+
+```text
+mutation class <-> concrete operator
+unlock evidence <-> historical review event
+```
+
+The state still contains **no scalar beauty score**.
+
 ## Components
 
 ```text
@@ -15,15 +26,14 @@ search-state.json
   brief invariants
   current stage
   elite + lineage
-  compound mutation cause
+  paired causal changes
   review decisions
-  evidence-backed unlock / promotion history
+  review-bound unlock evidence
+  promotion history
 
 scripts/discovery-state.mjs
   enforces state transitions and historical legality
 ```
-
-The state deliberately contains **no scalar beauty score**.
 
 ## Initialize and pin the grammar
 
@@ -36,47 +46,35 @@ node scripts/discovery-state.mjs init _local/search-state.json \
   --invariant="legible negative space"
 ```
 
-Initialization records:
+Initialization records the grammar path, version and exact SHA-256. Every later command verifies the pin.
 
-```json
-"grammar": {
-  "path": "templates/mutation-grammar.json",
-  "version": 1,
-  "sha256": "..."
-}
-```
+## Add a challenger with bound causal changes
 
-Every later command verifies that both the grammar version and exact file bytes still match this pin. If the grammar changes, the old search state no longer silently inherits new rules.
-
-Routes currently encoded:
-
-```text
-family
-recurrence
-sheet
-filament
-morphology
-```
-
-## Add a challenger with its complete cause
-
-A phenotype can result from more than one mathematical change. Record all causal classes and the concrete operators that matter:
+`--class` and `--operator` remain repeatable for CLI ergonomics, but they must be supplied in **equal counts** and are stored as paired objects:
 
 ```sh
 node scripts/discovery-state.mjs add _local/search-state.json E7 \
   --parent=E1 \
   --class=fold-frequency \
-  --class=latent-scale \
   --operator="ribFreq:0->0.85" \
-  --operator="sx:8.4->7.2, sy:8.0->8.8" \
-  --artifact=_local/E7-f90.png
+  --class=latent-scale \
+  --operator="sx:8.4->7.2, sy:8.0->8.8"
 ```
 
-`--class` and `--operator` are repeatable.
+State:
 
-The classes are causal categories governed by the unlock grammar. Operators record the concrete mathematical edit. At least one explicit operator is required; the state should not claim reproducibility while only saying "some fold mutation happened."
+```json
+"mutation": {
+  "changes": [
+    {"class": "fold-frequency", "operator": "ribFreq:0->0.85"},
+    {"class": "latent-scale", "operator": "sx:8.4->7.2, sy:8.0->8.8"}
+  ]
+}
+```
 
-A class that is not unlocked at the current stage is rejected at write time.
+This prevents the provenance ambiguity of two parallel arrays whose elements could be reordered independently.
+
+Every change class must be legal at the candidate's historical stage.
 
 ## Review
 
@@ -90,21 +88,11 @@ node scripts/discovery-state.mjs review _local/search-state.json E7 \
   --reason="valid but only a near-neighbor"
 ```
 
-Preference values:
+`prefer` must come from visual + temporal comparison with the current elite, not from a scalar critic.
 
-```text
-prefer
-archive
-reject
-undecided
-incumbent
-```
+Review events record the decision as it existed at that point in history.
 
-`prefer` must come from visual + temporal comparison with the current elite, not from a density/novelty/critic scalar.
-
-## Unlock with evidence
-
-An unlock is a causal decision and must cite the reviewed candidates that justify broadening search:
+## Unlock with historically bound evidence
 
 ```sh
 node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
@@ -113,27 +101,33 @@ node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
   --evidence=E9
 ```
 
-Evidence candidates must:
+At write time, each evidence candidate must be a reviewed challenger from the current stage.
 
-- exist;
-- be searched challengers rather than the original incumbent;
-- belong to the current stage;
-- have completed review.
-
-The unlock event records:
+The unlock records both candidate identity and the exact review-event sequence that justified the decision:
 
 ```json
 {
   "type": "unlock",
   "stage": 2,
   "reason": "...",
-  "evidenceCandidateIds": ["E8", "E9"]
+  "evidence": [
+    {"candidateId": "E8", "reviewSeq": 14},
+    {"candidateId": "E9", "reviewSeq": 16}
+  ]
 }
 ```
 
-This makes "why did we expose broader structure?" inspectable instead of relying on conversational memory.
+This is stronger than citing the candidate alone. If E8 is reviewed again later, the stage-2 unlock still points to what was actually known at sequence 14.
 
-Strong guards remain:
+Validation requires that each evidence binding:
+
+- names an existing candidate;
+- comes from candidate stage `unlock.stage - 1`;
+- points to an actual review event for that same candidate;
+- points to a review event that occurred before the unlock;
+- points to a completed review rather than unknown/undecided state.
+
+Strong route guards remain:
 
 - filament stage 3 requires `--brief-change=true`;
 - morphology stage 3 requires `--experimental=true`.
@@ -148,29 +142,13 @@ adherent = pass
 preference = prefer
 ```
 
-```sh
-node scripts/discovery-state.mjs promote _local/search-state.json E7 \
-  --reason="stronger membrane identity across matched times"
-```
-
 The former elite becomes `prior-elite`; it remains in lineage evidence.
 
 ## Historical legality
 
-`validate` no longer asks only whether a mutation class exists somewhere in the route.
+`validate` checks every `mutation.changes[].class` against the permissions available at `candidate.stage`, not against the route's eventual full vocabulary.
 
-It checks whether every class recorded for a candidate was already unlocked at that candidate's **historical stage**.
-
-Therefore a manually edited state like:
-
-```text
-candidate.stage = 1
-mutation.classes = ["harmonic-family"]   # filament stage-2 class
-```
-
-fails validation even if the current search has since reached stage 2.
-
-This protects the scientific record from retroactively granting earlier candidates permissions they did not have.
+A stage-1 candidate cannot retroactively claim a stage-2 change merely because the search later unlocked stage 2.
 
 ## Inspect / validate
 
@@ -179,43 +157,41 @@ node scripts/discovery-state.mjs summary _local/search-state.json
 node scripts/discovery-state.mjs validate _local/search-state.json
 ```
 
-`summary` includes the pinned grammar identity, elite, stage, unlocked classes and candidate/status counts.
+Validation covers:
 
-`validate` checks:
-
-- state version / basic integrity;
+- state version and basic integrity;
 - grammar version + SHA-256 pin;
-- route and stage existence;
+- route/stage existence;
 - candidate parentage;
-- compound mutation shape;
-- historical-stage legality of all mutation classes;
-- event ordering;
-- evidence references on unlock events.
+- paired causal-change shape;
+- historical-stage legality;
+- strictly ordered events;
+- unlock evidence bindings to historical review events.
+
+## Schema compatibility
+
+v0.13 state is `version: 3`.
+
+v0.12 `version: 2` states fail closed rather than being silently upgraded. They do not contain guaranteed class/operator pairing or review-event bindings, so silently reinterpreting them would defeat the purpose of this release.
 
 ## What belongs in state
 
-Record facts needed to reproduce a discovery decision:
+Record:
 
 - brief invariants;
 - pinned grammar path/version/hash;
 - route and current stage;
 - candidate parent;
-- all causal mutation classes;
-- concrete mathematical operators;
+- paired mathematical changes (`class` + `operator`);
 - representative artifacts;
-- validity and brief-adherence review;
-- pairwise visual/temporal preference;
-- unlock reason + evidence candidate IDs;
+- validity / adherence / visual-temporal preference;
+- unlock reason + historically bound evidence;
 - promotion reason.
 
-Do **not** put one aggregate quality score in the state.
-
-If a lightweight critic reduces review volume, keep its output in separate diagnostic artifacts rather than giving it promotion authority.
+Do **not** add one aggregate quality score.
 
 ## What this is not
 
-This layer still does not define one universal mathematical genotype or automatically mutate arbitrary p5.js.
+This layer still does not define one universal genotype or automatically mutate arbitrary p5.js.
 
-That remains intentional. Current evidence supports a common **search process and provenance record** more strongly than it supports one formula representation across recurrence, sheets, filaments, repeated families and explicit morphology.
-
-The readable mathematical system remains the semantic source of truth; v0.12 makes the discovery record faithful enough to inspect and reproduce the search decisions around it.
+The readable mathematical system remains the semantic source of truth. The state layer exists to make the exploration around it inspectable without pretending that provenance is the same thing as aesthetic judgment.
