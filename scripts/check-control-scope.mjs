@@ -45,12 +45,12 @@ function decodePNG(file){
       rows.push(row);prev=row;
     }
     const rgba=new Uint8Array(w*h*4);
-    for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
       const s=x*ch,d=(y*w+x)*4,r=rows[y];
-      if(type===0) rgba.set([r[s],r[s],r[s],255],d);
-      if(type===2) rgba.set([r[s],r[s+1],r[s+2],255],d);
-      if(type===4) rgba.set([r[s],r[s],r[s+1]?r[s]:r[s],r[s+1]],d);
-      if(type===6) rgba.set([r[s],r[s+1],r[s+2],r[s+3]],d);
+      if(type===0)rgba.set([r[s],r[s],r[s],255],d);
+      if(type===2)rgba.set([r[s],r[s+1],r[s+2],255],d);
+      if(type===4)rgba.set([r[s],r[s],r[s],r[s+1]],d);
+      if(type===6)rgba.set([r[s],r[s+1],r[s+2],r[s+3]],d);
     }
     return {w,h,rgba};
   }catch(e){throw new Error(`${file}: ${e.message}`)}
