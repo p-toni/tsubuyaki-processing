@@ -4,26 +4,30 @@
       "parent": null,
       "mask": "masks/root.png"
     },
-    "bell": {
+    "crown": {
       "parent": "root",
-      "mask": "masks/bell.png"
+      "mask": "masks/crown.png"
     },
-    "tendrils": {
-      "parent": "bell",
-      "mask": "masks/tendrils.png"
+    "appendages": {
+      "parent": "root",
+      "mask": "masks/appendages.png"
     }
   },
   "controls": {
-    "bellWidth": {
-      "region": "bell",
+    "rootWidth": {
+      "region": "root",
       "scope": "subtree"
     },
-    "tendrilLength": {
-      "region": "tendrils",
+    "crownDepth": {
+      "region": "crown",
+      "scope": "region"
+    },
+    "appendageLength": {
+      "region": "appendages",
       "scope": "region"
     },
     "foldFrequency": {
-      "region": "bell",
+      "region": "root",
       "scope": "surface"
     },
     "pulseStrength": {
