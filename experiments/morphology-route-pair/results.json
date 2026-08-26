@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "evaluator": "current ChatGPT model instance; internal, not independent",
+  "briefs": {
+    "positiveMorphology": {
+      "tag": "novel",
+      "route": "morphology-first",
+      "winner": "M9",
+      "seed": 26083101,
+      "candidateCount": 12,
+      "controlEvidence": {
+        "rootWidthRelativeChange": 0.25,
+        "rootControlMedianOrganLocalSpill": 0.0,
+        "rootControlMaxOrganLocalSpill": 0.0,
+        "familyControlMedianLengthChange": 0.25,
+        "familyControlDirectionalAgreement": 1.0,
+        "familyControlRelativeMAD": 0.0,
+        "organCount": 8
+      }
+    },
+    "negativeMorphology": {
+      "tag": "novel",
+      "route": "math-first emergent form",
+      "initialBatch": {
+        "seed": 26083102,
+        "candidateCount": 12,
+        "outcome": "representation too generic; repair before search"
+      },
+      "repairedBatch": {
+        "seed": 26083103,
+        "candidateCount": 12,
+        "winner": "R11",
+        "independentlyAuthoredAnatomicalParts": 0,
+        "morphologyGraph": false
+      }
+    }
+  },
+  "conclusion": "requested semantic anatomy, not animal-like silhouette, should determine morphology activation"
+}
