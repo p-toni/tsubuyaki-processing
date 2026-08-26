@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "budgetPerRoute": 40,
+  "sharedExploration": {
+    "sourceExperiment": "hybrid-portfolio-search",
+    "candidates": 20,
+    "policy": "reuse exact 4-start x5 populations from PR #24"
+  },
+  "selectorSemantics": ["clear-win", "clear-loss", "tie-defer"],
+  "recurrence": {
+    "initialSurvivors": [1, 3],
+    "roundA": {
+      "allocation": {"1": 4, "3": 4},
+      "decision": "basin 1 clear win over basin 3",
+      "winnerParent": "RR-A-B1-4"
+    },
+    "roundB": {
+      "allocation": {"1": 12},
+      "winner": "RR-B-B1-12"
+    },
+    "generated": 40,
+    "primaryComparator": "H1",
+    "blindMapping": {"A": "H1", "B": "RACE"},
+    "humanResult": "B",
+    "decodedHumanResult": "RACE > H1"
+  },
+  "family": {
+    "initialSurvivors": [4, 1, 3],
+    "roundA": {
+      "allocation": {"4": 4, "1": 4, "3": 4},
+      "decision": "basin 3 clear loss; basins 4 and 1 tied",
+      "survivors": [4, 1]
+    },
+    "roundB": {
+      "allocation": {"4": 4, "1": 4},
+      "winner": "FR-B-B4-3"
+    },
+    "generated": 40,
+    "primaryComparator": "H2",
+    "blindMapping": {"A": "RACE", "B": "H2"},
+    "humanResult": "B",
+    "decodedHumanResult": "H2 > RACE"
+  },
+  "overall": {
+    "artisticResult": "mixed: RACE wins recurrence, H2 wins repeated family",
+    "supported": [
+      "live-basin count can be an outcome rather than a fixed K",
+      "tie/defer is operationally useful when selector margin is insufficient",
+      "adaptive allocation can outperform fixed concentration on some route landscapes"
+    ],
+    "cost": "racing spends budget preserving uncertain basins; when the correct top-two pair is already known this optionality can reduce exploitation depth",
+    "productionPolicy": "not justified from one paired block"
+  },
+  "notes": [
+    "Character count and deployment viability were excluded from artistic search.",
+    "No scalar aesthetic score was used.",
+    "Occupancy was not used as a fitness or accept/reject signal."
+  ]
+}
