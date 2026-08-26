@@ -1,0 +1,75 @@
+{
+  "budgetPerCondition": 40,
+  "routes": {
+    "recurrence": {
+      "exploration": {
+        "viable": 15,
+        "total": 20,
+        "basinRanking": [1, 3, 4, 2],
+        "bestExploration": {"1": "RE-S1-5", "3": "RE-S3-3"}
+      },
+      "H1": {
+        "allocation": "20 exploration + 20 exploitation in basin 1",
+        "exploitationViable": 19,
+        "exploitationTotal": 20,
+        "winner": "RH1-R2-3",
+        "comparison": "approximately tied with D1; richer material, weaker single-knot coherence"
+      },
+      "H2": {
+        "allocation": "20 exploration + 10 basin 1 + 10 basin 3",
+        "exploitationViable": 19,
+        "exploitationTotal": 20,
+        "winner": "RH2-B1-2",
+        "winnerBasin": 1,
+        "secondBasinProducedWinner": false,
+        "comparison": "below H1/D1 frontier"
+      },
+      "baseline": {
+        "mergedResult": "D1 > breadth under both selector passes",
+        "hybridConclusion": "no clear hybrid win; H1 reaches but does not clearly exceed D1"
+      }
+    },
+    "family": {
+      "exploration": {
+        "viable": 18,
+        "total": 20,
+        "basinRanking": [4, 1, 3, 2],
+        "bestExploration": {"4": "FE-S4-1", "1": "FE-S1-3"}
+      },
+      "H1": {
+        "allocation": "20 exploration + 20 exploitation in basin 4",
+        "exploitationViable": 20,
+        "exploitationTotal": 20,
+        "winner": "FH1-R2-6",
+        "comparison": "materially rich but drifts toward a merged botanical cluster"
+      },
+      "H2": {
+        "allocation": "20 exploration + 10 basin 4 + 10 basin 1",
+        "exploitationViable": 19,
+        "exploitationTotal": 20,
+        "winner": "FH2-B4-4",
+        "winnerBasin": 4,
+        "secondBasinProducedWinner": false,
+        "comparison": "strongest hybrid; no clear win over merged B4/B8 breadth winners"
+      },
+      "baseline": {
+        "mergedResult": "breadth > D1; B4 vs B8 unresolved",
+        "hybridConclusion": "correct basin identified, but extra generic exploitation did not clearly improve the breadth frontier"
+      }
+    }
+  },
+  "overall": {
+    "hybridPortfolioHypothesis": "partially supported",
+    "supported": [
+      "short exploration can identify the same high-leverage family basin found by pure breadth",
+      "winner-take-most exploitation can recover recurrence depth-like quality",
+      "basin ranking is a useful intermediate decision"
+    ],
+    "notSupported": [
+      "either tested hybrid clearly beats the best pure strategy on both routes",
+      "preserving the second-ranked basin improves the final winner under this budget"
+    ],
+    "newBottleneck": "exploitation operator quality: broad mutations after basin selection can erode niche identity",
+    "nextHypothesis": "portfolio discovery followed by basin-preserving trust-region exploitation"
+  }
+}
