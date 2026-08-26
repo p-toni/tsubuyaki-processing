@@ -2,121 +2,144 @@
 
 A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems whose animated phenotype is disproportionately richer than the source.
 
-## v0.8 direction — discovery, not just formula invention
+## v0.11 direction — progressive discovery with explicit state
 
-The completed frozen search-lab experiment changed the project’s default approach.
+The project now treats generation as an **elite-preserving mathematical discovery process** rather than a one-shot formula generator.
 
-The question is no longer only:
+Two search experiments established the production policy:
 
-> can the model invent a better formula?
+1. search matters, but one universal structural-search policy is wrong;
+2. route-aware search should control the **order** in which mathematical degrees of freedom are unlocked, not permanently restrict the search space.
 
-It is now:
-
-> can the system establish a strong mathematical incumbent, search the right degrees of freedom for that representation, preserve the elite, and select a genuinely better phenotype without Goodharting novelty?
-
-The working pipeline is:
+The current pipeline is:
 
 ```text
 intent
 → compact representation
 → viable incumbent
 → brief invariants
-→ route-aware search
-→ elite preservation
-→ aesthetic + temporal selection
+→ progressive route-aware search
+→ explicit elite / lineage state when multi-round
+→ visual + temporal selection
 → semantic checks where relevant
 → golf winner
 → exact verification
 ```
 
-## Evidence behind the change
-
-The completed `experiments/search-lab/full-results.md` run used the frozen v0.6 grammar:
-
-```text
-4 briefs × 10 seeds × (1 fixed incumbent + 24 parameter mutations + 24 structural+parameter mutations)
-= 1,960 raw candidates
-```
-
-After blind review, structural+parameter search was strongly productive for recurrent systems and dense sheets, conditionally useful for repeated plankton families, and actively harmful as a broad default for intentional 1D filaments.
-
-Most importantly:
-
-> **route interaction dominated the result.**
-
-A single universal mutation policy is the wrong architecture.
-
-## Current route-aware policy
+## Progressive route-aware search
 
 ### Repeated math family
 
-Use structural + parameter exploration, but preserve the requested family niche.
-
-Useful degrees of freedom:
-
-- family count / phase spacing;
-- latent harmonics;
-- distance power;
-- deformation operator;
-- selected projection changes;
-- time coupling.
-
-Do not let novelty turn “multiple distinct bodies” into an unrelated connected fan/colony and call it a win.
+1. local family/deformation/harmonic parameters;
+2. family count, discrete harmonics, distance power, deformation operator;
+3. selected projection changes while preserving the multi-instance niche.
 
 ### Recurrence / living knot
 
-Use structural divergent search.
-
-Explore recurrence roles, residue/family structure, deformation and projection. The recurrent state is latent material rather than a textbook attractor plot.
+1. recurrence-role parameters + residue/family structure;
+2. projection/deformation/time structure;
+3. broader recurrence variant only when useful.
 
 ### Dense 2D sheet
 
-Actively explore projection/deformation family. The frozen experiment repeatedly found high-value disconnected niches through structural projection changes.
+1. projection/deformation family;
+2. sampling geometry, latent x/y scale, fold-frequency structure;
+3. broader sheet-compatible projection only if the brief remains intact.
 
 ### Intentional 1D filament / ribbon
 
-Preserve the incumbent and search locally first.
-
-Broad topology/projection mutation produced much more behavioral diversity but substantially worse discovery for this route.
+1. local numeric tuning;
+2. axial-preserving family count / harmonic family / fold law;
+3. projection/topology change only when the requested niche changes.
 
 ### Morphology-first explicit anatomy
 
-Search conservatively. The current experiment did not establish a broad structural-search policy for explicit body plans, so preserve morphology and explore validated controls/family/motion parameters until dedicated evidence says otherwise.
+Evidence remains incomplete. Use local validated controls first, then limited morphology-contract-preserving family/attachment exploration. Broad body-plan search remains experimental.
+
+See `references/discovery-search.md` for the complete policy.
+
+## Executable discovery state
+
+v0.11 adds a lightweight state/grammar layer for multi-round discovery:
+
+```text
+templates/mutation-grammar.json
+scripts/discovery-state.mjs
+templates/discovery-state.json
+references/discovery-state.md
+```
+
+It records:
+
+- route and current unlock stage;
+- brief invariants;
+- current elite and prior elites;
+- candidate parentage;
+- mutation class + concrete mathematical operator;
+- representative render artifacts;
+- validity / brief-adherence review;
+- visual-temporal preference decision;
+- stage unlock and promotion history.
+
+It deliberately does **not** contain a scalar beauty score.
+
+Example:
+
+```sh
+node scripts/discovery-state.mjs init _local/search-state.json \
+  --route=filament \
+  --elite=E0 \
+  --brief="translucent larval ribbon" \
+  --invariant="intentional axial / 1D identity"
+
+node scripts/discovery-state.mjs add _local/search-state.json E1 \
+  --class=numeric-frequency \
+  --operator=secondaryFrequency
+
+node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
+  --reason="stage 1 produced only near-neighbors"
+```
+
+The CLI enforces the search schedule. A locked mutation class cannot be added; unlocks are sequential; filament topology changes require an explicit brief change; experimental morphology body-plan search requires explicit opt-in; and candidates cannot become elite until validity, adherence and visual/temporal preference all pass.
+
+This is intentionally **not** yet a universal genotype/mutation engine. The experiments support a common search process more strongly than they support one formula representation across recurrence, sheets, filaments, families and explicit morphology.
 
 ## Elitism is mandatory
 
-A practical search loop should never discard a good current solution simply because it decided to search.
-
-Every search round includes the incumbent unchanged:
+Every round retains the current incumbent:
 
 ```text
-incumbent
+elite
 + challengers
-→ compare
-→ keep incumbent unless a better brief-adherent challenger appears
+→ inspect
+→ promote only a better brief-adherent challenger
 ```
 
-This corrects a defect in the frozen experiment where B/C mutation populations did not retain the parent.
+Search may improve, tie or fail. It must never force regression.
 
-## Novelty is not quality
+When a challenger wins, it becomes the natural center of the next search stage while prior elites remain available as lineage evidence.
+
+## Novelty and critics are not quality
 
 Behavioral diversity is useful for deciding what deserves inspection. It is not the final objective.
 
-The frozen experiment’s clearest warning was the filament route: structural mutation produced roughly **5×** the behavioral coverage of numeric mutation while performing dramatically worse aesthetically/adherently.
+The paired experiment also showed that lightweight framing/density/temporal critics can disagree with visual preference.
 
 Therefore:
 
 ```text
-novel != good
-coverage != quality
-occupancy != success
+hard validity → reject broken work
+brief invariants → reject off-task work
+novelty → diversify review candidates
+validators → falsify claims
+visual + temporal judgment → choose the art
 ```
 
-Final selection remains visual/temporal and brief-aware.
+Do not collapse these into one scalar aesthetic fitness.
 
 ## Math-first representation remains central
 
-v0.6’s core decomposition still defines the strongest compact representation path:
+The strongest compact representation path remains:
 
 ```text
 kernel → latent fields → family operator → nonlinear deformation → projection
@@ -130,24 +153,11 @@ When repeated-family semantics matter, `scripts/check-family-math.mjs` can inspe
 
 Use explicit morphology when the user needs named anatomy, attachment hierarchy or local editing.
 
-The project does **not** treat morphology as the universal source of visual complexity. A small indirect mathematical generator may produce richer phenotypes precisely because it does not explicitly encode every visible part.
-
-## Discovery search reference
-
-`references/discovery-search.md` defines the production policy:
-
-- incumbent first;
-- brief invariants before search;
-- topology-aware mutation permissions;
-- elitism;
-- novelty only for archive/review diversity;
-- visual + temporal challenger selection;
-- staged search effort rather than a hard-coded candidate count;
-- golf only after discovery.
+The project does **not** treat morphology as the universal source of complexity. A small indirect mathematical generator may produce richer phenotypes precisely because it does not explicitly encode every visible part.
 
 ## Validation stack
 
-Validators are falsification tools, not creative fitness functions:
+Validators remain falsification tools, not creative fitness functions:
 
 ```text
 check-family-math      → did repeated generator instances change coherently?
@@ -157,44 +167,33 @@ visual/temporal review → is the phenotype actually worth keeping?
 morphology survival    → did defining structure survive golf?
 ```
 
-Do not collapse these into one scalar beauty objective.
+## Evidence
 
-## Search-lab evidence
-
-The experiment remains preserved under:
+The first search experiment is preserved under:
 
 ```text
 experiments/search-lab/
 ```
 
-Important files:
+The paired route-policy experiment is preserved under:
 
 ```text
-epistemology.md
-briefs.json
-search.mjs
-render-genotype.mjs
-scorecard.md
-pilot-results.md
-full-results.md
+experiments/paired-route-search/
 ```
 
-The experiment also identified its own limitations: fixed rather than independently sampled A baselines, no parent elitism in B/C, one evaluator, three-frame rather than full-animation review, and one fixed 24-candidate search budget.
+Those experiments justify the progressive unlock policy; their diagnostic budgets and critics are not production requirements.
 
-Those are inputs to the next causal study, not reasons to erase the result.
+## What is intentionally not hard-coded
 
-## What is intentionally *not* hard-coded yet
+The evidence still does not establish:
 
-The evidence does not yet establish:
-
-- an optimal search budget;
-- optimal mutation probabilities;
-- whether many independent starts beat deeper search around one start;
-- broad structural search for morphology-first explicit anatomy;
+- exact unlock thresholds;
+- optimal candidate budgets or mutation probabilities;
+- independent LLM starts versus deeper search around one start;
+- broad structural search for morphology-first anatomy;
 - an automatic aesthetic scorer;
-- candidate-level continuous optimization.
-
-The next paired experiment should measure those before they become architecture.
+- a universal cross-route genotype;
+- candidate-level continuous autonomous optimization.
 
 ## Tweet constraint
 
@@ -210,10 +209,8 @@ node scripts/check-length.mjs post.txt
 
 ## Current thesis
 
-The project is no longer best described as a formula generator plus validators.
-
 The strongest current model is:
 
-> **good mathematical representation + topology-aware search + brief-aware selection + elitism.**
+> **good mathematical representation + progressive route-aware search + explicit discovery lineage + brief-aware visual selection + elitism.**
 
 The goal is to reliably discover a **large phenotype from a small mathematical cause**.
