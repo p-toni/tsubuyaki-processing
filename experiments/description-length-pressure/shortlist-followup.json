@@ -1,0 +1,26 @@
+{
+  "archive": {
+    "routes": 4,
+    "candidates": 48,
+    "knownExpandedTop3": {
+      "family": ["F12", "F2", "F5"],
+      "sheet": ["S4", "S6", "S12"],
+      "filament": ["L9", "L10", "L7"],
+      "recurrence": ["R12", "R6", "R4"]
+    }
+  },
+  "policies": {
+    "k1": {"deployableRoutes": 3, "maxPreflights": 4, "adaptivePreflights": 4},
+    "k2": {"deployableRoutes": 4, "maxPreflights": 8, "adaptivePreflights": 5},
+    "k3": {"deployableRoutes": 4, "maxPreflights": 12, "adaptivePreflights": 5},
+    "k5": {"deployableRoutes": 4, "maxPreflights": 20, "adaptivePreflights": 5},
+    "adaptiveSequential": {"deployableRoutes": 4, "preflights": 5}
+  },
+  "fallbacks": {
+    "family": ["F12"],
+    "sheet": ["S4"],
+    "filament": ["L9"],
+    "recurrence": ["R12", "R6"]
+  },
+  "interpretation": "Within this archive success saturates at rank 2, but the supported production rule is adaptive sequential preflight by visual rank rather than a fixed top-k shortlist."
+}
