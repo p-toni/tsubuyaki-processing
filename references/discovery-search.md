@@ -1,143 +1,56 @@
-# Route-Aware Discovery Search
+# Progressive Route-Aware Discovery Search
 
-The skill's primary job is no longer just to invent one plausible formula. It is to **discover a strong mathematical cause**, preserve it as an incumbent, and explore around it using a search policy appropriate to the representation.
+The skill's job is to **discover a strong mathematical cause**, preserve it as an incumbent, and search outward in an order appropriate to the representation.
 
-This policy is derived from the completed `experiments/search-lab` run. Treat the experiment as evidence, not as a permanent implementation API.
+The paired route-search experiment updated the previous policy. The strongest interpretation is no longer:
 
-## 1. The discovery unit is an incumbent
+```text
+route -> fixed mutation policy
+```
+
+It is:
+
+```text
+route
+-> highest-confidence mutation prior
+-> inspect response
+-> progressively unlock more brief-preserving structure
+-> retain elite throughout
+```
+
+The route decides **what to try first**, not the permanent boundary of the search space.
+
+## 1. The discovery unit is still an incumbent
 
 First produce one coherent readable mathematical system.
 
 The incumbent must already:
 
 - execute;
-- satisfy the requested topology/brief;
-- show a viable silhouette/material at representative times;
+- satisfy the requested topology / brief;
+- show viable silhouette, material and motion at representative times;
 - contain a compact causal structure worth preserving.
 
-Do **not** search aggressively around a broken representation. If the incumbent fails at the kernel/body-plan level, repair or replace the representation first.
+Do not search aggressively around a broken representation. Repair kernel/topology/projection/body-plan failures first.
 
-Once viable, the incumbent becomes an **elite**:
+Once viable, the incumbent becomes an **elite** and remains available unchanged in every round.
 
-> every search round must retain the current best candidate unchanged.
+Search may improve it, tie it, or fail to improve it. It must never force regression.
 
-Search may improve it, tie it, or fail to improve it. Search must never force regression by discarding it.
+## 2. Freeze brief invariants before search
 
-## 2. Search is route-aware
-
-The completed search-lab experiment strongly rejected one universal mutation policy.
-
-### Repeated math family
-
-Use structural + parameter exploration, while preserving the requested family niche.
-
-Productive mutation roles include:
-
-- family count / phase spacing;
-- latent harmonics;
-- distance power;
-- deformation operator;
-- selected projection changes;
-- time coupling.
-
-But protect behavioral invariants from the brief. If the request says "multiple distinct related bodies," a connected fan/colony is not automatically an improvement merely because it is novel or beautiful.
-
-Use math-family probes when a named family control matters, but do not make controllability the search fitness.
-
-### Recurrence / living knot
-
-Structural divergent search is high leverage.
-
-Explore:
-
-- recurrence-role parameters;
-- residue/family count;
-- deformation around the recurrent state;
-- projection family;
-- time coupling.
-
-Treat the raw recurrence as latent material. Search should favor transformed phenotypes rather than textbook attractor views.
-
-Do not demand local semantic stability from chaotic kernel parameters.
-
-### Dense 2D sheet / membrane
-
-Projection/deformation family search is high leverage.
-
-The frozen experiment repeatedly found valuable niches by changing projection family rather than only tuning constants. Explore:
-
-- folded / shell / bilateral-like projection families;
-- distance power;
-- fold/deformation operator;
-- sampling geometry;
-- slow time coupling.
-
-Keep "sheetness," negative space, and non-creature intent as brief constraints when requested.
-
-### Intentional 1D filament / ribbon
-
-Search conservatively.
-
-Default to:
-
-1. preserve incumbent;
-2. local numeric parameter exploration;
-3. only widen structural search when the incumbent visibly fails or the user asks for a different topology.
-
-Do not mutate projection/topology merely to increase descriptor novelty. The search-lab run found that this route produced the largest structural coverage increase and the worst artistic/adherence outcome.
-
-### Morphology-first explicit anatomy
-
-Evidence is still incomplete.
-
-Use conservative local exploration around the validated body plan:
-
-- semantic controls;
-- family parameters;
-- local deformation/projection constants;
-- motion phase relationships.
-
-Do not assume the broad math-first structural policy transfers to explicit anatomy. Preserve the morphology contract until a dedicated search experiment says otherwise.
-
-## 3. Novelty is an exploration mechanism, not a quality function
-
-Behavioral descriptors can maintain an archive and prevent all candidates collapsing into parameter-neighbors.
-
-Useful descriptors may include:
-
-- occupancy / span;
-- centroid / framing;
-- family count;
-- temporal displacement;
-- cavity/open-space behavior;
-- latent family statistics.
-
-But:
-
-```text
-more different != more beautiful
-more coverage != more useful
-more occupancy != more successful
-```
-
-The search-lab experiment found the largest C/B coverage ratio on the filament route, where structural search performed worst.
-
-Use novelty to decide **what deserves inspection**, not what wins.
-
-## 4. Brief invariants are separate from aesthetics
-
-Before search, write the smallest set of invariants that define the request's niche.
+Write the smallest set of constraints that define the requested niche.
 
 Examples:
 
 ```text
-plankton family:
+repeated family:
 - multiple distinct related instances
 - one shared generator
 
 filament:
 - intentional axial / 1D identity
-- traveling deformation
+- traveling internal deformation
 
 membrane:
 - true 2D sheet
@@ -148,59 +61,259 @@ recurrence:
 - projection materially transforms raw state
 ```
 
-A beautiful candidate that violates a defining invariant can be archived as a discovery, but it does not replace the incumbent for the current request.
+These invariants act as **search boundaries**.
 
-This avoids Goodharting novelty by task drift.
+A beautiful candidate that violates them may be archived as a side discovery, but it does not replace the incumbent for the current request.
 
-## 5. Selection happens after exploration
+## 3. Search uses unlock stages
 
-Do not collapse candidate generation and aesthetic selection into one scalar objective.
+Every route has an ordered sequence of degrees of freedom.
 
-After a search round:
+Start with the stage expected to have the highest useful/adherent yield. Broaden only when:
 
-1. reject hard failures;
-2. preserve a small behaviorally diverse review set;
-3. review representative times, not only one lucky frame;
-4. compare against the incumbent;
-5. keep a challenger only when it is both brief-adherent and aesthetically preferable.
+- no challenger is clearly preferable;
+- the current stage produces mostly near-neighbors;
+- gains appear saturated;
+- a broader within-brief structural move is plausibly high leverage.
 
-Useful judgment dimensions remain separate:
+Unlock **one class of structure at a time** when practical. This makes it possible to tell what actually created the improvement.
 
-- brief adherence;
-- aesthetic preference;
-- mathematical leverage;
-- temporal quality;
-- distinctiveness;
-- likely tweet viability.
+Do not unlock topology-breaking moves merely because novelty is low.
 
-Pairwise "which would you keep exploring?" is usually more reliable than pretending these dimensions form one universal beauty score.
+## 4. Route-specific unlock schedules
 
-## 6. Search effort is staged, not fixed
+### A. Repeated math family
 
-The completed experiment proves that search can help, but it does **not** establish the optimal candidate budget.
+The current route-aware policy already performs well.
 
-Therefore do not hard-code `24` as a production requirement.
+#### Stage 1 — compact family/deformation exploration
 
-Use staged exploration:
+Explore:
+
+- numeric scales / phase rates;
+- family phase spacing;
+- latent harmonic values;
+- distance/deformation intensity;
+- time coupling.
+
+Keep the family niche intact.
+
+#### Stage 2 — family-structure changes
+
+Unlock:
+
+- family count;
+- discrete harmonic family choices;
+- distance power;
+- deformation operator.
+
+Use the same shared generator; do not branch into literal per-instance formulas.
+
+#### Stage 3 — projection-family changes
+
+Only after earlier stages saturate, explore selected projection changes that still preserve multiple distinct related instances.
+
+If projection merges the family into one connected fan/colony when the brief requires distinct bodies, reject it for this request even if visually strong.
+
+### B. Recurrence / living knot
+
+The paired experiment found little advantage from heavy route restriction. Broad structural exploration is already well aligned with the route.
+
+#### Stage 1 — recurrence + family roles
+
+Explore together:
+
+- recurrence-role parameters;
+- integration step within stable range;
+- residue/family count;
+- family phase spacing;
+- projection constants.
+
+#### Stage 2 — projection/deformation structure
+
+Unlock:
+
+- projection family;
+- nonlinear deformation around recurrent state;
+- time coupling structure.
+
+The raw recurrence is latent material, not the final picture.
+
+Do not require local semantic stability from chaotic kernel parameters.
+
+#### Stage 3 — broader recurrence variant
+
+Use only when the current recurrence family appears exhausted and the brief still permits a living recurrent system.
+
+### C. Dense 2D sheet / membrane
+
+The paired experiment showed route-aware search is especially efficient early, while broader search can still find stronger deep-budget finalists.
+
+#### Stage 1 — projection/deformation family
+
+Explore first:
+
+- folded / shell / bilateral-like projection families;
+- fold/deformation strength;
+- distance power;
+- slow phase/time coupling.
+
+This is the highest-confidence stage.
+
+#### Stage 2 — sampling geometry and structural parameters
+
+If stage 1 saturates, unlock:
+
+- sheet sampling resolution / columns;
+- x/y latent scaling;
+- fold-frequency families;
+- structural spacing relationships.
+
+Preserve true 2D sampling and requested negative space.
+
+#### Stage 3 — broader sheet-compatible projection
+
+Only if still useful, explore additional projection structures that preserve sheetness and the requested abstract/non-creature intent.
+
+### D. Intentional 1D filament / ribbon
+
+This route receives the strongest staged restriction.
+
+The paired experiment showed that local numeric search is extremely efficient early, but numeric-only search leaves quality on the table at deeper budgets.
+
+#### Stage 1 — local numeric search
+
+Preserve the entire topology and projection.
+
+Explore:
+
+- amplitudes;
+- continuous frequencies;
+- radius / fold strength;
+- twist;
+- time rates;
+- alpha / density parameters.
+
+#### Stage 2 — axial-preserving structural search
+
+If stage 1 saturates, unlock discrete structure **without abandoning the axial niche**:
+
+- family count / parity structure;
+- discrete harmonic family;
+- fold law;
+- phase relationship between axial components.
+
+Keep the axial projection fixed unless the brief changes.
+
+#### Stage 3 — topology/projection change
+
+Do **not** enter this stage for an ordinary filament brief.
+
+Only change projection/topology when the user explicitly broadens the brief or the incumbent is reclassified as a representation failure.
+
+A radial flower/loop is not an improved axial filament merely because it is more novel.
+
+### E. Morphology-first explicit anatomy
+
+Evidence remains incomplete.
+
+Use a conservative progressive schedule:
+
+#### Stage 1
+
+- semantic controls;
+- local deformation constants;
+- motion phases;
+- surface detail.
+
+#### Stage 2
+
+- repeated-family parameters;
+- parent-relative attachment parameters;
+- limited shared projection/deformation changes that preserve the morphology contract.
+
+#### Stage 3
+
+Broad body-plan mutation remains experimental. Do not adopt it as default until a dedicated morphology-search study supports it.
+
+## 5. Unlock decisions are qualitative, not a fixed candidate count
+
+The paired experiment used budgets `4 / 8 / 16 / 24` to reveal search behavior. Those values are **evidence**, not production constants.
+
+Use staged search effort:
 
 ```text
 incumbent
-→ small search round
-→ inspect whether useful niches appear
-→ expand only when additional structural coverage is plausible
+-> small stage-1 round
+-> compare adherent challengers
+-> if clearly improved: promote elite and optionally refine
+-> if saturated: unlock stage 2
+-> if still saturated and brief permits: unlock stage 3
 ```
 
 Stop when:
 
-- the incumbent remains clearly better;
-- new candidates are parameter-neighbors;
-- structural mutations repeatedly leave the brief;
-- quality gains appear saturated;
-- the candidate is ready for golf.
+- the incumbent/challenger is clearly strong enough to golf;
+- new candidates are mostly near-neighbors;
+- broader stages repeatedly violate the brief;
+- the additional search cost no longer produces visually meaningful alternatives.
 
-The next paired experiment should measure best-of-budget curves before fixed budgets become policy.
+Do not continue merely to maximize archive size.
 
-## 7. Search the cause before golfing the code
+## 6. Promotion and elitism
+
+At the end of each round:
+
+1. reject runtime / severe framing / invariant failures;
+2. keep a small behaviorally diverse review set;
+3. inspect multiple representative times;
+4. compare challengers pairwise with the current elite;
+5. promote only a challenger that is both brief-adherent and aesthetically preferable.
+
+When a challenger becomes the new elite, future mutations should normally search around that challenger rather than the original incumbent.
+
+But retain prior elites when useful; creative search can have multiple promising lineages.
+
+## 7. Novelty is an exploration mechanism, not a quality function
+
+Descriptors can prevent all candidates collapsing into parameter-neighbors.
+
+Useful descriptors may include:
+
+- occupancy / span;
+- centroid / framing;
+- family count;
+- cavity/open-space behavior;
+- temporal displacement;
+- latent family statistics.
+
+But:
+
+```text
+more different != more beautiful
+more coverage != more useful
+more occupancy != more successful
+```
+
+The experiments repeatedly found cases where the broadest search produced worse brief-adherent art.
+
+Use novelty to decide **what deserves inspection**, not what wins.
+
+## 8. Critics and validators do not choose the art
+
+A lightweight critic may reduce review volume, but the paired experiment showed proxy rankings can disagree with visual preference.
+
+Therefore:
+
+- hard validity can reject broken candidates;
+- brief invariants can reject off-task candidates;
+- novelty can choose a diverse review set;
+- validators can falsify semantic claims;
+- **visual + temporal judgment chooses the winner**.
+
+Do not collapse framing, density, novelty, semantic correctness and aesthetics into one scalar fitness function.
+
+## 9. Search the cause before golfing
 
 All discovery search operates on readable mathematical roles.
 
@@ -212,58 +325,59 @@ projection family
 deformation operator
 latent harmonic
 recurrence role
+sampling geometry
 time coupling
 ```
 
-over character-level changes to a minified tweet.
+over character-level mutation of minified code.
 
 Once a winner is selected:
 
 1. preserve the high-leverage mathematical relationship;
-2. validate relevant semantics;
+2. validate relevant semantic claims;
 3. compile/golf;
-4. verify length/runtime;
-5. confirm the phenotype survives compression.
+4. verify runtime + length;
+5. confirm the exact golfed phenotype still has the selected identity.
 
-Do not run creative search primarily in golfed syntax.
+## 10. Evidence hierarchy after the paired experiment
 
-## 8. Current evidence hierarchy
+Strongly supported:
 
-Strongly supported now:
+- elitism;
+- route-aware early search;
+- progressive unlocking is better than permanent route restrictions;
+- structural search is high leverage for recurrence and sheets;
+- repeated families need niche preservation;
+- filaments benefit from local search first and axial-preserving structural search second;
+- coverage/critic proxies are not reliable aesthetic objectives.
 
-- preserve the incumbent (elitism);
-- search is useful for several math-first routes;
-- mutation policy must depend on topology;
-- structural coverage alone is not quality;
-- brief invariants must remain independent from novelty/aesthetics.
+Still unresolved:
 
-Promising but not yet established:
-
-- exact search budget;
+- exact unlock thresholds and budgets;
 - optimal mutation probabilities;
-- whether multiple independent starts outperform deeper search around one start;
-- route-aware policies for morphology-first explicit anatomy;
-- automatic aesthetic ranking;
+- multiple independent LLM starts versus deeper search;
+- morphology-first broad search;
+- independent human/model aesthetic agreement;
 - continuous autonomous optimization.
 
-Do not convert the second list into hard rules until tested.
+Do not hard-code unresolved items as universal rules.
 
-## 9. Working discovery model
-
-The current best model is:
+## 11. Working discovery model
 
 ```text
 intent
-→ choose compact representation
-→ create viable incumbent
-→ freeze brief invariants
-→ route-aware divergent/local search
-→ retain elite
-→ inspect diverse challengers
-→ aesthetic + temporal selection
-→ semantic checks where relevant
-→ golf winner
-→ verify exact phenotype
+-> choose compact representation
+-> create viable incumbent
+-> freeze brief invariants
+-> stage 1: route-aware high-confidence search
+-> retain/promote elite
+-> if saturated: unlock stage 2 brief-preserving structure
+-> retain/promote elite
+-> stage 3 only when justified by route + brief
+-> visual + temporal selection
+-> semantic checks where relevant
+-> golf selected winner
+-> verify exact phenotype
 ```
 
-The desired system is not a formula generator with more validators. It is an **elite-preserving mathematical discovery process**.
+The desired system is an **elite-preserving mathematical discovery process with progressive search depth**, not a formula generator with a fixed mutation whitelist.
