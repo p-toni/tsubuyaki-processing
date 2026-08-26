@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "route": "filament",
+  "grammar": "templates/mutation-grammar.json",
+  "stage": 1,
+  "eliteId": "E0",
+  "brief": {
+    "text": "intentional translucent axial ribbon",
+    "invariants": [
+      "intentional axial / 1D identity",
+      "traveling internal deformation"
+    ]
+  },
+  "candidates": {
+    "E0": {
+      "id": "E0",
+      "parentId": null,
+      "stage": 0,
+      "mutation": null,
+      "status": "elite",
+      "artifacts": [],
+      "notes": ["initial incumbent"],
+      "review": {
+        "valid": "pass",
+        "adherent": "pass",
+        "preference": "incumbent",
+        "reason": "initial viable incumbent"
+      }
+    }
+  },
+  "events": [
+    {"seq": 1, "type": "init", "eliteId": "E0", "route": "filament", "stage": 1}
+  ]
+}
