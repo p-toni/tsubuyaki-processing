@@ -70,16 +70,20 @@ function stageInfo(s,n=s.stage){const {r}=routeInfo(s);const x=r.stages.find(z=>
 function classesThrough(r,n){return [...new Set(r.stages.filter(x=>x.stage<=n).flatMap(x=>x.classes||[]))]}
 function unlockedClasses(s){const {r}=routeInfo(s);return classesThrough(r,s.stage)}
 function requireCandidate(s,id){const c=s.candidates[id];if(!c)fail(`candidate '${id}' not found`);return c}
+function latestReviewEvent(s,id){
+  return [...s.events].reverse().find(e=>e.type==='review'&&e.id===id)||null;
+}
 function reviewedEvidence(s,id){
   const c=requireCandidate(s,id);
   if(c.parentId===null)fail(`evidence '${id}' is the incumbent, not a searched challenger`);
   if(c.stage!==s.stage)fail(`evidence '${id}' belongs to stage ${c.stage}; unlock evidence must come from current stage ${s.stage}`);
-  if(c.review.valid==='unknown'||c.review.adherent==='unknown'||c.review.preference==='undecided')fail(`evidence '${id}' has not completed review`);
-  return c;
+  const r=latestReviewEvent(s,id);if(!r)fail(`evidence '${id}' has no review event`);
+  if(r.valid==='unknown'||r.adherent==='unknown'||r.preference==='undecided')fail(`evidence '${id}' has not completed review`);
+  return {candidateId:id,reviewSeq:r.seq};
 }
 function validateState(s){
   const errs=[];
-  if(s.version!==2)errs.push('version must be 2');
+  if(s.version!==3)errs.push('version must be 3');
   if(!s.route)errs.push('route missing');
   if(!s.brief||!Array.isArray(s.brief.invariants))errs.push('brief.invariants missing');
   if(!s.eliteId||!s.candidates?.[s.eliteId])errs.push('eliteId must name an existing candidate');
@@ -92,20 +96,37 @@ function validateState(s){
     if(c.parentId===id)errs.push(`${id}: cannot parent itself`);
     if(!Number.isInteger(c.stage)||c.stage<0||c.stage>s.stage)errs.push(`${id}: invalid historical stage ${c.stage}`);
     if(c.mutation){
-      if(!Array.isArray(c.mutation.classes)||!c.mutation.classes.length)errs.push(`${id}: mutation.classes must be a non-empty array`);
-      if(!Array.isArray(c.mutation.operators)||!c.mutation.operators.length)errs.push(`${id}: mutation.operators must be a non-empty array`);
-      if(r&&Array.isArray(c.mutation.classes)){
+      if(!Array.isArray(c.mutation.changes)||!c.mutation.changes.length)errs.push(`${id}: mutation.changes must be a non-empty array`);
+      if(r&&Array.isArray(c.mutation.changes)){
         const legal=new Set(classesThrough(r,c.stage));
-        for(const cls of c.mutation.classes)if(!legal.has(cls))errs.push(`${id}: mutation class '${cls}' was not unlocked at historical stage ${c.stage}`);
+        for(const [n,ch] of c.mutation.changes.entries()){
+          if(!ch||typeof ch.class!=='string'||!ch.class)errs.push(`${id}: mutation.changes[${n}].class required`);
+          if(!ch||typeof ch.operator!=='string'||!ch.operator)errs.push(`${id}: mutation.changes[${n}].operator required`);
+          if(ch?.class&&!legal.has(ch.class))errs.push(`${id}: mutation class '${ch.class}' was not unlocked at historical stage ${c.stage}`);
+        }
       }
     }else if(c.parentId!==null)errs.push(`${id}: non-incumbent candidate must record mutation cause`);
   }
   let lastSeq=0;
+  const bySeq=new Map();
   for(const e of s.events||[]){
-    if(!Number.isInteger(e.seq)||e.seq<=lastSeq)errs.push(`event sequence must be strictly increasing at ${e.seq}`);lastSeq=e.seq||lastSeq;
-    if(e.type==='unlock'){
-      if(!Array.isArray(e.evidenceCandidateIds)||!e.evidenceCandidateIds.length)errs.push(`unlock stage ${e.stage}: evidenceCandidateIds required`);
-      for(const id of e.evidenceCandidateIds||[])if(!s.candidates?.[id])errs.push(`unlock stage ${e.stage}: evidence candidate '${id}' missing`);
+    if(!Number.isInteger(e.seq)||e.seq<=lastSeq)errs.push(`event sequence must be strictly increasing at ${e.seq}`);
+    if(Number.isInteger(e.seq))bySeq.set(e.seq,e);lastSeq=e.seq||lastSeq;
+  }
+  for(const e of s.events||[]){
+    if(e.type!=='unlock')continue;
+    if(!Array.isArray(e.evidence)||!e.evidence.length)errs.push(`unlock stage ${e.stage}: evidence required`);
+    for(const [n,b] of (e.evidence||[]).entries()){
+      if(!b||!b.candidateId||!Number.isInteger(b.reviewSeq)){errs.push(`unlock stage ${e.stage}: evidence[${n}] must bind candidateId + reviewSeq`);continue}
+      const c=s.candidates?.[b.candidateId];
+      if(!c){errs.push(`unlock stage ${e.stage}: evidence candidate '${b.candidateId}' missing`);continue}
+      if(c.stage!==e.stage-1)errs.push(`unlock stage ${e.stage}: evidence '${b.candidateId}' belongs to candidate stage ${c.stage}, expected ${e.stage-1}`);
+      const rev=bySeq.get(b.reviewSeq);
+      if(!rev||rev.type!=='review'||rev.id!==b.candidateId)errs.push(`unlock stage ${e.stage}: reviewSeq ${b.reviewSeq} does not bind review for '${b.candidateId}'`);
+      else{
+        if(rev.seq>=e.seq)errs.push(`unlock stage ${e.stage}: evidence review ${rev.seq} must precede unlock event ${e.seq}`);
+        if(rev.valid==='unknown'||rev.adherent==='unknown'||rev.preference==='undecided')errs.push(`unlock stage ${e.stage}: evidence review ${rev.seq} was incomplete`);
+      }
     }
   }
   return errs;
@@ -117,7 +138,7 @@ if(command==='init'){
   const grammarPath=opt.grammar||'templates/mutation-grammar.json';
   const {g,hash}=readGrammar(grammarPath,statePath);if(!g.routes?.[route])fail(`route '${route}' not found in ${resolveGrammar(grammarPath,statePath)}`);
   const eliteId=opt.elite||'E0';
-  const state={version:2,route,grammar:{path:grammarPath,version:g.version,sha256:hash},stage:1,eliteId,brief:{text:opt.brief||'',invariants:opt.invariant||[]},candidates:{},events:[]};
+  const state={version:3,route,grammar:{path:grammarPath,version:g.version,sha256:hash},stage:1,eliteId,brief:{text:opt.brief||'',invariants:opt.invariant||[]},candidates:{},events:[]};
   state.candidates[eliteId]={id:eliteId,parentId:null,stage:0,mutation:null,status:'elite',artifacts:[],notes:['initial incumbent'],review:{valid:'pass',adherent:'pass',preference:'incumbent',reason:'initial viable incumbent'}};
   event(state,'init',{eliteId,route,stage:1,grammar:{version:g.version,sha256:hash}});
   save(statePath,state);console.log(JSON.stringify({state:statePath,eliteId,route,stage:1,grammar:state.grammar,unlocked:unlockedClasses(state)},null,2));process.exit(0);
@@ -128,11 +149,13 @@ if(command==='add'){
   routeInfo(state);
   const id=opt._[0];if(!id)fail('candidate ID is required');if(state.candidates[id])fail(`candidate '${id}' already exists`);
   const parentId=opt.parent||state.eliteId;requireCandidate(state,parentId);
-  const classes=opt.class||[];if(!classes.length)fail('at least one --class is required');
-  const operators=opt.operator||[];if(!operators.length)fail('at least one --operator is required to record concrete mathematical cause');
+  const classes=opt.class||[],operators=opt.operator||[];
+  if(!classes.length)fail('at least one --class is required');
+  if(classes.length!==operators.length)fail(`--class and --operator must be supplied in equal counts (${classes.length} vs ${operators.length})`);
   const allowed=new Set(unlockedClasses(state));for(const cls of classes)if(!allowed.has(cls))fail(`mutation class '${cls}' is locked at stage ${state.stage}`);
-  state.candidates[id]={id,parentId,stage:state.stage,mutation:{classes:[...new Set(classes)],operators,detail:opt.detail||null},status:'candidate',artifacts:opt.artifact||[],notes:opt.note||[],review:{valid:'unknown',adherent:'unknown',preference:'undecided',reason:''}};
-  event(state,'add',{id,parentId,stage:state.stage,classes:state.candidates[id].mutation.classes,operators});save(statePath,state);console.log(JSON.stringify(state.candidates[id],null,2));
+  const changes=classes.map((cls,i)=>({class:cls,operator:operators[i]}));
+  state.candidates[id]={id,parentId,stage:state.stage,mutation:{changes,detail:opt.detail||null},status:'candidate',artifacts:opt.artifact||[],notes:opt.note||[],review:{valid:'unknown',adherent:'unknown',preference:'undecided',reason:''}};
+  event(state,'add',{id,parentId,stage:state.stage,changes});save(statePath,state);console.log(JSON.stringify(state.candidates[id],null,2));
 }else if(command==='review'){
   routeInfo(state);
   const id=opt._[0];if(!id)fail('candidate ID is required');const c=requireCandidate(state,id);
@@ -142,7 +165,7 @@ if(command==='add'){
   c.review={valid,adherent,preference,reason:opt.reason||c.review.reason||''};
   if(opt.note)c.notes.push(...opt.note);
   if(valid==='fail'||adherent==='fail'||preference==='reject')c.status='rejected';else if(preference==='archive')c.status='archived';else if(c.status!=='elite')c.status='reviewed';
-  event(state,'review',{id,valid,adherent,preference});save(statePath,state);console.log(JSON.stringify(c,null,2));
+  event(state,'review',{id,valid,adherent,preference,reason:c.review.reason});save(statePath,state);console.log(JSON.stringify(c,null,2));
 }else if(command==='promote'){
   routeInfo(state);
   const id=opt._[0];if(!id)fail('candidate ID is required');const c=requireCandidate(state,id);const reason=opt.reason;if(!reason)fail('--reason is required');
@@ -156,11 +179,11 @@ if(command==='add'){
   const target=Number(opt._[0]);if(!Number.isInteger(target))fail('target STAGE integer is required');
   if(target!==state.stage+1)fail(`unlock must advance exactly one stage (${state.stage} -> ${state.stage+1})`);
   const next=stageInfo(state,target),reason=opt.reason;if(!reason)fail('--reason is required');
-  const evidenceCandidateIds=[...new Set(opt.evidence||[])];if(!evidenceCandidateIds.length)fail('at least one --evidence candidate is required');
-  for(const id of evidenceCandidateIds)reviewedEvidence(state,id);
+  const ids=[...new Set(opt.evidence||[])];if(!ids.length)fail('at least one --evidence candidate is required');
+  const evidence=ids.map(id=>reviewedEvidence(state,id));
   if(next.requiresBriefChange&&!bool(opt['brief-change']))fail(`stage ${target} requires --brief-change=true for route '${state.route}'`);
   if(next.experimental&&!bool(opt.experimental))fail(`stage ${target} is experimental; pass --experimental=true explicitly`);
-  state.stage=target;event(state,'unlock',{stage:target,name:next.name,reason,evidenceCandidateIds});save(statePath,state);console.log(JSON.stringify({stage:target,name:next.name,evidenceCandidateIds,unlocked:unlockedClasses(state)},null,2));
+  state.stage=target;event(state,'unlock',{stage:target,name:next.name,reason,evidence});save(statePath,state);console.log(JSON.stringify({stage:target,name:next.name,evidence,unlocked:unlockedClasses(state)},null,2));
 }else if(command==='summary'){
   routeInfo(state);
   const counts={};for(const c of Object.values(state.candidates))counts[c.status]=(counts[c.status]||0)+1;
