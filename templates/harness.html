@@ -5,11 +5,14 @@
 <script>
 // Offline-first harness.
 //   harness.html?frame=90&s=my-sketch.js
+//   harness.html?frame=90&s=my-sketch.js&region=bell
 // uses the bundled p5-lite runtime and selected sketch.
+// `region` is exposed as window.__TSUBUYAKI_REGION__ for diagnostic mask renders.
 // Add &full=1 to request full p5.js from CDN when a sketch needs APIs outside p5-lite.
 const params=new URLSearchParams(location.search);
 const sketch=params.get('s')||'sketch.js';
 const full=params.get('full')==='1';
+window.__TSUBUYAKI_REGION__=params.get('region')||null;
 window.__TSUBUYAKI_CAPTURE_FRAME__=+(params.get('frame')||0);
 window.__TSUBUYAKI_READY__=false;
 window.__TSUBUYAKI_ERROR__=null;
