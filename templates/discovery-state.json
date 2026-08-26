@@ -1,13 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "route": "filament",
   "grammar": {
     "path": "templates/mutation-grammar.json",
     "version": 1,
     "sha256": "<captured-at-init>"
   },
-  "stage": 1,
-  "eliteId": "E0",
+  "stage": 2,
+  "eliteId": "E2",
   "brief": {
     "text": "intentional translucent axial ribbon",
     "invariants": [
@@ -21,7 +21,7 @@
       "parentId": null,
       "stage": 0,
       "mutation": null,
-      "status": "elite",
+      "status": "prior-elite",
       "artifacts": [],
       "notes": ["initial incumbent"],
       "review": {
@@ -30,19 +30,56 @@
         "preference": "incumbent",
         "reason": "initial viable incumbent"
       }
+    },
+    "E1": {
+      "id": "E1",
+      "parentId": "E0",
+      "stage": 1,
+      "mutation": {
+        "changes": [
+          {"class": "numeric-frequency", "operator": "secondaryFrequency:5->5.4"}
+        ],
+        "detail": null
+      },
+      "status": "archived",
+      "artifacts": [],
+      "notes": [],
+      "review": {
+        "valid": "pass",
+        "adherent": "pass",
+        "preference": "archive",
+        "reason": "valid near-neighbor"
+      }
+    },
+    "E2": {
+      "id": "E2",
+      "parentId": "E0",
+      "stage": 2,
+      "mutation": {
+        "changes": [
+          {"class": "harmonic-family", "operator": "secondaryFrequency:5->7"},
+          {"class": "fold-law", "operator": "sine->pulse"}
+        ],
+        "detail": null
+      },
+      "status": "elite",
+      "artifacts": [],
+      "notes": [],
+      "review": {
+        "valid": "pass",
+        "adherent": "pass",
+        "preference": "prefer",
+        "reason": "stronger across matched times"
+      }
     }
   },
   "events": [
-    {
-      "seq": 1,
-      "type": "init",
-      "eliteId": "E0",
-      "route": "filament",
-      "stage": 1,
-      "grammar": {
-        "version": 1,
-        "sha256": "<captured-at-init>"
-      }
-    }
+    {"seq": 1, "type": "init", "eliteId": "E0", "route": "filament", "stage": 1, "grammar": {"version": 1, "sha256": "<captured-at-init>"}},
+    {"seq": 2, "type": "add", "id": "E1", "parentId": "E0", "stage": 1, "changes": [{"class": "numeric-frequency", "operator": "secondaryFrequency:5->5.4"}]},
+    {"seq": 3, "type": "review", "id": "E1", "valid": "pass", "adherent": "pass", "preference": "archive", "reason": "valid near-neighbor"},
+    {"seq": 4, "type": "unlock", "stage": 2, "name": "axial-preserving structure", "reason": "stage 1 saturated", "evidence": [{"candidateId": "E1", "reviewSeq": 3}]},
+    {"seq": 5, "type": "add", "id": "E2", "parentId": "E0", "stage": 2, "changes": [{"class": "harmonic-family", "operator": "secondaryFrequency:5->7"}, {"class": "fold-law", "operator": "sine->pulse"}]},
+    {"seq": 6, "type": "review", "id": "E2", "valid": "pass", "adherent": "pass", "preference": "prefer", "reason": "stronger across matched times"},
+    {"seq": 7, "type": "promote", "from": "E0", "to": "E2", "reason": "visual and temporal preference"}
   ]
 }
