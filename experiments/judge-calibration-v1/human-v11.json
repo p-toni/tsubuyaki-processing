@@ -1,0 +1,11 @@
+{
+  "reviewer": "Toni",
+  "mappingPersistence": "reconstructed; original compositor did not persist sealed mapping",
+  "rows": [
+    {"brief":"twisted-current","mapping":{"A":"sheet","B":"recurrence","C":"orbit","D":"filament","E":"family"},"human":"D","confidence":"strong","preference":"filament","semanticTop2":["recurrence","filament"],"contained":true},
+    {"brief":"wounded-halo","mapping":{"A":"orbit","B":"sheet","C":"family","D":"filament","E":"recurrence"},"human":"B","confidence":"strong","preference":"sheet","semanticTop2":["orbit","sheet"],"contained":true},
+    {"brief":"echo-cluster","mapping":{"A":"family","B":"orbit","C":"sheet","D":"recurrence","E":"filament"},"human":"C","confidence":"strong","preference":"sheet","semanticTop2":["family","sheet"],"contained":true},
+    {"brief":"punctured-membrane","mapping":{"A":"filament","B":"sheet","C":"family","D":"orbit","E":"recurrence"},"human":"E","confidence":"strong","preference":"recurrence","semanticTop2":["sheet","orbit"],"contained":false},
+    {"brief":"tension-stroke","mapping":{"A":"orbit","B":"filament","C":"sheet","D":"recurrence","E":"family"},"human":"A","confidence":"low","preference":"orbit","semanticTop2":["filament","recurrence"],"contained":false}
+  ]
+}

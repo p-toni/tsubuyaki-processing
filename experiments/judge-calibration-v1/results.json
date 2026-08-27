@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "fineGrainedAudit": {
+    "pairs": 8,
+    "strongPairs": 5,
+    "lowConfidencePairs": [1, 2, 5],
+    "strongHumanVsLaterModelAgreement": {"agree": 1, "total": 5},
+    "conclusion": "same-model fine-grained preference is not promotion ground truth"
+  },
+  "routeLevelAudit": {
+    "pairs": 5,
+    "strongPairs": 4,
+    "lowConfidenceBriefs": ["tension-stroke"],
+    "strongHumanVsPriorRouteWinnerAgreement": {"agree": 0, "total": 4},
+    "strongSemanticTop2Containment": {"contained": 3, "total": 4},
+    "mappingPersistence": "missing in original audit compositor; reconstructed from representation-specific phenotypes",
+    "conclusion": "semantic eligibility remains plausible but prior 66/66 containment is not independently validated"
+  },
+  "promotionPolicy": {
+    "authoritativeSourceClasses": ["human", "independent-model"],
+    "advisorySourceClasses": ["same-model", "deterministic-proxy"],
+    "lowConfidenceCanPromote": false,
+    "authoritativeConflict": "defer"
+  }
+}
