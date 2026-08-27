@@ -77,6 +77,18 @@ All four boundaries flipped in the intended direction in **3/3 seeds**:
 - orbit ↔ filament: sealed whip vs open near-halo;
 - orbit ↔ family: lobes of one continuous ring vs separate sibling organs.
 
+### 6. Metaphorical cold-language holdout
+
+A final local robustness gate removed explicit topology vocabulary from the prompts. Ten cold metaphorical briefs described the same five semantic niches without using route names or terms such as `recurrence`, `sheet`, `filament`, `1-D`, `2-D`, or `aperture`. Three fresh seeds and four fixed independent starts per representation were judged with route identity sealed.
+
+```text
+overall intended niche: 30/30
+orbit metaphor niche:    6/6 orbit wins
+non-orbit metaphors:     0/24 orbit wins
+```
+
+Every metaphorical brief selected its intended representation in 3/3 seeds. This reduces the concern that orbit only succeeds when the prompt effectively names its mathematical topology. It is still not independent-judge evidence.
+
 ## Current conclusion
 
 The evidence supports treating `orbit` as a **first-class research representation candidate** rather than a one-off repair. It appears to occupy a coherent topology niche: a closed one-dimensional recurrent manifold around a persistent void.
@@ -93,6 +105,6 @@ The main remaining gate is **independent-judge replication**. All artistic verdi
 ## Files
 
 - `protocols.md` — the frozen protocols in experimental order.
-- `results.json` — compact machine-readable results for all five evidence layers.
+- `results.json` — compact machine-readable results for all six evidence layers.
 - `../../prototypes/autonomous-discovery/orbit_representation.py` — experiment-safe registration of the new representation without mutating the baseline four-route registry on import.
 - `../../prototypes/autonomous-discovery/test_orbit_representation.py` — topology, validity, and archive-independence regression coverage.
