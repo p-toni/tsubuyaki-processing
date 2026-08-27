@@ -1,0 +1,13 @@
+{
+  "reviewer": "Toni",
+  "rows": [
+    {"id":1,"brief":"folded-eye-current","A":"SC10","B":"SC2","human":"B","confidence":"low","preference":"SC2"},
+    {"id":2,"brief":"veil-rim","A":"SC2","B":"SC10","human":"A","confidence":"low","preference":"SC2"},
+    {"id":3,"brief":"petal-current","A":"FC9","B":"FC4","human":"A","confidence":"strong","preference":"FC9"},
+    {"id":4,"brief":"turbulent-cord","A":"RC8","B":"RC1","human":"A","confidence":"strong","preference":"RC8"},
+    {"id":5,"brief":"torn-skin","A":"SN1","B":"SN8","human":"A","confidence":"low","preference":"SN1"},
+    {"id":6,"brief":"rooted-choir","A":"FN9","B":"FN1","human":"B","confidence":"strong","preference":"FN1"},
+    {"id":7,"brief":"drawn-thread","A":"LN4","B":"LN7","human":"B","confidence":"strong","preference":"LN7"},
+    {"id":8,"brief":"smoke-clasp","A":"OC7","B":"OC2","human":"B","confidence":"strong","preference":"OC2"}
+  ]
+}
