@@ -51,8 +51,8 @@ A frozen experiment used 10 unseen briefs, two assigned to each semantic niche, 
 Result:
 
 ```text
-orbit niche:          6/6 orbit wins
-non-orbit controls:   0/24 orbit wins
+orbit niche:       6/6 orbit wins
+non-orbit controls: 0/24 orbit wins
 overall intended niche: 30/30
 ```
 
@@ -89,14 +89,40 @@ non-orbit metaphors:     0/24 orbit wins
 
 Every metaphorical brief selected its intended representation in 3/3 seeds. This reduces the concern that orbit only succeeds when the prompt effectively names its mathematical topology. It is still not independent-judge evidence.
 
+### 7. Historical pre-orbit cold-brief holdout
+
+To test natural prevalence rather than prompts designed around orbit, a frozen holdout reused **9 briefs/specs authored before orbit existed**. Eight had established pre-orbit route ownership (family / recurrence / sheet / filament); one historical negative-morphology control was only specified as a compact math-first emergent form, without a subtype assignment. Three fresh seeds and four independent starts per representation were judged route-blind.
+
+```text
+established-route controls: 24/24 prior-route wins
+orbit steals on controls:     0/24
+subtype-ambiguous old brief:  orbit 3/3
+```
+
+This is the first evidence in the sequence that orbit demand occurs in text authored before the representation was proposed. The sample is intentionally small and should not be read as a prevalence estimate for arbitrary creative briefs.
+
+### 8. Matched cause ablation
+
+The three orbit winners from the historical subtype-ambiguous brief were then ablated **without new search**. Each exact genome was rendered as: (a) the intact closed sparse orbit, (b) the same contour with a fixed angular gap, or (c) the same animated outer silhouette filled radially into a surface-like body. Condition identity was sealed until all three judgments were frozen.
+
+```text
+closed sparse cause: 3/3
+open-gap contour:    0/3
+filled silhouette:   0/3
+```
+
+This weakens the alternative explanation that orbit won merely because a lobed creature-like silhouette is visually attractive: breaking closure or replacing the sparse path with a filled surface removed the preference while preserving much of the outer shape.
+
 ## Current conclusion
 
 The evidence supports treating `orbit` as a **first-class research representation candidate** rather than a one-off repair. It appears to occupy a coherent topology niche: a closed one-dimensional recurrent manifold around a persistent void.
 
+The historical holdout now provides **limited evidence of natural orbit demand**: one subtype-ambiguous pre-orbit brief selected orbit in 3/3 fresh seeds while orbit stole 0/24 established-route controls. This is evidence of existence, not a population prevalence estimate.
+
 It does **not** yet justify:
 
 - a production `SKILL.md` routing change;
-- a claim about natural prevalence of orbit briefs;
+- a claim about how common orbit briefs are in arbitrary cold traffic;
 - an allocation/racing policy;
 - collapsing orbit into recurrence as a subtype versus keeping it top-level.
 
@@ -105,6 +131,8 @@ The main remaining gate is **independent-judge replication**. All artistic verdi
 ## Files
 
 - `protocols.md` — the frozen protocols in experimental order.
-- `results.json` — machine-readable results for all six evidence layers.
+- `results.json` — machine-readable results for the first six evidence layers.
+- `historical-holdout-v1.md` — frozen historical-holdout + matched-ablation protocol, provenance, and interpretation.
+- `historical-holdout-v1.json` — machine-readable results for evidence layers 7–8.
 - `../../prototypes/autonomous-discovery/orbit_representation.py` — experiment-safe registration of the new representation without mutating the baseline four-route registry on import.
 - `../../prototypes/autonomous-discovery/test_orbit_representation.py` — topology, validity, and archive-independence regression coverage.
