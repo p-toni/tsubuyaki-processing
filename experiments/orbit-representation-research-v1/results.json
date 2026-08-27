@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "representationCapacityMapV1": {
+    "seeds": [585826, 455675, 838767],
+    "blocks": 24,
+    "strictRegretCount": 1,
+    "strictRegretRate": 0.041666666666666664,
+    "stableBriefs3of3": 7,
+    "winnerCounts": {"recurrence": 7, "family": 6, "sheet": 6, "filament": 5},
+    "onlyRegret": {"brief": "pressure-thread", "seed": 455675, "heuristic": "filament", "winner": "recurrence"}
+  },
+  "representationBoundaryMapV1": {
+    "seeds": [275350, 430019, 768548],
+    "blocks": 36,
+    "pairContained": 36,
+    "strictRegretCount": 3,
+    "perfectDirectionalBoundaries": 5,
+    "boundaryCount": 6,
+    "failedBoundary": {
+      "pair": ["recurrence", "sheet"],
+      "recurrenceLeaningWinners": ["sheet", "sheet", "sheet"],
+      "sheetLeaningWinners": ["sheet", "sheet", "sheet"]
+    }
+  },
+  "orbitBoundaryInterventionV1": {
+    "seeds": [275350, 430019, 768548],
+    "foldedApertureWinners": ["orbit", "orbit", "orbit"],
+    "apertureCurrentWinners": ["sheet", "sheet", "sheet"],
+    "hardening": {
+      "firstStartValid": [39, 40],
+      "localMutationValid": [117, 120],
+      "localMutationValidRate": 0.975
+    }
+  },
+  "orbitFiveArmReplicationV1": {
+    "seeds": [365728, 837514, 275892],
+    "blocks": 30,
+    "orbitNicheWins": [6, 6],
+    "offNicheOrbitWins": [0, 24],
+    "overallIntendedNicheWins": [30, 30],
+    "perBriefWinners": {
+      "closed-pulse": ["orbit", "orbit", "orbit"],
+      "wounded-halo": ["orbit", "orbit", "orbit"],
+      "twisted-current": ["recurrence", "recurrence", "recurrence"],
+      "folded-stream": ["recurrence", "recurrence", "recurrence"],
+      "punctured-membrane": ["sheet", "sheet", "sheet"],
+      "draped-aperture": ["sheet", "sheet", "sheet"],
+      "budded-crown": ["family", "family", "family"],
+      "echo-cluster": ["family", "family", "family"],
+      "tension-stroke": ["filament", "filament", "filament"],
+      "whip-fold": ["filament", "filament", "filament"]
+    }
+  },
+  "orbitBoundaryReplicationV1": {
+    "seeds": [375211, 370687, 589395],
+    "blocks": 24,
+    "directionalTargetWins": [24, 24],
+    "pairContained": [24, 24],
+    "orbitLeaningOrbitWins": [12, 12],
+    "oppositeDirectionalWins": [12, 12],
+    "thirdRouteLeakage": 0,
+    "perBriefWinners": {
+      "returning-knot": ["orbit", "orbit", "orbit"],
+      "open-knot": ["recurrence", "recurrence", "recurrence"],
+      "ringed-aperture": ["orbit", "orbit", "orbit"],
+      "membrane-eye": ["sheet", "sheet", "sheet"],
+      "closed-whip": ["orbit", "orbit", "orbit"],
+      "almost-halo": ["filament", "filament", "filament"],
+      "lobed-halo": ["orbit", "orbit", "orbit"],
+      "wreath-buds": ["family", "family", "family"]
+    },
+    "pairFlipSeeds": {
+      "orbit-recurrence": 3,
+      "orbit-sheet": 3,
+      "orbit-filament": 3,
+      "orbit-family": 3
+    }
+  },
+  "orbitMetaphoricalHoldoutV1": {
+    "seeds": [274316, 174976, 251333],
+    "blocks": 30,
+    "overallIntendedNicheWins": [30, 30],
+    "orbitNicheWins": [6, 6],
+    "offNicheOrbitWins": [0, 24],
+    "perBriefWinners": {
+      "hollow-bruise": ["orbit", "orbit", "orbit"],
+      "sleeping-mouth": ["orbit", "orbit", "orbit"],
+      "smoke-handwriting": ["recurrence", "recurrence", "recurrence"],
+      "river-memory": ["recurrence", "recurrence", "recurrence"],
+      "torn-sail": ["sheet", "sheet", "sheet"],
+      "breathing-curtain": ["sheet", "sheet", "sheet"],
+      "anemone-chorus": ["family", "family", "family"],
+      "seedling-choir": ["family", "family", "family"],
+      "loose-wire": ["filament", "filament", "filament"],
+      "whiplash": ["filament", "filament", "filament"]
+    },
+    "note": "Prompts used metaphorical ordinary language and avoided explicit route/topology vocabulary; same artistic judge process, so not independent-judge evidence."
+  }
+}
