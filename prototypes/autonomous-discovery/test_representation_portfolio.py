@@ -5,7 +5,7 @@ from pathlib import Path
 import run
 from decision_ledger import decode_blind_decision_dirs
 from judge_queue import QueueingSelector
-from pairwise_selector import DeterministicTemporalSelector
+from pairwise_selector import DeterministicTemporalSelector, PairwiseSelector, PairwiseDecision, DimensionVote
 from portfolio_runner import _arm_search, run_policy
 from rng_streams import representation_rng
 
@@ -13,6 +13,11 @@ PARITY={
     'recurrence':('b17e7ba5a9c405546bd1f6d66ee6611aa44057bff08f677a403a8622afcdbe9f','025715fe49a84f4ca9d3cc1c047882ed6ce63ee960d101cdd11f225db5b8a475'),
     'family':('c69269733e540d9f39f2e0bfca1e0f7a698264efa54ce056a2727a46636bc461','b58d7a8cef473f10003af5bb80ac0de255fb5cb051c5ab41941494c6e5e6ecfe'),
 }
+
+class AlwaysTie(PairwiseSelector):
+    name='always-tie'
+    def compare(self,a,b,brief):
+        return PairwiseDecision(a.id,b.id,'tie','defer',(DimensionVote('test','tie','force queue'),),self.name)
 
 def png_hash(im):
     b=io.BytesIO(); im.save(b,format='PNG'); return hashlib.sha256(b.getvalue()).hexdigest()
@@ -50,7 +55,7 @@ def main():
         assert rr['routeBudgets']=={'sheet':24} and rr['representationChampions'][0]['attempts']==24
 
     with tempfile.TemporaryDirectory() as td:
-        q=QueueingSelector(DeterministicTemporalSelector(),Path(td)/'q',run.render_candidate_frame,run.TIMES)
+        q=QueueingSelector(AlwaysTie(),Path(td)/'q',run.render_candidate_frame,run.TIMES)
         ra=random.Random(10); rb=random.Random(11)
         a=run.Candidate('a','sheet','a',run.ROUTES['sheet']['seed'](ra),None,'t'); b=run.Candidate('b','filament','b',run.ROUTES['filament']['seed'](rb),None,'t'); run.evaluate_candidate(a,brief); run.evaluate_candidate(b,brief); q.compare(a,b,brief)
         doc=json.loads((Path(td)/'q'/'queue.json').read_text()); assert doc['pairs']

@@ -20,8 +20,8 @@ def _arm_search(brief, seed, route, attempt_budget, selector, starts=2):
     while len(basins)<starts and attempts<attempt_budget:
         seed_index+=1; cid=f'{prefix}P{seed_index}'; c=Candidate(cid,route,cid,ROUTES[route]['seed'](rng),None,'portfolio-start'); evaluate_candidate(c,brief); attempts+=1; candidates[cid]=c
         if c.checks.get('valid',False):basins.append(c)
-    if not basins:
-        raise RuntimeError(f'portfolio arm {route} produced no valid start within budget')
+    if len(basins) < starts:
+        raise RuntimeError(f'portfolio arm {route} produced only {len(basins)}/{starts} valid starts within budget')
     champions={c.basin:c for c in basins}; basin_order=[c.basin for c in basins]; mutation_index=0
     while attempts<attempt_budget:
         bid=basin_order[mutation_index%len(basin_order)]; inc=champions[bid]; mutation_index+=1
