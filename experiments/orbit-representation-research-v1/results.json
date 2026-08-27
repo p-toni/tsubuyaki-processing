@@ -75,5 +75,25 @@
       "orbit-filament": 3,
       "orbit-family": 3
     }
+  },
+  "orbitMetaphoricalHoldoutV1": {
+    "seeds": [274316, 174976, 251333],
+    "blocks": 30,
+    "overallIntendedNicheWins": [30, 30],
+    "orbitNicheWins": [6, 6],
+    "offNicheOrbitWins": [0, 24],
+    "perBriefWinners": {
+      "hollow-bruise": ["orbit", "orbit", "orbit"],
+      "sleeping-mouth": ["orbit", "orbit", "orbit"],
+      "smoke-handwriting": ["recurrence", "recurrence", "recurrence"],
+      "river-memory": ["recurrence", "recurrence", "recurrence"],
+      "torn-sail": ["sheet", "sheet", "sheet"],
+      "breathing-curtain": ["sheet", "sheet", "sheet"],
+      "anemone-chorus": ["family", "family", "family"],
+      "seedling-choir": ["family", "family", "family"],
+      "loose-wire": ["filament", "filament", "filament"],
+      "whiplash": ["filament", "filament", "filament"]
+    },
+    "note": "Prompts used metaphorical ordinary language and avoided explicit route/topology vocabulary; same artistic judge process, so not independent-judge evidence."
   }
 }
