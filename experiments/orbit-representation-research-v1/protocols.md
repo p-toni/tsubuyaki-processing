@@ -118,3 +118,19 @@ Frozen before generation or inspection.
 **Secondary:** each pair flips in at least 2/3 seeds; record third-route leakage and one-sided dominance.
 
 **Interpretation:** passing supports publishing orbit into the research representation set. It still does not justify a production `SKILL.md` routing change without independent-judge replication.
+
+---
+
+## Orbit metaphorical holdout v1
+
+Frozen before generation or inspection.
+
+**Question:** do the five representations, especially orbit, remain separable when ordinary artistic/metaphorical language replaces explicit mathematical topology vocabulary?
+
+**Design:** 10 cold briefs, two per intended niche; fresh deterministic seeds `274316`, `174976`, `251333`; all five routes eligible; 4 independent viable starts per representation; fixed brief-independent archives; no mutation or adaptive search. Prompts avoided route words and explicit terms such as `recurrence`, `sheet`, `filament`, `1-D`, `2-D`, and `aperture`.
+
+**Primary criteria:** intended representation wins at least 26/30 global blocks; orbit wins at least 5/6 orbit-intent blocks; orbit wins no more than 2/24 non-orbit blocks.
+
+**Blinding:** within-route winners selected first; five route champions then shuffled globally with route identity sealed until all 30 global verdicts were written.
+
+**Interpretation:** passing supports language-generalization of the representation niches. It does not substitute for independent-judge replication because the same judging process supplied the artistic verdicts.
