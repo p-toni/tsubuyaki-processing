@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "orbitHistoricalColdHoldoutV1": {
+    "seeds": [
+      359541,
+      133902,
+      823347
+    ],
+    "briefs": 9,
+    "blocks": 27,
+    "establishedRouteBlocks": 24,
+    "orbitSteals": [
+      0,
+      24
+    ],
+    "priorRouteMatches": [
+      24,
+      24
+    ],
+    "establishedBriefOrbitSweeps": [],
+    "ambiguousBrief": "morphology-emergent-form",
+    "ambiguousOrbitWins": [
+      3,
+      3
+    ],
+    "perBriefWinners": {
+      "search-plankton-family": [
+        "family",
+        "family",
+        "family"
+      ],
+      "search-living-knot": [
+        "recurrence",
+        "recurrence",
+        "recurrence"
+      ],
+      "search-dense-membrane": [
+        "sheet",
+        "sheet",
+        "sheet"
+      ],
+      "search-filament-ribbon": [
+        "filament",
+        "filament",
+        "filament"
+      ],
+      "v014-tidal-living-knot": [
+        "recurrence",
+        "recurrence",
+        "recurrence"
+      ],
+      "v014-split-veil": [
+        "sheet",
+        "sheet",
+        "sheet"
+      ],
+      "breadth-storm-organ": [
+        "recurrence",
+        "recurrence",
+        "recurrence"
+      ],
+      "breadth-drifting-spores": [
+        "family",
+        "family",
+        "family"
+      ],
+      "morphology-emergent-form": [
+        "orbit",
+        "orbit",
+        "orbit"
+      ]
+    },
+    "sourceBlobs": {
+      "experiments/search-lab/briefs.json": "381f09c3f657112de95eacc11c43e7bdb14f8d27",
+      "experiments/v014-cold-e2e/protocol.md": "d8c2c1fb8b102827f745308414582a4f919c9507",
+      "experiments/breadth-depth-selector/protocol.md": "0614e13bf766624e487df968f39ecd8d6f1af4ea",
+      "experiments/morphology-route-pair/protocol.md": "3ee64351d95bbdbe7730d7caa2db2ec35104e10a"
+    }
+  },
+  "orbitCauseAblationV1": {
+    "seeds": [
+      359541,
+      133902,
+      823347
+    ],
+    "subjectBrief": "morphology-emergent-form",
+    "subjects": {
+      "359541": "OH2",
+      "133902": "OH1",
+      "823347": "OH3"
+    },
+    "closedWins": [
+      3,
+      3
+    ],
+    "gapWins": [
+      0,
+      3
+    ],
+    "filledWins": [
+      0,
+      3
+    ],
+    "perSeed": {
+      "359541": "closed",
+      "133902": "closed",
+      "823347": "closed"
+    },
+    "status": "supports-cause"
+  }
+}
