@@ -1,0 +1,10 @@
+{
+  "name": "autonomous-discovery-prototype",
+  "artistic_intent": "Discover an original mathematically generated living form with coherent material, strong composition, and meaningful motion across time. Prefer distinctive non-generic structure over merely filling the canvas.",
+  "routes": ["recurrence", "family"],
+  "bbox_target": [0.55, 0.82],
+  "starts_per_route": 3,
+  "explore_per_basin": 4,
+  "roundA_per_survivor": 3,
+  "total_extra_budget": 12
+}
