@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "seeds": [616842, 216139, 980564],
+  "briefs": {
+    "closed": ["closed-pulse", "returning-knot"],
+    "openControls": ["living-knot", "open-knot"]
+  },
+  "initialLadder": {
+    "closedBlocks": 6,
+    "closedWinnerCounts": {
+      "polar-remap": 5,
+      "orbit": 1,
+      "recurrence-open": 0,
+      "seam-closed": 0,
+      "periodic-domain": 0
+    },
+    "openBlocks": 6,
+    "openWinnerCounts": {
+      "recurrence-open": 5,
+      "seam-closed": 1,
+      "periodic-domain": 0,
+      "polar-remap": 0,
+      "orbit": 0
+    }
+  },
+  "distributedSeamCorrection": {
+    "validity": {
+      "fresh": {"n": 36, "openValid": 36, "closedValid": 36, "dualValid": 36},
+      "mutations": {"n": 180, "openValid": 180, "closedValid": 180, "dualValid": 180}
+    },
+    "artisticRetest": {
+      "closed": {"orbit": 5, "polar-corrected": 1, "blocks": 6},
+      "open": {"open-recurrence": 6, "blocks": 6}
+    }
+  },
+  "localBridgeRepair": {
+    "validity": {
+      "fresh": {"n": 60, "openValid": 60, "closedValid": 60, "dualValid": 60},
+      "mutations": {"n": 300, "openValid": 300, "closedValid": 300, "dualValid": 300}
+    },
+    "artisticRetest": {
+      "closed": {"orbit": 6, "polar-bridge": 0, "polar-original": 0, "blocks": 6},
+      "open": {"open-recurrence": 6, "polar-bridge": 0, "polar-original": 0, "blocks": 6}
+    }
+  },
+  "conclusion": "retain-orbit-as-top-level-research-representation"
+}
