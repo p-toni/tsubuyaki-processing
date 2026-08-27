@@ -1,0 +1,56 @@
+{
+  "experiment": "representation-portfolio-pilot-v1",
+  "developmentPilot": true,
+  "productionPolicyChangeAllowed": false,
+  "seeds": [304886, 910268],
+  "totalAttemptBudgetPerPolicy": 32,
+  "eligibleRoutes": ["recurrence", "family", "sheet", "filament"],
+  "blocks": [
+    {"brief":"hollow-tide","seed":304886,"routeFirstRoute":"sheet","portfolioRoute":"family","final":"portfolio-equal"},
+    {"brief":"hollow-tide","seed":910268,"routeFirstRoute":"sheet","portfolioRoute":"family","final":"portfolio-equal"},
+    {"brief":"braided-weather","seed":304886,"routeFirstRoute":"recurrence","portfolioRoute":"recurrence","final":"tie","sameVisiblePhenotype":true},
+    {"brief":"braided-weather","seed":910268,"routeFirstRoute":"recurrence","portfolioRoute":"recurrence","final":"tie","sameVisiblePhenotype":true},
+    {"brief":"soft-constellation","seed":304886,"routeFirstRoute":"family","portfolioRoute":"family","final":"tie","sameVisiblePhenotype":true},
+    {"brief":"soft-constellation","seed":910268,"routeFirstRoute":"family","portfolioRoute":"family","final":"tie","sameVisiblePhenotype":true},
+    {"brief":"pressure-seam","seed":304886,"routeFirstRoute":"filament","portfolioRoute":"recurrence","final":"portfolio-equal"},
+    {"brief":"pressure-seam","seed":910268,"routeFirstRoute":"filament","portfolioRoute":"recurrence","final":"portfolio-equal"}
+  ],
+  "outcomes": {
+    "portfolioEqualWins": 4,
+    "routeFirstWins": 0,
+    "ties": 4,
+    "representationSwitches": 4,
+    "switchesThatWon": 4
+  },
+  "review": {
+    "initialUnresolvedPhenotypePairs": 436,
+    "initialCrossRepresentationPairs": 24,
+    "initialWithinRepresentationPairs": 412,
+    "crossRepresentationJudgments": 34,
+    "forcedFinalPolicyJudgments": 8,
+    "totalVisualJudgmentsUsed": 42
+  },
+  "criticalConfound": {
+    "allFinalistsWereFirstViableStarts": true,
+    "finalCandidateIdsByRoute": {
+      "family": "FP1",
+      "filament": "LP1",
+      "recurrence": "RP1",
+      "sheet": "SP1"
+    },
+    "interpretation": "The conservative proxy converted almost none of route-first's extra local mutation budget into artistic promotion evidence, while portfolio breadth could benefit from human-resolved cross-representation comparisons. The matched-budget policy comparison is therefore asymmetric and not confirmatory."
+  },
+  "supported": [
+    "representation regret is measurable",
+    "two of four frozen heuristic routes were beaten across both seeds by another representation",
+    "representation choice can produce large artistic differences under the current prototype"
+  ],
+  "notSupported": [
+    "equal portfolio allocation is superior",
+    "route-first is generally inferior",
+    "8 attempts per representation is optimal",
+    "family or recurrence are universally stronger",
+    "production routing policy change"
+  ],
+  "nextExperiment": "representation-capacity-map"
+}
