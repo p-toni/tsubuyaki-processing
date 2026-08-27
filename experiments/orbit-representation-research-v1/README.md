@@ -51,8 +51,8 @@ A frozen experiment used 10 unseen briefs, two assigned to each semantic niche, 
 Result:
 
 ```text
-orbit niche:         6/6 orbit wins
-non-orbit controls:  0/24 orbit wins
+orbit niche:          6/6 orbit wins
+non-orbit controls:   0/24 orbit wins
 overall intended niche: 30/30
 ```
 
@@ -105,6 +105,6 @@ The main remaining gate is **independent-judge replication**. All artistic verdi
 ## Files
 
 - `protocols.md` — the frozen protocols in experimental order.
-- `results.json` — compact machine-readable results for all six evidence layers.
+- `results.json` — machine-readable results for all six evidence layers.
 - `../../prototypes/autonomous-discovery/orbit_representation.py` — experiment-safe registration of the new representation without mutating the baseline four-route registry on import.
 - `../../prototypes/autonomous-discovery/test_orbit_representation.py` — topology, validity, and archive-independence regression coverage.
