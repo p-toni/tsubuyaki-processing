@@ -36,8 +36,9 @@ def timeline(cand,out):
 def run_search(brief,seed,out_dir:Path,selector:Optional[PairwiseSelector]=None):
     rng=random.Random(seed); state=SearchState(brief,seed); out_dir.mkdir(parents=True,exist_ok=True); selector=selector or DeterministicTemporalSelector(); basins={}
     for route in brief['routes']:
+        prefix=ROUTES[route].get('prefix',route[:1].upper())
         for i in range(int(brief.get('starts_per_route',3))):
-            cid=f'{route[:1].upper()}S{i+1}'; cand=None
+            cid=f'{prefix}S{i+1}'; cand=None
             for attempt in range(1,21):
                 trial=Candidate(cid,route,cid,ROUTES[route]['seed'](rng),None,'start'); evaluate_candidate(trial,brief)
                 if trial.checks['valid']: cand=trial; break
@@ -73,5 +74,5 @@ def run_search(brief,seed,out_dir:Path,selector:Optional[PairwiseSelector]=None)
     for d in state.stage_decisions:
         if d.get('verdict') in counts: counts[d['verdict']]+=1
         if d.get('source'): sources[d['source']]=sources.get(d['source'],0)+1
-    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only for recurrence; never a hard gate'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
+    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only; representation validity is topology/geometry-specific'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
     (out_dir/'report.json').write_text(json.dumps(report,indent=2)+'\n'); (out_dir/'search_state.json').write_text(json.dumps(state.to_json(),indent=2)+'\n'); return state,report
