@@ -1,0 +1,7 @@
+{
+  "name": "representation-portfolio-smoke",
+  "artistic_intent": "Discover an original mathematically generated living form with coherent material, strong composition, meaningful motion, and a legible central opening. Prefer distinctive structure over generic cloth, wire, or textbook attractor signatures.",
+  "eligible_routes": ["recurrence", "family", "sheet", "filament"],
+  "route_first": "sheet",
+  "bbox_target": [0.55, 0.82]
+}
