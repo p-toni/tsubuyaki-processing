@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "blocks": 30,
+  "contained": 30,
+  "containmentRate": 1.0,
+  "threshold": 27,
+  "passesPrimary": true,
+  "zeroOfThreeBriefs": [],
+  "stableBriefs3of3": 10,
+  "winnerCounts": {"orbit": 12, "family": 9, "sheet": 3, "recurrence": 3, "filament": 3},
+  "perBrief": {
+    "smoke-eye-tail": {"contained": 3, "winners": ["orbit","orbit","orbit"], "shortlist": ["orbit","recurrence"]},
+    "braided-buds": {"contained": 3, "winners": ["family","family","family"], "shortlist": ["family","recurrence"]},
+    "crumpled-sail-current": {"contained": 3, "winners": ["sheet","sheet","sheet"], "shortlist": ["sheet","recurrence"]},
+    "wire-in-eddy": {"contained": 3, "winners": ["recurrence","recurrence","recurrence"], "shortlist": ["filament","recurrence"]},
+    "wreath-of-pods": {"contained": 3, "winners": ["orbit","orbit","orbit"], "shortlist": ["family","orbit"]},
+    "softened-eye": {"contained": 3, "winners": ["orbit","orbit","orbit"], "shortlist": ["orbit","sheet"]},
+    "closed-whip-shadow": {"contained": 3, "winners": ["orbit","orbit","orbit"], "shortlist": ["filament","orbit"]},
+    "petal-cloth": {"contained": 3, "winners": ["family","family","family"], "shortlist": ["sheet","family"]},
+    "school-of-whips": {"contained": 3, "winners": ["family","family","family"], "shortlist": ["family","filament"]},
+    "curtain-wire": {"contained": 3, "winners": ["filament","filament","filament"], "shortlist": ["filament","sheet"]}
+  },
+  "escapes": []
+}
