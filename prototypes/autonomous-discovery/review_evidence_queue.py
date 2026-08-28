@@ -39,6 +39,19 @@ def phenotype_fingerprint(frames: Sequence[Image.Image]) -> str:
     return _sha(_png_bytes(_strip(frames)))
 
 
+def pair_id_for_phenotypes(*, brief: str, times: Sequence[float], a_fingerprint: str, b_fingerprint: str) -> str:
+    """Return the stable v3 pair id used by queues and phenotype evidence replay."""
+    if not a_fingerprint or not b_fingerprint:
+        raise ValueError("two phenotype fingerprints are required")
+    config = {
+        "promptVersion": PROMPT_VERSION,
+        "brief": brief,
+        "times": list(times),
+        "phenotypes": sorted((a_fingerprint, b_fingerprint)),
+    }
+    return _sha(json.dumps(config, sort_keys=True, separators=(",", ":")).encode())
+
+
 def create_review_bundle(
     out_dir: Path,
     *,
@@ -60,13 +73,9 @@ def create_review_bundle(
     if len(a_frames) != len(times) or len(b_frames) != len(times):
         raise ValueError("frame counts must match temporal horizon")
     afp = phenotype_fingerprint(a_frames); bfp = phenotype_fingerprint(b_frames)
-    config = {
-        "promptVersion": PROMPT_VERSION,
-        "brief": brief,
-        "times": list(times),
-        "phenotypes": sorted((afp, bfp)),
-    }
-    pair_id = _sha(json.dumps(config, sort_keys=True, separators=(",", ":")).encode())
+    pair_id = pair_id_for_phenotypes(
+        brief=brief, times=times, a_fingerprint=afp, b_fingerprint=bfp,
+    )
     flip = int(hashlib.sha256(pair_id.encode()).hexdigest(), 16) & 1
     raw = [
         (a_candidate_id, afp, a_frames),
