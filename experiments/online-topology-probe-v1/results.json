@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "complete": true,
+  "calibrationWorkflowRun": 33212183645,
+  "holdoutWorkflowRun": 33218248363,
+  "selectedPilotSize": 4,
+  "holdoutSeeds": [131, 137, 139],
+  "primaryGate": "route supports when probe is non-worse than adaptive on >=2/3 seeds; general support requires >=4/5 routes",
+  "routes": {
+    "recurrence": {"nonWorseSeeds": 2, "strictWinSeeds": 2, "replacementSupport": true},
+    "orbit": {"nonWorseSeeds": 1, "strictWinSeeds": 1, "replacementSupport": false},
+    "family": {"nonWorseSeeds": 1, "strictWinSeeds": 1, "replacementSupport": false},
+    "sheet": {"nonWorseSeeds": 1, "strictWinSeeds": 1, "replacementSupport": false},
+    "filament": {"nonWorseSeeds": 3, "strictWinSeeds": 3, "replacementSupport": true}
+  },
+  "supportingRoutes": 2,
+  "strictAdvantageRoutes": 2,
+  "rawNonWorseBlocks": 8,
+  "rawStrictWinBlocks": 8,
+  "classification": "general online-simple replacement not supported",
+  "means": {
+    "probeCombinedImprovement": 0.07303751855754112,
+    "adaptiveCombinedImprovement": 0.08975346812953156,
+    "breadthCombinedImprovement": 0.05912748407631101,
+    "fixedCombinedImprovement": 0.054391099255554666,
+    "simpleOracleCombinedImprovement": 0.07847066125844736,
+    "bestThreeCombinedImprovement": 0.11801346072347778,
+    "localProbeImprovement": 0.0630019351209235,
+    "localAdaptiveImprovement": 0.14564110481469073,
+    "globalProbeImprovement": 0.08307310199415872,
+    "globalAdaptiveImprovement": 0.033865831444372385,
+    "pilotArmChoiceAccuracy": 0.8333333333333334,
+    "simpleOracleRegret": 0.00996429585837678,
+    "bestThreeRegret": 0.05839657275975087
+  },
+  "armChoiceCounts": {
+    "fixed-parent-local": 18,
+    "independent-breadth": 12
+  },
+  "decision": "reject minimal breadth-vs-fixed probe as a general replacement; investigate observable signals that choose adaptive versus simple topology, especially local-depth demand",
+  "boundary": "objective search-mechanics evidence only; no artistic promotion, representation pruning, portfolio sufficiency, production default change, or SKILL.md authority"
+}
