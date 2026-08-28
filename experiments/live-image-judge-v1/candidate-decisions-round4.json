@@ -1,0 +1,22 @@
+{
+  "version": 3,
+  "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
+  "blinded": true,
+  "candidateMappingOpenedBeforeDecision": false,
+  "decisions": {
+    "4a3c3d7a6db4b50423c069e17429adaa89c668e5d3a95a35c576c063cd809d53": {
+      "verdict": "tie",
+      "sourceClass": "independent-model",
+      "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
+      "confidence": "strong",
+      "rationale": "Both candidates retain the same narrow axial-coil identity across matched times. Local loop spacing and curvature differences do not create a materially stronger composition, living-form structure, coherent material, or temporal behavior."
+    },
+    "bac4088e61c235b74bf813217e3f745ce517636ac1fde58cd29daa7864e3572b": {
+      "verdict": "tie",
+      "sourceClass": "independent-model",
+      "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
+      "confidence": "strong",
+      "rationale": "The two temporal phenotypes are extremely close near-neighbors; visible differences are too small to justify an artistic winner for the brief."
+    }
+  }
+}
