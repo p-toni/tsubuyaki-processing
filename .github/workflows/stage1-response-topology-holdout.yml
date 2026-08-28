@@ -1,0 +1,76 @@
+name: stage1-response-topology-holdout
+
+on:
+  pull_request:
+    paths:
+      - "experiments/stage1-response-topology-v1/**"
+      - ".github/workflows/stage1-response-topology-holdout.yml"
+
+concurrency:
+  group: stage1-response-topology-holdout-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seed: [163, 167, 173]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run untouched paid stage1 response block
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/stage1-response-topology-v1/policy.py \
+            --route "${{ matrix.route }}" \
+            --seed "${{ matrix.seed }}" \
+            --thresholds "0.025" \
+            | tee "/tmp/stage1-response-holdout-${{ matrix.route }}-${{ matrix.seed }}.json"
+      - name: Upload holdout block
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-response-holdout-${{ matrix.route }}-${{ matrix.seed }}
+          path: /tmp/stage1-response-holdout-${{ matrix.route }}-${{ matrix.seed }}.json
+          if-no-files-found: warn
+
+  aggregate-holdout:
+    needs: block
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage1-response-holdout-*
+          path: /tmp/stage1-response-holdout-results
+          merge-multiple: true
+      - name: Apply frozen strict paid-response holdout gate
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/stage1-response-topology-v1/aggregate_holdout.py \
+            --results-dir /tmp/stage1-response-holdout-results \
+            | tee /tmp/stage1-response-holdout-summary.json
+      - name: Upload holdout summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-response-holdout-summary
+          path: /tmp/stage1-response-holdout-summary.json
