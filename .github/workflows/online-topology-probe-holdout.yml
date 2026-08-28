@@ -1,0 +1,76 @@
+name: online-topology-probe-holdout
+
+on:
+  pull_request:
+    paths:
+      - "experiments/online-topology-probe-v1/**"
+      - ".github/workflows/online-topology-probe-holdout.yml"
+
+concurrency:
+  group: online-topology-probe-holdout-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seed: [131, 137, 139]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run untouched online-probe holdout block
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/online-topology-probe-v1/probe.py \
+            --route "${{ matrix.route }}" \
+            --seed "${{ matrix.seed }}" \
+            --pilot-sizes "4" \
+            | tee "/tmp/online-probe-holdout-${{ matrix.route }}-${{ matrix.seed }}.json"
+      - name: Upload holdout block
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: online-probe-holdout-${{ matrix.route }}-${{ matrix.seed }}
+          path: /tmp/online-probe-holdout-${{ matrix.route }}-${{ matrix.seed }}.json
+          if-no-files-found: warn
+
+  aggregate-holdout:
+    needs: block
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: online-probe-holdout-*
+          path: /tmp/online-probe-holdout-results
+          merge-multiple: true
+      - name: Apply frozen untouched-holdout gate
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/online-topology-probe-v1/aggregate_holdout.py \
+            --results-dir /tmp/online-probe-holdout-results \
+            | tee /tmp/online-probe-holdout-summary.json
+      - name: Upload holdout summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: online-probe-holdout-summary
+          path: /tmp/online-probe-holdout-summary.json
