@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "purpose": "dynamic search-policy calibration only; synthetic oracle is not artistic evidence",
+  "renderSize": 400,
+  "blockCount": 9,
+  "scenarios": ["single-recurrence", "single-family", "paired"],
+  "seeds": [7, 19, 43],
+  "trajectoryAgreement": "all caps exactly match eager final candidate trajectory in every block",
+  "summary": {
+    "1": {
+      "meanRatings": 5.222222222222222,
+      "maxRatings": 6,
+      "meanReviewRounds": 5.222222222222222,
+      "maxReviewRounds": 6,
+      "meanSearchReplays": 6.222222222222222
+    },
+    "2": {
+      "meanRatings": 5.888888888888889,
+      "maxRatings": 7,
+      "meanReviewRounds": 3.3333333333333335,
+      "maxReviewRounds": 4,
+      "meanSearchReplays": 4.333333333333333
+    },
+    "3": {
+      "meanRatings": 7.444444444444445,
+      "maxRatings": 10,
+      "meanReviewRounds": 2.7777777777777777,
+      "maxReviewRounds": 4,
+      "meanSearchReplays": 3.7777777777777777
+    },
+    "eager": {
+      "meanRatings": 10.222222222222221,
+      "maxRatings": 15,
+      "meanReviewRounds": 2.5555555555555554,
+      "maxReviewRounds": 4,
+      "meanSearchReplays": 3.5555555555555554
+    }
+  },
+  "cap2VsEagerMeanRatingReduction": 0.4239130434782608,
+  "cap2VsCap1MeanRoundReduction": 0.36170212765957444,
+  "conclusion": "K=2 remains the screened default. It preserves the exact eager dynamic trajectory in all tested blocks while substantially reducing reviewer ratings relative to eager and review rounds relative to K=1."
+}
