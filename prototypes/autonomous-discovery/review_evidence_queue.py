@@ -48,8 +48,14 @@ def create_review_bundle(
     b_frames: Sequence[Image.Image],
     a_candidate_id: str,
     b_candidate_id: str,
+    review_group: str | None = None,
 ) -> str:
-    """Create one blinded pair and persist the exact sealed mapping."""
+    """Create one blinded pair and persist the exact sealed mapping.
+
+    ``review_group`` is hidden scheduling metadata. It is stored only in the
+    sealed mapping so queue balancing can survive replay without revealing route
+    identity to the artistic reviewer.
+    """
     out_dir = Path(out_dir); (out_dir / "panels").mkdir(parents=True, exist_ok=True)
     if len(a_frames) != len(times) or len(b_frames) != len(times):
         raise ValueError("frame counts must match temporal horizon")
@@ -83,7 +89,7 @@ def create_review_bundle(
     sealed_path = out_dir / "sealed-mapping.json"
     queue_path = out_dir / "queue.json"
     decisions_path = out_dir / "decisions.json"
-    sealed = {"version": VERSION, "pairs": {}}
+    sealed = {"version": VERSION, "pairs": {}, "reviewGroups": {}}
     queue = {"version": VERSION, "pairs": {}}
     decisions = {"version": VERSION, "decisions": {}}
     for path, doc in ((sealed_path,sealed),(queue_path,queue),(decisions_path,decisions)):
@@ -99,6 +105,8 @@ def create_review_bundle(
         label: {"candidateId": item[0], "phenotypeFingerprint": item[1]}
         for label, item in zip(("A","B"), ordered)
     }
+    if review_group:
+        sealed.setdefault("reviewGroups", {})[pair_id] = review_group
     queue["pairs"][pair_id] = {
         "pairId": pair_id,
         "panel": str(panel_path),
