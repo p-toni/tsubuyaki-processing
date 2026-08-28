@@ -108,4 +108,4 @@ The runtime implementation should preserve today's pair group-K2 path as the def
 
 Before changing the default, the actual `screened_search.resume_adaptive_search(...)` opt-in path should pass an equivalent frozen replay calibration.
 
-`results.json` persists the full integration summary. The temporary calibration workflow is removed after the safety regression is verified.
+`results.json` persists the full integration summary. The temporary calibration workflow has been removed; the final experiment branch contains only durable experiment artifacts and is validated by the repository's normal CI.
