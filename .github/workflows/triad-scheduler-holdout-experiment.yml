@@ -1,0 +1,36 @@
+name: triad-scheduler-holdout-experiment
+
+on:
+  pull_request:
+    paths:
+      - "experiments/triad-scheduler-holdout-v1/**"
+      - ".github/workflows/triad-scheduler-holdout-experiment.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  holdout:
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [47, 53, 59, 61, 67, 71, 73, 79, 83]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fresh-seed screened scheduler holdout
+        run: |
+          python experiments/triad-scheduler-holdout-v1/reproduce.py \
+            --seed ${{ matrix.seed }} \
+            | tee /tmp/triad-holdout-${{ matrix.seed }}.json
+      - name: Upload seed result
+        uses: actions/upload-artifact@v4
+        with:
+          name: triad-holdout-seed-${{ matrix.seed }}
+          path: /tmp/triad-holdout-${{ matrix.seed }}.json
