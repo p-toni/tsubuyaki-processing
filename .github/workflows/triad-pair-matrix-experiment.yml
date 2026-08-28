@@ -28,16 +28,9 @@ jobs:
         run: python experiments/triad-pair-matrix-v1/test_pair_matrix.py
       - name: Run pair-matrix triad calibration
         run: |
-          python - <<'PY' \
+          python experiments/triad-pair-matrix-v1/run_seed.py \
+            --seed ${{ matrix.seed }} \
             | tee /tmp/triad-pair-matrix-${{ matrix.seed }}.json
-          import importlib.util, json, pathlib, sys
-          path=pathlib.Path('experiments/triad-pair-matrix-v1/reproduce.py')
-          spec=importlib.util.spec_from_file_location('matrix_exp',path)
-          mod=importlib.util.module_from_spec(spec)
-          sys.modules[spec.name]=mod
-          spec.loader.exec_module(mod)
-          print(json.dumps(mod.run_seed(${{ matrix.seed }}),indent=2))
-          PY
       - name: Upload seed result
         uses: actions/upload-artifact@v4
         with:
