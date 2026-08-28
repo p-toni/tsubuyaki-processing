@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "oracleId": "synthetic-route-scheduler-oracle-v1",
+  "purpose": "dependency-safe review-task compression calibration; synthetic oracle is not artistic evidence",
+  "seeds": [7, 19, 43],
+  "safeTriadStages": ["explore", "roundA"],
+  "forbiddenTriadStages": ["refine"],
+  "trajectoryAgreement": "pair-k2 and triad-k2 exactly matched the frozen eager trajectory on every seed",
+  "frozenPromotionGate": {
+    "exactTrajectoryEverySeed": true,
+    "lowerMeanReviewTasks": true,
+    "candidateExposuresDoNotIncrease": true,
+    "reviewRoundsDoNotIncrease": true,
+    "passed": true
+  },
+  "summary": {
+    "pair-k2": {
+      "meanReviewTasks": 19.3333333333,
+      "meanReviewRounds": 10.6666666667,
+      "meanCandidateExposures": 38.6666666667,
+      "meanPairRelationsElicited": 19.3333333333,
+      "meanTriadTasks": 0.0
+    },
+    "triad-k2": {
+      "meanReviewTasks": 16.0,
+      "meanReviewRounds": 9.3333333333,
+      "meanCandidateExposures": 35.0,
+      "meanPairRelationsElicited": 22.0,
+      "meanTriadTasks": 3.0
+    }
+  },
+  "relativeReductionPercent": {
+    "reviewTasks": 17.24137931,
+    "reviewRounds": 12.5,
+    "candidateExposures": 9.48275862
+  },
+  "blocks": [
+    {
+      "seed": 7,
+      "trajectorySignature": "83aeec36847752f988f436aa6d506f86f06bf6146f56cd20c02d48f716361c55",
+      "pair-k2": {"reviewTasks": 18, "reviewRounds": 10, "candidateExposures": 36, "pairRelationsElicited": 18},
+      "triad-k2": {"reviewTasks": 15, "reviewRounds": 9, "candidateExposures": 33, "pairRelationsElicited": 21, "triadTasks": 3}
+    },
+    {
+      "seed": 19,
+      "trajectorySignature": "acbe0cbc6801fa71dcce31a8544aed0ed83a042e4a08918f548828964157c4df",
+      "pair-k2": {"reviewTasks": 19, "reviewRounds": 11, "candidateExposures": 38, "pairRelationsElicited": 19},
+      "triad-k2": {"reviewTasks": 16, "reviewRounds": 10, "candidateExposures": 35, "pairRelationsElicited": 22, "triadTasks": 3}
+    },
+    {
+      "seed": 43,
+      "trajectorySignature": "a2bf05f23ee714ccb9d8801106d48cd3bfa49a529dfdf0dd166833c0daf3e099",
+      "pair-k2": {"reviewTasks": 21, "reviewRounds": 11, "candidateExposures": 42, "pairRelationsElicited": 21},
+      "triad-k2": {"reviewTasks": 17, "reviewRounds": 9, "candidateExposures": 37, "pairRelationsElicited": 23, "triadTasks": 3}
+    }
+  ],
+  "decision": "advance to a separate blinded triad review queue/decoder prototype; keep refine and frontier pairwise"
+}
