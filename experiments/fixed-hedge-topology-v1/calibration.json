@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "complete": true,
+  "blocks": 75,
+  "regimeCases": 150,
+  "calibrationSeeds": [101,103,107,109,113,127,131,137,139,149,151,157,163,167,173],
+  "holdoutSeedsReserved": [179,181,191],
+  "shareGrid": [0.0,0.25,0.5,0.75,1.0],
+  "policy": "paid explore prefix followed by a fixed split of remaining budget between causal adaptive continuation and independent breadth",
+  "selectionRule": "highest mean combined normalized improvement across all calibration blocks; exact tie chooses larger adaptive share",
+  "shares": {
+    "0.0": {"meanCombinedImprovement":0.07045870650089721,"meanLocalImprovement":0.049516514251008226,"meanGlobalImprovement":0.09140089875078619,"rawStrictWinsVsAdaptive":34,"rawNonWorseVsAdaptive":34,"routeMeans":{"recurrence":0.07114769724422389,"orbit":0.05257227071085651,"family":0.05715844487089477,"sheet":0.10437805250721618,"filament":0.0670370671712947}},
+    "0.25": {"meanCombinedImprovement":0.07270950433488975,"meanLocalImprovement":0.056444651011715766,"meanGlobalImprovement":0.08897435765806373,"rawStrictWinsVsAdaptive":33,"rawNonWorseVsAdaptive":33,"routeMeans":{"recurrence":0.07393799748922304,"orbit":0.05655589670277417,"family":0.055674566817291576,"sheet":0.10681124603635414,"filament":0.07056781462880583}},
+    "0.5": {"meanCombinedImprovement":0.07833597832416818,"meanLocalImprovement":0.07550426137783442,"meanGlobalImprovement":0.08116769527050192,"rawStrictWinsVsAdaptive":28,"rawNonWorseVsAdaptive":32,"routeMeans":{"recurrence":0.07439109804070307,"orbit":0.07373311997039513,"family":0.05910467775837199,"sheet":0.10281146717159566,"filament":0.08163952867977503}},
+    "0.75": {"meanCombinedImprovement":0.0769588331163042,"meanLocalImprovement":0.07973684573370463,"meanGlobalImprovement":0.0741808204989038,"rawStrictWinsVsAdaptive":19,"rawNonWorseVsAdaptive":34,"routeMeans":{"recurrence":0.07492757143323832,"orbit":0.07240544394125555,"family":0.060506352766317516,"sheet":0.09769493349270643,"filament":0.07925986394800326}},
+    "1.0": {"meanCombinedImprovement":0.07830211608941266,"meanLocalImprovement":0.09911891090844648,"meanGlobalImprovement":0.057485321270378836,"rawStrictWinsVsAdaptive":0,"rawNonWorseVsAdaptive":75,"routeMeans":{"recurrence":0.07389090754315146,"orbit":0.08241522859454649,"family":0.0604297692337576,"sheet":0.07968480844000368,"filament":0.09508986663560406}}
+  },
+  "selectedShare": 0.5,
+  "meanFixedShareOracleImprovement": 0.10547764862264221,
+  "sourceWorkflowRun": 33221111983,
+  "boundary": "hyperparameter calibration only; no untouched-holdout or artistic-quality claim"
+}
