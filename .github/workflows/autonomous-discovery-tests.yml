@@ -1,0 +1,53 @@
+name: autonomous-discovery-tests
+
+on:
+  pull_request:
+    paths:
+      - "prototypes/autonomous-discovery/**"
+      - "experiments/lazy-evidence-review-v1/**"
+      - ".github/workflows/autonomous-discovery-tests.yml"
+  push:
+    branches:
+      - main
+      - "experiment-*"
+      - "prototype-*"
+      - "infra-*"
+    paths:
+      - "prototypes/autonomous-discovery/**"
+      - "experiments/lazy-evidence-review-v1/**"
+      - ".github/workflows/autonomous-discovery-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  python-prototype:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: prototypes/autonomous-discovery
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: prototypes/autonomous-discovery/requirements.txt
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt pytest
+      - name: Run autonomous discovery tests
+        run: python -m pytest -q
+
+  discovery-state:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run discovery-state regression
+        run: node scripts/test-discovery-state.mjs
