@@ -214,15 +214,40 @@ def _run_policy(brief_name: str, seed: int, *, triads: bool, max_replays: int = 
         }
 
 
-def run_scenario(brief_name: str, seed: int) -> dict:
+def _validate_inputs(brief_name: str, seed: int) -> None:
     if seed not in SEEDS:
         raise ValueError(f"seed {seed} is not predeclared; allowed={SEEDS}")
     if brief_name not in BRIEFS:
         raise ValueError(f"brief {brief_name!r} is not predeclared")
 
-    pair = _run_policy(brief_name, seed, triads=False)
-    triad = _run_policy(brief_name, seed, triads=True)
 
+def run_policy_scenario(brief_name: str, seed: int, policy: str) -> dict:
+    """Run one policy only so large stress scenarios can be parallelized safely."""
+    _validate_inputs(brief_name, seed)
+    if policy not in {"pair", "triad"}:
+        raise ValueError("policy must be 'pair' or 'triad'")
+    result = _run_policy(brief_name, seed, triads=policy == "triad")
+    expected_probe = {route: 2 for route in ROUTES}
+    expected_added = {route: 1 for route in ROUTES}
+    if result["probeAllocation"] != expected_probe:
+        raise AssertionError(f"probe-depth drift for {brief_name}/{seed}/{policy}")
+    if result["additionalStartsByRoute"] != expected_added:
+        raise AssertionError(f"start-allocation drift for {brief_name}/{seed}/{policy}")
+    if policy == "triad" and result["triadTasks"] < 1:
+        raise AssertionError(f"stress scenario queued no triads brief={brief_name} seed={seed}")
+    return {
+        "version": 1,
+        "brief": brief_name,
+        "seed": seed,
+        "routes": list(ROUTES),
+        "probeBudget": PROBE_BUDGET,
+        "totalStartBudget": TOTAL_START_BUDGET,
+        "policyKey": policy,
+        "result": result,
+    }
+
+
+def compare_policy_results(brief_name: str, seed: int, pair: dict, triad: dict) -> dict:
     if pair["trajectorySignature"] != triad["trajectorySignature"]:
         raise AssertionError(f"trajectory divergence brief={brief_name} seed={seed}")
     for key in ("winner", "provisionalChampion", "selectionStatus", "frontier"):
@@ -262,13 +287,26 @@ def run_scenario(brief_name: str, seed: int) -> dict:
     }
 
 
+def run_scenario(brief_name: str, seed: int) -> dict:
+    """Legacy combined runner retained for local/manual use."""
+    _validate_inputs(brief_name, seed)
+    pair = _run_policy(brief_name, seed, triads=False)
+    triad = _run_policy(brief_name, seed, triads=True)
+    return compare_policy_results(brief_name, seed, pair, triad)
+
+
 def main() -> None:
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--brief", choices=sorted(BRIEFS), required=True)
     parser.add_argument("--seed", type=int, choices=SEEDS, required=True)
+    parser.add_argument("--policy", choices=("pair", "triad", "both"), default="both")
     args = parser.parse_args()
-    print(json.dumps(run_scenario(args.brief, args.seed), indent=2))
+    if args.policy == "both":
+        result = run_scenario(args.brief, args.seed)
+    else:
+        result = run_policy_scenario(args.brief, args.seed, args.policy)
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":
