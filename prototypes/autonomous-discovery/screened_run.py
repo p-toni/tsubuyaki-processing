@@ -3,7 +3,13 @@
 from __future__ import annotations
 import argparse, json
 from pathlib import Path
-from screened_search import DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS, DEFAULT_MIN_PROBES_PER_ROUTE, prepare_probe, resume_adaptive_search
+from screened_search import (
+    DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS,
+    DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS_PER_GROUP,
+    DEFAULT_MIN_PROBES_PER_ROUTE,
+    prepare_probe,
+    resume_adaptive_search,
+)
 
 
 def main():
@@ -21,6 +27,7 @@ def main():
     r.add_argument('--candidate-evidence-dir',action='append',default=[])
     r.add_argument('--candidate-review-queue',default='')
     r.add_argument('--candidate-max-pending-reviews',type=int,default=DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS)
+    r.add_argument('--candidate-max-pending-reviews-per-group',type=int,default=DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS_PER_GROUP)
     args=ap.parse_args()
     if args.command=='prepare':
         brief=json.loads(Path(args.brief).read_text())
@@ -37,6 +44,7 @@ def main():
             candidate_evidence_dirs=[Path(x) for x in args.candidate_evidence_dir],
             candidate_review_queue=review_queue,
             candidate_max_pending_reviews=args.candidate_max_pending_reviews,
+            candidate_max_pending_reviews_per_group=args.candidate_max_pending_reviews_per_group,
         )
     print(json.dumps(result,indent=2))
 

@@ -10,7 +10,7 @@ from review_evidence_queue import create_review_bundle,phenotype_fingerprint
 
 @dataclass
 class C:
-    id:str; value:int; checks:dict
+    id:str; value:int; checks:dict; route:str='recurrence'
 
 def render(c,t):
     im=Image.new('L',(50,50),0); d=ImageDraw.Draw(im); d.ellipse((5+c.value,8,25+c.value,28),outline=180+int(t)*10,width=3); return im
@@ -99,6 +99,47 @@ def test_lazy_queue_avoids_pairs_made_unreachable_by_promotion():
         e2=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=eager)
         e2.compare(b,c,{'brief':brief})
         assert len(_decision_doc(eager)['decisions'])==3
+
+def test_route_group_cap_spreads_a_lazy_batch_without_reordering_search():
+    r0=C('r0',2,{'valid':True},'recurrence'); r1=C('r1',8,{'valid':True},'recurrence'); r2=C('r2',14,{'valid':True},'recurrence')
+    f0=C('f0',20,{'valid':True},'family'); f1=C('f1',26,{'valid':True},'family'); times=(0,1); brief={'brief':'x','routes':['recurrence','family']}
+    with TemporaryDirectory() as td:
+        q=Path(td)
+        s=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=q,max_pending_reviews=2,max_pending_reviews_per_group=1)
+        s.compare(r0,r1,brief)
+        blocked=s.compare(r0,r2,brief)
+        s.compare(f0,f1,brief)
+        assert pending_count(q)==2
+        sealed=json.loads((q/'sealed-mapping.json').read_text())
+        groups=[sealed['reviewGroups'][pid] for pid,item in _decision_doc(q)['decisions'].items() if item.get('verdict') is None]
+        assert sorted(groups)==['route:family','route:recurrence']
+        assert 'group cap' in blocked.dimensions[0].reason
+
+def test_route_group_cap_survives_partial_replay():
+    r0=C('r0',2,{'valid':True},'recurrence'); r1=C('r1',8,{'valid':True},'recurrence'); r2=C('r2',14,{'valid':True},'recurrence')
+    f0=C('f0',20,{'valid':True},'family'); f1=C('f1',26,{'valid':True},'family'); f2=C('f2',32,{'valid':True},'family'); times=(0,1); brief={'brief':'x','routes':['recurrence','family']}
+    with TemporaryDirectory() as td:
+        q=Path(td)
+        s=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=q,max_pending_reviews=2,max_pending_reviews_per_group=1)
+        s.compare(r0,r1,brief); s.compare(f0,f1,brief)
+        sealed=json.loads((q/'sealed-mapping.json').read_text())
+        recurrence_pid=next(pid for pid,g in sealed['reviewGroups'].items() if g=='route:recurrence')
+        fill_tie(q,recurrence_pid)
+        replay=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=q,max_pending_reviews=2,max_pending_reviews_per_group=1)
+        replay.compare(r0,r1,brief)
+        replay.compare(f0,f2,brief)
+        replay.compare(r0,r2,brief)
+        pending=[pid for pid,item in _decision_doc(q)['decisions'].items() if item.get('verdict') is None]
+        groups=[json.loads((q/'sealed-mapping.json').read_text())['reviewGroups'][pid] for pid in pending]
+        assert sorted(groups)==['route:family','route:recurrence']
+
+def test_route_group_cap_does_not_reduce_single_route_k2():
+    a=C('a',2,{'valid':True}); b=C('b',12,{'valid':True}); c=C('c',20,{'valid':True}); times=(0,1); brief={'brief':'x','routes':['recurrence']}
+    with TemporaryDirectory() as td:
+        q=Path(td)
+        s=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=q,max_pending_reviews=2,max_pending_reviews_per_group=1)
+        s.compare(a,b,brief); s.compare(a,c,brief)
+        assert pending_count(q)==2
 
 def test_resolved_weak_queue_evidence_is_not_noop_requeued():
     a=C('a',2,{'valid':True}); b=C('b',12,{'valid':True}); times=(0,1); brief='x'
