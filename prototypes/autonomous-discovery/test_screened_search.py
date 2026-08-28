@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from PIL import Image, ImageDraw
-from screened_search import prepare_probe, resume_adaptive_search
+from screened_search import DEFAULT_MIN_PROBES_PER_ROUTE, prepare_probe, resume_adaptive_search
 
 R=("recurrence","orbit","family","sheet","filament")
 
@@ -36,48 +36,62 @@ def fake_adaptive(brief,seed,out,starts,selector=None):
     report={"routes":brief["routes"],"startCount":len(starts),"startsByRoute":{r:sum(c.route==r for c in starts) for r in brief["routes"]}}
     return object(), report
 
-def test_four_probe_minimum_and_authoritative_narrowing():
+def test_two_probe_default_and_authoritative_narrowing():
+    assert DEFAULT_MIN_PROBES_PER_ROUTE==2
     with TemporaryDirectory() as td:
-        s=prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=4,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
-        assert s["probeBudget"]==20
-        assert set(s["probeAllocation"].values())=={4}
+        s=prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        assert s["probeBudget"]==10
+        assert s["minimumPerRoute"]==2
+        assert set(s["probeAllocation"].values())=={2}
         fill_screen(td,{"orbit"})
-        rep=resume_adaptive_search(out_dir=td,total_start_budget=26,source_class="human",source_id="reviewer",render_frame=render,generate_route_archive=gen,run_search_from_starts=fake_adaptive)
+        rep=resume_adaptive_search(out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",render_frame=render,generate_route_archive=gen,run_search_from_starts=fake_adaptive)
         assert rep["narrowingAuthorized"]
         assert rep["activeRoutes"]==["orbit"]
-        assert rep["additionalStartsByRoute"]["orbit"]==6
+        assert rep["additionalStartsByRoute"]["orbit"]==8
         assert rep["adaptiveSearch"]["startCount"]==10
         assert rep["probeReplay"]["orbit"]["sourcePrefixVerified"]
         assert rep["probeReplay"]["orbit"]["phenotypePrefixVerified"]
 
+def test_explicit_four_probe_override_remains_supported():
+    with TemporaryDirectory() as td:
+        s=prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=4,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        assert s["probeBudget"]==20
+        assert set(s["probeAllocation"].values())=={4}
+
 def test_same_model_screen_remains_broad():
     with TemporaryDirectory() as td:
-        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=4,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
         fill_screen(td,{"orbit"})
-        rep=resume_adaptive_search(out_dir=td,total_start_budget=25,source_class="same-model",source_id="judge",render_frame=render,generate_route_archive=gen,run_search_from_starts=fake_adaptive)
+        rep=resume_adaptive_search(out_dir=td,total_start_budget=15,source_class="same-model",source_id="judge",render_frame=render,generate_route_archive=gen,run_search_from_starts=fake_adaptive)
         assert not rep["narrowingAuthorized"]
         assert set(rep["activeRoutes"])==set(R)
-        assert rep["adaptiveSearch"]["startCount"]==25
+        assert rep["adaptiveSearch"]["startCount"]==15
 
-def test_probe_budget_cannot_undercut_minimum():
+def test_probe_budget_cannot_undercut_declared_minimum():
     with TemporaryDirectory() as td:
         try:
-            prepare_probe(brief={"name":"x"},seed=9,out_dir=td,probe_budget=19,minimum_per_route=4,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+            prepare_probe(brief={"name":"x"},seed=9,out_dir=td,probe_budget=9,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
         except ValueError as e:
-            assert "need >= 20" in str(e)
+            assert "need >= 10" in str(e)
         else:
             raise AssertionError("expected probe minimum failure")
 
+def test_one_probe_is_explicit_not_default():
+    with TemporaryDirectory() as td:
+        s=prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=1,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        assert s["probeBudget"]==5
+        assert s["minimumPerRoute"]==1
+
 def test_replay_detects_changed_source_or_phenotype():
     with TemporaryDirectory() as td:
-        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=4,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
         fill_screen(td,{"family"})
         def bad_gen(brief,seed,route,n):
             xs,_=gen(brief,seed,route,n)
             if route=="family": xs[0].genome["i"]=999
             return xs,n
         try:
-            resume_adaptive_search(out_dir=td,total_start_budget=26,source_class="human",source_id="reviewer",render_frame=render,generate_route_archive=bad_gen,run_search_from_starts=fake_adaptive)
+            resume_adaptive_search(out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",render_frame=render,generate_route_archive=bad_gen,run_search_from_starts=fake_adaptive)
         except RuntimeError as e:
             assert "prefix changed" in str(e)
         else:
