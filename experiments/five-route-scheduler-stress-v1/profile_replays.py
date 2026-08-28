@@ -18,6 +18,7 @@ sys.path.insert(0, str(HERE))
 import reproduce as stress
 
 PROFILE_ROUNDS = 2
+PROBES_PER_ROUTE = 2
 
 
 def _meter(fn):
@@ -66,7 +67,7 @@ def run_mode(*, triads: bool, rounds: int = PROFILE_ROUNDS) -> dict:
             seed=seed,
             out_dir=root,
             probe_budget=stress.PROBE_BUDGET,
-            minimum_per_route=stress.PROBES_PER_ROUTE,
+            minimum_per_route=PROBES_PER_ROUTE,
             include_orbit=True,
             routes=stress.ROUTES,
             times=stress.base.TIMES,
