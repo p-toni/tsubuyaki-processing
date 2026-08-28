@@ -26,16 +26,29 @@ def test_low_confidence_human_cannot_drop():
     assert resolve_screen(R, e)["sheet"].status == "defer"
 
 
-def test_partial_authoritative_screen_fails_broad():
+def test_positive_only_keep_focuses_extras_without_pruning_omissions():
+    e = [RouteEvidence("orbit", "keep", "human", "toni")]
+    p = deepening_plan(R, remaining_budget=15, evidence=e, prior_scores={"family": 100})
+    assert not p.narrowing_authorized
+    assert set(p.active_routes) == set(R)
+    assert p.hard_excluded_routes == ()
+    assert p.status == "incomplete-screen-positive-focus"
+    assert p.allocation["orbit"] == 11
+    assert all(p.allocation[r] == 1 for r in R if r != "orbit")
+
+
+def test_partial_authoritative_screen_fails_broad_but_focuses_keep():
     e = [
         RouteEvidence("orbit", "keep", "human", "toni"),
         RouteEvidence("sheet", "drop", "human", "toni"),
     ]
-    p = deepening_plan(R, remaining_budget=12, evidence=e, prior_scores={"orbit": 9, "recurrence": 8})
+    p = deepening_plan(R, remaining_budget=12, evidence=e, prior_scores={"family": 100, "recurrence": 8})
     assert not p.narrowing_authorized
     assert "sheet" not in p.active_routes
     assert set(p.active_routes) == set(R) - {"sheet"}
-    assert all(p.allocation[r] >= 1 for r in p.active_routes)
+    assert p.status == "incomplete-screen-positive-focus"
+    assert p.allocation["orbit"] == 9
+    assert all(p.allocation[r] == 1 for r in p.active_routes if r != "orbit")
 
 
 def test_complete_authoritative_screen_can_narrow():
