@@ -25,7 +25,10 @@ VERSION = 1
 # exemplars on 3/3 nested cases (v18) and 5/5 fresh holdout cases (v19).
 # One exemplar remains unevidenced and must be requested explicitly.
 DEFAULT_MIN_PROBES_PER_ROUTE = 2
-DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS = 1
+# Synthetic exhaustive tournament replay shows two pending comparisons preserve
+# much of lazy review's rating efficiency without forcing one reviewer round per
+# comparison. One remains available as an explicit maximum-laziness override.
+DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS = 2
 
 
 def _stable(value) -> str:
