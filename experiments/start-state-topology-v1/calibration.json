@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "complete": true,
+  "sourceWorkflowRun": 33218773388,
+  "blocks": 45,
+  "regimeCases": 90,
+  "calibrationSeeds": [101, 103, 107, 109, 113, 127, 131, 137, 139],
+  "holdoutSeedsReserved": [149, 151, 157],
+  "thresholdGrid": [0.0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 0.75, 1.0],
+  "pilotSize": 4,
+  "signal": "(second_best_start_distance - best_start_distance) / mean_start_distance",
+  "decision": "adaptive when concentration >= threshold; otherwise simple-probe",
+  "selectionRule": "highest mean combined normalized improvement across all 45 calibration blocks; exact tie chooses smaller threshold",
+  "thresholds": {
+    "0.0": {"meanCombinedImprovement": 0.07825433254540733, "rawStrictWinsVsAdaptive": 0, "rawNonWorseVsAdaptive": 45, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.36666666666666664, "simpleProbeSelectionRate": 0.0},
+    "0.025": {"meanCombinedImprovement": 0.0855893030832011, "rawStrictWinsVsAdaptive": 14, "rawNonWorseVsAdaptive": 45, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.5, "simpleProbeSelectionRate": 0.17777777777777778},
+    "0.05": {"meanCombinedImprovement": 0.08747250462723813, "rawStrictWinsVsAdaptive": 22, "rawNonWorseVsAdaptive": 42, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.5777777777777777, "simpleProbeSelectionRate": 0.34444444444444444},
+    "0.1": {"meanCombinedImprovement": 0.0927876748011311, "rawStrictWinsVsAdaptive": 25, "rawNonWorseVsAdaptive": 34, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.5777777777777777, "simpleProbeSelectionRate": 0.5222222222222223},
+    "0.15": {"meanCombinedImprovement": 0.09678740164901309, "rawStrictWinsVsAdaptive": 31, "rawNonWorseVsAdaptive": 32, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6222222222222222, "simpleProbeSelectionRate": 0.6555555555555556},
+    "0.2": {"meanCombinedImprovement": 0.0917463652550669, "rawStrictWinsVsAdaptive": 32, "rawNonWorseVsAdaptive": 32, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6333333333333333, "simpleProbeSelectionRate": 0.7333333333333333},
+    "0.3": {"meanCombinedImprovement": 0.09485787900121034, "rawStrictWinsVsAdaptive": 33, "rawNonWorseVsAdaptive": 33, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6444444444444445, "simpleProbeSelectionRate": 0.8333333333333334},
+    "0.5": {"meanCombinedImprovement": 0.09887212475645385, "rawStrictWinsVsAdaptive": 32, "rawNonWorseVsAdaptive": 32, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6333333333333333, "simpleProbeSelectionRate": 0.9111111111111111, "routeMeans": {"recurrence": 0.07647236796925184, "orbit": 0.07841489001590021, "family": 0.07898030948894898, "sheet": 0.11605617234192654, "filament": 0.14443688396624166}},
+    "0.75": {"meanCombinedImprovement": 0.08714129381569434, "rawStrictWinsVsAdaptive": 29, "rawNonWorseVsAdaptive": 29, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6222222222222222, "simpleProbeSelectionRate": 0.9888888888888889},
+    "1.0": {"meanCombinedImprovement": 0.08718008663910287, "rawStrictWinsVsAdaptive": 29, "rawNonWorseVsAdaptive": 29, "regimeChoiceAccuracyVsAdaptiveSimpleOracle": 0.6333333333333333, "simpleProbeSelectionRate": 1.0}
+  },
+  "selectedThreshold": 0.5,
+  "boundary": "hyperparameter calibration only; no untouched-holdout or artistic-quality claim"
+}
