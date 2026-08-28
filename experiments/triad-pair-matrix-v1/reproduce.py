@@ -15,6 +15,7 @@ import importlib.util
 import itertools
 import json
 import statistics
+import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -23,6 +24,7 @@ BASE_PATH=ROOT/'experiments'/'triad-review-v1'/'reproduce.py'
 spec=importlib.util.spec_from_file_location('triad_rank_base',BASE_PATH)
 base=importlib.util.module_from_spec(spec)
 assert spec.loader is not None
+sys.modules[spec.name]=base
 spec.loader.exec_module(base)
 
 SEEDS=base.SEEDS
