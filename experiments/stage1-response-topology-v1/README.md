@@ -1,5 +1,38 @@
 # Stage-1 response topology v1 — paid mutation evidence
 
+## Result
+
+The preregistered untouched holdout rejects the hypothesis.
+
+```text
+calibration threshold = 0.025
+holdout seeds         = 163, 167, 173
+supporting routes     = 0/5
+required              = >=4/5
+
+→ general paid stage-1 response topology leverage not supported
+```
+
+Mean combined normalized improvement on the untouched holdout:
+
+```text
+dynamic selector        0.08459
+current adaptive        0.09281
+stage1-then-breadth     0.07586
+adaptive/breadth oracle 0.11857
+```
+
+The key diagnostic is that the observable paid-prefix response does not distinguish the two target regimes:
+
+```text
+local prefix gain   0.02537
+global prefix gain  0.02464
+```
+
+Yet their downstream topology preferences remain strongly different: adaptive is much better for local targets, while breadth is better for global targets. The early mutation response therefore does not expose the property that determines which continuation will pay off.
+
+See `results.md` for interpretation and `results.json` for the frozen holdout record.
+
 ## Question
 
 Can the actual response to the current adaptive search's paid explore stage tell us whether sequential depth is worth continuing, or whether the remaining budget should be redirected to fresh basin discovery?
@@ -11,7 +44,7 @@ route identity          did not generalize
 static start geometry  did not generalize
 ```
 
-This experiment moves the decision one step later and asks for causal evidence from mutations that have actually been paid for.
+This experiment moved the decision one step later and asked for causal evidence from mutations that had actually been paid for.
 
 ## Shared paid prefix
 
@@ -42,9 +75,7 @@ Define:
 G = (d0 - d1) / d0
 ```
 
-`G` is non-negative because starts remain eligible.
-
-Interpretation:
+The tested interpretation was:
 
 ```text
 large G  → local mutation already found useful progress → continue adaptive depth
@@ -57,15 +88,13 @@ The policy never receives route-specific mapping, target-regime labels, semantic
 
 ### `adaptive`
 
-Continue the exact current adaptive trajectory after stage 1. This is the existing round-A + refinement behavior under the objective selector.
+Continue the exact current adaptive trajectory after stage 1: existing round-A + refinement behavior under the objective selector.
 
 ### `stage1-then-breadth`
 
 Keep all common starts and all paid stage-1 explore candidates, then spend exactly the number of evaluations the adaptive trajectory would have spent after stage 1 on independent route-native seeds from an isolated deterministic RNG stream.
 
-Invalid breadth samples still consume evaluation budget.
-
-The final candidate count is asserted equal to adaptive.
+Invalid breadth samples consume evaluation budget. Final candidate count is asserted equal to adaptive.
 
 ## Dynamic rule
 
@@ -78,9 +107,9 @@ else:      switch remaining budget to breadth
 
 `τ=0` is the explicit always-adaptive null.
 
-## Phase 1 — calibration
+## Calibration
 
-Calibration uses every seed already consumed by prior topology experiments:
+Calibration used every seed already consumed by prior topology experiments:
 
 ```text
 101, 103, 107,
@@ -89,7 +118,7 @@ Calibration uses every seed already consumed by prior topology experiments:
 149, 151, 157
 ```
 
-Across five routes this gives 60 route×seed blocks / 120 target-regime cases.
+Across five routes this produced 60 route×seed blocks / 120 target-regime cases.
 
 Frozen threshold grid:
 
@@ -97,60 +126,59 @@ Frozen threshold grid:
 0.0, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0
 ```
 
-Per route×seed:
+The preregistered calibration rule selected `τ=0.025`:
 
 ```text
-combinedScore(τ) = mean(selected local improvement, selected global improvement)
+always adaptive mean   0.07467
+selected τ mean        0.08029
+breadth switch rate    58.3%
 ```
 
-Select the threshold with highest mean combined score across all 60 calibration blocks. Exact numerical ties choose the smaller threshold.
+The first calibration workflow failed before producing valid blocks because the harness filtered starts by a stage label they do not carry. The correction identifies the predeclared common starts by candidate identity. No seeds, thresholds, signal, policy, budget, or gate changed, and no holdout seed had been executed.
 
-Calibration makes no hypothesis claim.
+## Untouched holdout
 
-## Phase 2 — untouched holdout
-
-Reserved before calibration:
+Reserved before calibration and executed only after `τ=0.025` was frozen:
 
 ```text
 163, 167, 173
 ```
 
-The selected threshold will be frozen and used unchanged for every route.
+A seed counted only on a strict dynamic win over adaptive. A route required at least `2/3` strict-win seeds, and general support required at least `4/5` routes.
 
-## Holdout primary gate
+Observed route support:
 
-For each route×fresh seed, compare dynamic combined improvement with current adaptive combined improvement.
+| route | strict wins | support |
+| --- | ---: | --- |
+| recurrence | 1/3 | no |
+| orbit | 0/3 | no |
+| family | 1/3 | no |
+| sheet | 1/3 | no |
+| filament | 1/3 | no |
 
-A seed counts only on a **strict** dynamic win:
+## Decision
+
+Reject paid stage-1 objective response as a general topology selector. Do not add more classifier-driven topology stages based on this signal family.
+
+Across the recent sequence, three progressively richer predictors failed to generalize:
 
 ```text
-dynamicCombined > adaptiveCombined
+route identity
+→ static common-start geometry
+→ paid stage-1 mutation response
 ```
 
-Exact equality does not count, so the always-adaptive null cannot pass.
+The remaining adaptive-vs-breadth oracle gap is substantial, but another threshold or classifier is not supported by the evidence. A distinct next hypothesis is a fixed hedged budget allocation that captures some depth and breadth upside without first predicting a latent regime.
 
-A route supports stage-1 response leverage when dynamic search strictly beats adaptive on at least `2/3` fresh seeds.
+## Durable evidence
 
-Across routes:
+- `calibration.json` — frozen calibration and selected threshold;
+- `results.json` — frozen untouched-holdout aggregate;
+- `results.md` — interpretation and next causal question;
+- `policy.py`, `aggregate_calibration.py`, `aggregate_holdout.py` — deterministic protocol.
 
-```text
-4–5 supporting routes → general paid-response topology leverage supported
-3 supporting routes   → mixed / representation-dependent leverage
-0–2 supporting routes → general paid-response topology leverage not supported
-```
-
-## Secondary diagnostics
-
-Record, but do not let override the gate:
-
-- prefix gain distribution by local/global regime;
-- policy-choice accuracy against the adaptive-vs-breadth oracle;
-- breadth-switch rate;
-- oracle regret;
-- mean dynamic/adaptive/breadth-switch improvement;
-- route-specific support and gain distribution;
-- paid prefix size and post-prefix budget.
+Temporary calibration and holdout workflows are removed after their completed runs.
 
 ## Boundary
 
-This is objective search-mechanics research only. Even a positive result would justify only a later opt-in implementation/evidence experiment. It cannot authorize artistic promotion, hard representation pruning, portfolio sufficiency claims, production default changes, or `SKILL.md` changes.
+This is objective search-mechanics research only. It cannot authorize artistic promotion, hard representation pruning, portfolio sufficiency claims, production default changes, or `SKILL.md` changes.
