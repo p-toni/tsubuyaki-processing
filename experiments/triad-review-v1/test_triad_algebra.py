@@ -17,17 +17,18 @@ def test_every_weak_order_round_trips():
 
 
 def test_all_rankable_pair_matrices_decode_uniquely():
+    keys=(('A','B'),('A','C'),('B','C'))
+    choices=tuple(tuple(pair)+('tie',) for pair in keys)
     decoded={}
-    for vals in itertools.product(('A','B','tie'),repeat=3):
-        keys=(('A','B'),('A','C'),('B','C'))
+    for vals in itertools.product(*choices):
         outcomes=dict(zip(keys,vals))
-        # Values must name one endpoint or tie for the corresponding pair.
-        if any(v!='tie' and v not in pair for pair,v in outcomes.items()):
-            continue
         order=order_for_outcomes(outcomes)
         if order is not None:
             decoded[tuple(vals)]=order
+    # Exactly the 13 total preorders are rankable. The remaining 14 complete
+    # pairwise matrices contain an intransitivity that must fall back to pairs.
     assert len(decoded)==13
+    assert 27-len(decoded)==14
 
 
 def test_cycles_are_rejected_not_transitivized():
