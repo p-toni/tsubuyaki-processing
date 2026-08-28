@@ -31,21 +31,31 @@ The experimental orbit arm is explicitly registered before default five-route pr
 
 ## Probe depth
 
-The first human evidence for selective route screening used **four independent exemplars per representation**. Therefore this integration defaults to:
+The first human route-screen result used four independent exemplars per representation. Follow-up calibration then tested whether two exemplars preserve those route decisions:
 
 ```text
-minimum_per_route = 4
+v18 nested existing archive   3/3 exact preservation
+v19 fresh frozen holdout      5/5 exact preservation
+combined                      8/8
 ```
 
-A lower value is possible for experiments but is explicit and auditable; the runtime never silently assumes one exemplar is sufficient.
+No v19 two-exemplar choice was marked low confidence. The detailed frozen evidence is recorded in `experiments/route-screen-probe-depth-v1/`.
+
+Therefore this integration now defaults to:
+
+```text
+minimum_per_route = 2
+```
+
+A lower value remains possible only as an explicit experiment. **One exemplar per route is not supported by the current human evidence and is not the default.**
 
 For five routes and target depth 10 starts/route:
 
 ```text
 unscreened breadth             50 starts
-4 probes/route + keep 1        26 starts   (48% less)
-4 probes/route + keep 2        32 starts   (36% less)
-4 probes/route + keep 3        38 starts   (24% less)
+2 probes/route + keep 1        18 starts   (64% less)
+2 probes/route + keep 2        26 starts   (48% less)
+2 probes/route + keep 3        34 starts   (32% less)
 ```
 
 This is generation count only; reviewer/model inference cost is separate.
@@ -70,4 +80,4 @@ Any mismatch fails closed.
 
 This closes **route-allocation provenance** only.
 
-The downstream adaptive candidate selector remains the existing research proxy unless the caller supplies another selector. The independent-human calibration already showed that same-model/proxy judgments should not be treated as authoritative fine-grained artistic ground truth. Integrating the v3 preference-evidence policy into candidate promotion is the next separate step.
+The downstream adaptive candidate selector remains the existing research proxy unless the caller supplies another selector. The independent-human calibration already showed that same-model/proxy judgments should not be treated as authoritative fine-grained artistic ground truth. Integrating phenotype-oriented preference evidence into candidate promotion is handled separately by the artistic-promotion authority experiment.
