@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "prototypes/autonomous-discovery/**"
-      - "experiments/lazy-evidence-review-v1/**"
+      - "experiments/**"
       - ".github/workflows/autonomous-discovery-tests.yml"
   push:
     branches:
@@ -14,7 +14,7 @@ on:
       - "infra-*"
     paths:
       - "prototypes/autonomous-discovery/**"
-      - "experiments/lazy-evidence-review-v1/**"
+      - "experiments/**"
       - ".github/workflows/autonomous-discovery-tests.yml"
 
 permissions:
