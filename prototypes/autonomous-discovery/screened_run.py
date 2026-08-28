@@ -17,12 +17,25 @@ def main():
     r.add_argument('--out',required=True); r.add_argument('--total-start-budget',type=int,required=True)
     r.add_argument('--source-class',required=True,choices=['human','independent-model','same-model','deterministic-proxy','text-prior'])
     r.add_argument('--source-id',required=True)
+    r.add_argument('--evidence-authoritative-promotion',action='store_true')
+    r.add_argument('--candidate-evidence-dir',action='append',default=[])
+    r.add_argument('--candidate-review-queue',default='')
     args=ap.parse_args()
     if args.command=='prepare':
         brief=json.loads(Path(args.brief).read_text())
         result=prepare_probe(brief=brief,seed=args.seed,out_dir=Path(args.out),probe_budget=args.probe_budget,minimum_per_route=args.minimum_per_route,include_orbit=not args.no_orbit)
     else:
-        result=resume_adaptive_search(out_dir=Path(args.out),total_start_budget=args.total_start_budget,source_class=args.source_class,source_id=args.source_id)
+        out=Path(args.out)
+        review_queue=(Path(args.candidate_review_queue) if args.candidate_review_queue else (out/'candidate-review' if args.evidence_authoritative_promotion else None))
+        result=resume_adaptive_search(
+            out_dir=out,
+            total_start_budget=args.total_start_budget,
+            source_class=args.source_class,
+            source_id=args.source_id,
+            evidence_authoritative_promotion=args.evidence_authoritative_promotion,
+            candidate_evidence_dirs=[Path(x) for x in args.candidate_evidence_dir],
+            candidate_review_queue=review_queue,
+        )
     print(json.dumps(result,indent=2))
 
 if __name__=='__main__': main()
