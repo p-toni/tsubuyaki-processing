@@ -1,0 +1,39 @@
+name: five-route-scheduler-stress-experiment
+
+on:
+  pull_request:
+    paths:
+      - "prototypes/autonomous-discovery/**"
+      - "experiments/five-route-scheduler-stress-v1/**"
+      - ".github/workflows/five-route-scheduler-stress-experiment.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  stress:
+    strategy:
+      fail-fast: false
+      matrix:
+        brief: [living-form, open-asymmetry, layered-field]
+        seed: [89, 97]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run five-route screened scheduler stress
+        run: |
+          python experiments/five-route-scheduler-stress-v1/reproduce.py \
+            --brief "${{ matrix.brief }}" \
+            --seed "${{ matrix.seed }}" \
+            | tee "/tmp/five-route-stress-${{ matrix.brief }}-${{ matrix.seed }}.json"
+      - name: Upload scenario result
+        uses: actions/upload-artifact@v4
+        with:
+          name: five-route-stress-${{ matrix.brief }}-${{ matrix.seed }}
+          path: /tmp/five-route-stress-${{ matrix.brief }}-${{ matrix.seed }}.json
