@@ -169,8 +169,10 @@ def decode_triad_phenotype_evidence(out_dir:Path)->list[PhenotypePreferenceEvide
     """Decode completed triad rankings into the existing v3 pair evidence type."""
     out_dir=Path(out_dir)
     sealed=json.loads((out_dir/'sealed-mapping.json').read_text())
+    queue=json.loads((out_dir/'queue.json').read_text())
     decisions=json.loads((out_dir/'decisions.json').read_text())
-    if sealed.get('version')!=VERSION or decisions.get('version')!=VERSION or sealed.get('reviewType')!=REVIEW_TYPE or decisions.get('reviewType')!=REVIEW_TYPE:
+    docs=(sealed,queue,decisions)
+    if any(doc.get('version')!=VERSION or doc.get('reviewType')!=REVIEW_TYPE for doc in docs):
         raise ValueError('triad review bundle must use the v1 triad schema')
     out=[]
     for triad_id,item in decisions.get('decisions',{}).items():
@@ -183,15 +185,21 @@ def decode_triad_phenotype_evidence(out_dir:Path)->list[PhenotypePreferenceEvide
         mapping=sealed.get('triads',{}).get(triad_id)
         if not mapping or set(mapping)!=set(LABELS):
             raise ValueError(f'triad decision {triad_id} has no complete sealed mapping')
-        label_fp={label:mapping[label]['phenotypeFingerprint'] for label in LABELS}
-        if len(set(label_fp.values()))!=3:
-            raise ValueError(f'triad decision {triad_id} contains duplicate phenotypes')
-        rank={label:i for i,tier in enumerate(tiers) for label in tier}
-        queue=json.loads((out_dir/'queue.json').read_text())
+        label_fp={label:mapping[label].get('phenotypeFingerprint') for label in LABELS}
+        if not all(label_fp.values()) or len(set(label_fp.values()))!=3:
+            raise ValueError(f'triad decision {triad_id} contains missing or duplicate phenotypes')
         task=queue.get('triads',{}).get(triad_id)
         if not task:
             raise ValueError(f'triad decision {triad_id} has no queue metadata')
+        if task.get('triadId')!=triad_id or task.get('promptVersion')!=PROMPT_VERSION:
+            raise ValueError(f'triad decision {triad_id} has incompatible queue identity metadata')
+        if 'brief' not in task or 'times' not in task:
+            raise ValueError(f'triad decision {triad_id} has incomplete queue metadata')
         brief=task['brief']; times=task['times']
+        expected=triad_id_for_phenotypes(brief=brief,times=times,fingerprints=tuple(label_fp.values()))
+        if expected!=triad_id:
+            raise ValueError(f'triad decision {triad_id} failed replay-integrity verification')
+        rank={label:i for i,tier in enumerate(tiers) for label in tier}
         for left,right in itertools.combinations(LABELS,2):
             lfp=label_fp[left]; rfp=label_fp[right]
             winner=None if rank[left]==rank[right] else (lfp if rank[left]<rank[right] else rfp)
