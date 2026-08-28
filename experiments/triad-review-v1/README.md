@@ -56,6 +56,13 @@ There are exactly **13** weak orders / ordered partitions for three labeled cand
 
 The calibration oracle is still pairwise and may be non-transitive. A proposed triad is packed only if its three frozen pair outcomes correspond exactly to one of those 13 weak orders. Cycles or inconsistent tie structures fall back to ordinary pair tasks. The experiment therefore never repairs or assumes away non-transitivity.
 
+The exhaustive algebra check confirms:
+
+```text
+13 / 27 complete A/B/C pairwise outcome matrices are total preorders
+14 / 27 are non-rankable and must remain pairwise
+```
+
 ## Frozen comparison target
 
 To isolate the review format, this experiment reuses the exact synthetic pairwise oracle and eager trajectory signatures from `route-balanced-review-v1`:
@@ -88,22 +95,9 @@ triad-k2
   all other comparisons fall back to pair tasks
 ```
 
-## Metrics
-
-The primary unit is a reviewer task / panel interaction.
-
-For each policy record:
-
-- total review tasks;
-- review rounds / search replays;
-- candidate exposures (`2` per pair, `3` per triad);
-- pair relations explicitly elicited;
-- number of triad vs pair tasks;
-- exact final trajectory signature.
-
 ## Frozen promotion gate
 
-This gate is declared before reading the calibration results.
+This gate was committed before reading the calibration results.
 
 Triad review advances to a runtime queue/prototype only if all of the following hold across the frozen seeds:
 
@@ -112,7 +106,34 @@ Triad review advances to a runtime queue/prototype only if all of the following 
 3. mean candidate exposures do not increase;
 4. mean review rounds do not increase.
 
-This is intentionally a Pareto gate rather than a weighted reviewer-cost score. If triads save tasks but increase candidate exposure or rounds, v1 remains an experiment and no runtime format change is justified from this evidence alone.
+## Result
+
+All three frozen seeds preserve the exact eager final trajectory.
+
+| seed | pair tasks | triad tasks | pair rounds | triad rounds | pair exposures | triad exposures | triad panels used |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 7 | 18 | 15 | 10 | 9 | 36 | 33 | 3 |
+| 19 | 19 | 16 | 11 | 10 | 38 | 35 | 3 |
+| 43 | 21 | 17 | 11 | 9 | 42 | 37 | 3 |
+| **mean** | **19.33** | **16.00** | **10.67** | **9.33** | **38.67** | **35.00** | **3.0** |
+
+Relative to pair-K2, dependency-safe triads reduce:
+
+```text
+review tasks        17.2%
+review rounds       12.5%
+candidate exposures  9.5%
+```
+
+The triad policy explicitly elicited more useful pair relations (`21, 22, 23`) than the pair baseline (`18, 19, 21`) while showing fewer total candidate instances to the reviewer. This happens because one three-candidate panel can safely settle the two incumbent/challenger relations plus the sibling relation that may become reachable after a promotion.
+
+The frozen Pareto gate therefore **passes**.
+
+## Decision
+
+Advance to a separate runtime prototype for a blinded triad review queue and decoder.
+
+Do not alter refine behavior, frontier semantics, evidence authority, or production `SKILL.md` as part of this experiment PR. The runtime implementation must preserve the existing pairwise evidence interface by decoding an explicit triad ranking into three ordinary phenotype-pair evidence records.
 
 ## Scope
 
