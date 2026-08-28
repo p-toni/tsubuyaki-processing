@@ -1,20 +1,21 @@
 """Pairwise selector whose artistic promotions require authoritative phenotype evidence."""
 from __future__ import annotations
-import hashlib,json
+import json
 from pathlib import Path
 from typing import Mapping,Optional,Sequence
 from pairwise_selector import DimensionVote,PairwiseDecision,PairwiseSelector
 from phenotype_preference_evidence import resolve_phenotype_promotion_evidence
 from phenotype_evidence_replay import decode_review_phenotype_evidence
-from review_evidence_queue import PROMPT_VERSION,create_review_bundle,phenotype_fingerprint
+from review_evidence_queue import create_review_bundle,pair_id_for_phenotypes,phenotype_fingerprint
 
 
 def _brief_text(brief:Mapping[str,object])->str:
     return str(brief.get('artistic_intent') or brief.get('brief') or brief.get('description') or brief.get('name') or '')
 
 def _pair_id(brief_text:str,times,afp:str,bfp:str)->str:
-    config={'promptVersion':PROMPT_VERSION,'brief':brief_text,'times':list(times),'phenotypes':sorted((afp,bfp))}
-    return hashlib.sha256(json.dumps(config,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    return pair_id_for_phenotypes(
+        brief=brief_text,times=times,a_fingerprint=afp,b_fingerprint=bfp,
+    )
 
 class EvidenceAuthoritySelector(PairwiseSelector):
     """Advisory judges can triage; only strong human/independent evidence can promote.
