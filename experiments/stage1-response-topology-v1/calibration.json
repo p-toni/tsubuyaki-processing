@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "complete": true,
+  "sourceWorkflowRun": 33220457700,
+  "discardedHarnessFailureWorkflowRun": 33219536081,
+  "blocks": 60,
+  "regimeCases": 120,
+  "calibrationSeeds": [101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157],
+  "holdoutSeedsReserved": [163, 167, 173],
+  "thresholdGrid": [0.0, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0],
+  "signal": "normalized objective gain from common starts through exact adaptive explore stage",
+  "decision": "continue adaptive when prefix gain >= threshold; otherwise spend remaining equal budget on independent breadth",
+  "selectionRule": "highest mean combined normalized improvement across all 60 calibration blocks; exact tie chooses smaller threshold",
+  "thresholds": {
+    "0.0": {"meanCombinedImprovement": 0.07467499554142955, "rawStrictWinsVsAdaptive": 0, "rawNonWorseVsAdaptive": 60, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.6166666666666667, "breadthSwitchSelectionRate": 0.0},
+    "0.01": {"meanCombinedImprovement": 0.07667723323034284, "rawStrictWinsVsAdaptive": 17, "rawNonWorseVsAdaptive": 47, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.625, "breadthSwitchSelectionRate": 0.39166666666666666},
+    "0.025": {"meanCombinedImprovement": 0.08029017160437234, "rawStrictWinsVsAdaptive": 24, "rawNonWorseVsAdaptive": 38, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.5833333333333334, "breadthSwitchSelectionRate": 0.5833333333333334},
+    "0.05": {"meanCombinedImprovement": 0.07914950027881235, "rawStrictWinsVsAdaptive": 29, "rawNonWorseVsAdaptive": 33, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.5083333333333333, "breadthSwitchSelectionRate": 0.8083333333333333},
+    "0.075": {"meanCombinedImprovement": 0.07735258491232475, "rawStrictWinsVsAdaptive": 30, "rawNonWorseVsAdaptive": 30, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.45, "breadthSwitchSelectionRate": 0.9333333333333333},
+    "0.1": {"meanCombinedImprovement": 0.07667085475068265, "rawStrictWinsVsAdaptive": 30, "rawNonWorseVsAdaptive": 30, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.43333333333333335, "breadthSwitchSelectionRate": 0.95},
+    "0.15": {"meanCombinedImprovement": 0.07420730766757425, "rawStrictWinsVsAdaptive": 29, "rawNonWorseVsAdaptive": 29, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.4083333333333333, "breadthSwitchSelectionRate": 0.975},
+    "0.2": {"meanCombinedImprovement": 0.06932433842943535, "rawStrictWinsVsAdaptive": 28, "rawNonWorseVsAdaptive": 28, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.39166666666666666, "breadthSwitchSelectionRate": 0.9916666666666667},
+    "0.3": {"meanCombinedImprovement": 0.06910883887299267, "rawStrictWinsVsAdaptive": 28, "rawNonWorseVsAdaptive": 28, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.38333333333333336, "breadthSwitchSelectionRate": 1.0},
+    "0.5": {"meanCombinedImprovement": 0.06910883887299267, "rawStrictWinsVsAdaptive": 28, "rawNonWorseVsAdaptive": 28, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.38333333333333336, "breadthSwitchSelectionRate": 1.0},
+    "1.0": {"meanCombinedImprovement": 0.06910883887299267, "rawStrictWinsVsAdaptive": 28, "rawNonWorseVsAdaptive": 28, "regimeChoiceAccuracyVsAdaptiveBreadthOracle": 0.38333333333333336, "breadthSwitchSelectionRate": 1.0}
+  },
+  "selectedThreshold": 0.025,
+  "prefixResponseMeans": {"local": 0.03628966204141774, "global": 0.02331262068446665},
+  "harnessIncident": "The first calibration workflow failed before producing valid blocks because start candidates were filtered by a stage label they do not carry. The harness was corrected to identify the predeclared common starts by candidate identity; no seeds, thresholds, signal, policy, or gate changed.",
+  "boundary": "hyperparameter calibration only; no untouched-holdout or artistic-quality claim"
+}
