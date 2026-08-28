@@ -11,9 +11,9 @@ permissions:
   contents: read
 
 jobs:
-  replay-profile:
+  representative-convergence:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -21,16 +21,18 @@ jobs:
           python-version: "3.12"
       - name: Install prototype dependencies
         run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
-      - name: Profile first five-route evidence replays
+      - name: Run representative five-route convergence
         shell: bash
         run: |
           set -o pipefail
-          python experiments/five-route-scheduler-stress-v1/profile_replays.py \
-            | tee /tmp/five-route-replay-profile.jsonl
-      - name: Upload replay profile
+          python experiments/five-route-scheduler-stress-v1/reproduce.py \
+            --brief living-form \
+            --seed 89 \
+            | tee /tmp/five-route-stress-living-form-89.json
+      - name: Upload scenario result
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: five-route-replay-profile
-          path: /tmp/five-route-replay-profile.jsonl
+          name: five-route-stress-living-form-89
+          path: /tmp/five-route-stress-living-form-89.json
           if-no-files-found: warn
