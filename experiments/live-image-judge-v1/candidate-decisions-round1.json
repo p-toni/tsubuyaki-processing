@@ -1,19 +1,25 @@
 {
   "version": 3,
   "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
+  "sourceClass": "same-model",
   "blinded": true,
   "candidateMappingOpenedBeforeDecision": false,
+  "provenanceCorrection": {
+    "originalSourceClass": "independent-model",
+    "correctedSourceClass": "same-model",
+    "reason": "The reviewer was the same conversational model driving the research; these judgments are advisory only under judge-calibration-v1."
+  },
   "decisions": {
     "926768ae0462e0204ab9befa33e94a87c2ef7d6791811d83f3c91aa87aa8ab77": {
       "verdict": "tie",
-      "sourceClass": "independent-model",
+      "sourceClass": "same-model",
       "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
       "confidence": "strong",
       "rationale": "Both candidates preserve essentially the same axial coil identity across the full temporal horizon. Small lean and coil-spacing differences do not create a defensible artistic preference for the stated brief."
     },
     "1a1ffc49092ad7fa3521fd5db2461ddc91568ab304de74ac39384ebd4ac7928a": {
       "verdict": "tie",
-      "sourceClass": "independent-model",
+      "sourceClass": "same-model",
       "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
       "confidence": "strong",
       "rationale": "The pair is another near-neighbor axial-coil comparison. Across matched times neither candidate has clearly stronger composition, material coherence, living-form identity, or temporal behavior; forcing a winner would over-read minor parameter differences."
