@@ -51,6 +51,7 @@ def test_two_probe_default_and_authoritative_narrowing():
         assert rep["adaptiveSearch"]["startCount"]==10
         assert rep["probeReplay"]["orbit"]["sourcePrefixVerified"]
         assert rep["probeReplay"]["orbit"]["phenotypePrefixVerified"]
+        assert rep["candidatePromotionMode"]=="legacy-default"
 
 def test_explicit_four_probe_override_remains_supported():
     with TemporaryDirectory() as td:
@@ -81,6 +82,41 @@ def test_one_probe_is_explicit_not_default():
         s=prepare_probe(brief={"name":"x"},seed=9,out_dir=td,minimum_per_route=1,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
         assert s["probeBudget"]==5
         assert s["minimumPerRoute"]==1
+
+def test_candidate_evidence_options_require_authority_mode():
+    with TemporaryDirectory() as td:
+        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        fill_screen(td,{"orbit"})
+        try:
+            resume_adaptive_search(
+                out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",
+                candidate_review_queue=Path(td)/"candidate-review",
+                render_frame=render,generate_route_archive=gen,run_search_from_starts=fake_adaptive,
+            )
+        except ValueError as e:
+            assert "require evidence_authoritative_promotion=True" in str(e)
+        else:
+            raise AssertionError("expected candidate-evidence mode guard")
+
+def test_evidence_authority_selector_reaches_adaptive_search():
+    with TemporaryDirectory() as td:
+        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        fill_screen(td,{"orbit"})
+        queue=Path(td)/"candidate-review"
+        def evidence_adaptive(brief,seed,out,starts,selector=None):
+            from evidence_selector import EvidenceAuthoritySelector
+            assert isinstance(selector,EvidenceAuthoritySelector)
+            assert selector.queue_dir==queue
+            return fake_adaptive(brief,seed,out,starts,selector)
+        rep=resume_adaptive_search(
+            out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",
+            evidence_authoritative_promotion=True,candidate_review_queue=queue,
+            render_frame=render,generate_route_archive=gen,run_search_from_starts=evidence_adaptive,
+        )
+        assert rep["narrowingAuthorized"]
+        assert rep["candidatePromotionMode"]=="phenotype-evidence-authority-v1"
+        assert rep["candidateReviewQueue"]==str(queue)
+        assert rep["candidateEvidenceDirs"]==[]
 
 def test_replay_detects_changed_source_or_phenotype():
     with TemporaryDirectory() as td:
