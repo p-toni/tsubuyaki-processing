@@ -28,7 +28,9 @@ from representation_capacity import _generate_route_archive
 from review_evidence_queue import PROMPT_VERSION,phenotype_fingerprint
 from search_engine import run_search_from_starts
 
-ORACLE_ID='synthetic-triad-review-oracle-v1'
+# Reuse the exact pairwise oracle from route-balanced-review-v1 so the existing
+# eager trajectory signatures remain a frozen comparison target.
+ORACLE_ID='synthetic-route-scheduler-oracle-v1'
 SEEDS=(7,19,43)
 EXPECTED_EAGER_SIGNATURES={
     7:'83aeec36847752f988f436aa6d506f86f06bf6146f56cd20c02d48f716361c55',
@@ -291,6 +293,7 @@ def run_seed(seed):
     return {
         'version':1,'seed':seed,
         'purpose':'dependency-safe review-task compression calibration; synthetic oracle is not artistic evidence',
+        'oracleId':ORACLE_ID,
         'safeTriadStages':sorted(SAFE_TRIAD_STAGES),
         'refinePacking':'forbidden because later candidate phenotypes can depend on earlier promotions',
         'expectedEagerTrajectorySignature':EXPECTED_EAGER_SIGNATURES[seed],
