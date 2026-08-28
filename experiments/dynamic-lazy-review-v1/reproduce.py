@@ -6,6 +6,10 @@ synthetic pairwise oracle is written into temporary v3 review bundles using an
 otherwise-authoritative source class so the production EvidenceAuthoritySelector
 can be exercised end to end. No synthetic evidence is persisted as research
 preference evidence.
+
+The harness deliberately uses a 128x128 experiment canvas and reduced search
+budgets. This preserves the production mutation / promotion / replay dependency
+structure while keeping a policy regression cheap enough to run repeatedly.
 """
 from __future__ import annotations
 
@@ -21,12 +25,16 @@ ROOT = Path(__file__).resolve().parents[2]
 PROTO = ROOT / "prototypes" / "autonomous-discovery"
 sys.path.insert(0, str(PROTO))
 
+import core
+core.W = core.H = 128
+
 from core import TIMES, default_brief
 from evidence_selector import EvidenceAuthoritySelector
 from search_engine import run_search
 
 ORACLE_ID = "synthetic-dynamic-oracle-v1"
 CAPS = (1, 2, 3, None)
+RENDER_SIZE = 128
 
 
 def _oracle_verdict(pair_id: str, mapping: dict) -> str:
@@ -104,7 +112,7 @@ def _trajectory_signature(state, report) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def run_policy(brief: dict, seed: int, cap: int | None, *, max_replays: int = 80) -> dict:
+def run_policy(brief: dict, seed: int, cap: int | None, *, max_replays: int = 40) -> dict:
     with TemporaryDirectory() as td:
         root = Path(td)
         queue = root / "review"
@@ -115,7 +123,7 @@ def run_policy(brief: dict, seed: int, cap: int | None, *, max_replays: int = 80
         while replays < max_replays:
             replays += 1
             selector = EvidenceAuthoritySelector(
-                render_frame=__import__("core").render_candidate_frame,
+                render_frame=core.render_candidate_frame,
                 times=TIMES,
                 queue_dir=queue,
                 max_pending_reviews=cap,
@@ -148,9 +156,9 @@ def run_policy(brief: dict, seed: int, cap: int | None, *, max_replays: int = 80
 def _scenarios(quick: bool):
     base = default_brief()
     scenarios = [
-        ("single-recurrence", {**base, "routes": ["recurrence"], "starts_per_route": 1, "explore_per_basin": 4, "roundA_per_survivor": 3, "total_extra_budget": 8}),
-        ("single-family", {**base, "routes": ["family"], "starts_per_route": 1, "explore_per_basin": 4, "roundA_per_survivor": 3, "total_extra_budget": 8}),
-        ("paired", {**base, "routes": ["recurrence", "family"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 2, "total_extra_budget": 6}),
+        ("single-recurrence", {**base, "routes": ["recurrence"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 3}),
+        ("single-family", {**base, "routes": ["family"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 3}),
+        ("paired", {**base, "routes": ["recurrence", "family"], "starts_per_route": 1, "explore_per_basin": 1, "roundA_per_survivor": 1, "total_extra_budget": 2}),
     ]
     seeds = [19] if quick else [7, 19, 43]
     if quick:
@@ -191,6 +199,7 @@ def run_experiment(*, quick: bool = False) -> dict:
     return {
         "version": 1,
         "purpose": "dynamic search-policy calibration only; synthetic oracle is not artistic evidence",
+        "renderSize": RENDER_SIZE,
         "quick": quick,
         "blockCount": len(blocks),
         "trajectoryAgreement": "all caps exactly match eager final candidate trajectory in every block",
