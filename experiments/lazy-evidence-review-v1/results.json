@@ -1,0 +1,60 @@
+{
+  "caps": [1, 2, 3, "eager"],
+  "strictTotalOrder": {
+    "4": {
+      "1": {"orders": 24, "meanReviews": 3.0, "maxReviews": 3, "meanReviewRounds": 3.0, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "2": {"orders": 24, "meanReviews": 3.6666666667, "maxReviews": 5, "meanReviewRounds": 2.1666666667, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "3": {"orders": 24, "meanReviews": 4.3333333333, "maxReviews": 6, "meanReviewRounds": 1.8333333333, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "eager": {"orders": 24, "meanReviews": 4.3333333333, "maxReviews": 6, "meanReviewRounds": 1.8333333333, "maxReviewRounds": 3, "resultPreservation": 1.0}
+    },
+    "5": {
+      "1": {"orders": 120, "meanReviews": 4.0, "maxReviews": 4, "meanReviewRounds": 4.0, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "2": {"orders": 120, "meanReviews": 4.8333333333, "maxReviews": 7, "meanReviewRounds": 2.6666666667, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "3": {"orders": 120, "meanReviews": 5.6666666667, "maxReviews": 9, "meanReviewRounds": 2.3333333333, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "eager": {"orders": 120, "meanReviews": 6.4166666667, "maxReviews": 10, "meanReviewRounds": 2.0833333333, "maxReviewRounds": 4, "resultPreservation": 1.0}
+    },
+    "6": {
+      "1": {"orders": 720, "meanReviews": 5.0, "maxReviews": 5, "meanReviewRounds": 5.0, "maxReviewRounds": 5, "resultPreservation": 1.0},
+      "2": {"orders": 720, "meanReviews": 5.9333333333, "maxReviews": 9, "meanReviewRounds": 3.2666666667, "maxReviewRounds": 5, "resultPreservation": 1.0},
+      "3": {"orders": 720, "meanReviews": 6.9, "maxReviews": 12, "meanReviewRounds": 2.7333333333, "maxReviewRounds": 5, "resultPreservation": 1.0},
+      "eager": {"orders": 720, "meanReviews": 8.7, "maxReviews": 15, "meanReviewRounds": 2.2833333333, "maxReviewRounds": 5, "resultPreservation": 1.0}
+    },
+    "7": {
+      "1": {"orders": 5040, "meanReviews": 6.0, "maxReviews": 6, "meanReviewRounds": 6.0, "maxReviewRounds": 6, "resultPreservation": 1.0},
+      "2": {"orders": 5040, "meanReviews": 7.0333333333, "maxReviews": 11, "meanReviewRounds": 3.7666666667, "maxReviewRounds": 6, "resultPreservation": 1.0},
+      "3": {"orders": 5040, "meanReviews": 8.1333333333, "maxReviews": 15, "meanReviewRounds": 3.0666666667, "maxReviewRounds": 6, "resultPreservation": 1.0},
+      "eager": {"orders": 5040, "meanReviews": 11.15, "maxReviews": 21, "meanReviewRounds": 2.45, "maxReviewRounds": 6, "resultPreservation": 1.0}
+    },
+    "8": {
+      "1": {"orders": 40320, "meanReviews": 7.0, "maxReviews": 7, "meanReviewRounds": 7.0, "maxReviewRounds": 7, "resultPreservation": 1.0},
+      "2": {"orders": 40320, "meanReviews": 8.1047619048, "maxReviews": 13, "meanReviewRounds": 4.3380952381, "maxReviewRounds": 7, "resultPreservation": 1.0},
+      "3": {"orders": 40320, "meanReviews": 9.2952380952, "maxReviews": 18, "meanReviewRounds": 3.4952380952, "maxReviewRounds": 7, "resultPreservation": 1.0},
+      "eager": {"orders": 40320, "meanReviews": 13.7428571429, "maxReviews": 28, "meanReviewRounds": 2.5928571429, "maxReviewRounds": 7, "resultPreservation": 1.0}
+    }
+  },
+  "arbitraryPairwiseWithTies": {
+    "4": {
+      "1": {"matrices": 729, "meanReviews": 3.0, "maxReviews": 3, "meanReviewRounds": 3.0, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "2": {"matrices": 729, "meanReviews": 3.4444444444, "maxReviews": 5, "meanReviewRounds": 2.1111111111, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "3": {"matrices": 729, "meanReviews": 4.0, "maxReviews": 6, "meanReviewRounds": 1.6666666667, "maxReviewRounds": 3, "resultPreservation": 1.0},
+      "eager": {"matrices": 729, "meanReviews": 4.0, "maxReviews": 6, "meanReviewRounds": 1.6666666667, "maxReviewRounds": 3, "resultPreservation": 1.0}
+    },
+    "5": {
+      "1": {"matrices": 59049, "meanReviews": 4.0, "maxReviews": 4, "meanReviewRounds": 4.0, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "2": {"matrices": 59049, "meanReviews": 4.7037037037, "maxReviews": 7, "meanReviewRounds": 2.5925925926, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "3": {"matrices": 59049, "meanReviews": 5.2962962963, "maxReviews": 9, "meanReviewRounds": 2.2962962963, "maxReviewRounds": 4, "resultPreservation": 1.0},
+      "eager": {"matrices": 59049, "meanReviews": 6.0, "maxReviews": 10, "meanReviewRounds": 2.0, "maxReviewRounds": 4, "resultPreservation": 1.0}
+    }
+  },
+  "eightCandidateStrictOrderComparison": {
+    "cap2VsEagerMeanReviewReduction": 0.4102564103,
+    "cap2VsCap1MeanReviewIncrease": 0.1578231293,
+    "cap2VsCap1MeanRoundReduction": 0.3802721088
+  },
+  "fiveCandidateArbitraryPairwiseComparison": {
+    "cap2VsEagerMeanReviewReduction": 0.2160493827,
+    "cap2VsCap1MeanReviewIncrease": 0.1759259259,
+    "cap2VsCap1MeanRoundReduction": 0.3518518519
+  },
+  "decision": "use cap=2 as screened-search default; retain cap=1 as explicit maximum-laziness override"
+}
