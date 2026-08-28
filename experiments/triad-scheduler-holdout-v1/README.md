@@ -10,7 +10,7 @@ This is a **fresh holdout**. The seeds are predeclared as the first nine prime n
 47, 53, 59, 61, 67, 71, 73, 79, 83
 ```
 
-They were chosen before observing any result. No seed is removed or replaced after execution.
+They were chosen before observing any result. No seed was removed or replaced after execution.
 
 ## Runtime under test
 
@@ -45,7 +45,7 @@ matrixTriadK2
 
 ## Predeclared per-seed gates
 
-Every one of the nine seeds must satisfy:
+Every one of the nine seeds had to satisfy:
 
 1. exact equality of the full search trajectory signature;
 2. exact equality of final winner;
@@ -54,14 +54,30 @@ Every one of the nine seeds must satisfy:
 5. triad search replays <= pair search replays;
 6. triad candidate exposures <= pair candidate exposures.
 
-A seed with no safe triad opportunity may tie the pair scheduler on reviewer cost. Any cost regression or trajectory divergence fails the holdout.
+A seed with no safe triad opportunity could tie the pair scheduler on reviewer cost. Any cost regression or trajectory divergence failed the holdout.
 
-## Aggregate decision
+## Result
 
-After all nine seeds complete:
+**All 9 / 9 fresh seeds passed every gate.** All nine also showed strict task savings.
 
-- all per-seed gates must pass;
-- mean review tasks and candidate exposures must not regress;
-- at least one fresh seed must show a strict reviewer-cost improvement for the experiment to add positive evidence rather than merely compatibility evidence.
+| metric | pair mean | triad mean | relative change |
+|---|---:|---:|---:|
+| review tasks | 21.11 | 16.44 | **-22.1%** |
+| review rounds | 11.78 | 9.44 | **-19.8%** |
+| search replays | 12.78 | 10.44 | **-18.3%** |
+| candidate exposures | 42.22 | 36.67 | **-13.2%** |
+| pair relations elicited | 21.11 | 24.00 | **+13.7%** |
 
-Passing strengthens scheduler-semantic confidence. It still does **not** answer whether a human reviewer prefers or judges equally well from one three-candidate panel, so it does not by itself justify changing the default.
+No seed showed a full-trajectory divergence, winner divergence, or reviewer-cost regression.
+
+The result therefore extends the exact scheduler-semantic evidence from the original three frozen seeds to **12 total screened-search trajectories**.
+
+`results.json` persists the per-seed trajectory signatures, winners, costs, and aggregate statistics recovered from the original workflow artifacts.
+
+## Decision
+
+The fresh holdout passes and materially strengthens confidence that pair-matrix packing preserves search semantics while reducing reviewer work.
+
+It still does **not** answer whether a human reviewer judges equally well from one three-candidate panel. Pair-matrix scheduling therefore remains opt-in pending artistic-judgment evidence.
+
+The temporary holdout Actions workflow was merged before cleanup and is removed by the subsequent five-route stress PR so the completed experiment does not continue retriggering.
