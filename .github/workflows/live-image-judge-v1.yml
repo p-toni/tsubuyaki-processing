@@ -1,0 +1,35 @@
+name: live-image-judge-v1
+
+on:
+  pull_request:
+    paths:
+      - "experiments/live-image-judge-v1/**"
+      - ".github/workflows/live-image-judge-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  route-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Build blinded route screen
+        run: |
+          python prototypes/autonomous-discovery/screened_run.py prepare \
+            --brief prototypes/autonomous-discovery/brief.json \
+            --seed 260828 \
+            --out /tmp/live-image-judge \
+            --probe-budget 10 \
+            --minimum-per-route 2
+      - name: Upload blinded route screen
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-image-judge-route-screen
+          path: /tmp/live-image-judge
