@@ -21,7 +21,10 @@ from route_allocation_policy import deepening_plan, initial_probe_plan
 from route_screen_queue import build_route_screen, decode_route_screen
 
 VERSION = 1
-DEFAULT_MIN_PROBES_PER_ROUTE = 4
+# Human probe-depth calibration preserved the same route decision at 2 vs 4
+# exemplars on 3/3 nested cases (v18) and 5/5 fresh holdout cases (v19).
+# One exemplar remains unevidenced and must be requested explicitly.
+DEFAULT_MIN_PROBES_PER_ROUTE = 2
 
 
 def _stable(value) -> str:
