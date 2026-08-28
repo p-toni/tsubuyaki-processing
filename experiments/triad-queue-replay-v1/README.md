@@ -64,4 +64,48 @@ Advance scheduling plumbing only if all frozen seeds satisfy:
 3. pair-matrix triads reduce reviewer tasks/exposure without increasing review rounds versus current group-K2;
 4. no triad is created from refine/frontier/cross-route proposals.
 
-If the gate passes, the next PR may add an **opt-in** screened-search scheduler. Default behavior should remain pair group-K2 until the actual runtime path passes equivalent replay tests.
+## Results
+
+All gates pass.
+
+The pair-only collector reproduced the **exact current group-K2 pair IDs in the exact same batches on every replay of every seed**. Moving task creation from compare-time to post-search flush is therefore behavior-neutral under the current scheduler policy on the frozen trajectories.
+
+| seed | current tasks | triad tasks | current rounds | triad rounds | current exposures | triad exposures | triad panels |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 7 | 18 | **14** | 10 | **9** | 36 | **32** | 4 |
+| 19 | 19 | **15** | 11 | **9** | 38 | **33** | 3 |
+| 43 | 21 | **17** | 11 | **9** | 42 | **37** | 3 |
+| **mean** | **19.33** | **15.33** | **10.67** | **9.00** | **38.67** | **34.00** | **3.33** |
+
+Relative to today's file-backed pair group-K2 path:
+
+```text
+review tasks         -20.7%
+review rounds        -15.6%
+candidate exposures  -12.1%
+search replays       -14.3%
+```
+
+The triad path elicits more explicit pair relations despite fewer candidate exposures: mean pair relations increase from `19.33` to `22.00`, because one fixed sibling panel can settle the challenger-challenger relation that may become reachable after a promotion.
+
+Every final trajectory signature and winner remains identical to the frozen eager baseline.
+
+The observed file-backed metrics exactly reproduce the prior in-memory `triad-pair-matrix-v1` calibration. This removes a substantial implementation-risk gap between the abstract scheduler and the actual review transports.
+
+`test_scheduler_safety.py` separately guards the dependency boundary: `explore` / `roundA` fixed siblings may pack; `refine`, cross-route, wrong-parent, mixed-stage, duplicate sibling, and already-evidenced relations may not.
+
+## Decision
+
+**Advance to an opt-in screened-search pair-matrix triad scheduler.**
+
+The runtime implementation should preserve today's pair group-K2 path as the default while introducing an explicit opt-in mode that:
+
+1. collects unresolved comparisons without changing comparison traversal;
+2. flushes at most the existing task/group caps after the search replay;
+3. upgrades only the proven fixed-sibling boundary to pair-matrix triads;
+4. reads pair and triad decisions back as ordinary `PhenotypePreferenceEvidence`;
+5. leaves `refine`, frontier, cross-route, hard validity, promotion authority, and all representation behavior unchanged.
+
+Before changing the default, the actual `screened_search.resume_adaptive_search(...)` opt-in path should pass an equivalent frozen replay calibration.
+
+`results.json` persists the full integration summary. The temporary calibration workflow is removed after the safety regression is verified.
