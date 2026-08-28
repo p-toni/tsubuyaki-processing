@@ -70,6 +70,16 @@ def _evidence_for(evidence,left_fp,right_fp):
     return matches[0]
 
 
+def _assert_decode_fails(root,contains=None):
+    try:
+        decode_triad_phenotype_evidence(root)
+    except ValueError as e:
+        if contains is not None:
+            assert contains in str(e)
+    else:
+        raise AssertionError('expected triad replay to fail closed')
+
+
 def test_bundle_is_blinded_and_panel_exists():
     with TemporaryDirectory() as td:
         root=Path(td); tid=_create(root)
@@ -166,12 +176,44 @@ def test_missing_or_invalid_provenance_fails_closed():
             _,_,decisions=_docs(root)
             decisions['decisions'][tid][field]=value
             (root/'decisions.json').write_text(json.dumps(decisions,indent=2)+'\n')
-            try:
-                decode_triad_phenotype_evidence(root)
-            except ValueError:
-                pass
-            else:
-                raise AssertionError(f'expected invalid {field}={value!r} to fail')
+            _assert_decode_fails(root)
+
+
+def test_queue_identity_metadata_drift_fails_replay_integrity():
+    mutations=(
+        ('brief','tampered brief'),
+        ('times',[0,1,99]),
+        ('triadId','tampered-id'),
+        ('promptVersion','future-triad-prompt'),
+    )
+    for field,value in mutations:
+        with TemporaryDirectory() as td:
+            root=Path(td); tid=_create(root)
+            _complete_by_candidate(root,tid,[['cand-C'],['cand-A'],['cand-B']])
+            _,queue,_=_docs(root)
+            queue['triads'][tid][field]=value
+            (root/'queue.json').write_text(json.dumps(queue,indent=2)+'\n')
+            _assert_decode_fails(root)
+
+
+def test_sealed_fingerprint_drift_fails_replay_integrity():
+    with TemporaryDirectory() as td:
+        root=Path(td); tid=_create(root)
+        _complete_by_candidate(root,tid,[['cand-C'],['cand-A'],['cand-B']])
+        sealed,_,_=_docs(root)
+        sealed['triads'][tid]['A']['phenotypeFingerprint']='tampered-phenotype-fingerprint'
+        (root/'sealed-mapping.json').write_text(json.dumps(sealed,indent=2)+'\n')
+        _assert_decode_fails(root,'replay-integrity')
+
+
+def test_incompatible_document_schema_fails_closed():
+    for filename in ('sealed-mapping.json','queue.json','decisions.json'):
+        with TemporaryDirectory() as td:
+            root=Path(td); tid=_create(root)
+            _complete_by_candidate(root,tid,[['cand-C'],['cand-A'],['cand-B']])
+            path=root/filename; doc=json.loads(path.read_text()); doc['version']=999
+            path.write_text(json.dumps(doc,indent=2)+'\n')
+            _assert_decode_fails(root,'v1 triad schema')
 
 
 def test_duplicate_visible_phenotypes_are_rejected_before_review():
