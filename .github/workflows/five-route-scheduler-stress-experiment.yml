@@ -7,6 +7,10 @@ on:
       - "experiments/five-route-scheduler-stress-v1/**"
       - ".github/workflows/five-route-scheduler-stress-experiment.yml"
 
+concurrency:
+  group: five-route-scheduler-stress-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
