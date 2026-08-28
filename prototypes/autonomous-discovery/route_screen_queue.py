@@ -142,4 +142,27 @@ def decode_route_screen(queue_dir: Path, *, source_class: str, source_id: str) -
             confidence=confidence,
             rationale=f"blinded route screen {sealed['screenId']}",
         ))
+    evidence_doc = {
+        "version": VERSION,
+        "screenId": sealed["screenId"],
+        "sourceClass": source_class,
+        "sourceId": source_id,
+        "evidence": [
+            {
+                "route": e.route,
+                "verdict": e.verdict,
+                "confidence": e.confidence,
+                "sourceClass": e.source_class,
+                "sourceId": e.source_id,
+                "rationale": e.rationale,
+                "promotionAuthoritative": e.authoritative,
+                "groupFingerprint": next(
+                    item["groupFingerprint"] for item in sealed["groups"].values()
+                    if item["route"] == e.route
+                ),
+            }
+            for e in out
+        ],
+    }
+    (queue_dir / "route-evidence.json").write_text(json.dumps(evidence_doc, indent=2) + "\n")
     return out
