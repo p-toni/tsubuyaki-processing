@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "complete": true,
+  "calibrationWorkflowRun": 33218773388,
+  "holdoutWorkflowRun": 33219109044,
+  "selectedThreshold": 0.5,
+  "pilotSize": 4,
+  "holdoutSeeds": [149, 151, 157],
+  "primaryGate": "strict selector win over adaptive on >=2/3 seeds supports a route; general support requires >=4/5 routes",
+  "routes": {
+    "recurrence": {"strictWinSeeds": 1, "nonWorseSeeds": 1, "topologySignalSupport": false, "meanStartConcentration": 0.09864351551498422},
+    "orbit": {"strictWinSeeds": 2, "nonWorseSeeds": 2, "topologySignalSupport": true, "meanStartConcentration": 0.09324866509618758},
+    "family": {"strictWinSeeds": 0, "nonWorseSeeds": 0, "topologySignalSupport": false, "meanStartConcentration": 0.27146390005873094},
+    "sheet": {"strictWinSeeds": 2, "nonWorseSeeds": 2, "topologySignalSupport": true, "meanStartConcentration": 0.07749893617117368},
+    "filament": {"strictWinSeeds": 1, "nonWorseSeeds": 1, "topologySignalSupport": false, "meanStartConcentration": 0.07858862196386007}
+  },
+  "supportingRoutes": 2,
+  "rawStrictWinBlocks": 6,
+  "rawNonWorseBlocks": 6,
+  "classification": "general start-state topology leverage not supported",
+  "means": {
+    "selectorCombinedImprovement": 0.06917016392081915,
+    "adaptiveCombinedImprovement": 0.06393698452949619,
+    "simpleProbeCombinedImprovement": 0.07316668957212161,
+    "adaptiveVsSimpleOracleCombinedImprovement": 0.09306560616282179,
+    "regimeChoiceAccuracy": 0.36666666666666664,
+    "regimeOracleRegret": 0.023895442242002643,
+    "localSelectorImprovement": 0.058589572971776596,
+    "localAdaptiveImprovement": 0.05447060537284313,
+    "globalSelectorImprovement": 0.0797507548698617,
+    "globalAdaptiveImprovement": 0.07340336368614925,
+    "startConcentration": 0.1238887277609873,
+    "localStartConcentration": 0.1671695711847053,
+    "globalStartConcentration": 0.0806078843372693
+  },
+  "policyChoiceCounts": {"adaptive": 1, "simple-probe": 29},
+  "localPolicyChoiceCounts": {"adaptive": 1, "simple-probe": 14},
+  "globalPolicyChoiceCounts": {"simple-probe": 15},
+  "secondarySimpleProbeStrictSupport": {
+    "recurrence": 1,
+    "orbit": 2,
+    "family": 1,
+    "sheet": 2,
+    "filament": 1
+  },
+  "decision": "reject start concentration as a general topology selector; next test should use observed mutation response / early search progress rather than static start geometry",
+  "boundary": "objective search-mechanics evidence only; no artistic promotion, representation pruning, portfolio sufficiency, production default change, or SKILL.md authority"
+}
