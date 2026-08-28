@@ -141,17 +141,77 @@ Per route × seed × target regime × policy:
 
 Absolute target distance is interpreted only within a route/target block. Cross-route aggregation uses normalized improvement and win counts.
 
+## Predeclared decision rules
+
+The experiment has 15 independent route × seed blocks. The primary inference is **route-majority**, not a pooled 15-block average, so a representation with unusually easy or hard geometry cannot dominate the conclusion.
+
+For each route, a directional result is supported when the same strict comparison wins in at least **2 of the 3 frozen seeds**. Exact ties do not count as wins.
+
+### Local exploitation leverage
+
+For each route, ask whether:
+
+```text
+adaptive best distance < fixed-parent-local best distance
+```
+
+Classify the route as supporting sequential-promotion leverage when adaptive wins at least 2/3 seeds.
+
+Interpretation across routes:
+
+```text
+4–5 supporting routes → general exploitation leverage supported
+3 supporting routes   → mixed / representation-dependent leverage
+0–2 supporting routes → general exploitation leverage not supported
+```
+
+### Independent-basin discovery leverage
+
+For each route, ask whether:
+
+```text
+independent-breadth best distance < adaptive best distance
+```
+
+Classify the route as supporting breadth leverage when independent breadth wins at least 2/3 seeds.
+
+Interpretation across routes:
+
+```text
+4–5 supporting routes → basin discovery is a general first-order requirement
+3 supporting routes   → mixed / representation-dependent discovery requirement
+0–2 supporting routes → general breadth advantage not supported
+```
+
+### Combined architecture decision
+
+The strongest evidence for the intended broad-to-deep architecture is predeclared as:
+
+```text
+local exploitation leverage supported on >=4/5 routes
+AND
+independent-basin breadth leverage supported on >=4/5 routes
+```
+
+If only the local condition passes, prioritize selective depth but do not assume current basin discovery is sufficient.
+
+If only the global condition passes, prioritize basin discovery and question the value of chained exploitation.
+
+If neither passes, the current staged topology lacks objective support under this benchmark and should be simplified or redesigned before adding more search machinery.
+
+Mean normalized improvement, valid yield, unique-phenotype rate, winner lineage depth, and 15-block raw win counts are **secondary descriptive evidence**. They may explain a result but cannot override the route-majority decision rule.
+
 ## Predeclared interpretations
 
 ### Local target
 
-If adaptive consistently beats fixed-parent-local at equal evaluations, sequential promotion has objective exploitation leverage.
+If adaptive consistently beats fixed-parent-local at equal evaluations under the rule above, sequential promotion has objective exploitation leverage.
 
 If fixed-parent-local matches or beats adaptive, promotion/path dependence is not buying enough local leverage and should be questioned before adding more exploitation machinery.
 
 ### Independent target
 
-If independent breadth consistently beats adaptive, basin discovery remains a first-order search requirement. That is expected and would reinforce the earlier family/breadth result without relying on aesthetic judgment.
+If independent breadth consistently beats adaptive under the rule above, basin discovery remains a first-order search requirement. That would reinforce the earlier family/breadth result without relying on aesthetic judgment.
 
 If adaptive also performs strongly on independent targets, the current broad-to-deep topology may be more robust across basin structure than prior artistic evidence suggested.
 
