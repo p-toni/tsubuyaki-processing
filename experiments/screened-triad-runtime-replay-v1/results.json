@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "experiment": "screened-triad-runtime-replay-v1",
+  "sourceWorkflowRunId": 33183137959,
+  "status": "pass",
+  "oracleId": "synthetic-route-scheduler-oracle-v1",
+  "syntheticEvidenceScope": "scheduling/convergence only; not artistic authority",
+  "seeds": [
+    {
+      "seed": 7,
+      "trajectorySignature": "83aeec36847752f988f436aa6d506f86f06bf6146f56cd20c02d48f716361c55",
+      "winner": "FC1-A1",
+      "currentPairK2": {
+        "reviewTasks": 18,
+        "reviewRounds": 10,
+        "searchReplays": 11,
+        "candidateExposures": 36,
+        "pairRelationsElicited": 18,
+        "pairTasks": 18,
+        "triadTasks": 0
+      },
+      "matrixTriadK2": {
+        "reviewTasks": 14,
+        "reviewRounds": 9,
+        "searchReplays": 10,
+        "candidateExposures": 32,
+        "pairRelationsElicited": 22,
+        "pairTasks": 10,
+        "triadTasks": 4
+      }
+    },
+    {
+      "seed": 19,
+      "trajectorySignature": "acbe0cbc6801fa71dcce31a8544aed0ed83a042e4a08918f548828964157c4df",
+      "winner": "RC1-R2",
+      "currentPairK2": {
+        "reviewTasks": 19,
+        "reviewRounds": 11,
+        "searchReplays": 12,
+        "candidateExposures": 38,
+        "pairRelationsElicited": 19,
+        "pairTasks": 19,
+        "triadTasks": 0
+      },
+      "matrixTriadK2": {
+        "reviewTasks": 15,
+        "reviewRounds": 9,
+        "searchReplays": 10,
+        "candidateExposures": 33,
+        "pairRelationsElicited": 21,
+        "pairTasks": 12,
+        "triadTasks": 3
+      }
+    },
+    {
+      "seed": 43,
+      "trajectorySignature": "a2bf05f23ee714ccb9d8801106d48cd3bfa49a529dfdf0dd166833c0daf3e099",
+      "winner": "FC1-E1",
+      "currentPairK2": {
+        "reviewTasks": 21,
+        "reviewRounds": 11,
+        "searchReplays": 12,
+        "candidateExposures": 42,
+        "pairRelationsElicited": 21,
+        "pairTasks": 21,
+        "triadTasks": 0
+      },
+      "matrixTriadK2": {
+        "reviewTasks": 17,
+        "reviewRounds": 9,
+        "searchReplays": 10,
+        "candidateExposures": 37,
+        "pairRelationsElicited": 23,
+        "pairTasks": 14,
+        "triadTasks": 3
+      }
+    }
+  ],
+  "means": {
+    "currentPairK2": {
+      "reviewTasks": 19.3333333333,
+      "reviewRounds": 10.6666666667,
+      "searchReplays": 11.6666666667,
+      "candidateExposures": 38.6666666667,
+      "pairRelationsElicited": 19.3333333333
+    },
+    "matrixTriadK2": {
+      "reviewTasks": 15.3333333333,
+      "reviewRounds": 9.0,
+      "searchReplays": 10.0,
+      "candidateExposures": 34.0,
+      "pairRelationsElicited": 22.0,
+      "triadTasks": 3.3333333333
+    }
+  },
+  "relativeChange": {
+    "reviewTasksPct": -20.6896551724,
+    "reviewRoundsPct": -15.625,
+    "searchReplaysPct": -14.2857142857,
+    "candidateExposuresPct": -12.0689655172,
+    "pairRelationsElicitedPct": 13.7931034483
+  },
+  "gate": {
+    "exactFrozenTrajectories": true,
+    "exactHistoricalPairMetrics": true,
+    "exactHistoricalTriadMetrics": true,
+    "reviewTasksReducedEverySeed": true,
+    "candidateExposuresReducedEverySeed": true,
+    "reviewRoundsNotIncreasedEverySeed": true,
+    "normalRepositoryCiPassedBeforeFinalCleanup": true
+  },
+  "decision": "merge opt-in screened pair-matrix scheduler; do not change default scheduling policy"
+}
