@@ -19,10 +19,9 @@ def _pair_id(brief_text:str,times,afp:str,bfp:str)->str:
 class EvidenceAuthoritySelector(PairwiseSelector):
     """Advisory judges can triage; only strong human/independent evidence can promote.
 
-    ``max_pending_reviews`` bounds speculative human work. A value of 1 makes
-    search lazy: queue the first promotion-critical unresolved pair, preserve the
-    incumbent for the rest of the replay, then expose later pairs only after the
-    pending review is resolved and the search is replayed.
+    ``max_pending_reviews`` bounds speculative human work. Small caps expose only
+    a few promotion-critical unresolved pairs per deterministic replay; later
+    pairs become visible only if they remain reachable after evidence is added.
     """
     name='phenotype-evidence-authority-v1'
     def __init__(self,*,render_frame,times:Sequence[float],evidence_dirs:Sequence[Path]=(),queue_dir:Optional[Path]=None,advisory:Optional[PairwiseSelector]=None,max_pending_reviews:Optional[int]=None):
@@ -33,22 +32,25 @@ class EvidenceAuthoritySelector(PairwiseSelector):
         for d in evidence_dirs:
             p=Path(d)
             self.evidence.extend(decode_review_phenotype_evidence(p)); loaded.add(p.resolve())
-        self.pending_review_ids=set()
+        self.pending_review_ids=set(); self.queue_pair_ids=set()
         if self.queue_dir is not None:
             decisions_path=self.queue_dir/'decisions.json'; sealed_path=self.queue_dir/'sealed-mapping.json'
             if decisions_path.exists() and sealed_path.exists():
                 if self.queue_dir.resolve() not in loaded:
                     self.evidence.extend(decode_review_phenotype_evidence(self.queue_dir))
                 decisions=json.loads(decisions_path.read_text())
-                self.pending_review_ids={pid for pid,item in decisions.get('decisions',{}).items() if item.get('verdict') is None}
+                items=decisions.get('decisions',{})
+                self.queue_pair_ids=set(items)
+                self.pending_review_ids={pid for pid,item in items.items() if item.get('verdict') is None}
     def _frames(self,cand): return [self.render_frame(cand,t) for t in self.times]
     def _can_queue(self,pair_id:str)->bool:
-        if self.queue_dir is None or pair_id in self.pending_review_ids: return False
+        if self.queue_dir is None or pair_id in self.queue_pair_ids: return False
         return self.max_pending_reviews is None or len(self.pending_review_ids)<self.max_pending_reviews
     def _queue(self,*,pair_id,brief_text,a_frames,b_frames,a_id,b_id)->bool:
         if not self._can_queue(pair_id): return False
         created=create_review_bundle(self.queue_dir,brief=brief_text,times=self.times,a_frames=a_frames,b_frames=b_frames,a_candidate_id=a_id,b_candidate_id=b_id)
         if created!=pair_id: raise RuntimeError('review bundle pair id drift')
+        self.queue_pair_ids.add(pair_id)
         decisions=json.loads((self.queue_dir/'decisions.json').read_text())
         if decisions['decisions'][pair_id].get('verdict') is None: self.pending_review_ids.add(pair_id)
         return True
@@ -76,7 +78,12 @@ class EvidenceAuthoritySelector(PairwiseSelector):
         advisory=self.advisory.compare(a,b,brief) if self.advisory is not None else None
         reason=resolution.reason
         if resolution.review_needed and self.queue_dir is not None and not queued:
-            reason+='; review deferred behind existing pending evidence'
+            if pair_id in self.pending_review_ids:
+                reason+='; review is already pending'
+            elif pair_id in self.queue_pair_ids:
+                reason+='; existing queue evidence is non-authoritative, so additional evidence must come from a new independent review bundle'
+            else:
+                reason+='; review deferred behind the pending-review cap'
         dims=[DimensionVote('promotion-authority','tie',reason)]
         if advisory is not None:
             dims.append(DimensionVote('advisory-only',advisory.verdict,f'{advisory.source} suggestion is non-authoritative'))
