@@ -7,9 +7,9 @@ otherwise-authoritative source class so the production EvidenceAuthoritySelector
 can be exercised end to end. No synthetic evidence is persisted as research
 preference evidence.
 
-The harness deliberately uses a 128x128 experiment canvas and reduced search
-budgets. This preserves the production mutation / promotion / replay dependency
-structure while keeping a policy regression cheap enough to run repeatedly.
+The harness preserves the native 400x400 geometry contract. Runtime is bounded by
+reducing search depth, never by rescaling representation geometry: recurrence has
+pixel-scale genes and is not valid under arbitrary canvas rescaling.
 """
 from __future__ import annotations
 
@@ -26,15 +26,13 @@ PROTO = ROOT / "prototypes" / "autonomous-discovery"
 sys.path.insert(0, str(PROTO))
 
 import core
-core.W = core.H = 128
-
 from core import TIMES, default_brief
 from evidence_selector import EvidenceAuthoritySelector
 from search_engine import run_search
 
 ORACLE_ID = "synthetic-dynamic-oracle-v1"
 CAPS = (1, 2, 3, None)
-RENDER_SIZE = 128
+RENDER_SIZE = 400
 
 
 def _oracle_verdict(pair_id: str, mapping: dict) -> str:
@@ -155,15 +153,20 @@ def run_policy(brief: dict, seed: int, cap: int | None, *, max_replays: int = 40
 
 def _scenarios(quick: bool):
     base = default_brief()
+    if quick:
+        # The first explore verdict changes the Round A parent, so this remains a
+        # genuinely dynamic replay test while adding only a few comparisons.
+        return [(
+            "minimal-dynamic-recurrence",
+            {**base, "routes": ["recurrence"], "starts_per_route": 1, "explore_per_basin": 1, "roundA_per_survivor": 1, "total_extra_budget": 1},
+        )], [19]
+
     scenarios = [
-        ("single-recurrence", {**base, "routes": ["recurrence"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 3}),
-        ("single-family", {**base, "routes": ["family"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 3}),
+        ("single-recurrence", {**base, "routes": ["recurrence"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 2}),
+        ("single-family", {**base, "routes": ["family"], "starts_per_route": 1, "explore_per_basin": 2, "roundA_per_survivor": 1, "total_extra_budget": 2}),
         ("paired", {**base, "routes": ["recurrence", "family"], "starts_per_route": 1, "explore_per_basin": 1, "roundA_per_survivor": 1, "total_extra_budget": 2}),
     ]
-    seeds = [19] if quick else [7, 19, 43]
-    if quick:
-        scenarios = [scenarios[-1]]
-    return scenarios, seeds
+    return scenarios, [7, 19, 43]
 
 
 def run_experiment(*, quick: bool = False) -> dict:
