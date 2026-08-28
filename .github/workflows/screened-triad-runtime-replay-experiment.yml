@@ -1,0 +1,37 @@
+name: screened-triad-runtime-replay-experiment
+
+on:
+  pull_request:
+    paths:
+      - "prototypes/autonomous-discovery/**"
+      - "experiments/screened-triad-runtime-replay-v1/**"
+      - ".github/workflows/screened-triad-runtime-replay-experiment.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [7, 19, 43]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run exact screened runtime replay
+        run: |
+          python experiments/screened-triad-runtime-replay-v1/reproduce.py \
+            --seed ${{ matrix.seed }} \
+            | tee /tmp/screened-triad-runtime-${{ matrix.seed }}.json
+      - name: Upload seed result
+        uses: actions/upload-artifact@v4
+        with:
+          name: screened-triad-runtime-seed-${{ matrix.seed }}
+          path: /tmp/screened-triad-runtime-${{ matrix.seed }}.json
