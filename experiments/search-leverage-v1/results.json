@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "complete": true,
+  "blocks": 15,
+  "decisionRule": {
+    "routeSupport": "strict win in >=2/3 frozen seeds",
+    "generalSupport": ">=4/5 supporting routes",
+    "tiesCountAsWins": false
+  },
+  "routeResults": {
+    "recurrence": {
+      "localAdaptiveWins": 1,
+      "localSupportsSequentialPromotion": false,
+      "globalBreadthWins": 0,
+      "globalSupportsBasinDiscovery": false,
+      "seeds": [
+        {"seed": 101, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["independent-breadth"], "globalWinnerPolicies": ["adaptive"]},
+        {"seed": 103, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["fixed-parent-local"]},
+        {"seed": 107, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["adaptive"]}
+      ]
+    },
+    "orbit": {
+      "localAdaptiveWins": 0,
+      "localSupportsSequentialPromotion": false,
+      "globalBreadthWins": 2,
+      "globalSupportsBasinDiscovery": true,
+      "seeds": [
+        {"seed": 101, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 103, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 107, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["fixed-parent-local"]}
+      ]
+    },
+    "family": {
+      "localAdaptiveWins": 1,
+      "localSupportsSequentialPromotion": false,
+      "globalBreadthWins": 3,
+      "globalSupportsBasinDiscovery": true,
+      "seeds": [
+        {"seed": 101, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["independent-breadth"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 103, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["adaptive"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 107, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["independent-breadth"]}
+      ]
+    },
+    "sheet": {
+      "localAdaptiveWins": 2,
+      "localSupportsSequentialPromotion": true,
+      "globalBreadthWins": 1,
+      "globalSupportsBasinDiscovery": false,
+      "seeds": [
+        {"seed": 101, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["adaptive"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 103, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["fixed-parent-local"]},
+        {"seed": 107, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["adaptive"], "globalWinnerPolicies": ["adaptive"]}
+      ]
+    },
+    "filament": {
+      "localAdaptiveWins": 2,
+      "localSupportsSequentialPromotion": true,
+      "globalBreadthWins": 2,
+      "globalSupportsBasinDiscovery": true,
+      "seeds": [
+        {"seed": 101, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["adaptive"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 103, "localAdaptiveBeatsFixedParent": false, "globalBreadthBeatsAdaptive": true, "localWinnerPolicies": ["fixed-parent-local"], "globalWinnerPolicies": ["independent-breadth"]},
+        {"seed": 107, "localAdaptiveBeatsFixedParent": true, "globalBreadthBeatsAdaptive": false, "localWinnerPolicies": ["adaptive"], "globalWinnerPolicies": ["adaptive"]}
+      ]
+    }
+  },
+  "primary": {
+    "localSupportingRoutes": 2,
+    "localRawWins": 6,
+    "localClassification": "general-exploitation-leverage-not-supported",
+    "globalSupportingRoutes": 3,
+    "globalRawWins": 8,
+    "globalClassification": "mixed-representation-dependent-basin-discovery-requirement",
+    "architectureClassification": "current-staged-topology-not-generally-supported"
+  },
+  "secondary": {
+    "local": {
+      "adaptive": {"normalizedImprovement": 0.08160107362570158, "validYield": 0.9974358974358974, "uniquePhenotypeRate": 0.9793846153846154},
+      "independent-breadth": {"normalizedImprovement": 0.018545344314458635, "validYield": 1.0, "uniquePhenotypeRate": 1.0},
+      "fixed-parent-local": {"normalizedImprovement": 0.11570463081084428, "validYield": 1.0, "uniquePhenotypeRate": 0.9743589743589743},
+      "adaptiveLineageDepth": {"mean": 2.2666666666666666, "min": 1, "max": 4}
+    },
+    "global": {
+      "adaptive": {"normalizedImprovement": 0.0546133589103315, "validYield": 0.9974358974358974, "uniquePhenotypeRate": 0.9793846153846154},
+      "independent-breadth": {"normalizedImprovement": 0.0788127578490882, "validYield": 1.0, "uniquePhenotypeRate": 1.0},
+      "fixed-parent-local": {"normalizedImprovement": 0.035243361152443566, "validYield": 1.0, "uniquePhenotypeRate": 0.9769230769230769},
+      "adaptiveLineageDepth": {"mean": 3.466666666666667, "min": 2, "max": 5}
+    }
+  },
+  "boundary": "objective search-mechanics evidence only; no artistic-quality claim",
+  "source": {
+    "workflowRun": 33210657342,
+    "headSha": "3f8317af2c9b1e384f5a73bf763483da190dcec8",
+    "mainAtExecution": "bacde5fe9f4cc3925dfc01fd83c46a6cfbce1fe3"
+  }
+}
