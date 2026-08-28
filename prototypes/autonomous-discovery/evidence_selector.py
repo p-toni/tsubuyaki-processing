@@ -12,7 +12,6 @@ from review_evidence_queue import create_review_bundle,pair_id_for_phenotypes,ph
 
 def _brief_text(brief:Mapping[str,object])->str:
     return str(brief.get('artistic_intent') or brief.get('brief') or brief.get('description') or brief.get('name') or '')
-
 def _pair_id(brief_text:str,times,afp:str,bfp:str)->str:
     return pair_id_for_phenotypes(
         brief=brief_text,times=times,a_fingerprint=afp,b_fingerprint=bfp,
@@ -30,6 +29,11 @@ class EvidenceAuthoritySelector(PairwiseSelector):
     an opt-in transport mode: unresolved comparisons are recorded without writing
     review tasks during traversal, so a post-search scheduler can safely decide
     whether each task stays pairwise or becomes a fixed-sibling pair-matrix triad.
+
+    Phenotype frames/fingerprints are cached by candidate object identity for the
+    lifetime of one selector/search replay. Candidate objects are immutable after
+    evaluation, so this removes duplicate rendering without changing evidence ids
+    or persisting cache state across replays/version boundaries.
     """
     name='phenotype-evidence-authority-v1'
     def __init__(self,*,render_frame,times:Sequence[float],evidence_dirs:Sequence[Path]=(),queue_dir:Optional[Path]=None,advisory:Optional[PairwiseSelector]=None,max_pending_reviews:Optional[int]=None,max_pending_reviews_per_group:Optional[int]=None,extra_evidence:Sequence=(),collect_review_proposals:bool=False):
@@ -44,7 +48,7 @@ class EvidenceAuthoritySelector(PairwiseSelector):
             self.evidence.extend(decode_review_phenotype_evidence(p)); loaded.add(p.resolve())
         self.evidence.extend(extra_evidence)
         self.pending_review_ids=set(); self.queue_pair_ids=set(); self.pending_review_groups={}
-        self.review_proposals=[]; self._proposal_pair_ids=set()
+        self.review_proposals=[]; self._proposal_pair_ids=set(); self._phenotype_cache={}
         if self.queue_dir is not None:
             decisions_path=self.queue_dir/'decisions.json'; sealed_path=self.queue_dir/'sealed-mapping.json'
             if decisions_path.exists() and sealed_path.exists():
@@ -56,7 +60,14 @@ class EvidenceAuthoritySelector(PairwiseSelector):
                 self.pending_review_ids={pid for pid,item in items.items() if item.get('verdict') is None}
                 groups=sealed.get('reviewGroups',{})
                 self.pending_review_groups={pid:groups[pid] for pid in self.pending_review_ids if groups.get(pid)}
-    def _frames(self,cand): return [self.render_frame(cand,t) for t in self.times]
+    def _phenotype(self,cand):
+        key=id(cand)
+        cached=self._phenotype_cache.get(key)
+        if cached is None:
+            frames=tuple(self.render_frame(cand,t) for t in self.times)
+            cached=(frames,phenotype_fingerprint(frames))
+            self._phenotype_cache[key]=cached
+        return cached
     def _review_group(self,a,b,brief:Mapping[str,object])->str|None:
         if self.max_pending_reviews_per_group is None: return None
         routes=tuple(dict.fromkeys(brief.get('routes') or ()))
@@ -111,8 +122,7 @@ class EvidenceAuthoritySelector(PairwiseSelector):
             return PairwiseDecision(a.id,b.id,verdict,'clear',(DimensionVote('route-validity',verdict,'invalid candidate cannot win artistic promotion',av,bv),),self.name+':hard-validity')
         if not av and not bv:
             return PairwiseDecision(a.id,b.id,'tie','defer',(DimensionVote('route-validity','tie','both candidates invalid',av,bv),),self.name+':hard-validity')
-        a_frames=self._frames(a); b_frames=self._frames(b)
-        afp=phenotype_fingerprint(a_frames); bfp=phenotype_fingerprint(b_frames)
+        a_frames,afp=self._phenotype(a); b_frames,bfp=self._phenotype(b)
         if afp==bfp:
             return PairwiseDecision(a.id,b.id,'tie','clear',(DimensionVote('phenotype-evidence','tie','visible phenotypes are identical'),),self.name)
         brief_text=_brief_text(brief); pair_id=_pair_id(brief_text,self.times,afp,bfp)
