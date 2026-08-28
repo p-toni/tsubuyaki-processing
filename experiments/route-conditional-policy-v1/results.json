@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "complete": true,
+  "blocks": 15,
+  "trainSeeds": [101, 103, 107],
+  "holdoutSeeds": [109, 113, 127],
+  "frozenRoutePolicy": {
+    "recurrence": "fixed-parent-local",
+    "orbit": "fixed-parent-local",
+    "family": "independent-breadth",
+    "sheet": "fixed-parent-local",
+    "filament": "fixed-parent-local"
+  },
+  "universalSimplePolicy": "fixed-parent-local",
+  "routeResults": {
+    "recurrence": {
+      "selectedPolicy": "fixed-parent-local",
+      "selectedStrictWins": 1,
+      "selectedNonWorse": 1,
+      "supportsSimpleReplacement": false,
+      "supportsStrictSimpleAdvantage": false,
+      "universalStrictWins": 1,
+      "universalNonWorse": 1,
+      "supportsUniversalSimpleReplacement": false,
+      "seedScores": [
+        {"seed": 109, "selected": 0.01666400246960779, "adaptive": 0.06356350213705537, "universal": 0.01666400246960779, "familyBreadthBeatsFixed": null},
+        {"seed": 113, "selected": 0.09020118455831033, "adaptive": 0.10069158519966537, "universal": 0.09020118455831033, "familyBreadthBeatsFixed": null},
+        {"seed": 127, "selected": 0.17786240390462887, "adaptive": 0.01209926813131193, "universal": 0.17786240390462887, "familyBreadthBeatsFixed": null}
+      ]
+    },
+    "orbit": {
+      "selectedPolicy": "fixed-parent-local",
+      "selectedStrictWins": 1,
+      "selectedNonWorse": 1,
+      "supportsSimpleReplacement": false,
+      "supportsStrictSimpleAdvantage": false,
+      "universalStrictWins": 1,
+      "universalNonWorse": 1,
+      "supportsUniversalSimpleReplacement": false,
+      "seedScores": [
+        {"seed": 109, "selected": 0.030727821278329896, "adaptive": 0.049632285549294095, "universal": 0.030727821278329896, "familyBreadthBeatsFixed": null},
+        {"seed": 113, "selected": 0.12297735108209644, "adaptive": 0.06790481279190254, "universal": 0.12297735108209644, "familyBreadthBeatsFixed": null},
+        {"seed": 127, "selected": 0.019743321279196653, "adaptive": 0.03097696433461555, "universal": 0.019743321279196653, "familyBreadthBeatsFixed": null}
+      ]
+    },
+    "family": {
+      "selectedPolicy": "independent-breadth",
+      "selectedStrictWins": 2,
+      "selectedNonWorse": 2,
+      "supportsSimpleReplacement": true,
+      "supportsStrictSimpleAdvantage": true,
+      "universalStrictWins": 2,
+      "universalNonWorse": 2,
+      "supportsUniversalSimpleReplacement": true,
+      "seedScores": [
+        {"seed": 109, "selected": 0.0, "adaptive": 0.048122568065749396, "universal": 0.06277221874549724, "familyBreadthBeatsFixed": false},
+        {"seed": 113, "selected": 0.04147164797280306, "adaptive": 0.03660114919436941, "universal": 0.13304677230184073, "familyBreadthBeatsFixed": false},
+        {"seed": 127, "selected": 0.042946750856403336, "adaptive": 0.025082069816910316, "universal": 0.02196479319694147, "familyBreadthBeatsFixed": true}
+      ]
+    },
+    "sheet": {
+      "selectedPolicy": "fixed-parent-local",
+      "selectedStrictWins": 3,
+      "selectedNonWorse": 3,
+      "supportsSimpleReplacement": true,
+      "supportsStrictSimpleAdvantage": true,
+      "universalStrictWins": 3,
+      "universalNonWorse": 3,
+      "supportsUniversalSimpleReplacement": true,
+      "seedScores": [
+        {"seed": 109, "selected": 0.05149900442545125, "adaptive": 0.04242177588730635, "universal": 0.05149900442545125, "familyBreadthBeatsFixed": null},
+        {"seed": 113, "selected": 0.15294072726081767, "adaptive": 0.10802431967947086, "universal": 0.15294072726081767, "familyBreadthBeatsFixed": null},
+        {"seed": 127, "selected": 0.07183036250084576, "adaptive": 0.05738840412736094, "universal": 0.07183036250084576, "familyBreadthBeatsFixed": null}
+      ]
+    },
+    "filament": {
+      "selectedPolicy": "fixed-parent-local",
+      "selectedStrictWins": 0,
+      "selectedNonWorse": 0,
+      "supportsSimpleReplacement": false,
+      "supportsStrictSimpleAdvantage": false,
+      "universalStrictWins": 0,
+      "universalNonWorse": 0,
+      "supportsUniversalSimpleReplacement": false,
+      "seedScores": [
+        {"seed": 109, "selected": 0.0403685599866615, "adaptive": 0.044114681501470174, "universal": 0.0403685599866615, "familyBreadthBeatsFixed": null},
+        {"seed": 113, "selected": 0.03766855559851776, "adaptive": 0.08557157731795986, "universal": 0.03766855559851776, "familyBreadthBeatsFixed": null},
+        {"seed": 127, "selected": 0.07651072891187131, "adaptive": 0.38133973484566636, "universal": 0.07651072891187131, "familyBreadthBeatsFixed": null}
+      ]
+    }
+  },
+  "primary": {
+    "selectedSupportingRoutes": 2,
+    "selectedStrictAdvantageRoutes": 2,
+    "selectedRawStrictWins": 7,
+    "selectedRawNonWorse": 7,
+    "selectedClassification": "general-route-only-simple-replacement-not-supported",
+    "strictClassification": "general-strict-simple-performance-advantage-not-supported",
+    "universalSupportingRoutes": 2,
+    "universalRawStrictWins": 7,
+    "universalRawNonWorse": 7,
+    "universalClassification": "general-universal-fixed-parent-replacement-not-supported",
+    "familyBreadthStrictWinsOverFixed": 1,
+    "familyRouteConditioningSupported": false,
+    "decision": "simple-route-policy-simplification-not-supported"
+  },
+  "secondaryMeans": {
+    "combined": {
+      "route-selected": 0.06489416147236944,
+      "adaptive": 0.0769023132386739,
+      "universal-simple": 0.07378518716670765,
+      "oracle-best-of-three": 0.11537303385895076
+    },
+    "local": {
+      "route-selected": 0.08662037941327423,
+      "adaptive": 0.10527196932823858,
+      "universal-simple": 0.10926657425615051
+    },
+    "global": {
+      "route-selected": 0.04316794353146466,
+      "adaptive": 0.04853265714910922,
+      "universal-simple": 0.03830380007726478
+    },
+    "oracleGap": 0.05047887238658132
+  },
+  "source": {
+    "workflowRun": 33211643298,
+    "executionHead": "a3743716912c1a4705309d82f65d3449491bde0a",
+    "mainAtExecution": "c8cbddd4581b78b446b588defe026b60fad2824b",
+    "trainingSourceWorkflowRun": 33210657342
+  },
+  "boundary": "objective fresh-seed search-mechanics evidence only; no artistic-quality claim"
+}

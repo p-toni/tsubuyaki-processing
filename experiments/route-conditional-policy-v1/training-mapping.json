@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "sourceWorkflowRun": 33210657342,
+  "sourceExperiment": "search-leverage-v1",
+  "trainSeeds": [101, 103, 107],
+  "simplePolicies": ["independent-breadth", "fixed-parent-local"],
+  "rule": "For each route x seed, average normalizedImprovement across local/global for the two simple policies. The strict higher score wins that seed. Select the route policy winning at least 2/3 train seeds; ties would leave the route unresolved.",
+  "universalSimpleRule": "Across all 15 route x seed training blocks, choose the simple policy with more seed-level combined-score wins.",
+  "universalSimplePolicy": "fixed-parent-local",
+  "universalSimpleWins": {
+    "independent-breadth": 6,
+    "fixed-parent-local": 9
+  },
+  "routes": {
+    "recurrence": {
+      "seedComparisons": [
+        {"seed": 101, "scores": {"independent-breadth": 0.09279228168139607, "fixed-parent-local": 0.02484143194639014}, "winner": "independent-breadth"},
+        {"seed": 103, "scores": {"independent-breadth": 0.008416981511703269, "fixed-parent-local": 0.08628290524153504}, "winner": "fixed-parent-local"},
+        {"seed": 107, "scores": {"independent-breadth": 0.0, "fixed-parent-local": 0.023792860085947606}, "winner": "fixed-parent-local"}
+      ],
+      "wins": {"independent-breadth": 1, "fixed-parent-local": 2},
+      "selectedPolicy": "fixed-parent-local"
+    },
+    "orbit": {
+      "seedComparisons": [
+        {"seed": 101, "scores": {"independent-breadth": 0.06304790563604143, "fixed-parent-local": 0.06439372769528413}, "winner": "fixed-parent-local"},
+        {"seed": 103, "scores": {"independent-breadth": 0.08505684078470555, "fixed-parent-local": 0.029744287006513097}, "winner": "independent-breadth"},
+        {"seed": 107, "scores": {"independent-breadth": 0.013367532313860285, "fixed-parent-local": 0.164725789479415}, "winner": "fixed-parent-local"}
+      ],
+      "wins": {"independent-breadth": 1, "fixed-parent-local": 2},
+      "selectedPolicy": "fixed-parent-local"
+    },
+    "family": {
+      "seedComparisons": [
+        {"seed": 101, "scores": {"independent-breadth": 0.05805085308817077, "fixed-parent-local": 0.017420334499527276}, "winner": "independent-breadth"},
+        {"seed": 103, "scores": {"independent-breadth": 0.0636457255789152, "fixed-parent-local": 0.14558029611749934}, "winner": "fixed-parent-local"},
+        {"seed": 107, "scores": {"independent-breadth": 0.07129586424649656, "fixed-parent-local": 0.0636943197357138}, "winner": "independent-breadth"}
+      ],
+      "wins": {"independent-breadth": 2, "fixed-parent-local": 1},
+      "selectedPolicy": "independent-breadth"
+    },
+    "sheet": {
+      "seedComparisons": [
+        {"seed": 101, "scores": {"independent-breadth": 0.10777769740173479, "fixed-parent-local": 0.020666497425936202}, "winner": "independent-breadth"},
+        {"seed": 103, "scores": {"independent-breadth": 0.0, "fixed-parent-local": 0.043102681507807675}, "winner": "fixed-parent-local"},
+        {"seed": 107, "scores": {"independent-breadth": 0.032352582077110344, "fixed-parent-local": 0.05616000629463599}, "winner": "fixed-parent-local"}
+      ],
+      "wins": {"independent-breadth": 1, "fixed-parent-local": 2},
+      "selectedPolicy": "fixed-parent-local"
+    },
+    "filament": {
+      "seedComparisons": [
+        {"seed": 101, "scores": {"independent-breadth": 0.08528196723939142, "fixed-parent-local": 0.057940589809247364}, "winner": "independent-breadth"},
+        {"seed": 103, "scores": {"independent-breadth": 0.04110112573255827, "fixed-parent-local": 0.2991660157602851}, "winner": "fixed-parent-local"},
+        {"seed": 107, "scores": {"independent-breadth": 0.007998408934517262, "fixed-parent-local": 0.03459819711892115}, "winner": "fixed-parent-local"}
+      ],
+      "wins": {"independent-breadth": 1, "fixed-parent-local": 2},
+      "selectedPolicy": "fixed-parent-local"
+    }
+  }
+}
