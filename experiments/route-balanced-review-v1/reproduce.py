@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Compare lazy review scheduling policies on a real multi-route adaptive search.
 
-Triggered by live-image-judge-v1: eight consecutive candidate reviews came from
-recurrence even though family and sheet had strong route-level keep evidence.
-This experiment tests scheduling only. Synthetic pair decisions are never used as
+Triggered by live-image-judge-v1: eight consecutive candidate review slots came
+from recurrence before family/sheet under route-ordered traversal. The live visual
+judgments were same-model advisory observations, not artistic authority. This
+experiment tests scheduling only. Synthetic pair decisions are never used as
 artistic evidence.
 """
 from __future__ import annotations
@@ -26,6 +27,8 @@ from review_evidence_queue import create_review_bundle
 from search_engine import run_search_from_starts
 
 ORACLE_ID='synthetic-route-scheduler-oracle-v1'
+# Advisory ordering only. This affects which unresolved panels are surfaced first,
+# never validity, candidate generation, promotion, or the synthetic oracle verdict.
 ROUTE_PRIORITY=('family','sheet','recurrence')
 SEEDS=(7,19,43)
 
@@ -77,6 +80,12 @@ class DeferredRouteScheduler(EvidenceAuthoritySelector):
     def __init__(self,*args,batch_size=2,route_priority=ROUTE_PRIORITY,**kwargs):
         super().__init__(*args,max_pending_reviews=None,max_pending_reviews_per_group=None,**kwargs)
         self.batch_size=int(batch_size); self.route_priority=tuple(route_priority); self.proposals=[]; self._proposal_ids=set()
+
+    def _review_group(self,a,b,brief):
+        # The base implementation disables grouping when no per-group queue cap is
+        # configured. Deferred scheduling still needs route provenance even though
+        # it deliberately does not use the eager per-group cap.
+        return _review_group(a,b,brief)
 
     def _queue(self,*,pair_id,brief_text,a_frames,b_frames,a_id,b_id,review_group):
         if self.queue_dir is None or pair_id in self.queue_pair_ids or pair_id in self._proposal_ids: return False
@@ -205,9 +214,10 @@ def run_experiment():
         }
     return {
         'version':1,
-        'trigger':'live-image-judge-v1 produced 8/8 consecutive candidate reviews from recurrence before family/sheet',
+        'trigger':'live-image-judge-v1 exposed 8/8 consecutive review slots from recurrence under route-ordered global K2',
         'purpose':'review-scheduling calibration only; synthetic oracle is not artistic evidence',
         'seeds':list(SEEDS),'routes':brief['routes'],'routePriority':list(ROUTE_PRIORITY),
+        'routePriorityAuthority':'same-model advisory scheduling prior only',
         'trajectoryAgreement':'all policies exactly match eager final candidate trajectory in every block',
         'summary':summary,'blocks':blocks,
     }
