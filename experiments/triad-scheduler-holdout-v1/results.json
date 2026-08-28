@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "seeds": [47, 53, 59, 61, 67, 71, 73, 79, 83],
+  "allPassed": true,
+  "strictTaskSavings": 9,
+  "summary": {
+    "reviewTasks": {"pairMean": 21.111111, "triadMean": 16.444444, "relativeChangePct": -22.105263},
+    "reviewRounds": {"pairMean": 11.777778, "triadMean": 9.444444, "relativeChangePct": -19.811321},
+    "searchReplays": {"pairMean": 12.777778, "triadMean": 10.444444, "relativeChangePct": -18.26087},
+    "candidateExposures": {"pairMean": 42.222222, "triadMean": 36.666667, "relativeChangePct": -13.157895},
+    "pairRelationsElicited": {"pairMean": 21.111111, "triadMean": 24.0, "relativeChangePct": 13.684211}
+  },
+  "scenarios": [
+    {"seed":47,"trajectorySignature":"8d099f4cab67c573b95ee7c1da16818f0b7e5b8e5c900121fbdbd7f244fbc321","winner":"SC1-R2","pair":{"reviewTasks":25,"reviewRounds":14,"searchReplays":15,"candidateExposures":50,"pairRelationsElicited":25,"pairTasks":25,"triadTasks":0},"triad":{"reviewTasks":21,"reviewRounds":12,"searchReplays":13,"candidateExposures":46,"pairRelationsElicited":29,"pairTasks":17,"triadTasks":4},"allGatesPassed":true},
+    {"seed":53,"trajectorySignature":"36f6e36ca485eecf310ac351bc878eb5872566be43e6be3c4062abcebb087d86","winner":"SC1-A1","pair":{"reviewTasks":20,"reviewRounds":12,"searchReplays":13,"candidateExposures":40,"pairRelationsElicited":20,"pairTasks":20,"triadTasks":0},"triad":{"reviewTasks":16,"reviewRounds":10,"searchReplays":11,"candidateExposures":35,"pairRelationsElicited":22,"pairTasks":13,"triadTasks":3},"allGatesPassed":true},
+    {"seed":59,"trajectorySignature":"54f1a8fa19b4b6c426200f485fa384da3a2a194e25e8cc00b197832e560050bb","winner":"FC1-R2","pair":{"reviewTasks":25,"reviewRounds":13,"searchReplays":14,"candidateExposures":50,"pairRelationsElicited":25,"pairTasks":25,"triadTasks":0},"triad":{"reviewTasks":19,"reviewRounds":10,"searchReplays":11,"candidateExposures":42,"pairRelationsElicited":27,"pairTasks":15,"triadTasks":4},"allGatesPassed":true},
+    {"seed":61,"trajectorySignature":"e817499e9ca9b98823f75f26c5b3da8bee9b6038f79c6417f4b4c6429b1b4eb0","winner":"RC1-R3","pair":{"reviewTasks":19,"reviewRounds":11,"searchReplays":12,"candidateExposures":38,"pairRelationsElicited":19,"pairTasks":19,"triadTasks":0},"triad":{"reviewTasks":13,"reviewRounds":8,"searchReplays":9,"candidateExposures":30,"pairRelationsElicited":21,"pairTasks":9,"triadTasks":4},"allGatesPassed":true},
+    {"seed":67,"trajectorySignature":"f188550ca8bb73171354ce77167838f1ee2f322e117df7ad148953ef24c28327","winner":"SC1-R1","pair":{"reviewTasks":18,"reviewRounds":11,"searchReplays":12,"candidateExposures":36,"pairRelationsElicited":18,"pairTasks":18,"triadTasks":0},"triad":{"reviewTasks":15,"reviewRounds":9,"searchReplays":10,"candidateExposures":33,"pairRelationsElicited":21,"pairTasks":12,"triadTasks":3},"allGatesPassed":true},
+    {"seed":71,"trajectorySignature":"a25776450b5593a126463954435b306fabb5a0cefabf08d23e937edb7e19d2f3","winner":"FC1-R1","pair":{"reviewTasks":23,"reviewRounds":12,"searchReplays":13,"candidateExposures":46,"pairRelationsElicited":23,"pairTasks":23,"triadTasks":0},"triad":{"reviewTasks":19,"reviewRounds":10,"searchReplays":11,"candidateExposures":41,"pairRelationsElicited":25,"pairTasks":16,"triadTasks":3},"allGatesPassed":true},
+    {"seed":73,"trajectorySignature":"bf8cba8e72164fd9f1c84a4d4ee87602f2dd69eb9c45bb5e01200ebbbc3ed888","winner":"RC1-R3","pair":{"reviewTasks":19,"reviewRounds":11,"searchReplays":12,"candidateExposures":38,"pairRelationsElicited":19,"pairTasks":19,"triadTasks":0},"triad":{"reviewTasks":15,"reviewRounds":9,"searchReplays":10,"candidateExposures":34,"pairRelationsElicited":23,"pairTasks":11,"triadTasks":4},"allGatesPassed":true},
+    {"seed":79,"trajectorySignature":"69c039f7d5f5fe71c26cf41b163c9166ca0fa884a43e57e04aea81717913994e","winner":"FC1-R2","pair":{"reviewTasks":21,"reviewRounds":12,"searchReplays":13,"candidateExposures":42,"pairRelationsElicited":21,"pairTasks":21,"triadTasks":0},"triad":{"reviewTasks":15,"reviewRounds":9,"searchReplays":10,"candidateExposures":34,"pairRelationsElicited":23,"pairTasks":11,"triadTasks":4},"allGatesPassed":true},
+    {"seed":83,"trajectorySignature":"b91e0337451ae6ca14aad54bb2d2e1de612a92895fda43de12dc4da0a07d3e78","winner":"RC1-R2","pair":{"reviewTasks":20,"reviewRounds":10,"searchReplays":11,"candidateExposures":40,"pairRelationsElicited":20,"pairTasks":20,"triadTasks":0},"triad":{"reviewTasks":15,"reviewRounds":8,"searchReplays":9,"candidateExposures":35,"pairRelationsElicited":25,"pairTasks":10,"triadTasks":5},"allGatesPassed":true}
+  ],
+  "decision": "fresh holdout passes; scheduler-semantic evidence only; human artistic-judgment fidelity remains untested"
+}
