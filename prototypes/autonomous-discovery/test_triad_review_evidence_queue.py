@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from PIL import Image
 
 from phenotype_preference_evidence import resolve_phenotype_promotion_evidence
-from review_evidence_queue import create_review_bundle, phenotype_fingerprint
+from review_evidence_queue import create_review_bundle
 from triad_review_evidence_queue import (
     _validate_tiers,
     create_triad_review_bundle,
@@ -112,8 +112,7 @@ def test_completed_ranking_decodes_to_exact_existing_pair_ids_and_semantics():
 
         pair_id=create_review_bundle(
             Path(pair_td),brief=BRIEF,times=TIMES,
-            a_frames=FRAMES_A,c_frames if False else FRAMES_C,
-            b_frames=FRAMES_C,
+            a_frames=FRAMES_A,b_frames=FRAMES_C,
             a_candidate_id='cand-A',b_candidate_id='cand-C',
         )
         assert ac.pair_id==pair_id
