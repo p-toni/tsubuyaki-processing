@@ -101,7 +101,18 @@ For each policy record:
 - number of triad vs pair tasks;
 - exact final trajectory signature.
 
-A triad policy is interesting only if it preserves the eager trajectory and materially reduces review tasks or rounds without an unreasonable increase in candidate exposure.
+## Frozen promotion gate
+
+This gate is declared before reading the calibration results.
+
+Triad review advances to a runtime queue/prototype only if all of the following hold across the frozen seeds:
+
+1. exact eager trajectory agreement on every seed;
+2. lower mean review-task count than `pair-k2`;
+3. mean candidate exposures do not increase;
+4. mean review rounds do not increase.
+
+This is intentionally a Pareto gate rather than a weighted reviewer-cost score. If triads save tasks but increase candidate exposure or rounds, v1 remains an experiment and no runtime format change is justified from this evidence alone.
 
 ## Scope
 
