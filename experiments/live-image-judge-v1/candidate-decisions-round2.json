@@ -1,19 +1,25 @@
 {
   "version": 3,
   "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
+  "sourceClass": "same-model",
   "blinded": true,
   "candidateMappingOpenedBeforeDecision": false,
+  "provenanceCorrection": {
+    "originalSourceClass": "independent-model",
+    "correctedSourceClass": "same-model",
+    "reason": "The reviewer was the same conversational model driving the research; these judgments are advisory only under judge-calibration-v1."
+  },
   "decisions": {
     "21fee2ec63626cdcc2f9734aaf2ccf76fb3ce80cda1e550c510a16a3e71fcd44": {
       "verdict": "tie",
-      "sourceClass": "independent-model",
+      "sourceClass": "same-model",
       "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
       "confidence": "strong",
       "rationale": "Both variants retain the same axial-coil identity across matched times. The slightly different upper hook and local spacing do not create a clear gain in composition, material coherence, living-form identity, or meaningful motion."
     },
     "26499af2fcfc9246d98849d68f9944ae86c8b5486806e73bbf82e91cf25b43a2": {
       "verdict": "tie",
-      "sourceClass": "independent-model",
+      "sourceClass": "same-model",
       "sourceId": "gpt-5.6-sol-conversation-review-2026-08-28",
       "confidence": "strong",
       "rationale": "This is another near-neighbor coil comparison. Differences are local curvature/spacing changes rather than a materially stronger phenotype, so a forced preference would be unsupported."
