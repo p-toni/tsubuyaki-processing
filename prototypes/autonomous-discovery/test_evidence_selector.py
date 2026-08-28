@@ -100,6 +100,30 @@ def test_lazy_queue_avoids_pairs_made_unreachable_by_promotion():
         e2.compare(b,c,{'brief':brief})
         assert len(_decision_doc(eager)['decisions'])==3
 
+def test_resolved_weak_queue_evidence_is_not_noop_requeued():
+    a=C('a',2,{'valid':True}); b=C('b',12,{'valid':True}); times=(0,1); brief='x'
+    with TemporaryDirectory() as td:
+        q=Path(td)
+        pid=create_review_bundle(q,brief=brief,times=times,a_frames=[render(a,t) for t in times],b_frames=[render(b,t) for t in times],a_candidate_id=a.id,b_candidate_id=b.id)
+        fill_winner_for_candidate(q,pid,b.id,'human','low','reviewer-low')
+        before=_decision_doc(q)
+        s=EvidenceAuthoritySelector(render_frame=render,times=times,queue_dir=q,max_pending_reviews=1)
+        d=s.compare(a,b,{'brief':brief})
+        after=_decision_doc(q)
+        assert d.verdict=='tie' and d.confidence=='defer'
+        assert before==after and pending_count(q)==0 and len(after['decisions'])==1
+        assert 'new independent review bundle' in d.dimensions[0].reason
+
+def test_weak_external_evidence_can_queue_fresh_independent_review():
+    a=C('a',2,{'valid':True}); b=C('b',12,{'valid':True}); times=(0,1); brief='x'
+    with TemporaryDirectory() as evidence_td, TemporaryDirectory() as queue_td:
+        evidence=Path(evidence_td); q=Path(queue_td)
+        pid=create_review_bundle(evidence,brief=brief,times=times,a_frames=[render(a,t) for t in times],b_frames=[render(b,t) for t in times],a_candidate_id=a.id,b_candidate_id=b.id)
+        fill_winner_for_candidate(evidence,pid,b.id,'human','low','reviewer-low')
+        s=EvidenceAuthoritySelector(render_frame=render,times=times,evidence_dirs=[evidence],queue_dir=q,max_pending_reviews=1)
+        d=s.compare(a,b,{'brief':brief})
+        assert d.verdict=='tie' and pending_count(q)==1 and len(_decision_doc(q)['decisions'])==1
+
 def test_hard_validity_remains_authoritative():
     a=C('a',2,{'valid':True}); b=C('b',12,{'valid':False})
     s=EvidenceAuthoritySelector(render_frame=render,times=(0,1))
