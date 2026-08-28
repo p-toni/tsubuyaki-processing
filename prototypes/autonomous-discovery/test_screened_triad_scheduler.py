@@ -18,6 +18,7 @@ class C:
     basin:str
     genome:dict
     checks:dict=field(default_factory=lambda:{'valid':True})
+    features:dict=field(default_factory=dict)
     stage:str='start'
     parent_id:str|None=None
 
