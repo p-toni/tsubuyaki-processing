@@ -1,0 +1,36 @@
+name: route-first-review-experiment
+
+on:
+  pull_request:
+    paths:
+      - "experiments/route-balanced-review-v1/run_route_first_seed.py"
+      - ".github/workflows/route-first-review-experiment.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [7, 19, 43]
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run route-first K2 calibration
+        run: |
+          python experiments/route-balanced-review-v1/run_route_first_seed.py \
+            --seed ${{ matrix.seed }} \
+            | tee /tmp/route-first-review-${{ matrix.seed }}.json
+      - name: Upload seed result
+        uses: actions/upload-artifact@v4
+        with:
+          name: route-first-review-seed-${{ matrix.seed }}
+          path: /tmp/route-first-review-${{ matrix.seed }}.json
