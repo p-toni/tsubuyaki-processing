@@ -1,0 +1,75 @@
+name: stage1-response-topology-calibration
+
+on:
+  pull_request:
+    paths:
+      - "experiments/stage1-response-topology-v1/**"
+      - ".github/workflows/stage1-response-topology-calibration.yml"
+
+concurrency:
+  group: stage1-response-topology-calibration-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seed: [101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run paid stage1 response calibration block
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/stage1-response-topology-v1/policy.py \
+            --route "${{ matrix.route }}" \
+            --seed "${{ matrix.seed }}" \
+            | tee "/tmp/stage1-response-${{ matrix.route }}-${{ matrix.seed }}.json"
+      - name: Upload calibration block
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-response-${{ matrix.route }}-${{ matrix.seed }}
+          path: /tmp/stage1-response-${{ matrix.route }}-${{ matrix.seed }}.json
+          if-no-files-found: warn
+
+  aggregate-calibration:
+    needs: block
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install prototype dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage1-response-*
+          path: /tmp/stage1-response-results
+          merge-multiple: true
+      - name: Apply frozen response-threshold calibration rule
+        shell: bash
+        run: |
+          set -o pipefail
+          python experiments/stage1-response-topology-v1/aggregate_calibration.py \
+            --results-dir /tmp/stage1-response-results \
+            | tee /tmp/stage1-response-calibration-summary.json
+      - name: Upload calibration summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-response-calibration-summary
+          path: /tmp/stage1-response-calibration-summary.json
