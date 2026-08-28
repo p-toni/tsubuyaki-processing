@@ -16,7 +16,7 @@ In the synthetic experiment, rankability could be checked **before** packing bec
 
 Can the same one-panel compression preserve arbitrary pairwise evidence exactly?
 
-The candidate format is:
+The tested format is:
 
 ```text
 one blinded A/B/C temporal panel
@@ -48,7 +48,7 @@ matrix-triad-k2
   one task explicitly settles all three pair relations
 ```
 
-Every policy must reproduce the exact frozen eager trajectory on seeds `7, 19, 43`.
+Every policy reproduced the exact frozen eager trajectory on seeds `7, 19, 43`.
 
 ## Dependency boundary
 
@@ -62,7 +62,7 @@ Unchanged from `triad-review-v1`:
 - `refine` remains forbidden because later phenotype generation may depend on an earlier promotion;
 - frontier packing remains out of scope.
 
-## Decision rule
+## Predeclared decision rule
 
 The explicit pair-matrix format advances only if:
 
@@ -70,6 +70,45 @@ The explicit pair-matrix format advances only if:
 2. it does not regress mean review tasks, rounds, or candidate exposures versus rank-triad-k2;
 3. it demonstrates that at least one selected triad can preserve a non-rankable/cyclic pair matrix, or otherwise provides no practical advantage over the simpler rank transport.
 
-If it advances, the next implementation should supersede ranked-triad scheduling with an explicit pair-verdict triad transport. Existing ranked-triad v1 can remain as historical prototype evidence but should not become the automatic runtime scheduler.
+## Results
+
+| seed | pair tasks | rank tasks | matrix tasks | rank rounds | matrix rounds | rank exposures | matrix exposures | matrix triads | non-rankable matrix triads |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 7 | 18 | 15 | **14** | 9 | 9 | 33 | **32** | 4 | 1 |
+| 19 | 19 | 16 | **15** | 10 | **9** | 35 | **33** | 3 | 1 |
+| 43 | 21 | 17 | 17 | 9 | 9 | 37 | 37 | 3 | 0 |
+| **mean** | **19.33** | **16.00** | **15.33** | **9.33** | **9.00** | **35.00** | **34.00** | **3.33** | **0.67** |
+
+Compared with the rank-constrained triad policy:
+
+```text
+review tasks        16.00 -> 15.33   (-4.2%)
+review rounds        9.33 ->  9.00   (-3.6%)
+candidate exposures 35.00 -> 34.00   (-2.9%)
+```
+
+Compared with the current pair-K2 baseline:
+
+```text
+review tasks        19.33 -> 15.33  (-20.7%)
+review rounds       10.67 ->  9.00  (-15.6%)
+candidate exposures 38.67 -> 34.00  (-12.1%)
+```
+
+The practical distinction is not merely theoretical:
+
+- seed 7 packed a non-rankable recurrence triad that rank-triad had to split into later pair work;
+- seed 19 packed a non-rankable sheet triad;
+- both preserved the exact frozen search trajectory.
+
+The gate passes.
+
+## Decision
+
+**Use explicit pair-matrix triads as the runtime direction. Do not automatically schedule ranked triads.**
+
+The next implementation should introduce a pair-verdict triad transport that decodes directly to the existing three `PhenotypePreferenceEvidence` records without any transitivity assumption. The merged ranked-triad v1 transport remains historical prototype evidence and can be useful for explicit rank-based review, but it is not the automatic scheduler contract.
+
+After that transport is validated, automatic scheduling still requires a separate replay experiment because the current `EvidenceAuthoritySelector` queues eagerly. The scheduler must preserve current group-K2 ordering and upgrade only dependency-safe sibling proposals into a triad; `refine` and frontier comparisons remain pairwise.
 
 Synthetic oracle outcomes in this experiment are scheduling/convergence evidence only, never artistic authority.
