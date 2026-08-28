@@ -17,13 +17,41 @@ def _pair_id(brief_text:str,times,afp:str,bfp:str)->str:
     return hashlib.sha256(json.dumps(config,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
 class EvidenceAuthoritySelector(PairwiseSelector):
-    """Advisory judges can triage; only strong human/independent evidence can promote."""
+    """Advisory judges can triage; only strong human/independent evidence can promote.
+
+    ``max_pending_reviews`` bounds speculative human work. A value of 1 makes
+    search lazy: queue the first promotion-critical unresolved pair, preserve the
+    incumbent for the rest of the replay, then expose later pairs only after the
+    pending review is resolved and the search is replayed.
+    """
     name='phenotype-evidence-authority-v1'
-    def __init__(self,*,render_frame,times:Sequence[float],evidence_dirs:Sequence[Path]=(),queue_dir:Optional[Path]=None,advisory:Optional[PairwiseSelector]=None):
+    def __init__(self,*,render_frame,times:Sequence[float],evidence_dirs:Sequence[Path]=(),queue_dir:Optional[Path]=None,advisory:Optional[PairwiseSelector]=None,max_pending_reviews:Optional[int]=None):
         self.render_frame=render_frame; self.times=tuple(times); self.queue_dir=Path(queue_dir) if queue_dir else None; self.advisory=advisory
-        self.evidence=[]
-        for d in evidence_dirs: self.evidence.extend(decode_review_phenotype_evidence(Path(d)))
+        if max_pending_reviews is not None and max_pending_reviews<1: raise ValueError('max_pending_reviews must be >= 1 or None')
+        self.max_pending_reviews=max_pending_reviews
+        self.evidence=[]; loaded=set()
+        for d in evidence_dirs:
+            p=Path(d)
+            self.evidence.extend(decode_review_phenotype_evidence(p)); loaded.add(p.resolve())
+        self.pending_review_ids=set()
+        if self.queue_dir is not None:
+            decisions_path=self.queue_dir/'decisions.json'; sealed_path=self.queue_dir/'sealed-mapping.json'
+            if decisions_path.exists() and sealed_path.exists():
+                if self.queue_dir.resolve() not in loaded:
+                    self.evidence.extend(decode_review_phenotype_evidence(self.queue_dir))
+                decisions=json.loads(decisions_path.read_text())
+                self.pending_review_ids={pid for pid,item in decisions.get('decisions',{}).items() if item.get('verdict') is None}
     def _frames(self,cand): return [self.render_frame(cand,t) for t in self.times]
+    def _can_queue(self,pair_id:str)->bool:
+        if self.queue_dir is None or pair_id in self.pending_review_ids: return False
+        return self.max_pending_reviews is None or len(self.pending_review_ids)<self.max_pending_reviews
+    def _queue(self,*,pair_id,brief_text,a_frames,b_frames,a_id,b_id)->bool:
+        if not self._can_queue(pair_id): return False
+        created=create_review_bundle(self.queue_dir,brief=brief_text,times=self.times,a_frames=a_frames,b_frames=b_frames,a_candidate_id=a_id,b_candidate_id=b_id)
+        if created!=pair_id: raise RuntimeError('review bundle pair id drift')
+        decisions=json.loads((self.queue_dir/'decisions.json').read_text())
+        if decisions['decisions'][pair_id].get('verdict') is None: self.pending_review_ids.add(pair_id)
+        return True
     def compare(self,a,b,brief:Mapping[str,object])->PairwiseDecision:
         av=bool(a.checks.get('valid',False)); bv=bool(b.checks.get('valid',False))
         if av!=bv:
@@ -34,19 +62,21 @@ class EvidenceAuthoritySelector(PairwiseSelector):
         a_frames=self._frames(a); b_frames=self._frames(b)
         afp=phenotype_fingerprint(a_frames); bfp=phenotype_fingerprint(b_frames)
         if afp==bfp:
-            return PairwiseDecision(a.id,b.id,'tie','defer',(DimensionVote('phenotype-evidence','tie','visible phenotypes are identical'),),self.name)
+            return PairwiseDecision(a.id,b.id,'tie','clear',(DimensionVote('phenotype-evidence','tie','visible phenotypes are identical'),),self.name)
         brief_text=_brief_text(brief); pair_id=_pair_id(brief_text,self.times,afp,bfp)
         resolution=resolve_phenotype_promotion_evidence(self.evidence,pair_id=pair_id)
         if resolution.confidence=='clear':
             if resolution.winner_fingerprint==afp: verdict='a'
             elif resolution.winner_fingerprint==bfp: verdict='b'
             else: verdict='tie'
-            if verdict!='tie':
-                return PairwiseDecision(a.id,b.id,verdict,'clear',(DimensionVote('phenotype-evidence',verdict,resolution.reason,resolution.authoritative_sources,resolution.winner_fingerprint),),self.name)
-        if self.queue_dir is not None:
-            create_review_bundle(self.queue_dir,brief=brief_text,times=self.times,a_frames=a_frames,b_frames=b_frames,a_candidate_id=a.id,b_candidate_id=b.id)
+            return PairwiseDecision(a.id,b.id,verdict,'clear',(DimensionVote('phenotype-evidence',verdict,resolution.reason,resolution.authoritative_sources,resolution.winner_fingerprint),),self.name)
+        queued=False
+        if resolution.review_needed:
+            queued=self._queue(pair_id=pair_id,brief_text=brief_text,a_frames=a_frames,b_frames=b_frames,a_id=a.id,b_id=b.id)
         advisory=self.advisory.compare(a,b,brief) if self.advisory is not None else None
         reason=resolution.reason
+        if resolution.review_needed and self.queue_dir is not None and not queued:
+            reason+='; review deferred behind existing pending evidence'
         dims=[DimensionVote('promotion-authority','tie',reason)]
         if advisory is not None:
             dims.append(DimensionVote('advisory-only',advisory.verdict,f'{advisory.source} suggestion is non-authoritative'))
