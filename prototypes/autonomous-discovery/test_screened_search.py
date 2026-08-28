@@ -99,7 +99,7 @@ def test_candidate_evidence_options_require_authority_mode():
             raise AssertionError("expected candidate-evidence mode guard")
 
 def test_evidence_authority_selector_reaches_adaptive_search_with_lazy_default():
-    assert DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS==1
+    assert DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS==2
     with TemporaryDirectory() as td:
         prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
         fill_screen(td,{"orbit"})
@@ -108,7 +108,7 @@ def test_evidence_authority_selector_reaches_adaptive_search_with_lazy_default()
             from evidence_selector import EvidenceAuthoritySelector
             assert isinstance(selector,EvidenceAuthoritySelector)
             assert selector.queue_dir==queue
-            assert selector.max_pending_reviews==1
+            assert selector.max_pending_reviews==2
             return fake_adaptive(brief,seed,out,starts,selector)
         rep=resume_adaptive_search(
             out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",
@@ -119,6 +119,21 @@ def test_evidence_authority_selector_reaches_adaptive_search_with_lazy_default()
         assert rep["candidatePromotionMode"]=="phenotype-evidence-authority-v1"
         assert rep["candidateReviewQueue"]==str(queue)
         assert rep["candidateEvidenceDirs"]==[]
+        assert rep["candidateMaxPendingReviews"]==2
+
+def test_explicit_one_review_cap_remains_supported():
+    with TemporaryDirectory() as td:
+        prepare_probe(brief={"name":"x"},seed=9,out_dir=td,routes=R,times=(0,1),render_frame=render,generate_route_archive=gen)
+        fill_screen(td,{"orbit"})
+        queue=Path(td)/"candidate-review"
+        def evidence_adaptive(brief,seed,out,starts,selector=None):
+            assert selector.max_pending_reviews==1
+            return fake_adaptive(brief,seed,out,starts,selector)
+        rep=resume_adaptive_search(
+            out_dir=td,total_start_budget=18,source_class="human",source_id="reviewer",
+            evidence_authoritative_promotion=True,candidate_review_queue=queue,candidate_max_pending_reviews=1,
+            render_frame=render,generate_route_archive=gen,run_search_from_starts=evidence_adaptive,
+        )
         assert rep["candidateMaxPendingReviews"]==1
 
 def test_invalid_candidate_review_cap_fails_closed():
