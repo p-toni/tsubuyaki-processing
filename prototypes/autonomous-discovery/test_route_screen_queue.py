@@ -41,6 +41,11 @@ def test_roundtrip_and_sealing():
         assert len(out) == 3
         assert sorted(e.verdict for e in out) == ["defer", "drop", "keep"]
         assert sum(e.authoritative for e in out) == 1
+        evidence_doc = json.loads((p / "route-evidence.json").read_text())
+        assert evidence_doc["sourceClass"] == "human"
+        assert evidence_doc["sourceId"] == "reviewer"
+        assert len(evidence_doc["evidence"]) == 3
+        assert all(item["groupFingerprint"] for item in evidence_doc["evidence"])
 
 
 def test_incomplete_decisions_are_not_invented():
