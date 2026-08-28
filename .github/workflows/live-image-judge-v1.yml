@@ -46,7 +46,31 @@ jobs:
         run: |
           cp experiments/live-image-judge-v1/candidate-decisions-round1.json \
             /tmp/live-image-judge/candidate-review/decisions.json
-      - name: Replay and expose next reachable comparisons
+      - name: Replay round 1 and expose round 2
+        run: |
+          python prototypes/autonomous-discovery/screened_run.py resume \
+            --out /tmp/live-image-judge \
+            --total-start-budget 20 \
+            --source-class independent-model \
+            --source-id gpt-5.6-sol-conversation-review-2026-08-28 \
+            --evidence-authoritative-promotion \
+            --candidate-review-queue /tmp/live-image-judge/candidate-review \
+            --candidate-max-pending-reviews 2
+      - name: Apply committed candidate decisions round 2
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          target=Path('/tmp/live-image-judge/candidate-review/decisions.json')
+          src=Path('experiments/live-image-judge-v1/candidate-decisions-round2.json')
+          doc=json.loads(target.read_text()); extra=json.loads(src.read_text())
+          for pair_id,item in extra['decisions'].items():
+              if pair_id not in doc['decisions']:
+                  raise SystemExit(f'round-2 pair missing from reconstructed queue: {pair_id}')
+              doc['decisions'][pair_id]=item
+          target.write_text(json.dumps(doc,indent=2)+'\n')
+          PY
+      - name: Replay round 2 and expose next reachable comparisons
         run: |
           python prototypes/autonomous-discovery/screened_run.py resume \
             --out /tmp/live-image-judge \
