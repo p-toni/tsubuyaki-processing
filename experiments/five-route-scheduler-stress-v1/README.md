@@ -4,15 +4,15 @@
 
 This is the final planned scheduler-semantic stress test before freezing reviewer-scheduler research and returning to search-quality work.
 
-The merged pair-matrix scheduler has already preserved exact screened-search trajectories on 12 three-route runs. This experiment changes the workload shape materially:
+The earlier pair-matrix scheduler calibration preserved exact screened-search trajectories on smaller three-route workloads. This experiment materially increases the workload:
 
 - all five registered research representations are active;
-- the production-calibrated route probe depth is restored to 2 exemplars per route;
+- the production-calibrated route probe depth is 2 exemplars per route;
 - each route receives three viable independent search starts after screening;
-- survivor/refinement work is deeper than the earlier three-route calibration;
+- survivor/refinement work is deeper than the earlier calibration;
 - three distinct briefs are crossed with two fresh seeds.
 
-No production/default behavior changes in this PR.
+No production/default scheduler behavior changes are justified by this experiment. Pair-matrix triads remain opt-in.
 
 ## Frozen scenarios
 
@@ -38,7 +38,7 @@ Briefs:
 2. `open-asymmetry` — open/asymmetric negative-space brief, bbox target `[0.45, 0.74]`.
 3. `layered-field` — broader layered/material field brief, bbox target `[0.62, 0.90]`.
 
-This yields six predeclared scenarios. No failed seed or brief may be replaced.
+No failed seed or brief may be replaced.
 
 ## Search workload
 
@@ -55,7 +55,7 @@ candidate pending K           2
 candidate pending/group       1
 ```
 
-The all-keep route screen and synthetic pair oracle use an authoritative source class **only to exercise the authoritative control-flow path**. They are deterministic test fixtures and are never artistic evidence.
+The all-keep route screen and synthetic pair oracle use an authoritative source class only to exercise the authoritative control-flow path. They are deterministic test fixtures and are never artistic evidence.
 
 ## Compared policies
 
@@ -66,8 +66,6 @@ opt-in explicit pair-matrix triad group-K2
 ```
 
 Both use the actual public `prepare_probe(...) → resume_adaptive_search(...)` path and the real blinded queue encoders/decoders.
-
-The two policies are executed in separate CI jobs for each frozen scenario, then compared by an aggregate job. This is execution sharding only: the policy code, seeds, briefs, candidate budgets, queue caps, trajectory signatures, and comparison gates are unchanged.
 
 ## Hard per-scenario gate
 
@@ -86,15 +84,7 @@ Every one of the six scenarios must satisfy all of the following:
 11. no review batch exceeds K=2;
 12. no batch contains two tasks from the same hidden scheduling group.
 
-Any one violation fails the experiment.
-
-## Aggregate gate
-
-If all six hard gates pass:
-
-- mean tasks, rounds, replays, and exposures must be no worse with triads;
-- at least four of six scenarios must show strict task savings;
-- there must be no observed scheduler-specific representation starvation or queue pathology.
+Aggregate gate additionally requires mean tasks, rounds, replays, and exposures to be no worse with triads and strict task savings in at least four of six scenarios.
 
 ## Scaling investigation
 
@@ -108,7 +98,7 @@ selector render time/replay      ~12.3 s
 archive generation/replay        ~1.7 s
 ```
 
-The selector was rendering the same immutable candidate phenotype repeatedly within one replay. A selector-instance-local frame cache removes only that duplicated work; it does not persist across evidence rounds and cannot change pair IDs, search decisions, RNG, or evidence authority.
+The evidence selector was rendering the same stable candidate phenotype repeatedly within one replay. A selector-instance-local frame/fingerprint cache removes only that duplicated work; it does not persist across evidence rounds and cannot change pair IDs, search decisions, RNG, or evidence authority.
 
 Measured after the cache:
 
@@ -118,10 +108,30 @@ pair replay mean                  23.88 s (-19.7%)
 triad replay mean                 25.15 s (-15.6%)
 ```
 
-All prototype regressions remained green. A complete combined representative scenario still hit the 20-minute boundary because K=2 intentionally requires many full evidence replays. Therefore the experiment is sharded by policy instead of introducing checkpointing, persistent caches, or other search-runtime semantics solely for synthetic CI convergence.
+All prototype regressions remained green. A complete combined representative scenario still reached the 20-minute boundary because K=2 intentionally requires many complete evidence replays. The final experiment therefore executed pair and triad policies independently and compared their exact artifacts instead of introducing checkpointing, persistent caches, or new search-runtime semantics solely for synthetic CI convergence.
 
-## Decision boundary
+## Result
 
-Passing this experiment freezes scheduler-semantic research for now. Pair-matrix triads remain opt-in because synthetic replay cannot establish human artistic-judgment fidelity. The next research PR should study **search leverage / search quality**, not reviewer scheduling.
+Source workflow run: `33207325081`, head `febfa6b8a7bca4a22c9896c8f9acb1320040c7ad`.
 
-Failing a semantic gate reopens scheduler work only around the concrete failure. Hitting a combined-job wall-time boundary alone is not a semantic failure and is handled by independent policy jobs plus exact artifact aggregation.
+All twelve policy runs completed successfully. All **6/6 matched scenarios passed every hard gate**, including exact trajectory/final-state preservation, five-route coverage, normal probe/start allocation, K=2/group constraints, and actual triad-path exercise.
+
+Every scenario also showed strict task savings. Aggregate means:
+
+```text
+metric                pair mean   triad mean   relative change
+review tasks             78.67       60.67         -22.9%
+review rounds            41.00       32.00         -22.0%
+search replays           42.00       33.00         -21.4%
+candidate exposures     157.33      140.00         -11.0%
+```
+
+The most demanding frozen block, `living-form / seed 89`, preserved the exact trajectory while reducing tasks `86 → 68`, rounds `43 → 34`, replays `44 → 35`, and exposures `172 → 157`.
+
+Detailed signatures and per-scenario metrics are frozen in `results.json`.
+
+## Decision
+
+**Pass. Freeze scheduler-semantic research for now.** The larger five-route workload did not reveal a scheduler-specific semantic failure, representation starvation, queue pathology, or trajectory divergence. Pair-matrix triads remain opt-in because synthetic replay does **not** establish human artistic-judgment fidelity.
+
+The next research line moves to objective **search leverage / search quality**, not further reviewer scheduling.
