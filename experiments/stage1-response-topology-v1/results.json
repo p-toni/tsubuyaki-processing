@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "complete": true,
+  "calibrationSourceWorkflowRun": 33220457700,
+  "sourceWorkflowRun": 33220729764,
+  "selectedThreshold": 0.025,
+  "holdoutSeeds": [163, 167, 173],
+  "blocks": 15,
+  "primaryGate": "strict dynamic-policy win over adaptive on >=2/3 seeds supports a route; general support requires >=4/5 routes",
+  "supportingRoutes": 0,
+  "rawStrictWinBlocks": 4,
+  "rawNonWorseBlocks": 8,
+  "classification": "general paid stage1 response topology leverage not supported",
+  "nextStep": "do not add more topology stages; prefer simpler fixed policies or a different search-mechanics hypothesis",
+  "means": {
+    "selectorCombinedImprovement": 0.08459048123383908,
+    "adaptiveCombinedImprovement": 0.09281059828134507,
+    "breadthSwitchCombinedImprovement": 0.07585817701251535,
+    "adaptiveVsBreadthOracleCombinedImprovement": 0.1185687845770145,
+    "regimeChoiceAccuracy": 0.5666666666666667,
+    "regimeOracleRegret": 0.03397830334317543,
+    "localSelectorImprovement": 0.061342145680705874,
+    "localAdaptiveImprovement": 0.10860980140075834,
+    "localBreadthSwitchImprovement": 0.04250053190905478,
+    "globalSelectorImprovement": 0.10783881678697228,
+    "globalAdaptiveImprovement": 0.07701139516193181,
+    "globalBreadthSwitchImprovement": 0.10921582211597593,
+    "localPrefixGain": 0.025366688896962943,
+    "globalPrefixGain": 0.024640133119723018
+  },
+  "policyChoiceCounts": {"adaptive": 13, "stage1-then-breadth": 17},
+  "localPolicyChoiceCounts": {"adaptive": 6, "stage1-then-breadth": 9},
+  "globalPolicyChoiceCounts": {"adaptive": 7, "stage1-then-breadth": 8},
+  "routes": {
+    "recurrence": {
+      "strictWinSeeds": 1,
+      "nonWorseSeeds": 1,
+      "paidResponseTopologySupport": false,
+      "seeds": [
+        {"seed": 163, "selectorCombinedImprovement": 0.07043395676038891, "adaptiveCombinedImprovement": 0.12262052701561177, "breadthSwitchCombinedImprovement": 0.03505379331837713, "oracleCombinedImprovement": 0.12262052701561177, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false},
+        {"seed": 167, "selectorCombinedImprovement": 0.07693666511939758, "adaptiveCombinedImprovement": 0.1641204043213277, "breadthSwitchCombinedImprovement": 0.07693666511939758, "oracleCombinedImprovement": 0.18294937951344697, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false},
+        {"seed": 173, "selectorCombinedImprovement": 0.107957282749986, "adaptiveCombinedImprovement": 0.045764219932189, "breadthSwitchCombinedImprovement": 0.107957282749986, "oracleCombinedImprovement": 0.107957282749986, "strictWinVsAdaptive": true, "nonWorseVsAdaptive": true}
+      ]
+    },
+    "orbit": {
+      "strictWinSeeds": 0,
+      "nonWorseSeeds": 1,
+      "paidResponseTopologySupport": false,
+      "seeds": [
+        {"seed": 163, "selectorCombinedImprovement": 0.147009825297077, "adaptiveCombinedImprovement": 0.147009825297077, "breadthSwitchCombinedImprovement": 0.07982709192388113, "oracleCombinedImprovement": 0.147009825297077, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": true},
+        {"seed": 167, "selectorCombinedImprovement": 0.07161076989856761, "adaptiveCombinedImprovement": 0.1015260474694018, "breadthSwitchCombinedImprovement": 0.07161076989856761, "oracleCombinedImprovement": 0.15550152008065066, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false},
+        {"seed": 173, "selectorCombinedImprovement": 0.0432762811926378, "adaptiveCombinedImprovement": 0.09225773729453202, "breadthSwitchCombinedImprovement": 0.0432762811926378, "oracleCombinedImprovement": 0.12109288141320046, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false}
+      ]
+    },
+    "family": {
+      "strictWinSeeds": 1,
+      "nonWorseSeeds": 1,
+      "paidResponseTopologySupport": false,
+      "seeds": [
+        {"seed": 163, "selectorCombinedImprovement": 0.09514067406487542, "adaptiveCombinedImprovement": 0.044102845960607276, "breadthSwitchCombinedImprovement": 0.09514067406487542, "oracleCombinedImprovement": 0.10797132342190913, "strictWinVsAdaptive": true, "nonWorseVsAdaptive": true},
+        {"seed": 167, "selectorCombinedImprovement": 0.10880159788061618, "adaptiveCombinedImprovement": 0.12111034441319304, "breadthSwitchCombinedImprovement": 0.07237747915847625, "oracleCombinedImprovement": 0.12111034441319304, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false},
+        {"seed": 173, "selectorCombinedImprovement": 0.035673957119199066, "adaptiveCombinedImprovement": 0.04778650170881089, "breadthSwitchCombinedImprovement": 0.026808138561455204, "oracleCombinedImprovement": 0.04778650170881089, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false}
+      ]
+    },
+    "sheet": {
+      "strictWinSeeds": 1,
+      "nonWorseSeeds": 2,
+      "paidResponseTopologySupport": false,
+      "seeds": [
+        {"seed": 163, "selectorCombinedImprovement": 0.09168779256025994, "adaptiveCombinedImprovement": 0.0787988192515918, "breadthSwitchCombinedImprovement": 0.15001383787337907, "oracleCombinedImprovement": 0.15001383787337907, "strictWinVsAdaptive": true, "nonWorseVsAdaptive": true},
+        {"seed": 167, "selectorCombinedImprovement": 0.07760820244505985, "adaptiveCombinedImprovement": 0.11410871566422323, "breadthSwitchCombinedImprovement": 0.07760820244505985, "oracleCombinedImprovement": 0.11410871566422323, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": false},
+        {"seed": 173, "selectorCombinedImprovement": 0.06415250154707727, "adaptiveCombinedImprovement": 0.06415250154707727, "breadthSwitchCombinedImprovement": 0.09817195249648059, "oracleCombinedImprovement": 0.09817195249648059, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": true}
+      ]
+    },
+    "filament": {
+      "strictWinSeeds": 1,
+      "nonWorseSeeds": 3,
+      "paidResponseTopologySupport": false,
+      "seeds": [
+        {"seed": 163, "selectorCombinedImprovement": 0.07358224589961795, "adaptiveCombinedImprovement": 0.04381501837170769, "breadthSwitchCombinedImprovement": 0.06622786235557956, "oracleCombinedImprovement": 0.07358224589961795, "strictWinVsAdaptive": true, "nonWorseVsAdaptive": true},
+        {"seed": 167, "selectorCombinedImprovement": 0.15563787383015143, "adaptiveCombinedImprovement": 0.15563787383015143, "breadthSwitchCombinedImprovement": 0.06563841056439429, "oracleCombinedImprovement": 0.15563787383015143, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": true},
+        {"seed": 173, "selectorCombinedImprovement": 0.049347592142674146, "adaptiveCombinedImprovement": 0.049347592142674146, "breadthSwitchCombinedImprovement": 0.0712242134651827, "oracleCombinedImprovement": 0.0730175572774794, "strictWinVsAdaptive": false, "nonWorseVsAdaptive": true}
+      ]
+    }
+  },
+  "boundary": "objective search-mechanics holdout only; no artistic promotion, representation pruning, portfolio sufficiency, production default change, or SKILL.md authority"
+}
