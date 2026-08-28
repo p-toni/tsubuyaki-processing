@@ -29,6 +29,11 @@ DEFAULT_MIN_PROBES_PER_ROUTE = 2
 # much of lazy review's rating efficiency without forcing one reviewer round per
 # comparison. One remains available as an explicit maximum-laziness override.
 DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS = 2
+# Three frozen real-search trajectories showed that a global K=2 batch can be
+# monopolized by one route. Reserving at most one unresolved review per hidden
+# route/cross-route group improved early coverage and reduced mean ratings and
+# reviewer rounds versus global K=2 while preserving the eager trajectory.
+DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS_PER_GROUP = 1
 
 
 def _stable(value) -> str:
@@ -160,6 +165,7 @@ def resume_adaptive_search(
     candidate_review_queue: Path | None = None,
     candidate_advisory_selector=None,
     candidate_max_pending_reviews: int | None = DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS,
+    candidate_max_pending_reviews_per_group: int | None = DEFAULT_MAX_PENDING_CANDIDATE_REVIEWS_PER_GROUP,
     render_frame: Callable | None = None,
     generate_route_archive: Callable | None = None,
     run_search_from_starts: Callable | None = None,
@@ -180,6 +186,8 @@ def resume_adaptive_search(
         raise ValueError("caller selector cannot be combined with evidence-authoritative promotion mode")
     if candidate_max_pending_reviews is not None and candidate_max_pending_reviews < 1:
         raise ValueError("candidate_max_pending_reviews must be >= 1 or None")
+    if candidate_max_pending_reviews_per_group is not None and candidate_max_pending_reviews_per_group < 1:
+        raise ValueError("candidate_max_pending_reviews_per_group must be >= 1 or None")
 
     if render_frame is None or generate_route_archive is None or run_search_from_starts is None:
         _, _, d_render, d_generate, d_run = _load_default_dependencies(include_orbit=bool(state.get("includeOrbit", True)))
@@ -200,6 +208,7 @@ def resume_adaptive_search(
             queue_dir=review_queue,
             advisory=candidate_advisory_selector,
             max_pending_reviews=candidate_max_pending_reviews,
+            max_pending_reviews_per_group=candidate_max_pending_reviews_per_group,
         )
         candidate_promotion_mode = selector.name
 
@@ -263,6 +272,7 @@ def resume_adaptive_search(
         "candidateEvidenceDirs": [str(p) for p in evidence_dirs],
         "candidateReviewQueue": str(review_queue) if review_queue is not None else None,
         "candidateMaxPendingReviews": candidate_max_pending_reviews,
+        "candidateMaxPendingReviewsPerGroup": candidate_max_pending_reviews_per_group,
         "adaptiveSearch": search_report,
     }
     (out_dir / "screened-search-report.json").write_text(json.dumps(report, indent=2) + "\n")
