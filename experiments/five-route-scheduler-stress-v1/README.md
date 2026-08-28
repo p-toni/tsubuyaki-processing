@@ -38,7 +38,7 @@ Briefs:
 2. `open-asymmetry` — open/asymmetric negative-space brief, bbox target `[0.45, 0.74]`.
 3. `layered-field` — broader layered/material field brief, bbox target `[0.62, 0.90]`.
 
-This yields six predeclared jobs. No failed seed or brief may be replaced.
+This yields six predeclared scenarios. No failed seed or brief may be replaced.
 
 ## Search workload
 
@@ -67,6 +67,8 @@ opt-in explicit pair-matrix triad group-K2
 
 Both use the actual public `prepare_probe(...) → resume_adaptive_search(...)` path and the real blinded queue encoders/decoders.
 
+The two policies are executed in separate CI jobs for each frozen scenario, then compared by an aggregate job. This is execution sharding only: the policy code, seeds, briefs, candidate budgets, queue caps, trajectory signatures, and comparison gates are unchanged.
+
 ## Hard per-scenario gate
 
 Every one of the six scenarios must satisfy all of the following:
@@ -94,8 +96,32 @@ If all six hard gates pass:
 - at least four of six scenarios must show strict task savings;
 - there must be no observed scheduler-specific representation starvation or queue pathology.
 
+## Scaling investigation
+
+The first combined pair+triad five-route run exceeded the 20-minute CI boundary. A frozen two-replay profile isolated the cost before any architecture change:
+
+```text
+baseline pair replay mean        29.75 s
+baseline triad replay mean       29.81 s
+selector render calls/replay      1,020
+selector render time/replay      ~12.3 s
+archive generation/replay        ~1.7 s
+```
+
+The selector was rendering the same immutable candidate phenotype repeatedly within one replay. A selector-instance-local frame cache removes only that duplicated work; it does not persist across evidence rounds and cannot change pair IDs, search decisions, RNG, or evidence authority.
+
+Measured after the cache:
+
+```text
+selector render calls/replay        318   (-68.8%)
+pair replay mean                  23.88 s (-19.7%)
+triad replay mean                 25.15 s (-15.6%)
+```
+
+All prototype regressions remained green. A complete combined representative scenario still hit the 20-minute boundary because K=2 intentionally requires many full evidence replays. Therefore the experiment is sharded by policy instead of introducing checkpointing, persistent caches, or other search-runtime semantics solely for synthetic CI convergence.
+
 ## Decision boundary
 
 Passing this experiment freezes scheduler-semantic research for now. Pair-matrix triads remain opt-in because synthetic replay cannot establish human artistic-judgment fidelity. The next research PR should study **search leverage / search quality**, not reviewer scheduling.
 
-Failing this experiment reopens scheduler work only around the concrete scaling failure observed here.
+Failing a semantic gate reopens scheduler work only around the concrete failure. Hitting a combined-job wall-time boundary alone is not a semantic failure and is handled by independent policy jobs plus exact artifact aggregation.
