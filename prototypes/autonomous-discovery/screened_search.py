@@ -151,6 +151,10 @@ def resume_adaptive_search(
     source_id: str,
     prior_scores: Mapping[str, float] | None = None,
     selector=None,
+    evidence_authoritative_promotion: bool = False,
+    candidate_evidence_dirs: Sequence[Path] = (),
+    candidate_review_queue: Path | None = None,
+    candidate_advisory_selector=None,
     render_frame: Callable | None = None,
     generate_route_archive: Callable | None = None,
     run_search_from_starts: Callable | None = None,
@@ -163,11 +167,33 @@ def resume_adaptive_search(
     if total_start_budget < probe_budget:
         raise ValueError("total_start_budget cannot be smaller than spent probe budget")
 
+    evidence_dirs = tuple(Path(p) for p in candidate_evidence_dirs)
+    review_queue = Path(candidate_review_queue) if candidate_review_queue is not None else None
+    if not evidence_authoritative_promotion and (evidence_dirs or review_queue is not None or candidate_advisory_selector is not None):
+        raise ValueError("candidate evidence/review options require evidence_authoritative_promotion=True")
+    if evidence_authoritative_promotion and selector is not None:
+        raise ValueError("caller selector cannot be combined with evidence-authoritative promotion mode")
+
     if render_frame is None or generate_route_archive is None or run_search_from_starts is None:
         _, _, d_render, d_generate, d_run = _load_default_dependencies(include_orbit=bool(state.get("includeOrbit", True)))
         render_frame = render_frame or d_render
         generate_route_archive = generate_route_archive or d_generate
         run_search_from_starts = run_search_from_starts or d_run
+
+    candidate_promotion_mode = getattr(selector, "name", "legacy-default") if selector is not None else "legacy-default"
+    if evidence_authoritative_promotion:
+        from evidence_selector import EvidenceAuthoritySelector
+        if candidate_advisory_selector is None:
+            from pairwise_selector import DeterministicTemporalSelector
+            candidate_advisory_selector = DeterministicTemporalSelector()
+        selector = EvidenceAuthoritySelector(
+            render_frame=render_frame,
+            times=tuple(state["times"]),
+            evidence_dirs=evidence_dirs,
+            queue_dir=review_queue,
+            advisory=candidate_advisory_selector,
+        )
+        candidate_promotion_mode = selector.name
 
     evidence = decode_route_screen(
         Path(state["routeScreen"]), source_class=source_class, source_id=source_id,
@@ -225,6 +251,9 @@ def resume_adaptive_search(
         "hardExcludedRoutes": list(plan.hard_excluded_routes),
         "additionalStartsByRoute": added_by_route,
         "probeReplay": replay,
+        "candidatePromotionMode": candidate_promotion_mode,
+        "candidateEvidenceDirs": [str(p) for p in evidence_dirs],
+        "candidateReviewQueue": str(review_queue) if review_queue is not None else None,
         "adaptiveSearch": search_report,
     }
     (out_dir / "screened-search-report.json").write_text(json.dumps(report, indent=2) + "\n")
