@@ -1,0 +1,48 @@
+{
+  "version": 17,
+  "interpretationOfCompactHumanInput": "Each response named exactly one keep; all four omitted groups were treated as drop, matching the frozen task that required a verdict for every group.",
+  "groupMapping": {
+    "A": "orbit",
+    "B": "family",
+    "C": "sheet",
+    "D": "recurrence",
+    "E": "filament"
+  },
+  "briefs": [
+    {
+      "id": "split-orchard",
+      "keepGroup": "B",
+      "keepRoute": "family",
+      "drops": ["orbit", "sheet", "recurrence", "filament"],
+      "activeRouteCount": 1
+    },
+    {
+      "id": "open-turbulence",
+      "keepGroup": "D",
+      "keepRoute": "recurrence",
+      "drops": ["orbit", "family", "sheet", "filament"],
+      "activeRouteCount": 1
+    },
+    {
+      "id": "crowned-aperture",
+      "keepGroup": "B",
+      "keepRoute": "family",
+      "drops": ["orbit", "sheet", "recurrence", "filament"],
+      "activeRouteCount": 1
+    }
+  ],
+  "criteria": {
+    "eachBriefHasKeep": true,
+    "medianActiveRoutesMax": 3,
+    "minimumConfidentDrops": 5
+  },
+  "observed": {
+    "keeps": 3,
+    "drops": 12,
+    "defers": 0,
+    "medianActiveRoutes": 1,
+    "confidentDrops": 12
+  },
+  "passesFrozenUtilityCriteria": true,
+  "interpretation": "Authoritative route-level visual screening can be highly selective on clear briefs. This supports all-route cheap probing followed by strong human/independent visual pruning as a compute-recovery mechanism. It does not establish accuracy on ambiguous briefs or justify text-only pruning."
+}
