@@ -14,8 +14,12 @@ permissions:
 
 jobs:
   calibrate:
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [7, 19, 43]
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,11 +27,13 @@ jobs:
           python-version: "3.12"
       - name: Install prototype dependencies
         run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
-      - name: Run route-balanced review calibration
+      - name: Run frozen-seed scheduler calibration
         run: |
-          python experiments/route-balanced-review-v1/reproduce.py | tee /tmp/route-balanced-review-results.json
-      - name: Upload calibration result
+          python experiments/route-balanced-review-v1/run_seed.py \
+            --seed ${{ matrix.seed }} \
+            | tee /tmp/route-balanced-review-${{ matrix.seed }}.json
+      - name: Upload seed result
         uses: actions/upload-artifact@v4
         with:
-          name: route-balanced-review-results
-          path: /tmp/route-balanced-review-results.json
+          name: route-balanced-review-seed-${{ matrix.seed }}
+          path: /tmp/route-balanced-review-${{ matrix.seed }}.json
