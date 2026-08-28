@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "sourceRun": {
+    "workflow": "five-route-scheduler-stress-experiment",
+    "runId": 33207325081,
+    "headSha": "febfa6b8a7bca4a22c9896c8f9acb1320040c7ad"
+  },
+  "allPassed": true,
+  "strictTaskSavings": 6,
+  "summary": {
+    "reviewTasks": {"pairMean": 78.666667, "triadMean": 60.666667, "relativeChangePct": -22.881356},
+    "reviewRounds": {"pairMean": 41.0, "triadMean": 32.0, "relativeChangePct": -21.951220},
+    "searchReplays": {"pairMean": 42.0, "triadMean": 33.0, "relativeChangePct": -21.428571},
+    "candidateExposures": {"pairMean": 157.333333, "triadMean": 140.0, "relativeChangePct": -11.016949}
+  },
+  "scenarios": [
+    {
+      "brief": "living-form",
+      "seed": 89,
+      "trajectorySignature": "43b1930215b8da86747949e7d74248ee45c3b9ccdd0957ffd64a025b69b47148",
+      "winner": null,
+      "provisionalChampion": "LC3-R2",
+      "selectionStatus": "tie-defer",
+      "candidateCountsByRoute": {"recurrence": 14, "orbit": 16, "family": 12, "sheet": 17, "filament": 17},
+      "pair": {"reviewTasks": 86, "reviewRounds": 43, "searchReplays": 44, "candidateExposures": 172, "pairRelationsElicited": 86, "pairTasks": 86, "triadTasks": 0},
+      "triad": {"reviewTasks": 68, "reviewRounds": 34, "searchReplays": 35, "candidateExposures": 157, "pairRelationsElicited": 110, "pairTasks": 47, "triadTasks": 21},
+      "allGatesPassed": true
+    },
+    {
+      "brief": "living-form",
+      "seed": 97,
+      "trajectorySignature": "9a4aa89352b61d04096fb0749e16739ad7c08903e1959cc815241f5adc729901",
+      "winner": "FC1-R6",
+      "provisionalChampion": "FC1-R6",
+      "selectionStatus": "clear",
+      "candidateCountsByRoute": {"recurrence": 14, "orbit": 12, "family": 20, "sheet": 14, "filament": 14},
+      "pair": {"reviewTasks": 81, "reviewRounds": 42, "searchReplays": 43, "candidateExposures": 162, "pairRelationsElicited": 81, "pairTasks": 81, "triadTasks": 0},
+      "triad": {"reviewTasks": 61, "reviewRounds": 32, "searchReplays": 33, "candidateExposures": 141, "pairRelationsElicited": 101, "pairTasks": 41, "triadTasks": 20},
+      "allGatesPassed": true
+    },
+    {
+      "brief": "open-asymmetry",
+      "seed": 89,
+      "trajectorySignature": "beb605fce40446b42311c8afee75900eff538811ab6c8edb56bccff1228163b4",
+      "winner": "RC2-R6",
+      "provisionalChampion": "RC2-R6",
+      "selectionStatus": "clear",
+      "candidateCountsByRoute": {"recurrence": 20, "orbit": 12, "family": 12, "sheet": 12, "filament": 16},
+      "pair": {"reviewTasks": 77, "reviewRounds": 40, "searchReplays": 41, "candidateExposures": 154, "pairRelationsElicited": 77, "pairTasks": 77, "triadTasks": 0},
+      "triad": {"reviewTasks": 60, "reviewRounds": 32, "searchReplays": 33, "candidateExposures": 138, "pairRelationsElicited": 96, "pairTasks": 42, "triadTasks": 18},
+      "allGatesPassed": true
+    },
+    {
+      "brief": "open-asymmetry",
+      "seed": 97,
+      "trajectorySignature": "8c34111ca973d10ad26be5d8012e8f9cad269a4d7634630875752205cb37cf28",
+      "winner": "RC1-R4",
+      "provisionalChampion": "RC1-R4",
+      "selectionStatus": "clear",
+      "candidateCountsByRoute": {"recurrence": 18, "orbit": 12, "family": 12, "sheet": 12, "filament": 14},
+      "pair": {"reviewTasks": 72, "reviewRounds": 40, "searchReplays": 41, "candidateExposures": 144, "pairRelationsElicited": 72, "pairTasks": 72, "triadTasks": 0},
+      "triad": {"reviewTasks": 57, "reviewRounds": 32, "searchReplays": 33, "candidateExposures": 131, "pairRelationsElicited": 87, "pairTasks": 35, "triadTasks": 22},
+      "allGatesPassed": true
+    },
+    {
+      "brief": "layered-field",
+      "seed": 89,
+      "trajectorySignature": "b878b9d36ef679f4c32453b62ead881789023989467698508ca1a1e2f0536464",
+      "winner": "SC1-R6",
+      "provisionalChampion": "SC1-R6",
+      "selectionStatus": "clear",
+      "candidateCountsByRoute": {"recurrence": 14, "orbit": 12, "family": 12, "sheet": 20, "filament": 14},
+      "pair": {"reviewTasks": 75, "reviewRounds": 40, "searchReplays": 41, "candidateExposures": 150, "pairRelationsElicited": 75, "pairTasks": 75, "triadTasks": 0},
+      "triad": {"reviewTasks": 56, "reviewRounds": 31, "searchReplays": 32, "candidateExposures": 130, "pairRelationsElicited": 86, "pairTasks": 34, "triadTasks": 22},
+      "allGatesPassed": true
+    },
+    {
+      "brief": "layered-field",
+      "seed": 97,
+      "trajectorySignature": "1d016813689f1603177582a883a2aa30ce53621ee7389e1f49d60ea01f4b59bc",
+      "winner": "OC1-R6",
+      "provisionalChampion": "OC1-R6",
+      "selectionStatus": "clear",
+      "candidateCountsByRoute": {"recurrence": 14, "orbit": 20, "family": 12, "sheet": 14, "filament": 14},
+      "pair": {"reviewTasks": 81, "reviewRounds": 41, "searchReplays": 42, "candidateExposures": 162, "pairRelationsElicited": 81, "pairTasks": 81, "triadTasks": 0},
+      "triad": {"reviewTasks": 62, "reviewRounds": 31, "searchReplays": 32, "candidateExposures": 143, "pairRelationsElicited": 100, "pairTasks": 43, "triadTasks": 19},
+      "allGatesPassed": true
+    }
+  ],
+  "commonGates": {
+    "sameFullTrajectory": true,
+    "sameFinalState": true,
+    "noTaskRegression": true,
+    "noRoundRegression": true,
+    "noReplayRegression": true,
+    "noExposureRegression": true,
+    "allFiveRoutesActive": true,
+    "normalTwoProbeDepth": true,
+    "oneAdditionalStartPerRoute": true,
+    "triadPathActuallyExercised": true,
+    "globalK2Respected": true,
+    "oneTaskPerHiddenGroupPerBatch": true
+  },
+  "decision": "five-route scheduler-semantic stress passed; freeze scheduler-semantic research; pair-matrix triads remain opt-in because human artistic-judgment fidelity is untested"
+}
