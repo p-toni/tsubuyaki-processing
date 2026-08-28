@@ -1,0 +1,69 @@
+{
+  "reviewer": "Toni",
+  "v18": {
+    "type": "nested-existing-archive",
+    "twoExemplarRouteDecisions": {
+      "split-orchard": "family",
+      "open-turbulence": "recurrence",
+      "crowned-aperture": "family"
+    },
+    "fourExemplarRouteDecisions": {
+      "split-orchard": "family",
+      "open-turbulence": "recurrence",
+      "crowned-aperture": "family"
+    },
+    "exactPreservation": "3/3"
+  },
+  "v19": {
+    "type": "fresh-frozen-confirmation",
+    "times": [30, 90, 150],
+    "allTwentyCandidatesValidFirstAttempt": true,
+    "twoExemplarBlindChoices": {
+      "loose-whirl": "B",
+      "ruptured-bloom": "C",
+      "pleated-membrane": "A",
+      "drawn-wire": "E",
+      "dented-halo": "D"
+    },
+    "twoExemplarMapping": {
+      "A": "sheet",
+      "B": "filament",
+      "C": "family",
+      "D": "orbit",
+      "E": "recurrence"
+    },
+    "fourExemplarBlindChoices": {
+      "loose-whirl": "B",
+      "ruptured-bloom": "E",
+      "pleated-membrane": "C",
+      "drawn-wire": "D",
+      "dented-halo": "A"
+    },
+    "fourExemplarMapping": {
+      "A": "orbit",
+      "B": "filament",
+      "C": "sheet",
+      "D": "recurrence",
+      "E": "family"
+    },
+    "twoExemplarRouteDecisions": {
+      "loose-whirl": "filament",
+      "ruptured-bloom": "family",
+      "pleated-membrane": "sheet",
+      "drawn-wire": "recurrence",
+      "dented-halo": "orbit"
+    },
+    "fourExemplarRouteDecisions": {
+      "loose-whirl": "filament",
+      "ruptured-bloom": "family",
+      "pleated-membrane": "sheet",
+      "drawn-wire": "recurrence",
+      "dented-halo": "orbit"
+    },
+    "lowConfidenceChoices": [],
+    "exactPreservation": "5/5"
+  },
+  "combinedExactPreservation": "8/8",
+  "runtimeDefaultSupported": 2,
+  "oneProbeDefaultSupported": false
+}
