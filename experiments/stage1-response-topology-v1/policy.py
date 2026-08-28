@@ -56,21 +56,24 @@ def _adaptive_state(brief: dict, seed: int, starts: list, target):
     return state, metrics
 
 
-def _prefix_candidates(state) -> list:
-    prefix = [c for c in state.candidates.values() if c.stage in {"start", "explore"}]
-    starts = [c for c in prefix if c.stage == "start"]
-    explores = [c for c in prefix if c.stage == "explore"]
-    if len(starts) != v1.COMMON_STARTS:
-        raise AssertionError(f"unexpected prefix start count {len(starts)}")
+def _prefix_candidates(state, start_ids: set[str]) -> list:
+    starts = [c for c in state.candidates.values() if c.id in start_ids]
+    explores = [c for c in state.candidates.values() if c.stage == "explore"]
+    if {c.id for c in starts} != start_ids or len(starts) != v1.COMMON_STARTS:
+        raise AssertionError(
+            f"unexpected prefix start identities {sorted(c.id for c in starts)} != {sorted(start_ids)}"
+        )
     expected_explores = v1.COMMON_STARTS * v1.EXPLORE_PER_BASIN
     if len(explores) != expected_explores:
         raise AssertionError(f"unexpected explore prefix count {len(explores)} != {expected_explores}")
-    return prefix
+    if any(c.basin not in start_ids for c in explores):
+        raise AssertionError("explore prefix contains candidate outside common-start basins")
+    return starts + explores
 
 
-def _prefix_response(prefix: list, target) -> dict:
+def _prefix_response(prefix: list, target, start_ids: set[str]) -> dict:
     target_frames = v1._frame_bytes(target)
-    starts = [c for c in prefix if c.stage == "start"]
+    starts = [c for c in prefix if c.id in start_ids]
     explores = [c for c in prefix if c.stage == "explore"]
     initial_best = min(v1.phenotype_distance(c, target_frames) for c in starts)
     prefix_best = min(v1.phenotype_distance(c, target_frames) for c in prefix if c.checks.get("valid", False))
@@ -107,7 +110,8 @@ def _breadth_switch(
     target,
     adaptive_state,
 ) -> dict:
-    prefix = _prefix_candidates(adaptive_state)
+    start_ids = {c.id for c in starts}
+    prefix = _prefix_candidates(adaptive_state, start_ids)
     total_incremental = len(adaptive_state.candidates) - len(starts)
     prefix_incremental = len(prefix) - len(starts)
     remaining = total_incremental - prefix_incremental
@@ -135,7 +139,7 @@ def _breadth_switch(
 
     if len(candidates) != len(adaptive_state.candidates):
         raise AssertionError("breadth-switch equal-evaluation budget invariant failed")
-    metrics = v1._candidate_metrics(candidates, target, {c.id for c in starts})
+    metrics = v1._candidate_metrics(candidates, target, start_ids)
     metrics.update(
         policy="stage1-then-breadth",
         prefixIncrementalEvaluations=prefix_incremental,
@@ -159,6 +163,7 @@ def run_block(route: str, seed: int, thresholds: tuple[float, ...]) -> dict:
 
     brief = v1._brief(route)
     starts = v1._generate_common_starts(brief, seed, route)
+    start_ids = {c.id for c in starts}
     targets = {
         "local": v1._local_target(brief, seed, route, starts[0]),
         "global": v1._global_target(brief, seed, route),
@@ -168,14 +173,14 @@ def run_block(route: str, seed: int, thresholds: tuple[float, ...]) -> dict:
     prefix_fingerprints = None
     for kind, target in targets.items():
         state, adaptive = _adaptive_state(brief, seed, starts, target)
-        prefix = _prefix_candidates(state)
+        prefix = _prefix_candidates(state, start_ids)
         current_prefix_fps = {c.id: v1.phenotype_fingerprint(c) for c in prefix}
         if prefix_fingerprints is None:
             prefix_fingerprints = current_prefix_fps
         elif prefix_fingerprints != current_prefix_fps:
             raise AssertionError("paid stage-1 prefix changed across target regimes")
 
-        response = _prefix_response(prefix, target)
+        response = _prefix_response(prefix, target, start_ids)
         breadth = _breadth_switch(brief, seed, route, starts, target, state)
         if adaptive["totalCandidates"] != breadth["totalCandidates"]:
             raise AssertionError("adaptive/breadth-switch equal candidate budget failed")
