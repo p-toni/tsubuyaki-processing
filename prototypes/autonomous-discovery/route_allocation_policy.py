@@ -6,7 +6,9 @@ The policy separates three concerns:
 3. authoritative visual evidence for route elimination.
 
 A route remains artistically alive until a strong human or independent-model visual
-screen explicitly drops it. Incomplete screens fail broad, not narrow.
+screen explicitly drops it. Incomplete screens fail broad, not narrow. Positive
+human/independent keeps may focus *extra* budget while every unresolved route still
+receives its minimum safe allocation.
 """
 from __future__ import annotations
 from dataclasses import dataclass
@@ -154,10 +156,12 @@ def deepening_plan(
 ) -> BudgetPlan:
     """Allocate deeper search while making hard pruning authority explicit.
 
-    If any route is unresolved, all non-authoritatively-dropped routes must receive
-    nonzero deepening. If the budget cannot do that, fail closed rather than silently
-    choosing a semantic top-k. Narrow allocation is authorized only when every route
-    has a strong independent keep/drop resolution and at least one route is kept.
+    Rules:
+    - only explicit strong human/independent `drop` can remove a route;
+    - an omitted/unresolved route stays alive and receives a nonzero minimum;
+    - explicit strong `keep` may focus *extra* budget even when the screen is incomplete;
+    - if the budget cannot preserve every non-dropped route, fail closed rather than top-k;
+    - hard narrowing is authorized only when every route is authoritatively resolved.
     """
     routes = _dedupe_routes(routes)
     if remaining_budget < 0:
@@ -166,14 +170,14 @@ def deepening_plan(
     drops = tuple(r for r in routes if screen[r].status == "drop")
     keeps = tuple(r for r in routes if screen[r].status == "keep")
     unresolved = tuple(r for r in routes if screen[r].status == "defer")
-    order = prior_order(routes, prior_scores)
+    base_order = prior_order(routes, prior_scores)
 
     screen_complete = not unresolved
     narrowing_authorized = screen_complete and bool(keeps)
 
     if narrowing_authorized:
         active = keeps
-        allocation = _round_robin_allocate(active, remaining_budget, order)
+        allocation = _round_robin_allocate(active, remaining_budget, base_order)
         return BudgetPlan("deepen", allocation, active, drops, "authoritative-narrowing", True)
 
     active = tuple(r for r in routes if r not in drops)
@@ -188,8 +192,20 @@ def deepening_plan(
             "deepen", {r: 0 for r in active}, active, drops,
             f"insufficient-budget-for-safe-broadening: need {required}, have {remaining_budget}", False,
         )
+
     allocation = {r: minimum_if_unresolved for r in active}
-    extras = _round_robin_allocate(active, remaining_budget - required, order)
+    extra_units = remaining_budget - required
+
+    # Positive-only review mode: a reviewer can name only the grammar(s) worth
+    # deeper exploration. Unmentioned routes are *not* inferred as drops; they stay
+    # alive at the minimum. Extra budget is focused on explicit strong keeps.
+    focused_keeps = tuple(r for r in base_order if r in keeps and r in active)
+    if focused_keeps:
+        extras = _round_robin_allocate(focused_keeps, extra_units, focused_keeps)
+        status = "incomplete-screen-positive-focus"
+    else:
+        extras = _round_robin_allocate(active, extra_units, base_order)
+        status = "incomplete-screen-fail-broad"
     for r, n in extras.items():
         allocation[r] += n
-    return BudgetPlan("deepen", allocation, active, drops, "incomplete-screen-fail-broad", False)
+    return BudgetPlan("deepen", allocation, active, drops, status, False)

@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+"""CLI for two-phase route-screened adaptive search."""
+from __future__ import annotations
+import argparse, json
+from pathlib import Path
+from screened_search import DEFAULT_MIN_PROBES_PER_ROUTE, prepare_probe, resume_adaptive_search
+
+
+def main():
+    ap=argparse.ArgumentParser()
+    sub=ap.add_subparsers(dest='command',required=True)
+    p=sub.add_parser('prepare')
+    p.add_argument('--brief',required=True); p.add_argument('--seed',type=int,required=True); p.add_argument('--out',required=True)
+    p.add_argument('--probe-budget',type=int,default=None); p.add_argument('--minimum-per-route',type=int,default=DEFAULT_MIN_PROBES_PER_ROUTE)
+    p.add_argument('--no-orbit',action='store_true')
+    r=sub.add_parser('resume')
+    r.add_argument('--out',required=True); r.add_argument('--total-start-budget',type=int,required=True)
+    r.add_argument('--source-class',required=True,choices=['human','independent-model','same-model','deterministic-proxy','text-prior'])
+    r.add_argument('--source-id',required=True)
+    args=ap.parse_args()
+    if args.command=='prepare':
+        brief=json.loads(Path(args.brief).read_text())
+        result=prepare_probe(brief=brief,seed=args.seed,out_dir=Path(args.out),probe_budget=args.probe_budget,minimum_per_route=args.minimum_per_route,include_orbit=not args.no_orbit)
+    else:
+        result=resume_adaptive_search(out_dir=Path(args.out),total_start_budget=args.total_start_budget,source_class=args.source_class,source_id=args.source_id)
+    print(json.dumps(result,indent=2))
+
+if __name__=='__main__': main()
