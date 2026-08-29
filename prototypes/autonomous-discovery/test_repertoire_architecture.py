@@ -4,6 +4,7 @@ import math
 import random
 
 import pytest
+from PIL import Image
 
 from basin_identity import (
     BasinIdentity,
@@ -13,7 +14,12 @@ from basin_identity import (
     validate_partition,
 )
 from orbit_representation import ORBIT_SPEC
-from phenotype_descriptors import PhenotypeDescriptor, describe_frames, niche_key
+from phenotype_descriptors import (
+    PhenotypeDescriptor,
+    describe_frames,
+    describe_images,
+    niche_key,
+)
 from repertoire_archive import ArchiveEntry, RepertoireArchive
 from representations import REPRESENTATIONS
 
@@ -103,14 +109,40 @@ def test_structural_descriptor_distinguishes_ring_from_axial_form():
     assert niche_key(ring) != niche_key(line)
 
 
-def test_shape_motion_ignores_translation_and_scale_but_detects_deformation():
-    base = _line()
-    rigid = _line(scale=4.0, dx=100, dy=-40)
+def test_shape_motion_ignores_translation_scale_and_resampling_but_detects_deformation():
+    base = _line(n=97)
+    rigid = _line(n=997, scale=4.0, dx=100, dy=-40)
     bent = [(x, 18 * math.sin(x / 12.0)) for x, _ in base]
     invariant = describe_frames([base, rigid], intrinsic_dimension=1)
     deformed = describe_frames([base, bent], intrinsic_dimension=1)
-    assert invariant.shape_motion < 1e-12
+    assert invariant.shape_motion < 0.02
     assert deformed.shape_motion > 0.05
+
+
+def _support_image(value: int) -> Image.Image:
+    image = Image.new("L", (64, 64), 9)
+    pixels = image.load()
+    for x in range(12, 52):
+        y = 32 + int(round(8 * math.sin(x / 7.0)))
+        for dy in (-1, 0, 1):
+            pixels[x, y + dy] = value
+    return image
+
+
+def test_rendered_support_descriptor_ignores_foreground_intensity_above_threshold():
+    faint = _support_image(40)
+    bright = _support_image(240)
+    a = describe_images([faint], intrinsic_dimension=1)
+    b = describe_images([bright], intrinsic_dimension=1)
+    assert a == b
+    assert niche_key(a) == niche_key(b)
+
+
+def test_rendered_support_shape_motion_is_zero_when_only_intensity_changes():
+    faint = _support_image(40)
+    bright = _support_image(240)
+    descriptor = describe_images([faint, bright], intrinsic_dimension=1)
+    assert descriptor.shape_motion == pytest.approx(0.0, abs=1e-12)
 
 
 def _descriptor(anisotropy=0.2, void=0.2, motion=0.2):
