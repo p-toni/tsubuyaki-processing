@@ -8,7 +8,7 @@ import pytest
 from basin_identity import (
     BasinIdentity,
     PARTITIONS,
-    same_basin,
+    same_anchor,
     same_trust_region,
     validate_partition,
 )
@@ -31,26 +31,38 @@ def test_promoted_partitions_are_disjoint_and_exhaustive_for_all_five_routes():
         validate_partition(route, genome)
 
 
-def test_basin_identity_separates_math_identity_from_sampling_and_local_detail():
+def test_basin_lineage_is_explicit_while_anchor_tracks_structural_boundary():
     genome = _seed_genomes()["recurrence"]
-    base = BasinIdentity.from_genome("recurrence", genome)
+    base = BasinIdentity.from_lineage("recurrence", "RS1", genome)
 
     local = dict(genome)
     local["f3"] *= 1.05
-    assert same_basin("recurrence", genome, local)
+    assert same_anchor("recurrence", genome, local)
     assert same_trust_region("recurrence", genome, local)
-    assert BasinIdentity.from_genome("recurrence", local) == base
+    assert BasinIdentity.from_lineage("recurrence", "RS1", local) == base
 
+    # Sampling resolution is not mathematical identity, although trust-region
+    # exploitation freezes it for event-aligned causal comparison.
     resampled = dict(genome)
     resampled["samples"] += 1
-    assert same_basin("recurrence", genome, resampled)
+    assert same_anchor("recurrence", genome, resampled)
     assert not same_trust_region("recurrence", genome, resampled)
-    assert BasinIdentity.from_genome("recurrence", resampled) == base
+    assert BasinIdentity.from_lineage("recurrence", "RS1", resampled) == base
 
+    # Crossing an identity key changes structural-anchor metadata, but it does
+    # not silently mint a new basin lineage. New basin creation is a search event.
     identity_jump = dict(genome)
     identity_jump["base_r"] *= 1.05
-    assert not same_basin("recurrence", genome, identity_jump)
-    assert BasinIdentity.from_genome("recurrence", identity_jump) != base
+    assert not same_anchor("recurrence", genome, identity_jump)
+    drifted_same_lineage = BasinIdentity.from_lineage("recurrence", "RS1", identity_jump)
+    assert drifted_same_lineage.basin_id == base.basin_id == "RS1"
+    assert drifted_same_lineage.anchor != base.anchor
+
+    # Conversely, two explicitly distinct discovered basins may initially share
+    # the same structural anchor; lineage identity still keeps them separate.
+    sibling = BasinIdentity.from_lineage("recurrence", "RS2", genome)
+    assert sibling.basin_id != base.basin_id
+    assert sibling.anchor == base.anchor
 
 
 def _ring(n=96, radius=30.0, dx=0.0, dy=0.0):
