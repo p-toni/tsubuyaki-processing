@@ -1,9 +1,14 @@
 """Fitness-independent phenotype descriptors for repertoire niches.
 
-Cell-defining descriptors are computed only from rendered geometry after removing
+Cell-defining descriptors are computed from visible rendered support after removing
 translation and global scale. They must not reuse route/representation metadata or
-diagnostic-score inputs such as raw occupancy, canvas span, or centering; those
-belong to mathematical strata / viability, not phenotype diversity identity.
+diagnostic-score inputs such as raw occupancy, canvas span, or centering.
+
+The public `describe_frames` helper accepts point clouds for synthetic tests. The
+production `describe_genome` path rasterizes through the exact prototype renderer
+and then describes binary foreground support, so generator point density, alpha
+intensity above the support threshold, and curve parameterization do not become
+accidental diversity axes.
 """
 from __future__ import annotations
 
@@ -12,11 +17,16 @@ import math
 import statistics
 from typing import Iterable, Sequence
 
+from PIL import Image
+
 Point = tuple[float, float]
 Frame = Sequence[Point]
 DESCRIPTOR_VERSION = "structural-v1"
 ANGULAR_BINS = 36
 NICHE_BINS = 4
+SUPPORT_THRESHOLD = 20
+MOTION_GRID = 32
+MOTION_RADIUS_RMS = 3.0
 
 
 def _clamp01(value: float) -> float:
@@ -79,21 +89,49 @@ def _frame_structure(points: Frame) -> dict[str, float]:
     }
 
 
+def _shape_signature(points: Frame) -> frozenset[tuple[int, int]]:
+    """Translation/scale-normalized occupied-cell signature.
+
+    Using occupied cells rather than corresponding point indices makes temporal
+    shape motion insensitive to point count, repeated samples, and parameterization
+    speed along a curve. Rotation is intentionally *not* normalized away: coherent
+    rotation is visible temporal behavior and may define a motion niche.
+    """
+    standardized, _ = _standardize(points)
+    if not standardized:
+        return frozenset()
+
+    radius = MOTION_RADIUS_RMS
+    cells: set[tuple[int, int]] = set()
+    for x, y in standardized:
+        x = max(-radius, min(radius, x))
+        y = max(-radius, min(radius, y))
+        gx = min(MOTION_GRID - 1, int(((x + radius) / (2.0 * radius)) * MOTION_GRID))
+        gy = min(MOTION_GRID - 1, int(((y + radius) / (2.0 * radius)) * MOTION_GRID))
+        cells.add((gx, gy))
+    return frozenset(cells)
+
+
 def _shape_motion(a: Frame, b: Frame) -> float:
-    sa, _ = _standardize(a)
-    sb, _ = _standardize(b)
-    n = min(len(sa), len(sb))
-    if n == 0:
+    sa = _shape_signature(a)
+    sb = _shape_signature(b)
+    if not sa and not sb:
         return 0.0
-    step = max(1, n // 512)
-    displacement = statistics.fmean(
-        math.hypot(sa[i][0] - sb[i][0], sa[i][1] - sb[i][1])
-        for i in range(0, n, step)
-    )
-    # Monotone bounded transform: 0 is static after translation/scale removal;
-    # increasingly large structural motion asymptotes toward 1. Rigid rotation is
-    # intentionally retained as temporal behavior rather than normalized away.
-    return _clamp01(1.0 - math.exp(-max(0.0, displacement)))
+    if not sa or not sb:
+        return 1.0
+    overlap = len(sa & sb)
+    f1 = (2.0 * overlap) / (len(sa) + len(sb))
+    return _clamp01(1.0 - f1)
+
+
+def _support_points(image: Image.Image, threshold: int = SUPPORT_THRESHOLD) -> list[Point]:
+    gray = image.convert("L")
+    width, _height = gray.size
+    return [
+        (float(index % width), float(index // width))
+        for index, value in enumerate(gray.tobytes())
+        if value > threshold
+    ]
 
 
 @dataclass(frozen=True)
@@ -141,15 +179,24 @@ def describe_frames(frames: Sequence[Frame], intrinsic_dimension: int) -> Phenot
     )
 
 
+def describe_images(images: Sequence[Image.Image], intrinsic_dimension: int) -> PhenotypeDescriptor:
+    """Describe visible binary support; pixel intensity above threshold is ignored."""
+    frames = [_support_points(image) for image in images]
+    if any(not frame for frame in frames):
+        raise ValueError("phenotype descriptor requires foreground support in every frame")
+    return describe_frames(frames, intrinsic_dimension)
+
+
 def describe_genome(route: str, genome: dict[str, object], times: Iterable[float] | None = None) -> PhenotypeDescriptor:
     # Local import avoids creating a module cycle with core.py.
-    from core import ROUTES, TIMES
+    from core import ROUTES, TIMES, draw_points
 
     if route not in ROUTES:
         raise KeyError(f"route {route!r} is not registered")
     active_times = tuple(TIMES if times is None else times)
-    frames = [ROUTES[route]["geometry"](genome, t)["all"] for t in active_times]
-    return describe_frames(frames, int(ROUTES[route]["intrinsic_dimension"]))
+    alpha = int(genome["alpha"])
+    images = [draw_points(ROUTES[route]["render"](genome, t), alpha) for t in active_times]
+    return describe_images(images, int(ROUTES[route]["intrinsic_dimension"]))
 
 
 def _bin01(value: float, bins: int = NICHE_BINS) -> int:
