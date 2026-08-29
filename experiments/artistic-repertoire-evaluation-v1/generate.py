@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import hashlib
 import importlib.util
 import json
@@ -27,6 +26,7 @@ def _load(name: str, path: Path):
 pilot = _load("artistic_repertoire_allocation_v1", PILOT_PATH)
 
 REVIEW_SEEDS = (41011, 41017, 41023, 41047)
+SMOKE_SEED = 9001
 ROUTE_ORDER = tuple(pilot.ROUTE_ORDER)
 TIMES = tuple(pilot.v1.TIMES)
 POLICIES = ("lineage-depth", "repertoire-preserving")
@@ -53,6 +53,14 @@ BLOCKS = {
     "R19": (41023, "sheet"),
     "R20": (41047, "filament"),
 }
+SMOKE_BLOCKS = {
+    "S01": (SMOKE_SEED, "recurrence"),
+    "S02": (SMOKE_SEED, "orbit"),
+    "S03": (SMOKE_SEED, "family"),
+    "S04": (SMOKE_SEED, "sheet"),
+    "S05": (SMOKE_SEED, "filament"),
+}
+ALL_BLOCKS = {**BLOCKS, **SMOKE_BLOCKS}
 
 
 def _font(size: int):
@@ -136,11 +144,15 @@ def _draw_sheet(label: str, side_endpoints: dict[str, dict[str, object]]) -> Ima
 
 
 def generate(label: str, out_dir: Path) -> dict:
-    if label not in BLOCKS:
+    if label not in ALL_BLOCKS:
         raise ValueError(f"unknown block label {label!r}")
-    seed, route = BLOCKS[label]
-    if seed not in REVIEW_SEEDS or route not in ROUTE_ORDER:
-        raise AssertionError("block mapping escaped frozen population")
+    seed, route = ALL_BLOCKS[label]
+    artistic_review_evidence = label in BLOCKS
+    if artistic_review_evidence:
+        if seed not in REVIEW_SEEDS or route not in ROUTE_ORDER:
+            raise AssertionError("block mapping escaped frozen review population")
+    elif seed != SMOKE_SEED or route not in ROUTE_ORDER:
+        raise AssertionError("smoke block escaped excluded population")
 
     brief = pilot._brief(route)
     starts, start_attempts = pilot._generate_starts(brief, seed, route)
@@ -181,6 +193,7 @@ def generate(label: str, out_dir: Path) -> dict:
         "label": label,
         "seed": seed,
         "route": route,
+        "artisticReviewEvidence": artistic_review_evidence,
         "candidatePolicy": "repertoire-preserving",
         "baselinePolicy": "lineage-depth",
         "candidateSide": candidate_side,
@@ -209,11 +222,11 @@ def generate(label: str, out_dir: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--label", required=True, choices=tuple(BLOCKS))
+    parser.add_argument("--label", required=True, choices=tuple(ALL_BLOCKS))
     parser.add_argument("--out-dir", required=True)
     args = parser.parse_args()
     result = generate(args.label, Path(args.out_dir))
-    print(json.dumps({"label": result["label"], "hardInvariants": result["hardInvariants"]}, sort_keys=True))
+    print(json.dumps({"label": result["label"], "artisticReviewEvidence": result["artisticReviewEvidence"], "hardInvariants": result["hardInvariants"]}, sort_keys=True))
 
 
 if __name__ == "__main__":
