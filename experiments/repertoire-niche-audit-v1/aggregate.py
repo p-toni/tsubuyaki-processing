@@ -14,6 +14,9 @@ from run import EXPECTED_CANDIDATES, HOLDOUT_SEEDS, ROUTE_ORDER, STARTS_PER_ROUT
 EXPECTED_BLOCKS = len(HOLDOUT_SEEDS) * len(ROUTE_ORDER)
 AXES = ("anisotropy", "central_void", "shape_motion")
 PROXIES = ("diagnosticScore", "occupancyMean", "dominantBBoxSpan", "centeringError")
+LEAKAGE_THRESHOLD = 0.90
+MIN_SHARED_CANDIDATE_FRACTION = 0.10
+MIN_CROSS_ROUTE_PARTICIPANTS = 3
 
 
 def _load_blocks(root: Path) -> list[dict]:
@@ -61,10 +64,9 @@ def _spearman(a: list[float], b: list[float]) -> float:
     return _pearson(_average_ranks(a), _average_ranks(b))
 
 
-def _niche_tuple(record: dict) -> tuple[int, int, int, int, str]:
+def _niche_tuple(record: dict) -> tuple[int, int, int, str]:
     niche = record["niche"]
     return (
-        int(niche["intrinsic_dimension"]),
         int(niche["anisotropy_bin"]),
         int(niche["central_void_bin"]),
         int(niche["motion_bin"]),
@@ -72,9 +74,9 @@ def _niche_tuple(record: dict) -> tuple[int, int, int, int, str]:
     )
 
 
-def _niche_label(niche: tuple[int, int, int, int, str]) -> str:
-    d, a, v, m, version = niche
-    return f"{version}:d{d}-a{a}-v{v}-m{m}"
+def _niche_label(niche: tuple[int, int, int, str]) -> str:
+    a, v, m, version = niche
+    return f"{version}:a{a}-v{v}-m{m}"
 
 
 def _quantiles(values: list[float]) -> dict[str, float]:
@@ -93,6 +95,25 @@ def _quantiles(values: list[float]) -> dict[str, float]:
         "q75": q(0.75),
         "max": ordered[-1],
     }
+
+
+def _proxy_vector(records: list[dict], proxy: str) -> list[float]:
+    if proxy == "diagnosticScore":
+        return [float(record["diagnosticScore"]) for record in records]
+    return [float(record["composition"][proxy]) for record in records]
+
+
+def _correlation_matrix(records: list[dict]) -> tuple[dict[str, dict[str, float]], float]:
+    matrix: dict[str, dict[str, float]] = {}
+    maximum = 0.0
+    for axis in AXES:
+        matrix[axis] = {}
+        x = [float(record["descriptor"][axis]) for record in records]
+        for proxy in PROXIES:
+            rho = _spearman(x, _proxy_vector(records, proxy))
+            matrix[axis][proxy] = rho
+            maximum = max(maximum, abs(rho))
+    return matrix, maximum
 
 
 def aggregate(results_dir: Path) -> dict:
@@ -138,32 +159,34 @@ def aggregate(results_dir: Path) -> dict:
         niche_counts[niche] += 1
 
     cross_route = [niche for niche, routes in niche_routes.items() if len(routes) >= 2]
+    cross_route_participants = sorted({route for niche in cross_route for route in niche_routes[niche]})
+    shared_candidate_count = sum(niche_counts[niche] for niche in cross_route)
+    shared_candidate_fraction = shared_candidate_count / len(records)
     weighted_purity = sum(max(counts.values()) for counts in niche_route_counts.values()) / len(records)
 
-    correlations = {}
-    max_abs_leakage = 0.0
-    for axis in AXES:
-        correlations[axis] = {}
-        x = [float(record["descriptor"][axis]) for record in records]
-        for proxy in PROXIES:
-            if proxy == "diagnosticScore":
-                y = [float(record["diagnosticScore"]) for record in records]
-            else:
-                y = [float(record["composition"][proxy]) for record in records]
-            rho = _spearman(x, y)
-            correlations[axis][proxy] = rho
-            max_abs_leakage = max(max_abs_leakage, abs(rho))
+    pooled_correlations, pooled_max = _correlation_matrix(records)
+    by_route_correlations = {}
+    by_route_max = {}
+    max_abs_leakage = pooled_max
+    for route in ROUTE_ORDER:
+        subset = [record for record in records if record["route"] == route]
+        matrix, maximum = _correlation_matrix(subset)
+        by_route_correlations[route] = matrix
+        by_route_max[route] = maximum
+        max_abs_leakage = max(max_abs_leakage, maximum)
 
     descriptor_fields = (
         "anisotropy", "central_void", "radial_cv", "angular_coverage", "shape_motion"
     )
     route_descriptor_ranges = {}
+    route_intrinsic_dimensions = {}
     for route in ROUTE_ORDER:
         subset = [record for record in records if record["route"] == route]
         route_descriptor_ranges[route] = {
             field: _quantiles([float(record["descriptor"][field]) for record in subset])
             for field in descriptor_fields
         }
+        route_intrinsic_dimensions[route] = sorted({int(record["descriptor"]["intrinsic_dimension"]) for record in subset})
 
     unique_per_route = {route: len(route_niches[route]) for route in ROUTE_ORDER}
     gates = {
@@ -171,7 +194,9 @@ def aggregate(results_dir: Path) -> dict:
         "everyRouteAtLeastTwoNiches": all(value >= 2 for value in unique_per_route.values()),
         "atLeastEightNichesOverall": len(niche_counts) >= 8,
         "atLeastTwoCrossRouteNiches": len(cross_route) >= 2,
-        "noNearFitnessLeakage": max_abs_leakage < 0.90,
+        "atLeastThreeRoutesParticipateInSharedNiches": len(cross_route_participants) >= MIN_CROSS_ROUTE_PARTICIPANTS,
+        "atLeastTenPercentCandidatesInSharedNiches": shared_candidate_fraction >= MIN_SHARED_CANDIDATE_FRACTION,
+        "noNearFitnessLeakagePooledOrWithinRoute": max_abs_leakage < LEAKAGE_THRESHOLD,
     }
     qualified = all(gates.values())
 
@@ -191,21 +216,28 @@ def aggregate(results_dir: Path) -> dict:
             "occupied": len(niche_counts),
             "uniqueByRoute": unique_per_route,
             "crossRouteCount": len(cross_route),
+            "crossRouteParticipants": cross_route_participants,
+            "sharedCandidateCount": shared_candidate_count,
+            "sharedCandidateFraction": shared_candidate_fraction,
+            "weightedDominantRoutePurity": weighted_purity,
             "crossRoute": {
                 _niche_label(niche): sorted(niche_routes[niche]) for niche in sorted(cross_route)
             },
-            "weightedDominantRoutePurity": weighted_purity,
             "occupancyByCell": {
                 _niche_label(niche): niche_counts[niche] for niche in sorted(niche_counts)
             },
             "occupancyHistogram": {str(k): v for k, v in sorted(occupancy_histogram.items())},
         },
         "fitnessLeakage": {
-            "spearman": correlations,
+            "pooledSpearman": pooled_correlations,
+            "byRouteSpearman": by_route_correlations,
+            "pooledMaxAbsolute": pooled_max,
+            "byRouteMaxAbsolute": by_route_max,
             "maxAbsolute": max_abs_leakage,
-            "threshold": 0.90,
+            "threshold": LEAKAGE_THRESHOLD,
         },
         "descriptorRangesByRoute": route_descriptor_ranges,
+        "intrinsicDimensionDiagnosticByRoute": route_intrinsic_dimensions,
         "failureDiscipline": "do not retune structural-v1 axes/bins on these 20 holdout seeds",
     }
 
