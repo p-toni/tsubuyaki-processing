@@ -1,0 +1,198 @@
+name: topology-structural-replay
+
+on:
+  pull_request:
+    paths:
+      - "experiments/topology-structural-replay-v1/**"
+      - ".github/workflows/topology-structural-replay.yml"
+
+concurrency:
+  group: topology-structural-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Smoke root and nested historical simulators
+        run: |
+          python experiments/topology-structural-replay-v1/replay.py --experiment search-leverage --route recurrence --seed 101 >/tmp/root.json
+          python experiments/topology-structural-replay-v1/replay.py --experiment fixed-hedge --route recurrence --seed 179 >/tmp/hedge.json
+
+  search-leverage:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay root blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in 101 103 107; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment search-leverage --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-search-leverage-${{ matrix.route }}
+          path: /tmp/out/*.json
+
+  route-conditional:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay route-conditional holdout blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in 109 113 127; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment route-conditional --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-route-conditional-${{ matrix.route }}
+          path: /tmp/out/*.json
+
+  online-probe:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay online-probe blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment online-probe --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-online-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  start-state:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay start-state blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment start-state --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-start-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  stage1-response:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay paid-response blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment stage1-response --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-stage1-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  fixed-hedge:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173", "179 181 191"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay fixed-hedge blocks
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/topology-structural-replay-v1/replay.py --experiment fixed-hedge --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-replay-hedge-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: [search-leverage, route-conditional, online-probe, start-state, stage1-response, fixed-hedge]
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: topology-replay-*
+          path: /tmp/replay
+          merge-multiple: true
+      - name: Reduce continuous structural replay
+        run: |
+          python experiments/topology-structural-replay-v1/aggregate.py --results-dir /tmp/replay | tee /tmp/topology-structural-replay-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-structural-replay-summary
+          path: /tmp/topology-structural-replay-summary.json
