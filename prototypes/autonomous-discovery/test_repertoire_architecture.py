@@ -86,6 +86,13 @@ def test_structural_descriptor_is_translation_and_scale_invariant():
     assert niche_key(a) == niche_key(b)
 
 
+def test_niche_key_is_independent_of_representation_intrinsic_dimension_metadata():
+    one_d = describe_frames([_ring()], intrinsic_dimension=1)
+    two_d = describe_frames([_ring()], intrinsic_dimension=2)
+    assert one_d.intrinsic_dimension != two_d.intrinsic_dimension
+    assert niche_key(one_d) == niche_key(two_d)
+
+
 def test_structural_descriptor_distinguishes_ring_from_axial_form():
     ring = describe_frames([_ring()], intrinsic_dimension=1)
     line = describe_frames([_line()], intrinsic_dimension=1)
