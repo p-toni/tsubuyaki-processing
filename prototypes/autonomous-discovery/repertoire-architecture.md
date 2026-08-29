@@ -12,17 +12,24 @@ If #73 confirms that result, the next architectural problem is no longer “what
 
 This is a quality-diversity / repertoire problem.
 
-## Layer 1 — explicit mathematical basin identity
+## Layer 1 — basin lineage plus structural anchor
 
-`basin_identity.py` promotes the exact route partitions frozen in #72, but separates two concepts that the experiment intentionally froze together:
+`basin_identity.py` promotes the exact route partitions frozen in #72 without inventing a stronger claim than the experiment supports.
 
-- **identity keys** define the mathematical basin;
-- **sampling keys** define execution/resolution state;
-- **local keys** can vary during trust-region exploitation.
+The existing search engine already treats a basin as an **explicit lineage**: each start/discovery object gets a `Candidate.basin` label and ordinary descendants inherit that label. #72 grouped discovery pools by those basin lineages. The trust-region intervention changed which parameter directions exploitation could move through; it did not demonstrate that every distinct continuous identity-key tuple is a new basin.
 
-A basin id is a stable hash of `route + identity signature`. Changing sampling resolution alone therefore does not invent a new mathematical basin, even though trust-region exploitation freezes both sampling and identity.
+The repertoire therefore separates:
 
-This distinction matters later if we want to render or evaluate the same basin at different fidelity without fragmenting the archive.
+- **lineage id** — the explicit search/discovery basin identity;
+- **identity keys** — structural anchor metadata for that lineage and the frozen boundary tested by #72;
+- **sampling keys** — execution/resolution state, tracked separately;
+- **local keys** — directions eligible for trust-region exploitation.
+
+`BasinAnchor` fingerprints the exact identity-key state when a lineage is admitted so drift is reproducible and auditable. That anchor hash is **not** used to mint basin lineages automatically. A small floating-point change to an identity parameter may cross the trust-region boundary, but creation of a new repertoire basin must be an explicit search event.
+
+This avoids a pathological archive where every small continuous identity mutation becomes a new “basin” and consumes preservation capacity. It also matches the semantics already used by `search_engine.py` and the #72 pilot.
+
+Changing sampling resolution alone does not change the mathematical anchor, although trust-region exploitation freezes both sampling and identity for causal comparability.
 
 ## Layer 2 — phenotype-structural niches
 
@@ -70,7 +77,7 @@ The niche map itself must be qualified before allocation. `experiments/repertoir
 ```text
 phenotype niche
   └── route stratum
-        └── up to K distinct mathematical basins
+        └── up to K explicit basin lineages
 ```
 
 v1 defaults to `K=2` basin representatives per route per niche.
@@ -81,7 +88,7 @@ Why retain route strata inside phenotype cells? The project treats the five rout
 
 Empty archive capacity may be filled automatically because nothing is displaced.
 
-When a new candidate would replace an incumbent, the archive returns `review-required`. It contains **no** automatic “best score wins” path. `replace()` only applies a decision already made by an authorized caller. Explicit replacement is also forbidden from collapsing two archive slots to the same mathematical basin.
+When a new candidate would replace an incumbent, the archive returns `review-required`. It contains **no** automatic “best score wins” path. `replace()` only applies a decision already made by an authorized caller. Explicit replacement is also forbidden from collapsing two archive slots to the same basin lineage.
 
 This preserves the existing authority rule:
 
@@ -105,12 +112,12 @@ This produces a budget `B_route` for each active route.
 
 ### Inner layer: repertoire allocation
 
-Only *inside* each route's assigned budget may the quality-diversity allocator choose among that route's surviving `niche × basin` entries.
+Only *inside* each route's assigned budget may the quality-diversity allocator choose among that route's surviving `niche × basin-lineage` entries.
 
 Candidate inner-layer signals include:
 
 - unfilled phenotype niches;
-- under-sampled basins;
+- under-sampled basin lineages;
 - uncertainty / unresolved review evidence;
 - demonstrated local improvement inside a basin;
 - brief-conditioned relevance.
@@ -126,7 +133,7 @@ The inner allocator is intentionally not hard-coded yet. It should be preregiste
 1. persist and merge the confirmation;
 2. validate and promote these basin/repertoire primitives;
 3. run the preregistered consumed-seed niche-map audit;
-4. only if the niche map qualifies, wire confirmed trust-region mutation to explicit `BasinIdentity` and preserve broad-discovery candidates in `RepertoireArchive`;
+4. only if the niche map qualifies, wire confirmed trust-region mutation to explicit basin lineage + `BasinAnchor` state and preserve broad-discovery candidates in `RepertoireArchive`;
 5. design a consumed-seed inner allocation contrast under fixed outer route-safe budgets;
 6. only then consider fresh confirmation of an allocation policy;
 7. keep independent/human artistic replication as the final promotion layer.
