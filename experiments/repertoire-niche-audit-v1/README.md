@@ -4,13 +4,17 @@ Status: prepared on draft architecture PR #74 while fresh basin confirmation #73
 
 ## Question
 
-Before an allocator can treat phenotype cells as a repertoire, does the frozen `structural-v1` descriptor grid actually preserve useful rendered structural diversity rather than merely recreating representation labels or existing composition/fitness heuristics?
+Before an allocator can treat phenotype cells as a repertoire, does the frozen `structural-v1` descriptor grid actually preserve useful **visible rendered structural diversity** rather than merely recreating representation labels, generator discretization, or existing composition/fitness heuristics?
 
 ## Descriptor under test
 
 Frozen implementation:
 
 `prototypes/autonomous-discovery/phenotype_descriptors.py`
+
+The production descriptor path rasterizes through the exact prototype renderer and converts each frame to **binary visible foreground support** (`pixel > 20`) before computing niche geometry. This intentionally removes generator point count, curve parameterization, and foreground intensity above the visibility threshold from the cell definition.
+
+Spatial descriptors are translation/global-scale normalized. Temporal `shape_motion` compares occupied cells in a normalized support grid rather than corresponding generator-point indices, so resampling the same path does not create motion. Rotation is intentionally retained as visible temporal behavior.
 
 Cell key:
 
@@ -58,19 +62,27 @@ Expected rectangle:
 
 Candidate generation is complete before any audit statistic is computed.
 
+### Viability conditioning is explicit
+
+`_generate_route_archive` rejects candidates only through the existing representation-specific **hard structural validity** checks before accepting six starts. It does not rank/select starts by `diagnostic_score`, occupancy target fit, or a pairwise selector. Diagnostic score is computed only after hard validity succeeds.
+
+The audit therefore describes the repertoire of **viable forms**, not the unconditional genome prior. This is intentional because invalid forms would never be admissible archive entries. Acceptance attempts by route/seed should be reported as diagnostics so strong route-specific truncation remains visible, but attempt rate is not a post-hoc qualification gate.
+
 ## Recorded data
 
 For every candidate retain:
 
 - route and master seed;
 - candidate id and genome-independent archive fingerprint where available;
-- structural descriptor and niche key;
+- rendered-support structural descriptor and niche key;
 - intrinsic dimension as a diagnostic only;
 - diagnostic score;
 - raw occupancy mean;
 - dominant bbox span;
 - centering error;
 - hard-validity result.
+
+For every route×seed block also retain the number of generation attempts needed to obtain six valid starts.
 
 The composition fields are recorded only to test descriptor leakage. They never define cells.
 
@@ -107,7 +119,8 @@ Also report:
 - intrinsic-dimension values by route;
 - `radial_cv` and angular-coverage distributions;
 - pooled and route-conditioned correlation matrices;
-- niche occupancy histogram.
+- niche occupancy histogram;
+- generation attempts and acceptance efficiency by route/seed.
 
 These may motivate a later descriptor version but cannot rescue a failed v1.
 
