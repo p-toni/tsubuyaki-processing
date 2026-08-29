@@ -5,11 +5,13 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PILOT_RUN = ROOT / "experiments" / "basin-trust-region-v1" / "run.py"
+PILOT_DIR = ROOT / "experiments" / "basin-trust-region-v1"
+PILOT_RUN = PILOT_DIR / "run.py"
 
 FRESH_SEEDS = (
     2003, 2011, 2017, 2027,
@@ -26,11 +28,19 @@ ALL_SEEDS = FRESH_SEEDS + (SMOKE_SEED,)
 
 
 def _load_pilot():
-    spec = importlib.util.spec_from_file_location("basin_trust_confirmation_frozen_pilot", PILOT_RUN)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+    pilot_dir = str(PILOT_DIR)
+    inserted = pilot_dir not in sys.path
+    if inserted:
+        sys.path.insert(0, pilot_dir)
+    try:
+        spec = importlib.util.spec_from_file_location("basin_trust_confirmation_frozen_pilot", PILOT_RUN)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        return module
+    finally:
+        if inserted:
+            sys.path.remove(pilot_dir)
 
 
 def run_block(route: str, seed: int) -> dict:
