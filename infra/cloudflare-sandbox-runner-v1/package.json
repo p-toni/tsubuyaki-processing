@@ -1,0 +1,18 @@
+{
+  "name": "tsubuyaki-cloudflare-sandbox-runner-v1",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "wrangler types",
+    "check": "wrangler types && tsc --noEmit && wrangler deploy --dry-run",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/sandbox": "0.12.9"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "wrangler": "4.126.0"
+  }
+}
