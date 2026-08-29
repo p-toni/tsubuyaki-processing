@@ -1,6 +1,6 @@
 """Neutral index-multiplexed geometry for multiplex-capacity-v1.
 
-This is a mechanism probe, not a port of any public sketch.  The same genome is
+This is a mechanism probe, not a port of any public sketch. The same genome is
 used by the full grammar and four ablations so the experiment can attribute
 capacity to topology rather than to a larger parameter set.
 """
@@ -62,8 +62,8 @@ def mutate_genome(genome: dict[str, float], rng, scale: float = 1.0) -> dict[str
     """One-coordinate mutation with the historical +/-18% law.
 
     Sampling density is held fixed so an arm cannot win by buying more raster
-    hits.  Discrete branch count is mutable and remains in the same genome for
-    every ablation even when a variant ignores it.
+    hits. Discrete branch count is mutable and remains present in the same genome
+    for every ablation even when a variant deliberately ignores it.
     """
     out = dict(genome)
     mutable = [key for key in out if key not in {"samples", "alpha"}]
@@ -90,7 +90,9 @@ def _coordinates(index: int, n: int, branches: int, variant: str) -> tuple[float
     """Return slow, residue, normalized raw index, and explicit second axis.
 
     Full multiplex uses quotient + residue + raw-index phase from one scalar
-    index.  regular-grid instead exposes two smooth coordinates explicitly.
+    index. regular-grid instead exposes two smooth coordinates explicitly.
+    no-branch collapses the quotient/residue decomposition to one channel, so the
+    branch-count parameter becomes genuinely inert in that ablation.
     """
     s = index / max(1, n - 1)
     if variant == "multiplex-regular-grid":
@@ -104,13 +106,14 @@ def _coordinates(index: int, n: int, branches: int, variant: str) -> tuple[float
         b = (residue - (branches - 1) / 2.0) / max(1.0, (branches - 1) / 2.0)
         return u, b, s, v
 
-    quotient = index // branches
-    qn = math.ceil(n / branches)
+    effective_branches = 1 if variant == "multiplex-no-branch" else branches
+    quotient = index // effective_branches
+    qn = math.ceil(n / effective_branches)
     u = -1.0 + 2.0 * quotient / max(1, qn - 1)
-    residue = index % branches
-    b = (residue - (branches - 1) / 2.0) / max(1.0, (branches - 1) / 2.0)
     if variant == "multiplex-no-branch":
-        b = 0.0
+        return u, 0.0, s, 0.0
+    residue = index % effective_branches
+    b = (residue - (effective_branches - 1) / 2.0) / max(1.0, (effective_branches - 1) / 2.0)
     return u, b, s, 0.0
 
 
@@ -119,6 +122,7 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
         raise ValueError(f"unknown multiplex variant {variant!r}")
     n = int(genome["samples"])
     branches = int(genome["branches"])
+    phase_branches = 1 if variant == "multiplex-no-branch" else branches
     tau = 2.0 * math.pi
     out = []
 
@@ -133,8 +137,8 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
             second_driver = grid_v
         else:
             # Raw-index phase is intentionally distinct from quotient-derived u.
-            fast_a = math.sin(tau * genome["fast1"] * s * branches + branch_phase)
-            fast_b = math.cos(tau * genome["fast2"] * s * branches - 0.7 * branch_phase)
+            fast_a = math.sin(tau * genome["fast1"] * s * phase_branches + branch_phase)
+            fast_b = math.cos(tau * genome["fast2"] * s * phase_branches - 0.7 * branch_phase)
             slow_driver = u
             second_driver = b
 
@@ -149,10 +153,12 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
             phase_energy = abs(0.62 * slow_driver + 0.38 * fast_b)
             motion_energy = 0.45 + 0.55 * abs(fast_a)
             response_energy = abs(0.55 * slow_driver + 0.45 * fast_b)
+            deform_energy = abs(0.50 * slow_driver + 0.50 * fast_a)
         else:
             phase_energy = latent
             motion_energy = latent
             response_energy = latent
+            deform_energy = latent
 
         phase = (
             genome["turn"] * slow_driver
@@ -160,6 +166,8 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
             + genome["cross"] * slow_driver * fast_b
             + t / genome["time2"]
         )
+        # The no-reuse ablation is allowed to use latent here: this is its single
+        # coordinate/placement role. It may not use latent again downstream.
         radius = (
             genome["base_r"]
             + genome["radial_u"] * (1.0 - min(1.0, slow_driver * slow_driver))
@@ -184,7 +192,7 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
         y_unit = (
             0.72 * slow_driver
             + genome["branch_spread"] * second_driver * (0.30 + 0.70 * (1.0 - min(1.0, slow_driver * slow_driver)))
-            + genome["y_latent"] * latent * math.sin(0.55 * phase + fast_b)
+            + genome["y_latent"] * deform_energy * math.sin(0.55 * phase + fast_b)
             + genome["cross2"] * slow_driver * fast_a
             + genome["motion"] * motion_energy * math.sin(t / genome["time3"] + 1.7 * fast_b)
             - 0.6 * response * fast_a
