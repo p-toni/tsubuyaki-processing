@@ -1,0 +1,121 @@
+name: repertoire-allocation-confirmation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/repertoire-allocation-confirmation-v1/**'
+      - '.github/workflows/repertoire-allocation-confirmation-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate excluded-seed frozen mechanics across all routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p smoke
+          for route in recurrence orbit family sheet filament; do
+            python experiments/repertoire-allocation-confirmation-v1/run.py \
+              --route "$route" --seed 9001 > "smoke/${route}.json"
+          done
+          python - <<'PY'
+          import json, pathlib
+          paths = sorted(pathlib.Path('smoke').glob('*.json'))
+          assert len(paths) == 5
+          for path in paths:
+              data = json.load(open(path))
+              assert all(data['hardInvariants'].values()), (path, data['hardInvariants'])
+              assert data['settings']['generatedPerArm'] == 36
+              assert data['descriptorVersion'] == 'structural-v1'
+              assert data['metric'] == 'sparse-geometry-v1'
+              assert data['analysisSeed'] is False
+              assert data['freshSearchEvidence'] is False
+              assert data['confirmation']['mechanism'] == 'repertoire-allocation-v1-frozen'
+          print('excluded confirmation smoke passed for all five routes')
+          PY
+
+  block:
+    needs: smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        group: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fixed fresh confirmation block
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ matrix.group }}" in
+            0) seeds=(31013 31019 31033 31039) ;;
+            1) seeds=(31051 31063 31069 31079) ;;
+            2) seeds=(31081 31091 31121 31123) ;;
+            3) seeds=(31139 31147 31151 31153) ;;
+            4) seeds=(31159 31177 31181 31183) ;;
+            5) seeds=(31189 31193 31219 31223) ;;
+            *) exit 2 ;;
+          esac
+          mkdir -p out
+          for seed in "${seeds[@]}"; do
+            python experiments/repertoire-allocation-confirmation-v1/run.py \
+              --route "${{ matrix.route }}" --seed "$seed" \
+              > "out/${{ matrix.route }}-${seed}.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-allocation-confirmation-${{ matrix.route }}-${{ matrix.group }}
+          path: out/*.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repertoire-allocation-confirmation-*
+          path: confirmation-blocks
+          merge-multiple: true
+      - name: Reduce complete 120-block fresh confirmation
+        run: |
+          python experiments/repertoire-allocation-confirmation-v1/aggregate.py \
+            --results-dir confirmation-blocks \
+            > repertoire-allocation-confirmation-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('repertoire-allocation-confirmation-summary.json'))
+          print('decision:', result['decision'])
+          print('primary:', result['primary']['completeMasterSeedEffects'])
+          print('primary lower bound:', result['primary']['oneSided95LowerBound'])
+          print('robustness:', result['robustness']['completeMasterSeedEffects'])
+          print('robustness lower bound:', result['robustness']['oneSided95LowerBound'])
+          print('LORO:', result['primary']['leaveOneRouteOutRange'])
+          print('gates:', result['gates'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-allocation-confirmation-summary
+          path: repertoire-allocation-confirmation-summary.json
+          if-no-files-found: error
