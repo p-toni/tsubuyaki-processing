@@ -4,7 +4,7 @@ import pytest
 
 from phenotype_descriptors import PhenotypeDescriptor
 from repertoire_archive import ArchiveEntry, RepertoireArchive
-from repertoire_budget import validate_inner_allocation
+from repertoire_budget import summarize_basin_concentration, validate_inner_allocation
 from route_allocation_policy import BudgetPlan
 
 
@@ -24,6 +24,9 @@ def _archive():
     for entry in (
         ArchiveEntry("F1", "family", "family-a", _descriptor()),
         ArchiveEntry("F2", "family", "family-b", _descriptor()),
+        # Same explicit lineage, different phenotype niche. This is allowed by
+        # the repertoire, but allocation diagnostics must aggregate the lineage.
+        ArchiveEntry("F3", "family", "family-a", _descriptor(anisotropy=0.95)),
         ArchiveEntry("S1", "sheet", "sheet-a", _descriptor()),
         ArchiveEntry("R1", "recurrence", "recurrence-a", _descriptor()),
     ):
@@ -50,6 +53,23 @@ def test_inner_allocation_exactly_conserves_each_outer_route_budget():
     )
     assert result.route_spend() == {"family": 3, "sheet": 2}
     assert result.total_units == 5
+
+
+def test_basin_concentration_aggregates_one_lineage_across_multiple_niches():
+    archive = _archive()
+    result = validate_inner_allocation(
+        _outer(),
+        archive,
+        {"F1": 1, "F3": 1, "F2": 1, "S1": 2},
+    )
+    concentration = summarize_basin_concentration(result, archive)
+    assert concentration.units_by_route_basin == (
+        ("family", "family-a", 2),
+        ("family", "family-b", 1),
+        ("sheet", "sheet-a", 2),
+    )
+    assert dict(concentration.distinct_funded_basins_by_route) == {"family": 2, "sheet": 1}
+    assert concentration.maximum_share() == {"family": pytest.approx(2 / 3), "sheet": 1.0}
 
 
 def test_inner_allocation_cannot_transfer_compute_between_routes():
