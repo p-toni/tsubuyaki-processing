@@ -1,0 +1,301 @@
+{
+  "ablationAdvantages": {
+    "multiplex-no-branch": 0.06223276991663515,
+    "multiplex-no-reuse": -0.020091603277707055,
+    "multiplex-no-singular": 0.0002962560048856644,
+    "multiplex-regular-grid": -0.0005971871614398503
+  },
+  "decision": "MULTIPLEX_CAPACITY_NOT_PROMISING",
+  "diagnostics": {
+    "meanHardValidYieldByRepresentation": {
+      "family": 1.0,
+      "filament": 0.9979166666666667,
+      "multiplex-full": 1.0,
+      "multiplex-no-branch": 0.9997916666666666,
+      "multiplex-no-reuse": 1.0,
+      "multiplex-no-singular": 1.0,
+      "multiplex-regular-grid": 1.0,
+      "orbit": 0.9997916666666666,
+      "recurrence": 1.0,
+      "sheet": 1.0
+    },
+    "meanUniquePhenotypeRateByRepresentation": {
+      "family": 0.9739583333333334,
+      "filament": 1.0,
+      "multiplex-full": 1.0,
+      "multiplex-no-branch": 1.0,
+      "multiplex-no-reuse": 1.0,
+      "multiplex-no-singular": 0.9997916666666666,
+      "multiplex-regular-grid": 0.9997916666666666,
+      "orbit": 0.9437390350877194,
+      "recurrence": 1.0,
+      "sheet": 0.9845833333333334
+    }
+  },
+  "experiment": "multiplex-capacity-v1",
+  "freshSearchEvidence": false,
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneChallengeFamilyOutPositive": false,
+    "fullMeanAdvantageOverBestCurrentPositive": false,
+    "fullMeanAdvantageOverEveryAblationPositive": false,
+    "noChallengeFamilyAbove60PercentPositiveContribution": true,
+    "rarefiedNicheDensityAtLeast1p25xStrongestAblation": false
+  },
+  "ifNotPromising": "do not retune this mechanism family on these 20 seeds; classify the failed assumption and either close the line or define a materially new hypothesis on a different consumed holdout",
+  "ifPromising": "freeze exact grammar, ablations, challenges, search topology and reducer; power-plan one fresh fixed-sample confirmation before any representation admission",
+  "interpretationBoundary": "consumed-seed mechanism-capacity pilot only; passing does not admit a sixth route and failing cannot be repaired by tuning on these seeds",
+  "nicheCoverage": {
+    "fullToStrongestAblationDensityRatio": 1.0,
+    "rarefactionCount": 3919,
+    "representations": {
+      "multiplex-full": {
+        "distinctNichesAtRarefaction": 15,
+        "hardValidRecords": 3920,
+        "niches": [
+          "structural-v1:a0-v1-m0",
+          "structural-v1:a0-v1-m1",
+          "structural-v1:a0-v1-m2",
+          "structural-v1:a0-v2-m1",
+          "structural-v1:a1-v1-m0",
+          "structural-v1:a1-v1-m1",
+          "structural-v1:a1-v1-m2",
+          "structural-v1:a1-v2-m0",
+          "structural-v1:a1-v2-m1",
+          "structural-v1:a2-v1-m0",
+          "structural-v1:a2-v1-m1",
+          "structural-v1:a2-v1-m2",
+          "structural-v1:a2-v2-m1",
+          "structural-v1:a3-v1-m1",
+          "structural-v1:a3-v1-m2"
+        ],
+        "rarefactionCount": 3919,
+        "rarefiedNicheDensity": 0.003827507017096198,
+        "uniqueRenderedPhenotypes": 3920
+      },
+      "multiplex-no-branch": {
+        "distinctNichesAtRarefaction": 15,
+        "hardValidRecords": 3919,
+        "niches": [
+          "structural-v1:a0-v1-m2",
+          "structural-v1:a0-v1-m3",
+          "structural-v1:a0-v2-m2",
+          "structural-v1:a1-v1-m1",
+          "structural-v1:a1-v1-m2",
+          "structural-v1:a1-v1-m3",
+          "structural-v1:a1-v2-m2",
+          "structural-v1:a1-v2-m3",
+          "structural-v1:a2-v1-m1",
+          "structural-v1:a2-v1-m2",
+          "structural-v1:a2-v1-m3",
+          "structural-v1:a2-v2-m2",
+          "structural-v1:a2-v2-m3",
+          "structural-v1:a3-v1-m2",
+          "structural-v1:a3-v1-m3"
+        ],
+        "rarefactionCount": 3919,
+        "rarefiedNicheDensity": 0.003827507017096198,
+        "uniqueRenderedPhenotypes": 3919
+      },
+      "multiplex-no-reuse": {
+        "distinctNichesAtRarefaction": 12,
+        "hardValidRecords": 3920,
+        "niches": [
+          "structural-v1:a0-v1-m0",
+          "structural-v1:a0-v1-m1",
+          "structural-v1:a1-v1-m0",
+          "structural-v1:a1-v1-m1",
+          "structural-v1:a1-v1-m2",
+          "structural-v1:a1-v2-m0",
+          "structural-v1:a1-v2-m1",
+          "structural-v1:a2-v1-m0",
+          "structural-v1:a2-v1-m1",
+          "structural-v1:a2-v1-m2",
+          "structural-v1:a3-v1-m1",
+          "structural-v1:a3-v1-m2"
+        ],
+        "rarefactionCount": 3919,
+        "rarefiedNicheDensity": 0.0030620056136769582,
+        "uniqueRenderedPhenotypes": 3920
+      },
+      "multiplex-no-singular": {
+        "distinctNichesAtRarefaction": 14,
+        "hardValidRecords": 3920,
+        "niches": [
+          "structural-v1:a0-v1-m0",
+          "structural-v1:a0-v1-m1",
+          "structural-v1:a0-v2-m1",
+          "structural-v1:a1-v1-m0",
+          "structural-v1:a1-v1-m1",
+          "structural-v1:a1-v1-m2",
+          "structural-v1:a1-v2-m0",
+          "structural-v1:a1-v2-m1",
+          "structural-v1:a2-v1-m0",
+          "structural-v1:a2-v1-m1",
+          "structural-v1:a2-v1-m2",
+          "structural-v1:a2-v2-m1",
+          "structural-v1:a3-v1-m1",
+          "structural-v1:a3-v1-m2"
+        ],
+        "rarefactionCount": 3919,
+        "rarefiedNicheDensity": 0.003572339882623118,
+        "uniqueRenderedPhenotypes": 3919
+      },
+      "multiplex-regular-grid": {
+        "distinctNichesAtRarefaction": 14,
+        "hardValidRecords": 3920,
+        "niches": [
+          "structural-v1:a0-v1-m0",
+          "structural-v1:a0-v1-m1",
+          "structural-v1:a0-v2-m0",
+          "structural-v1:a1-v1-m0",
+          "structural-v1:a1-v1-m1",
+          "structural-v1:a1-v1-m2",
+          "structural-v1:a1-v2-m0",
+          "structural-v1:a2-v1-m0",
+          "structural-v1:a2-v1-m1",
+          "structural-v1:a2-v1-m2",
+          "structural-v1:a2-v2-m1",
+          "structural-v1:a3-v1-m0",
+          "structural-v1:a3-v1-m1",
+          "structural-v1:a3-v1-m2"
+        ],
+        "rarefactionCount": 3919,
+        "rarefiedNicheDensity": 0.003572339882623118,
+        "uniqueRenderedPhenotypes": 3919
+      }
+    },
+    "strongestAblation": "multiplex-no-branch"
+  },
+  "population": {
+    "candidateEvaluationsPerRepresentationChallenge": 20,
+    "challenges": 12,
+    "masterSeeds": 20,
+    "representations": 10,
+    "seedChallengeCells": 240
+  },
+  "positiveContribution": {
+    "byFamily": {
+      "linked-submanifolds": 0.11498532402966077,
+      "localized-curvature": 0.0,
+      "radius-motion-coupling": 0.4244062400665256,
+      "woven-single-index": 0.6179479054322541
+    },
+    "maximumFamilyShare": 0.5339383315804807,
+    "shareByFamily": {
+      "linked-submanifolds": 0.09935315182546371,
+      "localized-curvature": 0.0,
+      "radius-motion-coupling": 0.36670851659405557,
+      "woven-single-index": 0.5339383315804807
+    }
+  },
+  "primary": {
+    "bestCurrentRouteCounts": {
+      "filament": 16,
+      "orbit": 72,
+      "recurrence": 1,
+      "sheet": 151
+    },
+    "challengeMeans": {
+      "coupled-1": -0.026505181268881555,
+      "coupled-2": -0.03891536756648389,
+      "coupled-3": -0.03594431339489787,
+      "detail-1": -0.16260044415491173,
+      "detail-2": -0.1529200779541564,
+      "detail-3": -0.1713689490988973,
+      "linked-1": -0.09809181418957691,
+      "linked-2": -0.04228172158031975,
+      "linked-3": -0.09349382807476268,
+      "woven-1": -0.004741554445763896,
+      "woven-2": -0.021147528201279835,
+      "woven-3": -0.030635779026691436
+    },
+    "completeMasterSeedEffects": {
+      "max": -0.027219573734425313,
+      "mean": -0.0732205465797186,
+      "median": -0.07059275692407557,
+      "min": -0.15246064712797536,
+      "n": 20,
+      "sd": 0.0327422572196542
+    },
+    "familyMeans": {
+      "linked-submanifolds": -0.07795578794821978,
+      "localized-curvature": -0.16229649040265512,
+      "radius-motion-coupling": -0.03378828741008777,
+      "woven-single-index": -0.01884162055791172
+    },
+    "largestAbsoluteSeedChallengeCell": {
+      "ablationAdvantages": {
+        "multiplex-no-branch": 0.061617564816519144,
+        "multiplex-no-reuse": -0.005062726307804244,
+        "multiplex-no-singular": -0.00449385781699374,
+        "multiplex-regular-grid": -0.031068585641105706
+      },
+      "advantage": -0.30203025118869475,
+      "bestCurrentRecovery": 0.9120160417055765,
+      "bestCurrentRoute": "sheet",
+      "challenge": "detail-2",
+      "family": "localized-curvature",
+      "fullRecovery": 0.6099857905168817,
+      "seed": 1153,
+      "smoothPlausible": true
+    },
+    "leaveOneChallengeFamilyOut": [
+      {
+        "meanAdvantage": -0.07164213279021821,
+        "omittedFamily": "linked-submanifolds"
+      },
+      {
+        "meanAdvantage": -0.09134685525365423,
+        "omittedFamily": "woven-single-index"
+      },
+      {
+        "meanAdvantage": -0.08636463296959555,
+        "omittedFamily": "radius-motion-coupling"
+      },
+      {
+        "meanAdvantage": -0.04352856530540642,
+        "omittedFamily": "localized-curvature"
+      }
+    ],
+    "otherChallenges": {
+      "max": 0.07172162446182373,
+      "mean": -0.028615920777628104,
+      "median": -0.022938701750741697,
+      "min": -0.19189706383457628,
+      "n": 100,
+      "sd": 0.048669082910894036
+    },
+    "seedEffects": {
+      "1087": -0.15246064712797536,
+      "1091": -0.10209051859691687,
+      "1093": -0.0777550878852111,
+      "1097": -0.07882835753986918,
+      "1103": -0.04634180288272211,
+      "1109": -0.07128621739969726,
+      "1117": -0.036916770095700414,
+      "1123": -0.05436827958579954,
+      "1129": -0.044889741170131066,
+      "1151": -0.08166495240990125,
+      "1153": -0.13635138290311347,
+      "1163": -0.06989929644845388,
+      "1171": -0.027219573734425313,
+      "1181": -0.08017745005696415,
+      "1187": -0.11052063214705403,
+      "1193": -0.0400612015857316,
+      "1201": -0.05327870754043004,
+      "1213": -0.04784372357579073,
+      "1217": -0.06575360563189785,
+      "1223": -0.08670298327658689
+    },
+    "smoothPlausibleChallenges": {
+      "max": 0.051206490658566306,
+      "mean": -0.10508099358121181,
+      "median": -0.10258709247228953,
+      "min": -0.30203025118869475,
+      "n": 140,
+      "sd": 0.0790725793978161
+    }
+  },
+  "version": 1
+}
