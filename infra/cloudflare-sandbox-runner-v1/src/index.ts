@@ -26,7 +26,9 @@ type Route = (typeof ROUTES)[number];
 type Mode = "smoke" | "fresh";
 type Params = { mode?: unknown };
 type RunnerEnv = Env & { FRESH_CONFIRMATION_ARMED?: string };
-type JsonObject = Record<string, unknown>;
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
+type JsonObject = { [key: string]: JsonValue | undefined };
 
 type BlockResult = {
   route: Route;
@@ -41,10 +43,18 @@ type BlockSpec = {
   seeds: readonly number[];
 };
 
-const NO_RETRY = {
+// Fresh blocks are the only steps that consume the fixed 2000-series evidence.
+// They must never be retried transparently. Smoke uses an excluded seed and the
+// reducer only processes already-sealed records, so those two steps may retry.
+const FRESH_NO_RETRY = {
   retries: { limit: 0, delay: "1 second", backoff: "constant" as const },
   timeout: "45 minutes",
-};
+} as const;
+
+const SAFE_RETRY = {
+  retries: { limit: 2, delay: "5 seconds", backoff: "exponential" as const },
+  timeout: "45 minutes",
+} as const;
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -255,8 +265,7 @@ export class ConfirmationWorkflow extends WorkflowEntrypoint<RunnerEnv, Params> 
   async run(event: WorkflowEvent<Params>, step: WorkflowStep): Promise<JsonObject> {
     const mode = validateMode(event.payload ?? {});
 
-    const smoke = await step.do("excluded-seed-substrate-smoke", NO_RETRY, async (ctx) => {
-      assert(ctx.attempt === 1, "smoke step retry is forbidden");
+    const smoke = await step.do("excluded-seed-substrate-smoke", SAFE_RETRY, async () => {
       return runSmoke(this.env, event.instanceId);
     });
 
@@ -273,7 +282,7 @@ export class ConfirmationWorkflow extends WorkflowEntrypoint<RunnerEnv, Params> 
     assert(this.env.FRESH_CONFIRMATION_ARMED === ARM_VALUE, "fresh confirmation is not explicitly armed");
 
     const blockPromises = allBlocks().map((block) =>
-      step.do(`fresh-${block.route}-${block.group}`, NO_RETRY, async (ctx) => {
+      step.do(`fresh-${block.route}-${block.group}`, FRESH_NO_RETRY, async (ctx) => {
         // A failed first attempt may have partially consumed its fixed cells. Never
         // let the Workflow runtime transparently execute those cells a second time.
         assert(ctx.attempt === 1, `retry forbidden for fresh block ${block.route}/${block.group}`);
@@ -282,8 +291,8 @@ export class ConfirmationWorkflow extends WorkflowEntrypoint<RunnerEnv, Params> 
     );
     const blocks = await Promise.all(blockPromises);
 
-    const summary = await step.do("reduce-frozen-confirmation", NO_RETRY, async (ctx) => {
-      assert(ctx.attempt === 1, "aggregate retry is forbidden");
+    const summary = await step.do("reduce-frozen-confirmation", SAFE_RETRY, async () => {
+      // This step operates only on persisted block returns and may safely retry.
       return aggregate(this.env, event.instanceId, blocks);
     });
 
