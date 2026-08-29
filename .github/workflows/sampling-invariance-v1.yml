@@ -1,0 +1,40 @@
+name: sampling-invariance-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/sampling-invariance-v1/**'
+      - '.github/workflows/sampling-invariance-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  stage-a-excluded-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run excluded synthetic Stage-A invariants
+        working-directory: experiments/sampling-invariance-v1
+        run: python smoke.py > stage-a-smoke.json
+      - name: Verify Stage-A decision
+        working-directory: experiments/sampling-invariance-v1
+        run: |
+          python - <<'PY'
+          import json
+          result = json.load(open('stage-a-smoke.json'))
+          assert result['population'] == 'excluded-synthetic'
+          assert result['decision'] == 'STAGE_A_VALID', result
+          assert all(result['invariants'].values()), result['invariants']
+          print('sampling-invariance Stage A excluded smoke passed')
+          print('stable density:', result['stableDensity'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-stage-a-smoke
+          path: experiments/sampling-invariance-v1/stage-a-smoke.json
+          if-no-files-found: error
