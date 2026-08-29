@@ -20,6 +20,7 @@ from run import (
 )
 
 EXPECTED_BLOCKS = len(CONSUMED_SEEDS)
+REPRESENTATION_SET = set(REPRESENTATIONS)
 
 
 def _load_blocks(root: Path) -> list[dict]:
@@ -73,7 +74,14 @@ def _validate(blocks: list[dict]) -> dict[int, dict]:
             raise AssertionError(f"hard invariant failure for seed {seed}: {invariants}")
         rows = _challenge_rows(block)
         for challenge_id, row in rows.items():
-            if tuple(row["representations"]) != REPRESENTATIONS:
+            # Combined seed blocks are serialized with sort_keys=True, so mapping
+            # insertion order is not a valid post-serialization invariant. The
+            # canonical order remains protected by block['representations'] above;
+            # here we require the exact representation key rectangle instead.
+            if (
+                len(row["representations"]) != len(REPRESENTATIONS)
+                or set(row["representations"]) != REPRESENTATION_SET
+            ):
                 raise AssertionError(f"representation rectangle drift for {seed}/{challenge_id}")
             for rep, result in row["representations"].items():
                 if int(result["totalCandidates"]) != TOTAL_CANDIDATES_PER_SEARCH:
@@ -281,14 +289,10 @@ def aggregate(results_dir: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--results-dir", required=True)
-    parser.add_argument("--output")
+    parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    result = aggregate(Path(args.results_dir))
-    payload = json.dumps(result, indent=2, sort_keys=True)
-    if args.output:
-        Path(args.output).write_text(payload + "\n")
-    else:
-        print(payload)
+    output = aggregate(Path(args.results_dir))
+    Path(args.output).write_text(json.dumps(output, indent=2, sort_keys=True) + "\n")
 
 
 if __name__ == "__main__":
