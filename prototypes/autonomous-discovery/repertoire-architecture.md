@@ -61,6 +61,8 @@ The v1 niche key does **not** use:
 
 Those quantities already participate in viability/composition heuristics. Reusing them as diversity axes would partially turn “quality” into “diversity” and preserve optimization artifacts rather than genuinely different forms.
 
+The niche map itself must be qualified before allocation. `experiments/repertoire-niche-audit-v1/` preregisters an out-of-design consumed-seed audit for within-route diversity, cross-route overlap, and leakage against existing composition/fitness proxies. A failed map cannot be rescued by retuning the same axes or bins on that holdout.
+
 ## Layer 3 — review-gated archive
 
 `repertoire_archive.py` is hierarchical:
@@ -79,18 +81,33 @@ Why retain route strata inside phenotype cells? The project treats the five rout
 
 Empty archive capacity may be filled automatically because nothing is displaced.
 
-When a new candidate would replace an incumbent, the archive returns `review-required`. It contains **no** automatic “best score wins” path. `replace()` only applies a decision already made by an authorized caller.
+When a new candidate would replace an incumbent, the archive returns `review-required`. It contains **no** automatic “best score wins” path. `replace()` only applies a decision already made by an authorized caller. Explicit replacement is also forbidden from collapsing two archive slots to the same mathematical basin.
 
 This preserves the existing authority rule:
 
 - deterministic/same-model signals may triage or order work;
 - they cannot independently establish artistic promotion.
 
-## Layer 4 — allocation is intentionally not hard-coded yet
+## Layer 4 — allocation has two nested authorities
 
-The next experiment after confirmation should compare allocation policies over this fixed archive state. Candidate allocation units are likely `route × niche × basin`, with mandatory non-zero route exposure.
+The next allocator must not replace the existing route-safety contract.
 
-Potential signals include:
+### Outer layer: route-safe budget
+
+`route_allocation_policy.py` remains authoritative for how much compute each representation receives:
+
+- unresolved routes retain nonzero minimum exposure;
+- semantic/deterministic priors may order or focus extras but cannot hard-prune;
+- only explicit strong human/independent `drop` evidence can eliminate a route;
+- insufficient budget fails broad rather than silently becoming top-k.
+
+This produces a budget `B_route` for each active route.
+
+### Inner layer: repertoire allocation
+
+Only *inside* each route's assigned budget may the quality-diversity allocator choose among that route's surviving `niche × basin` entries.
+
+Candidate inner-layer signals include:
 
 - unfilled phenotype niches;
 - under-sampled basins;
@@ -98,18 +115,21 @@ Potential signals include:
 - demonstrated local improvement inside a basin;
 - brief-conditioned relevance.
 
-But the allocator should be preregistered only after #73 resolves. The current branch therefore implements preservation primitives, not a UCB/bandit formula chosen in advance of the confirmed substrate.
+This nesting is deliberate. A QD pressure such as novelty or archive sparsity must never become a second, implicit mechanism for representation pruning.
+
+The inner allocator is intentionally not hard-coded yet. It should be preregistered only after #73 resolves and the structural niche map qualifies. The current branch therefore implements preservation primitives, not a UCB/bandit formula selected before the substrate is validated.
 
 ## Activation gate
 
 ### If #73 confirms
 
-1. merge/promote these primitives;
-2. wire confirmed trust-region mutation to explicit `BasinIdentity`;
-3. preserve broad-discovery candidates in `RepertoireArchive` rather than collapsing immediately to one frontier;
-4. design a consumed-seed allocation experiment over fixed archive contents;
-5. only then consider fresh confirmation of an allocation policy;
-6. keep independent/human artistic replication as the final promotion layer.
+1. persist and merge the confirmation;
+2. validate and promote these basin/repertoire primitives;
+3. run the preregistered consumed-seed niche-map audit;
+4. only if the niche map qualifies, wire confirmed trust-region mutation to explicit `BasinIdentity` and preserve broad-discovery candidates in `RepertoireArchive`;
+5. design a consumed-seed inner allocation contrast under fixed outer route-safe budgets;
+6. only then consider fresh confirmation of an allocation policy;
+7. keep independent/human artistic replication as the final promotion layer.
 
 ### If #73 does not confirm
 
