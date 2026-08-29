@@ -117,6 +117,16 @@ This produces a budget `B_route` for each active route.
 
 Only *inside* each route's assigned budget may the quality-diversity allocator choose among that route's surviving `niche × basin-lineage` entries.
 
+`repertoire_budget.py` makes that authority boundary executable without choosing an allocator. Any future inner policy must pass `validate_inner_allocation(...)`, which fails closed unless:
+
+- every positive unit names an admitted archive entry;
+- the entry belongs to an active outer route;
+- no hard-excluded/inactive route receives compute;
+- units are nonnegative integers;
+- the **exact per-route** outer budget is conserved, not merely the global total.
+
+This means an inner policy cannot make `family:3, sheet:2` into `family:1, sheet:4` even though both spend five units. It also cannot silently leave a difficult route unspent. Regression tests cover cross-route transfer, inactive/unknown entries, under-spend, and malformed outer contracts.
+
 Candidate inner-layer signals include:
 
 - unfilled phenotype niches;
@@ -127,7 +137,7 @@ Candidate inner-layer signals include:
 
 This nesting is deliberate. A QD pressure such as novelty or archive sparsity must never become a second, implicit mechanism for representation pruning.
 
-The inner allocator is intentionally not hard-coded yet. It should be preregistered only after #73 resolves and the structural niche map qualifies. The current branch therefore implements preservation primitives, not a UCB/bandit formula selected before the substrate is validated.
+The inner allocator itself is intentionally not hard-coded yet. It should be preregistered only after #73 resolves and the structural niche map qualifies. The current branch therefore implements preservation and authority primitives, not a UCB/bandit formula selected before the substrate is validated.
 
 ## Activation gate
 
@@ -137,7 +147,7 @@ The inner allocator is intentionally not hard-coded yet. It should be preregiste
 2. validate and promote these basin/repertoire primitives;
 3. run the preregistered consumed-seed niche-map audit;
 4. only if the niche map qualifies, wire confirmed trust-region mutation to explicit basin lineage + `BasinAnchor` state and preserve broad-discovery candidates in `RepertoireArchive`;
-5. design a consumed-seed inner allocation contrast under fixed outer route-safe budgets;
+5. design a consumed-seed inner allocation contrast under fixed outer route-safe budgets and require it to pass `repertoire_budget.py` before execution;
 6. only then consider fresh confirmation of an allocation policy;
 7. keep independent/human artistic replication as the final promotion layer.
 
