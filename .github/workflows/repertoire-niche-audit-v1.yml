@@ -1,0 +1,84 @@
+name: repertoire-niche-audit-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/repertoire-niche-audit-v1/**'
+      - 'prototypes/autonomous-discovery/phenotype_descriptors.py'
+      - '.github/workflows/repertoire-niche-audit-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        group: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate fixed consumed-holdout block
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ matrix.group }}" in
+            0) seeds=(1087 1091 1093 1097 1103) ;;
+            1) seeds=(1109 1117 1123 1129 1151) ;;
+            2) seeds=(1153 1163 1171 1181 1187) ;;
+            3) seeds=(1193 1201 1213 1217 1223) ;;
+            *) exit 2 ;;
+          esac
+          mkdir -p out
+          for seed in "${seeds[@]}"; do
+            python experiments/repertoire-niche-audit-v1/run.py \
+              --route "${{ matrix.route }}" \
+              --seed "$seed" \
+              > "out/${{ matrix.route }}-${seed}.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-niche-block-${{ matrix.route }}-${{ matrix.group }}
+          path: out/*.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repertoire-niche-block-*
+          path: audit-blocks
+          merge-multiple: true
+      - name: Reduce fixed 600-phenotype rectangle
+        run: |
+          python experiments/repertoire-niche-audit-v1/aggregate.py \
+            --results-dir audit-blocks \
+            > repertoire-niche-audit-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('repertoire-niche-audit-summary.json'))
+          print('decision:', result['decision'])
+          print('occupied niches:', result['niches']['occupied'])
+          print('shared candidate fraction:', result['niches']['sharedCandidateFraction'])
+          print('max abs leakage:', result['fitnessLeakage']['maxAbsolute'])
+          print('gates:', result['gates'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-niche-audit-summary
+          path: repertoire-niche-audit-summary.json
+          if-no-files-found: error
