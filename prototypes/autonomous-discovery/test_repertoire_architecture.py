@@ -118,9 +118,9 @@ def test_archive_preserves_route_strata_and_never_auto_replaces_incumbents():
     sheet = _entry("S1", "sheet", "sheet-a")
 
     assert archive.insert(a1).accepted
-    same_basin = archive.insert(a2)
-    assert same_basin.review_required
-    assert same_basin.review_with == ("A1",)
+    same_basin_decision = archive.insert(a2)
+    assert same_basin_decision.review_required
+    assert same_basin_decision.review_with == ("A1",)
     assert len(archive) == 1
 
     assert archive.insert(b1).accepted
@@ -153,3 +153,15 @@ def test_archive_rejects_cross_niche_or_cross_route_replacement():
     different_route = _entry("S1", "sheet", "sheet-a")
     with pytest.raises(ValueError, match="same route stratum"):
         archive.replace("A1", different_route)
+
+
+def test_explicit_replacement_cannot_collapse_two_slots_to_the_same_basin():
+    archive = RepertoireArchive(max_basins_per_route=2)
+    assert archive.insert(_entry("A1", "family", "basin-a")).accepted
+    assert archive.insert(_entry("B1", "family", "basin-b")).accepted
+
+    duplicate_b = _entry("B2", "family", "basin-b")
+    with pytest.raises(ValueError, match="already represented"):
+        archive.replace("A1", duplicate_b)
+
+    assert {e.basin_id for e in archive.entries()} == {"basin-a", "basin-b"}
