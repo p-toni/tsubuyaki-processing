@@ -1,0 +1,74 @@
+name: search-measurement-sensitivity
+
+on:
+  pull_request:
+    paths:
+      - "experiments/search-measurement-sensitivity-v1/**"
+      - ".github/workflows/search-measurement-sensitivity.yml"
+
+concurrency:
+  group: search-measurement-sensitivity-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seed: [101, 103, 107]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run consumed-seed sensitivity block
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/out
+          python experiments/search-measurement-sensitivity-v1/audit.py \
+            --route "${{ matrix.route }}" \
+            --seed "${{ matrix.seed }}" \
+            > "/tmp/out/${{ matrix.route }}-${{ matrix.seed }}.json"
+          test -s "/tmp/out/${{ matrix.route }}-${{ matrix.seed }}.json"
+          python -m json.tool "/tmp/out/${{ matrix.route }}-${{ matrix.seed }}.json" >/dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: search-measurement-sensitivity-${{ matrix.route }}-${{ matrix.seed }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: search-measurement-sensitivity-*
+          path: /tmp/sensitivity
+          merge-multiple: false
+      - name: Reduce preregistered sensitivity contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/search-measurement-sensitivity-v1/aggregate.py \
+            --results-dir /tmp/sensitivity \
+            > /tmp/search-measurement-sensitivity-summary.json
+          test -s /tmp/search-measurement-sensitivity-summary.json
+          python -m json.tool /tmp/search-measurement-sensitivity-summary.json >/dev/null
+          cat /tmp/search-measurement-sensitivity-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: search-measurement-sensitivity-summary
+          path: /tmp/search-measurement-sensitivity-summary.json
