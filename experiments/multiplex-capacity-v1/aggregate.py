@@ -126,20 +126,22 @@ def _rarefied_niche_diagnostics(by_seed: dict[int, dict]):
     for seed in CONSUMED_SEEDS:
         block = by_seed[seed]
         for rep in records_by_rep:
-            seen = set()
+            seen_fingerprints = set()
             for record in block["nicheRecords"][rep]:
-                # A rendering may appear more than once through a no-op mutation;
-                # count it once so niche density is not inflated by duplicates.
-                key = (record["fingerprint"], record["challenge"], record["candidateId"])
-                if key in seen:
+                # Count each rendered phenotype once per seed/representation.
+                # Candidate IDs and target challenges are search provenance, not
+                # distinct phenotypes; retaining them in the dedupe key would let
+                # no-op or raster-equivalent mutations inflate the density sample.
+                fingerprint = str(record["fingerprint"])
+                if fingerprint in seen_fingerprints:
                     continue
-                seen.add(key)
+                seen_fingerprints.add(fingerprint)
                 records_by_rep[rep].append(
                     {
                         "seed": seed,
                         "challenge": str(record["challenge"]),
                         "candidateId": str(record["candidateId"]),
-                        "fingerprint": str(record["fingerprint"]),
+                        "fingerprint": fingerprint,
                         "niche": str(record["niche"]),
                     }
                 )
