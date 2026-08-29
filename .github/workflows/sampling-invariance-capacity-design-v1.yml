@@ -10,7 +10,20 @@ permissions:
   contents: read
 
 jobs:
+  metric-equivalence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Prove cached binary scorer matches frozen sparse-geometry-v1
+        working-directory: experiments/sampling-invariance-v1
+        run: python validate_fast_metric.py
+
   design-seed:
+    needs: metric-equivalence
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
