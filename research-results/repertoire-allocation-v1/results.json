@@ -1,0 +1,169 @@
+{
+  "decision": "PILOT_PROMISING",
+  "freshSearchEvidence": false,
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "completeSeedMeanPrimaryPositive": true,
+    "completeSeedMeanRobustnessPositive": true,
+    "everyLeaveOneRouteOutPrimaryPositive": true
+  },
+  "ifNotPromising": "do not tune structural-v1 or this allocator on the pilot outcomes; move up a level or formulate a new allocation hypothesis",
+  "ifPromising": "use complete-master-seed variance to preregister a fresh fixed-sample confirmation without tuning this allocator",
+  "interpretationBoundary": "consumed-seed mechanical pilot only; route signs and repertoire coverage diagnostics cannot override the preregistered capability gate",
+  "mechanismDiagnostics": {
+    "basinNicheSlots": {
+      "delta": -0.025000000000000355,
+      "lineageDepthMean": 7.9,
+      "repertoireMean": 7.875
+    },
+    "newNicheChildren": {
+      "delta": -0.02499999999999991,
+      "lineageDepthMean": 1.9,
+      "repertoireMean": 1.875
+    },
+    "occupiedNiches": {
+      "delta": 0.0,
+      "lineageDepthMean": 3.825,
+      "repertoireMean": 3.825
+    },
+    "uniquePhenotypeRate": {
+      "delta": 0.0,
+      "lineageDepthMean": 0.980952380952381,
+      "repertoireMean": 0.980952380952381
+    },
+    "uniqueRenderedPhenotypes": {
+      "delta": 0.0,
+      "lineageDepthMean": 41.15,
+      "repertoireMean": 41.15
+    },
+    "validYield": {
+      "delta": 0.0,
+      "lineageDepthMean": 0.9986111111111111,
+      "repertoireMean": 0.9986111111111111
+    }
+  },
+  "population": {
+    "generatedCandidatesPerArmPerBlock": 36,
+    "masterSeeds": 16,
+    "routeSeedBlocks": 80,
+    "routes": 5
+  },
+  "primary": {
+    "completeMasterSeedEffects": {
+      "max": 0.018282032478731655,
+      "mean": 0.004784948350228155,
+      "median": 0.0022263145175047162,
+      "min": 0.0,
+      "n": 16,
+      "sd": 0.005879840958679451
+    },
+    "largestAbsoluteRouteSeedCell": {
+      "primaryDelta": 0.09141016239365828,
+      "route": "filament",
+      "seed": 1063
+    },
+    "leaveOneRouteOut": [
+      {"omittedRoute": "recurrence", "primaryMean": 0.004531969036109101},
+      {"omittedRoute": "orbit", "primaryMean": 0.005454266070652683},
+      {"omittedRoute": "family", "primaryMean": 0.005459882398476392},
+      {"omittedRoute": "sheet", "primaryMean": 0.005282786305915638},
+      {"omittedRoute": "filament", "primaryMean": 0.0031958379399869615}
+    ],
+    "leaveOneRouteOutRange": [0.0031958379399869615, 0.005459882398476392],
+    "routeMeans": {
+      "family": 0.002085212157235207,
+      "filament": 0.01114138999119293,
+      "orbit": 0.0021076774685300443,
+      "recurrence": 0.005796865606704369,
+      "sheet": 0.0027935965274782258
+    },
+    "seedEffects": {
+      "1009": 0.0,
+      "1013": 0.0009093567335695496,
+      "1019": 0.00043342765046181924,
+      "1021": 0.0,
+      "1031": 0.0,
+      "1033": 0.0018484116852508863,
+      "1039": 0.002604217349758546,
+      "1049": 0.005363889650387784,
+      "1051": 0.013457411759401804,
+      "1061": 0.004420070268190945,
+      "1063": 0.018282032478731655,
+      "1069": 0.0,
+      "1087": 0.0,
+      "1091": 0.006019204433189035,
+      "1093": 0.010157727717452025,
+      "1097": 0.01306342387725643
+    }
+  },
+  "robustness": {
+    "completeMasterSeedEffects": {
+      "max": 0.0036952304916165065,
+      "mean": 0.0007000707385478852,
+      "median": 0.0,
+      "min": 0.0,
+      "n": 16,
+      "sd": 0.001250807235409159
+    },
+    "routeMeans": {
+      "family": 0.0006355103092441907,
+      "filament": 0.0008073890084940232,
+      "orbit": 0.00029959400908079713,
+      "recurrence": 0.0016848872714429557,
+      "sheet": 0.000072973094477459
+    },
+    "seedEffects": {
+      "1009": 0.0,
+      "1013": 0.0,
+      "1019": 0.00008813411299447733,
+      "1021": 0.0,
+      "1031": 0.0,
+      "1033": 0.0,
+      "1039": 0.002495510714186397,
+      "1049": 0.0001970026565295268,
+      "1051": 0.0,
+      "1061": 0.0,
+      "1063": 0.0,
+      "1069": 0.0,
+      "1087": 0.0,
+      "1091": 0.0020336329895814104,
+      "1093": 0.0036952304916165065,
+      "1097": 0.0026916208518578443
+    }
+  },
+  "targetPortfolioDiagnostics": {
+    "globalTargetDelta": {
+      "max": 0.17680281072763784,
+      "mean": 0.0013266249723659078,
+      "median": 0.0,
+      "min": 0.0,
+      "n": 160,
+      "sd": 0.01403410921333002
+    },
+    "localTargetDelta": {
+      "max": 0.7312812991492662,
+      "mean": 0.005937722809515572,
+      "median": 0.0,
+      "min": -0.036497013595817474,
+      "n": 480,
+      "sd": 0.05083290569322392
+    }
+  },
+  "provenance": {
+    "workflowRun": 33257413808,
+    "aggregateArtifact": 9716996225,
+    "artifactDigest": "sha256:18be7ab394cc79b21fd375d68436fba216d5ae33977784f2f2edbcc83c4c961e",
+    "experimentalHead": "5d46aa73f4e50af092b23238d0be36f15f048199"
+  },
+  "freshConfirmationPlan": {
+    "masterSeeds": 24,
+    "df": 23,
+    "oneSided95TCritical": 1.713871527747048,
+    "requirements": [
+      "primary one-sided 95% Student-t lower bound > 0",
+      "every leave-one-route-out primary mean > 0",
+      "weakest-target robustness one-sided 95% Student-t lower bound > 0"
+    ]
+  },
+  "version": 1
+}
