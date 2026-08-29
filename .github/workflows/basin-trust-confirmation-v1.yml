@@ -1,0 +1,135 @@
+name: basin-trust-confirmation-v1
+
+on:
+  pull_request:
+    paths:
+      - "experiments/basin-trust-confirmation-v1/**"
+      - ".github/workflows/basin-trust-confirmation-v1.yml"
+      - "experiments/basin-trust-region-v1/**"
+      - "experiments/search-history-geometry-replay-v1/metric.py"
+      - "experiments/search-measurement-geometry-v1/audit.py"
+      - "experiments/search-leverage-v1/reproduce.py"
+      - "prototypes/autonomous-discovery/representations.py"
+      - "prototypes/autonomous-discovery/orbit_representation.py"
+      - "prototypes/autonomous-discovery/rng_streams.py"
+
+concurrency:
+  group: basin-trust-confirmation-v1-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # Fresh fixed population runs only on PR open/reopen. Result persistence and
+    # cleanup synchronize events must not re-consume the confirmation population.
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate frozen adapter and structural invariants on excluded seed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/basin-trust-confirmation-v1/run.py --route recurrence --seed 9001 > /tmp/smoke.json
+          test -s /tmp/smoke.json
+          python -m json.tool /tmp/smoke.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/smoke.json'))
+          assert d['confirmationSeed'] is False
+          assert d['freshSearchEvidence'] is False
+          assert d['mechanismFrozen'] is True
+          assert d['metric'] == 'sparse-geometry-v1'
+          assert d['sourceMechanism'] == 'experiments/basin-trust-region-v1/run.py'
+          assert d['exploitBudget'] == 20
+          for regime in ('same-basin','identity-jump'):
+              r=d['regimes'][regime]
+              assert r['policies']['generic']['initialCandidate'] == r['policies']['trust-region']['initialCandidate']
+              assert r['policies']['generic']['candidateCount'] == 20
+              assert r['policies']['trust-region']['candidateCount'] == 20
+              assert r['policies']['trust-region']['championFrozenDriftKeys'] == []
+          assert d['regimes']['same-basin']['target']['frozenDeltaKeysFromAncestor'] == []
+          assert d['regimes']['identity-jump']['target']['identityDeltaKeysFromAncestor']
+          PY
+
+  confirm:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds:
+          - "2003 2011 2017 2027"
+          - "2029 2039 2053 2063"
+          - "2069 2081 2083 2087"
+          - "2089 2099 2111 2113"
+          - "2129 2131 2137 2141"
+          - "2143 2153 2161 2179"
+          - "2203 2207 2213 2221"
+          - "2237 2239 2243 2251"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fixed fresh confirmation block
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/basin-trust-confirmation-v1/run.py \
+              --route "${{ matrix.route }}" \
+              --seed "$seed" \
+              > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+          test "$(find /tmp/out -name '*.json' | wc -l)" -eq 4
+          for f in /tmp/out/*.json; do python -m json.tool "$f" >/dev/null; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: basin-trust-confirm-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: confirm
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: basin-trust-confirm-*
+          path: /tmp/confirmation
+          merge-multiple: false
+      - name: Reduce complete fresh basin confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/basin-trust-confirmation-v1/aggregate.py \
+            --results-dir /tmp/confirmation \
+            > /tmp/basin-trust-confirmation-summary.json
+          test -s /tmp/basin-trust-confirmation-summary.json
+          python -m json.tool /tmp/basin-trust-confirmation-summary.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/basin-trust-confirmation-summary.json'))
+          assert d['population']['completeMasterSeeds'] == 32
+          assert d['population']['routeSeedBlocks'] == 160
+          assert all(d['hardInvariants'].values())
+          assert d['classification'] in ('CONFIRMED','NOT_CONFIRMED')
+          PY
+          cat /tmp/basin-trust-confirmation-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: basin-trust-confirmation-summary
+          path: /tmp/basin-trust-confirmation-summary.json
