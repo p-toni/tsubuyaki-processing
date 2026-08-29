@@ -1,0 +1,117 @@
+name: repertoire-allocation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/repertoire-allocation-v1/**'
+      - 'prototypes/autonomous-discovery/phenotype_descriptors.py'
+      - 'prototypes/autonomous-discovery/repertoire_*.py'
+      - '.github/workflows/repertoire-allocation-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate excluded-seed mechanics across all routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p smoke
+          for route in recurrence orbit family sheet filament; do
+            python experiments/repertoire-allocation-v1/run.py \
+              --route "$route" --seed 9001 > "smoke/${route}.json"
+          done
+          python - <<'PY'
+          import json, pathlib
+          paths = sorted(pathlib.Path('smoke').glob('*.json'))
+          assert len(paths) == 5
+          for path in paths:
+              data = json.load(open(path))
+              assert all(data['hardInvariants'].values()), (path, data['hardInvariants'])
+              assert data['settings']['generatedPerArm'] == 36
+              assert data['descriptorVersion'] == 'structural-v1'
+              assert data['freshSearchEvidence'] is False
+          print('excluded smoke passed for all five routes')
+          PY
+
+  block:
+    needs: smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        group: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fixed consumed-seed allocation block
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ matrix.group }}" in
+            0) seeds=(1009 1013 1019 1021) ;;
+            1) seeds=(1031 1033 1039 1049) ;;
+            2) seeds=(1051 1061 1063 1069) ;;
+            3) seeds=(1087 1091 1093 1097) ;;
+            *) exit 2 ;;
+          esac
+          mkdir -p out
+          for seed in "${seeds[@]}"; do
+            python experiments/repertoire-allocation-v1/run.py \
+              --route "${{ matrix.route }}" --seed "$seed" \
+              > "out/${{ matrix.route }}-${seed}.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-allocation-${{ matrix.route }}-${{ matrix.group }}
+          path: out/*.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repertoire-allocation-*
+          path: pilot-blocks
+          merge-multiple: true
+      - name: Reduce complete 80-block consumed pilot
+        run: |
+          python experiments/repertoire-allocation-v1/aggregate.py \
+            --results-dir pilot-blocks \
+            > repertoire-allocation-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('repertoire-allocation-summary.json'))
+          print('decision:', result['decision'])
+          print('primary:', result['primary']['completeMasterSeedEffects'])
+          print('robustness:', result['robustness']['completeMasterSeedEffects'])
+          print('LORO:', result['primary']['leaveOneRouteOutRange'])
+          print('gates:', result['gates'])
+          print('mechanism:', result['mechanismDiagnostics'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repertoire-allocation-summary
+          path: repertoire-allocation-summary.json
+          if-no-files-found: error
