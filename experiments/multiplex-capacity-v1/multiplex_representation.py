@@ -17,6 +17,17 @@ VARIANTS = (
     "multiplex-no-singular",
 )
 
+# Search may mutate only dimensions that are phenotypically active in *every*
+# variant. Mechanism-specific parameters still vary across independent starts,
+# but an ablation cannot lose search budget merely because a removed mechanism
+# makes some genome keys inert.
+COMMON_MUTABLE_KEYS = (
+    "slow_freq", "slow_amp", "fast1", "fast2", "fast_mix",
+    "turn", "phase_latent", "cross", "cross2",
+    "base_r", "radial_u", "radial_latent", "radial_fast",
+    "weave", "y_latent", "motion", "sx", "sy", "time1", "time2", "time3",
+)
+
 
 def _clamp(value: float, lo: float, hi: float) -> float:
     return lo if value < lo else hi if value > hi else value
@@ -61,23 +72,17 @@ def seed_genome(rng) -> dict[str, float]:
 def mutate_genome(genome: dict[str, float], rng, scale: float = 1.0) -> dict[str, float]:
     """One-coordinate mutation with the historical +/-18% law.
 
-    Sampling density is held fixed so an arm cannot win by buying more raster
-    hits. Discrete branch count is mutable and remains present in the same genome
-    for every ablation even when a variant deliberately ignores it.
+    Only the common active parameter subset is eligible. Sampling density,
+    branch-specific controls, and reciprocal-specific controls remain fixed per
+    start so no ablation pays a no-op mutation tax.
     """
     out = dict(genome)
-    mutable = [key for key in out if key not in {"samples", "alpha"}]
-    key = rng.choice(mutable)
+    key = rng.choice(COMMON_MUTABLE_KEYS)
     value = out[key]
     delta = rng.uniform(-0.18, 0.18) * (abs(value) if abs(value) > 1e-6 else 1.0) * scale
-    if key == "branches":
-        out[key] = int(_clamp(round(value + delta), 2, 6))
-    else:
-        out[key] = value + delta
+    out[key] = value + delta
     if rng.random() < 0.25:
         out["alpha"] = int(_clamp(out["alpha"] + rng.randint(-5, 5), 22, 60))
-    out["singular_floor"] = _clamp(float(out["singular_floor"]), 0.08, 0.7)
-    out["singular_cap"] = _clamp(float(out["singular_cap"]), 0.7, 7.0)
     out["sx"] = _clamp(float(out["sx"]), 70.0, 210.0)
     out["sy"] = _clamp(float(out["sy"]), 60.0, 190.0)
     out["time1"] = _clamp(float(out["time1"]), 7.0, 90.0)
@@ -136,7 +141,6 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
             slow_driver = u
             second_driver = grid_v
         else:
-            # Raw-index phase is intentionally distinct from quotient-derived u.
             fast_a = math.sin(tau * genome["fast1"] * s * phase_branches + branch_phase)
             fast_b = math.cos(tau * genome["fast2"] * s * phase_branches - 0.7 * branch_phase)
             slow_driver = u
@@ -166,8 +170,6 @@ def points(genome: dict[str, float], t: float, variant: str, width: int = 400, h
             + genome["cross"] * slow_driver * fast_b
             + t / genome["time2"]
         )
-        # The no-reuse ablation is allowed to use latent here: this is its single
-        # coordinate/placement role. It may not use latent again downstream.
         radius = (
             genome["base_r"]
             + genome["radial_u"] * (1.0 - min(1.0, slow_driver * slow_driver))
