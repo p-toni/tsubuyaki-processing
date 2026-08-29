@@ -8,7 +8,7 @@ This begins a new search-mechanics axis after the depth-vs-breadth topology line
 
 ## Intervention
 
-The production trajectory already supplies stage-specific numeric mutation scales:
+The production trajectory supplies stage-specific numeric mutation scales:
 
 ```text
 explore   1.00
@@ -16,54 +16,39 @@ round A   0.70
 refine    0.55 or 1.20
 ```
 
-For global multiplier `m`, the experiment temporarily wraps the active representation mutator:
+For global multiplier `m`, this experiment temporarily wraps the active representation mutator:
 
 ```text
 mutate(genome, rng, stage_scale)
 → mutate(genome, rng, stage_scale * m)
 ```
 
-The wrapper is installed only for one experiment run and restored immediately afterward.
+The legacy mutator's separate occasional `alpha` jitter remains unchanged because the existing `scale` argument does not govern it.
 
-This changes only the scale-sensitive numeric step amplitude. The legacy mutator's separate occasional `alpha` jitter is intentionally unchanged because the existing `scale` argument does not govern it.
-
-The intervention does **not** change:
-
-- common starts;
-- target construction;
-- RNG seed or random-number consumption;
-- candidate IDs;
-- stage ordering;
-- parent-selection logic;
-- frontier logic;
-- selector;
-- nominal candidate budgets;
-- representation grammar.
+The intervention does not change starts, target construction, RNG consumption, candidate IDs, stage ordering, parent-selection logic, frontier logic, selector, nominal candidate budgets, or representation grammar.
 
 ## Exact baseline replay gate
 
-`m=1.0` is not merely a conceptual control. For every calibration route×seed×target-regime case, the wrapped run must exactly replay an ordinary `run_search_from_starts(...)` invocation.
+`m=1.0` must exactly replay an ordinary `run_search_from_starts(...)` invocation for every route×seed×target-regime calibration case.
 
-The experiment hashes a canonical record containing candidate IDs, route/basin/stage/parent, genomes, phenotype fingerprints, stage decisions, provisional champion, final frontier, allocations, and selection status. Any `m=1.0` signature mismatch fails the block.
-
-Every tested multiplier must also finish with the same total candidate count as the ordinary baseline. A budget/topology-count drift fails the block rather than being scored as a scale effect.
+The canonical signature includes candidate IDs, route/basin/stage/parent, genomes, phenotype fingerprints, stage decisions, provisional champion, final frontier, allocations, and selection status. Every multiplier must also finish with the same total candidate count as ordinary baseline.
 
 ## Objective benchmark
 
 Reuse the frozen search-leverage benchmark mechanics:
 
-- five representations: `recurrence`, `orbit`, `family`, `sheet`, `filament`;
+- representations: `recurrence`, `orbit`, `family`, `sheet`, `filament`;
 - three common valid starts per route;
 - one local held-out phenotype target and one independent global target;
 - target-distance selector;
 - normalized improvement from the best common start;
-- same search settings and candidate budget as the existing search-leverage benchmark.
+- unchanged search settings and candidate budget.
 
 This is objective search-mechanics evidence only, not artistic-quality evidence.
 
-## Phase 1 — calibration
+## Calibration preregistration
 
-All seeds already consumed by prior search-topology research:
+Consumed seeds only:
 
 ```text
 101, 103, 107,
@@ -82,64 +67,65 @@ Frozen multiplier grid:
 0.50, 0.75, 1.00, 1.25, 1.50
 ```
 
-Per route×seed:
+Select the multiplier with highest mean combined local/global normalized improvement across all 90 blocks. Exact ties choose the multiplier closest to `1.0`; if still tied, choose the smaller multiplier.
 
-```text
-combinedScore(m) = mean(local normalized improvement, global normalized improvement)
-```
-
-Select the single multiplier with highest mean combined score across all 90 calibration blocks.
-
-Exact numerical ties choose the multiplier closest to `1.0`; if two non-baseline multipliers are equally distant, choose the smaller multiplier. Calibration makes no hypothesis claim.
-
-## Phase 2 — untouched holdout
-
-Reserved before calibration:
+Fresh holdout seeds were reserved before calibration:
 
 ```text
 193, 197, 199
 ```
 
-Only the frozen selected multiplier will be run against `m=1.0` on these seeds.
+The preregistered holdout gate requires strict selected-scale wins over exact `m=1.0` on at least 2/3 fresh seeds for a route, with general support requiring at least 4/5 routes.
 
-## Holdout primary gate
+## Calibration result
 
-For each route×fresh seed, compare selected-scale combined improvement against the exact `m=1.0` baseline.
+Workflow `33222085480` completed all 90 blocks / 180 target-regime cases. Every `m=1.0` wrapped trajectory exactly replayed the ordinary engine.
 
-A seed counts only on a **strict** selected-scale win:
+| multiplier | mean combined recovery | delta vs current |
+| ---: | ---: | ---: |
+| 0.50 | 0.072688 | -0.005424 |
+| 0.75 | 0.075096 | -0.003016 |
+| **1.00** | **0.078113** | **0** |
+| 1.25 | 0.077420 | -0.000693 |
+| 1.50 | 0.074508 | -0.003605 |
 
-```text
-selectedCombined > baselineCombined
-```
+The preregistered winner is the exact current baseline, **`m=1.0`**. The strongest alternative, `m=1.25`, is about 0.89% lower on mean combined recovery.
 
-Equality does not count.
-
-```text
->=2/3 strict-win seeds → route supports global scale change
->=4/5 supporting routes → general mutation-scale leverage supported
-```
-
-Classification:
+A secondary tradeoff is visible rather than a globally better scale:
 
 ```text
-4–5 routes → general global mutation-scale leverage supported
-3 routes   → mixed / representation-dependent scale signal
-0–2 routes → general global mutation-scale leverage not supported
+          local      global
+m=1.00   0.097655   0.058570
+m=1.25   0.093397   0.061442
+m=1.50   0.085006   0.064009
 ```
 
-## Secondary diagnostics
+Larger numeric steps improve average global-target recovery while degrading local-target recovery. `m=1.25` strictly beats baseline on 54/90 individual calibration blocks but still loses on aggregate. This is evidence of heterogeneous scale preference, not evidence for a global replacement or post-hoc representation-specific tuning.
 
-Record but do not allow them to override the primary gate:
+## Holdout decision
 
-- local/global mean recovery;
-- valid yield;
-- unique rendered phenotype rate;
-- lineage depth of the objective winner;
-- route-specific multiplier means;
-- strict/non-worse blocks versus baseline;
-- invalid candidate counts;
-- calibration and holdout effect sizes.
+Fresh seeds `193,197,199` remain untouched.
+
+Because the frozen selected multiplier is `m=1.0` itself, the preregistered selected-vs-baseline holdout comparison would be exact equality by construction, while the gate requires strict wins. Running those fresh seeds would therefore add no information and only consume holdout capacity.
+
+No holdout was run.
+
+## Decision
+
+Retain the current global numeric mutation amplitude as the research baseline. Do not implement a global scale change and do not continue tuning the same multiplier grid on consumed seeds.
+
+The next mutation-mechanics experiment should test a distinct hypothesis—most naturally the **schedule of scales across stages** or **mutation-operator diversity**—rather than another global multiplier.
+
+## Durable evidence
+
+- `calibration.json`
+- `results.json`
+- `results.md`
+- `policy.py`
+- `aggregate_calibration.py`
+
+The temporary calibration workflow was removed after its completed run.
 
 ## Boundary
 
-Even a positive result authorizes only a later opt-in implementation/evidence experiment. It does not authorize artistic promotion, hard representation pruning, portfolio sufficiency claims, a production/default change, or `SKILL.md` changes.
+This is objective search-mechanics evidence only. It provides no artistic promotion authority, no hard representation-pruning authority, no portfolio-sufficiency claim, no production/default change, and no `SKILL.md` authority.
