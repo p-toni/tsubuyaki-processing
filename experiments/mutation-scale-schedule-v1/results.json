@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "calibration": {
+    "workflowRun": 33222932675,
+    "blocks": 90,
+    "regimeCases": 180,
+    "exactBaselineReplayCases": 180,
+    "contrasts": {
+      "0.6666666666666666": {"meanCombinedImprovement": 0.07606043338258876, "deltaVsBaseline": -0.002052266546821793},
+      "0.8": {"meanCombinedImprovement": 0.07608454302268162, "deltaVsBaseline": -0.0020281569067289312},
+      "1.0": {"meanCombinedImprovement": 0.07811269992941056, "deltaVsBaseline": 0.0},
+      "1.25": {"meanCombinedImprovement": 0.07812471577056888, "deltaVsBaseline": 0.000012015841158327656},
+      "1.5": {"meanCombinedImprovement": 0.07598677140816225, "deltaVsBaseline": -0.0021259285212483076}
+    },
+    "selectedContrast": 1.25
+  },
+  "holdout": {
+    "workflowRun": 33224789750,
+    "seeds": [193, 197, 199],
+    "selectedContrast": 1.25,
+    "baselineContrast": 1.0,
+    "blocks": 15,
+    "legacyGate": {
+      "routeRule": ">=2/3 strict-win seeds",
+      "generalRule": ">=4/5 supporting routes",
+      "supportingRoutes": 2,
+      "generalSupport": false,
+      "support": {"recurrence": false, "orbit": false, "family": false, "sheet": true, "filament": true}
+    },
+    "continuousPairedDiagnostics": {
+      "meanDelta": 0.003171703539469737,
+      "medianDelta": -0.0013378032522637778,
+      "strictWins": 5,
+      "nonWorse": 6,
+      "meanLocalDelta": 0.004695083223716475,
+      "meanGlobalDelta": 0.0016483238552229902,
+      "routeMeanDelta": {
+        "recurrence": -0.0009217211814863194,
+        "orbit": -0.004504225097034777,
+        "family": -0.007570396454977364,
+        "sheet": 0.003678896210811722,
+        "filament": 0.02517596422003542
+      },
+      "largestBlockDelta": {"route": "filament", "seed": 197, "delta": 0.07477077194731918}
+    }
+  },
+  "decision": "Reject a general mutation-scale stage-schedule change. Retain the current schedule as the research baseline. Do not pursue route-specific scale tuning until the target-recovery objective and stochastic decision gate are audited.",
+  "evidenceBoundary": "Objective target-recovery evidence only; no artistic-quality or production-default authority."
+}
