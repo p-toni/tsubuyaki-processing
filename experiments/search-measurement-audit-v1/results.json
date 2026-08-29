@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "workflowRun": 33225231814,
+  "gateAudit": {
+    "historicalGate": {
+      "routeRule": "strict majority of seed wins",
+      "generalRule": ">=4/5 route supports"
+    },
+    "nullGeneralPassProbability": {
+      "3": 0.1875,
+      "9": 0.1875,
+      "21": 0.1875
+    },
+    "power": {
+      "n3": {"p055": 0.2947409669409904, "p060": 0.424577041072128, "p065": 0.5660698557889041, "p070": 0.7042229248983038},
+      "n9": {"p055": 0.3749414428035582, "p060": 0.5978984087790115, "p065": 0.7939509106746796, "p070": 0.9202700515912077},
+      "n21": {"p055": 0.48549111105753046, "p060": 0.7887475533254311, "p065": 0.9491042046387177, "p070": 0.9933960606805926}
+    },
+    "decision": "Retire the two-stage route-vote gate from confirmatory stochastic search-quality inference. Preserve deterministic scheduler pass/fail gates. Future stochastic experiments retain continuous paired route x seed effects instead of double-binarizing them."
+  },
+  "objectiveAudit": {
+    "blocks": 15,
+    "targetCases": 30,
+    "currentMAE": {
+      "blankBeatsShift3Cases": 30,
+      "blankBeatsValidNeighborCases": 7,
+      "blankBeatsUnrelatedValidCases": 30,
+      "falsifiedAsStructuralRecoveryObjective": true,
+      "meanDistances": {
+        "exact": 0.0,
+        "shift3": 0.007865903594771241,
+        "fade50": 0.0024693897058823532,
+        "blank": 0.004943890795206972,
+        "validAlpha": 0.001919209422657952,
+        "validNeighbor": 0.0030962682461873636,
+        "unrelatedValid": 0.008545578159041394
+      }
+    },
+    "sparseShapeV1": {
+      "contractPassCases": 30,
+      "targetCases": 30,
+      "qualifiesForLaterBenchmarkReplay": true,
+      "meanDistances": {
+        "exact": 0.0,
+        "shift3": 0.0,
+        "fade50": 0.09986118218335706,
+        "blank": 1.0,
+        "validAlpha": 0.07561805805630711,
+        "validNeighbor": 0.004048135416930003,
+        "unrelatedValid": 0.3979800493122031
+      },
+      "knownLimitation": "The 3px tolerant support F1 makes the exact 3px translation score zero; qualification authorizes replay research only, not automatic benchmark replacement."
+    }
+  },
+  "decision": "Pause further topology, mutation-scale, and route-specific policy conclusions under the old instrumentation. Replay the prior search-policy comparisons on already-consumed seeds under the qualified sparse-shape candidate, preserving continuous paired effects. Do not consume fresh seeds or change production/default behavior yet.",
+  "evidenceBoundary": "Research-instrument validation only; no artistic authority, representation pruning, or production/default change."
+}
