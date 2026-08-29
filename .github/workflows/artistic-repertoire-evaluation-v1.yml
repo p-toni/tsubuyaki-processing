@@ -1,0 +1,140 @@
+name: artistic-repertoire-evaluation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/artistic-repertoire-evaluation-v1/**'
+      - 'experiments/repertoire-allocation-v1/run.py'
+      - 'prototypes/autonomous-discovery/**'
+      - '.github/workflows/artistic-repertoire-evaluation-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        label: [S01, S02, S03, S04, S05]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate excluded-seed review generation
+        run: |
+          python experiments/artistic-repertoire-evaluation-v1/generate.py \
+            --label '${{ matrix.label }}' \
+            --out-dir smoke-out
+          python - <<'PY'
+          import json, pathlib
+          paths = list(pathlib.Path('smoke-out/key').glob('*.json'))
+          assert len(paths) == 1
+          data = json.load(open(paths[0]))
+          assert data['artisticReviewEvidence'] is False
+          assert all(data['hardInvariants'].values()), data['hardInvariants']
+          assert pathlib.Path('smoke-out/sheet', data['label'] + '.png').exists()
+          print('excluded review-generation smoke passed:', data['label'])
+          PY
+
+  review-block:
+    needs: smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        label:
+          - R01
+          - R02
+          - R03
+          - R04
+          - R05
+          - R06
+          - R07
+          - R08
+          - R09
+          - R10
+          - R11
+          - R12
+          - R13
+          - R14
+          - R15
+          - R16
+          - R17
+          - R18
+          - R19
+          - R20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen blind review block
+        run: |
+          python experiments/artistic-repertoire-evaluation-v1/generate.py \
+            --label '${{ matrix.label }}' \
+            --out-dir out
+          python - <<'PY'
+          import json, pathlib
+          keys = list(pathlib.Path('out/key').glob('*.json'))
+          assert len(keys) == 1
+          data = json.load(open(keys[0]))
+          assert data['artisticReviewEvidence'] is True
+          assert all(data['hardInvariants'].values()), data['hardInvariants']
+          assert pathlib.Path('out/sheet', data['label'] + '.png').exists()
+          print('review block generated:', data['label'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artistic-review-block-${{ matrix.label }}
+          path: out/**
+          if-no-files-found: error
+
+  assemble:
+    needs: review-block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: artistic-review-block-*
+          path: collected
+          merge-multiple: true
+      - name: Assemble sheets and sealed key separately
+        run: |
+          set -euo pipefail
+          mkdir -p review-sheets review-keys
+          cp collected/sheet/R*.png review-sheets/
+          cp collected/key/R*.json review-keys/
+          test "$(find review-sheets -name 'R*.png' | wc -l)" -eq 20
+          test "$(find review-keys -name 'R*.json' | wc -l)" -eq 20
+          python - <<'PY'
+          import json, pathlib
+          labels = [f'R{i:02d}' for i in range(1, 21)]
+          manifest = {
+              'version': 1,
+              'blocks': labels,
+              'instruction': 'For every block record exactly one of A>B, B>A, equivalent, unreviewable. Do not open the separate blind-key artifact until all 20 judgments are fixed.',
+              'policyIdentityIncluded': False,
+              'routeIdentityIncluded': False,
+              'rawRendererTimes': [30, 90, 150],
+              'rowsPerSide': 6,
+          }
+          pathlib.Path('review-sheets/manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artistic-repertoire-review-sheets
+          path: review-sheets/**
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artistic-repertoire-blind-key
+          path: review-keys/**
+          if-no-files-found: error
