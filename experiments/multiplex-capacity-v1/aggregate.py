@@ -126,22 +126,17 @@ def _rarefied_niche_diagnostics(by_seed: dict[int, dict]):
     for seed in CONSUMED_SEEDS:
         block = by_seed[seed]
         for rep in records_by_rep:
-            seen_fingerprints = set()
             for record in block["nicheRecords"][rep]:
-                # Count each rendered phenotype once per seed/representation.
-                # Candidate IDs and target challenges are search provenance, not
-                # distinct phenotypes; retaining them in the dedupe key would let
-                # no-op or raster-equivalent mutations inflate the density sample.
-                fingerprint = str(record["fingerprint"])
-                if fingerprint in seen_fingerprints:
-                    continue
-                seen_fingerprints.add(fingerprint)
+                # The preregistered niche gate is record-level: a hard-valid
+                # mutation that renders redundantly is evidence of lower search
+                # diversity and therefore remains in the rarefaction population.
+                # Unique rendered phenotype rate is reported separately.
                 records_by_rep[rep].append(
                     {
                         "seed": seed,
                         "challenge": str(record["challenge"]),
                         "candidateId": str(record["candidateId"]),
-                        "fingerprint": fingerprint,
+                        "fingerprint": str(record["fingerprint"]),
                         "niche": str(record["niche"]),
                     }
                 )
