@@ -1,0 +1,122 @@
+name: mutation-scale-confirmation-v1
+
+on:
+  pull_request:
+    paths:
+      - "experiments/mutation-scale-confirmation-v1/**"
+      - ".github/workflows/mutation-scale-confirmation-v1.yml"
+      - "experiments/search-history-geometry-replay-v1/metric.py"
+      - "experiments/search-measurement-geometry-v1/audit.py"
+      - "experiments/mutation-scale-v1/policy.py"
+
+concurrency:
+  group: mutation-scale-confirmation-v1-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # The preregistered fixed-sample run completed on PR open. Any later
+    # synchronize event is result-persistence/cleanup only and must not consume
+    # the same fresh confirmation population again.
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate runner and exact baseline replay on excluded smoke seed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/mutation-scale-confirmation-v1/run.py --route recurrence --seed 9001 > /tmp/smoke.json
+          test -s /tmp/smoke.json
+          python -m json.tool /tmp/smoke.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/smoke.json'))
+          assert d['analysisSeed'] is False
+          assert d['baselineExactOrdinaryReplay'] is True
+          assert d['metric'] == 'sparse-geometry-v1'
+          assert d['baselineMultiplier'] == 1.0
+          assert d['candidateMultiplier'] == 1.25
+          PY
+
+  confirm:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds:
+          - "1009 1013 1019 1021"
+          - "1031 1033 1039 1049"
+          - "1051 1061 1063 1069"
+          - "1087 1091 1093 1097"
+          - "1103 1109 1117 1123"
+          - "1129 1151 1153 1163"
+          - "1171 1181 1187 1193"
+          - "1201 1213 1217 1223"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run preregistered fresh block
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/mutation-scale-confirmation-v1/run.py \
+              --route "${{ matrix.route }}" \
+              --seed "$seed" \
+              > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+          test "$(find /tmp/out -name '*.json' | wc -l)" -eq 4
+          for f in /tmp/out/*.json; do python -m json.tool "$f" >/dev/null; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mutation-scale-confirm-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: confirm
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: mutation-scale-confirm-*
+          path: /tmp/confirmation
+          merge-multiple: false
+      - name: Reduce complete fresh confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/mutation-scale-confirmation-v1/aggregate.py \
+            --results-dir /tmp/confirmation \
+            > /tmp/mutation-scale-confirmation-summary.json
+          test -s /tmp/mutation-scale-confirmation-summary.json
+          python -m json.tool /tmp/mutation-scale-confirmation-summary.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/mutation-scale-confirmation-summary.json'))
+          assert d['effect']['completeMasterSeeds'] == 32
+          assert d['effect']['routes'] == 5
+          assert d['effect']['cells'] == 160
+          PY
+          cat /tmp/mutation-scale-confirmation-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mutation-scale-confirmation-summary
+          path: /tmp/mutation-scale-confirmation-summary.json
