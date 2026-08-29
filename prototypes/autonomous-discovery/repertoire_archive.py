@@ -8,7 +8,6 @@ caller decision from an authorized selector/reviewer.
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
-from typing import Iterable, Mapping
 
 from phenotype_descriptors import NicheKey, PhenotypeDescriptor, niche_key
 
@@ -167,6 +166,18 @@ class RepertoireArchive:
             raise ValueError("replacement must stay within the same route stratum")
         if challenger.candidate_id in self._candidate_locations:
             raise ValueError(f"challenger {challenger.candidate_id!r} already exists in repertoire")
+
+        bucket = self._cells[incumbent.niche][incumbent.route]
+        duplicate_basin = [
+            entry.candidate_id
+            for entry in bucket
+            if entry.candidate_id != incumbent_id and entry.basin_id == challenger.basin_id
+        ]
+        if duplicate_basin:
+            raise ValueError(
+                f"challenger basin is already represented in this route+niche by {duplicate_basin}"
+            )
+
         self.remove(incumbent_id)
         self._add(challenger)
 
@@ -186,6 +197,8 @@ class RepertoireArchive:
         bucket = self._cells.setdefault(niche, {}).setdefault(entry.route, [])
         if len(bucket) >= self.max_basins_per_route:
             raise AssertionError("cannot add beyond route-stratified niche capacity")
+        if any(existing.basin_id == entry.basin_id for existing in bucket):
+            raise AssertionError("cannot add duplicate basin to one route+niche")
         bucket.append(entry)
         bucket.sort(key=lambda e: (e.basin_id, e.candidate_id))
         self._candidate_locations[entry.candidate_id] = (niche, entry.route)
