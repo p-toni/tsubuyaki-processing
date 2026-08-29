@@ -1,9 +1,9 @@
 """Fitness-independent phenotype descriptors for repertoire niches.
 
-These descriptors intentionally remove translation and global scale before
-measuring structure. They must not reuse diagnostic-score inputs such as raw
-occupancy, canvas span, or centering; those belong to viability/composition,
-not diversity identity.
+Cell-defining descriptors are computed only from rendered geometry after removing
+translation and global scale. They must not reuse route/representation metadata or
+diagnostic-score inputs such as raw occupancy, canvas span, or centering; those
+belong to mathematical strata / viability, not phenotype diversity identity.
 """
 from __future__ import annotations
 
@@ -91,12 +91,15 @@ def _shape_motion(a: Frame, b: Frame) -> float:
         for i in range(0, n, step)
     )
     # Monotone bounded transform: 0 is static after translation/scale removal;
-    # increasingly large structural motion asymptotes toward 1.
+    # increasingly large structural motion asymptotes toward 1. Rigid rotation is
+    # intentionally retained as temporal behavior rather than normalized away.
     return _clamp01(1.0 - math.exp(-max(0.0, displacement)))
 
 
 @dataclass(frozen=True)
 class PhenotypeDescriptor:
+    # Mathematical intrinsic dimension is retained as a diagnostic, but is NOT a
+    # niche axis because it comes from the representation spec rather than pixels.
     intrinsic_dimension: int
     anisotropy: float
     central_void: float
@@ -111,7 +114,6 @@ class PhenotypeDescriptor:
 
 @dataclass(frozen=True, order=True)
 class NicheKey:
-    intrinsic_dimension: int
     anisotropy_bin: int
     central_void_bin: int
     motion_bin: int
@@ -158,14 +160,13 @@ def _bin01(value: float, bins: int = NICHE_BINS) -> int:
 
 
 def niche_key(descriptor: PhenotypeDescriptor, bins: int = NICHE_BINS) -> NicheKey:
-    """Map structure to a deliberately small fixed phenotype niche grid.
+    """Map rendered structure to a deliberately small fixed phenotype grid.
 
-    Only three bounded structure axes define cells in v1. `radial_cv` and
-    `angular_coverage` remain diagnostics so the first archive does not explode
-    into a mostly empty high-dimensional grid.
+    Only bounded geometry/temporal axes define cells in v1. Mathematical
+    intrinsic dimension, `radial_cv`, and `angular_coverage` remain diagnostics.
+    Route/representation identity is preserved separately by the archive stratum.
     """
     return NicheKey(
-        intrinsic_dimension=descriptor.intrinsic_dimension,
         anisotropy_bin=_bin01(descriptor.anisotropy, bins),
         central_void_bin=_bin01(descriptor.central_void, bins),
         motion_bin=_bin01(descriptor.shape_motion, bins),
