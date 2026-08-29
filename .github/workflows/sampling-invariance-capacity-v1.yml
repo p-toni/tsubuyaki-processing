@@ -1,0 +1,124 @@
+name: sampling-invariance-capacity-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/sampling-invariance-v1/**'
+      - '.github/workflows/sampling-invariance-capacity-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      run_science: ${{ steps.guard.outputs.run_science }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        shell: bash
+        run: |
+          if [[ -f research-results/sampling-invariance-capacity-v1/results.json ]]; then
+            echo 'run_science=false' >> "$GITHUB_OUTPUT"
+            echo 'Persisted scientific result exists; skip capacity rerun.'
+          else
+            echo 'run_science=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  metric-equivalence:
+    needs: preflight
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Re-prove cached scorer matches frozen sparse-geometry-v1
+        working-directory: experiments/sampling-invariance-v1
+        run: python validate_fast_metric.py
+
+  holdout-seed:
+    needs: [preflight, metric-equivalence]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed:
+          - 51001
+          - 51031
+          - 51043
+          - 51047
+          - 51059
+          - 51061
+          - 51071
+          - 51109
+          - 51131
+          - 51133
+          - 51137
+          - 51151
+          - 51157
+          - 51169
+          - 51193
+          - 51197
+          - 51199
+          - 51203
+          - 51217
+          - 51229
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run frozen independent-exposure capacity holdout block
+        working-directory: experiments/sampling-invariance-v1
+        run: |
+          mkdir -p out
+          python run_capacity.py --population holdout --seed ${{ matrix.seed }} --output out/seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-capacity-holdout-${{ matrix.seed }}
+          path: experiments/sampling-invariance-v1/out/seed-${{ matrix.seed }}.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: [preflight, holdout-seed]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sampling-invariance-capacity-holdout-*
+          path: experiments/sampling-invariance-v1/holdout-blocks
+          merge-multiple: true
+      - name: Reduce complete untouched capacity holdout
+        working-directory: experiments/sampling-invariance-v1
+        run: |
+          python run_aggregate_capacity.py \
+            --population holdout \
+            --results-dir holdout-blocks \
+            --output capacity-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('capacity-summary.json'))
+          assert all(result['hardInvariants'].values()), result['hardInvariants']
+          print('decision:', result['decision'])
+          print('primary:', result['primary'])
+          print('gates:', result['gates'])
+          print('current-route contribution:', result['currentRouteContribution'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-capacity-summary
+          path: experiments/sampling-invariance-v1/capacity-summary.json
+          if-no-files-found: error
