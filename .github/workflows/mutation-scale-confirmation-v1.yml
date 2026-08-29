@@ -18,6 +18,10 @@ permissions:
 
 jobs:
   smoke:
+    # The preregistered fixed-sample run completed on PR open. Any later
+    # synchronize event is result-persistence/cleanup only and must not consume
+    # the same fresh confirmation population again.
+    if: github.event.action != 'synchronize'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
