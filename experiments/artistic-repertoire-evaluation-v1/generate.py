@@ -112,7 +112,7 @@ def _draw_sheet(label: str, side_endpoints: dict[str, dict[str, object]]) -> Ima
     frame_w = frame_h = 400
     gap = 10
     side_gap = 36
-    header_h = 92
+    header_h = 130
     row_label_w = 42
     side_width = row_label_w + 3 * frame_w + 2 * gap
     width = side_width * 2 + side_gap
@@ -124,11 +124,11 @@ def _draw_sheet(label: str, side_endpoints: dict[str, dict[str, object]]) -> Ima
     small_font = _font(18)
 
     draw.text((16, 10), f"Blind review {label}", fill=(245, 245, 245), font=title_font)
-    draw.text((16, 52), "Choose the stronger portfolio: A>B, B>A, equivalent, or unreviewable", fill=(210, 210, 210), font=small_font)
+    draw.text((16, 50), "Choose the stronger portfolio: A>B, B>A, equivalent, or unreviewable", fill=(210, 210, 210), font=small_font)
 
     for side_index, side in enumerate(("A", "B")):
         x0 = side_index * (side_width + side_gap)
-        draw.text((x0 + row_label_w, 10), side, fill=(255, 255, 255), font=title_font)
+        draw.text((x0 + side_width // 2, 96), side, fill=(255, 255, 255), font=title_font, anchor="mm")
         endpoints = side_endpoints[side]
         for row_index, basin in enumerate(sorted(endpoints)):
             y0 = header_h + row_index * frame_h
@@ -140,6 +140,7 @@ def _draw_sheet(label: str, side_endpoints: dict[str, dict[str, object]]) -> Ima
                 if row_index == 0:
                     draw.text((x + 8, y0 + 8), f"t={TIMES[frame_index]}", fill=(210, 210, 210), font=small_font)
 
+    draw.line((side_width + side_gap // 2, header_h, side_width + side_gap // 2, height), fill=(70, 70, 70), width=2)
     return sheet
 
 
