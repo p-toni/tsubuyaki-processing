@@ -38,6 +38,25 @@ class ValidatedInnerAllocation:
         return dict(self.spent_by_route)
 
 
+@dataclass(frozen=True)
+class BasinConcentration:
+    """Diagnostic allocation concentration after route-budget validation.
+
+    A single basin lineage may legitimately occupy multiple phenotype niches. This
+    summary aggregates those entries back to the route+basin level so an allocator
+    experiment cannot mistake many niche entries from one lineage for many
+    independent mathematical basins. It reports concentration only; it imposes no
+    cap or ranking policy.
+    """
+
+    units_by_route_basin: tuple[tuple[str, str, int], ...]
+    distinct_funded_basins_by_route: tuple[tuple[str, int], ...]
+    max_basin_share_by_route: tuple[tuple[str, float], ...]
+
+    def maximum_share(self) -> dict[str, float]:
+        return dict(self.max_basin_share_by_route)
+
+
 def _checked_units(candidate_id: str, value: object) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise TypeError(f"allocation for {candidate_id!r} must be an integer")
@@ -114,4 +133,42 @@ def validate_inner_allocation(
         spent_by_route=tuple(sorted(spent.items())),
         outer_budget_by_route=tuple(sorted(outer_budget.items())),
         total_units=sum(spent.values()),
+    )
+
+
+def summarize_basin_concentration(
+    allocation: ValidatedInnerAllocation,
+    archive: RepertoireArchive,
+) -> BasinConcentration:
+    """Aggregate a validated candidate allocation by explicit basin lineage.
+
+    This is intentionally downstream of `validate_inner_allocation`: concentration
+    diagnostics must never become an alternate route-budget authority.
+    """
+
+    spend_by_route = allocation.route_spend()
+    route_basin_units: dict[tuple[str, str], int] = {}
+    for candidate_id, units in allocation.units_by_candidate:
+        entry = archive.get(candidate_id)
+        key = (entry.route, entry.basin_id)
+        route_basin_units[key] = route_basin_units.get(key, 0) + units
+
+    distinct: dict[str, int] = {}
+    maximum_share: dict[str, float] = {}
+    for route, route_units in spend_by_route.items():
+        basin_units = [
+            units
+            for (entry_route, _basin), units in route_basin_units.items()
+            if entry_route == route and units > 0
+        ]
+        distinct[route] = len(basin_units)
+        maximum_share[route] = max(basin_units, default=0) / route_units if route_units > 0 else 0.0
+
+    return BasinConcentration(
+        units_by_route_basin=tuple(
+            (route, basin, units)
+            for (route, basin), units in sorted(route_basin_units.items())
+        ),
+        distinct_funded_basins_by_route=tuple(sorted(distinct.items())),
+        max_basin_share_by_route=tuple(sorted(maximum_share.items())),
     )
