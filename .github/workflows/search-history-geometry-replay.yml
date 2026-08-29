@@ -1,0 +1,261 @@
+name: search-history-geometry-replay
+
+on:
+  pull_request:
+    paths:
+      - "experiments/search-history-geometry-replay-v1/**"
+      - "experiments/search-measurement-geometry-v1/**"
+      - ".github/workflows/search-history-geometry-replay.yml"
+
+concurrency:
+  group: search-history-geometry-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Smoke geometry replay adapters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/search-history-geometry-replay-v1/replay.py --experiment search-leverage --route recurrence --seed 101 >/tmp/root.json
+          python experiments/search-history-geometry-replay-v1/replay.py --experiment fixed-hedge --route recurrence --seed 179 >/tmp/hedge.json
+          python experiments/search-history-geometry-replay-v1/replay.py --experiment mutation-scale --route recurrence --seed 101 >/tmp/scale.json
+          python experiments/search-history-geometry-replay-v1/replay.py --experiment mutation-schedule --route recurrence --seed 101 >/tmp/schedule.json
+          for f in /tmp/root.json /tmp/hedge.json /tmp/scale.json /tmp/schedule.json; do
+            test -s "$f"
+            python -m json.tool "$f" >/dev/null
+          done
+
+  search-leverage:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #56
+        run: |
+          mkdir -p /tmp/out
+          for seed in 101 103 107; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment search-leverage --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-search-leverage-${{ matrix.route }}
+          path: /tmp/out/*.json
+
+  route-conditional:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #57
+        run: |
+          mkdir -p /tmp/out
+          for seed in 109 113 127; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment route-conditional --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-route-conditional-${{ matrix.route }}
+          path: /tmp/out/*.json
+
+  online-probe:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #58
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment online-probe --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-online-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  start-state:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #59
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment start-state --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-start-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  stage1-response:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #60
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment stage1-response --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-stage1-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  fixed-hedge:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173", "179 181 191"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #61
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment fixed-hedge --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-hedge-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  mutation-scale:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173", "179 181 191", "193 197 199"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #62
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment mutation-scale --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-scale-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  mutation-schedule:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds: ["101 103 107", "109 113 127", "131 137 139", "149 151 157", "163 167 173", "179 181 191", "193 197 199"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Replay #63
+        run: |
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/search-history-geometry-replay-v1/replay.py --experiment mutation-schedule --route "${{ matrix.route }}" --seed "$seed" > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-history-schedule-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: [search-leverage, route-conditional, online-probe, start-state, stage1-response, fixed-hedge, mutation-scale, mutation-schedule]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: geometry-history-*
+          path: /tmp/history
+          merge-multiple: false
+      - name: Reduce complete geometry history replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/search-history-geometry-replay-v1/aggregate.py --results-dir /tmp/history > /tmp/search-history-geometry-summary.json
+          test -s /tmp/search-history-geometry-summary.json
+          python -m json.tool /tmp/search-history-geometry-summary.json >/dev/null
+          cat /tmp/search-history-geometry-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: search-history-geometry-summary
+          path: /tmp/search-history-geometry-summary.json
