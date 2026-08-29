@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "decision": "NICHE_MAP_QUALIFIED",
+  "freshSearchEvidence": false,
+  "population": {"masterSeeds":20,"routes":5,"startsPerRoute":6,"candidates":600},
+  "gates": {
+    "completeValidPopulation": true,
+    "everyRouteAtLeastTwoNiches": true,
+    "atLeastEightNichesOverall": true,
+    "atLeastTwoCrossRouteNiches": true,
+    "atLeastThreeRoutesParticipateInSharedNiches": true,
+    "atLeastTenPercentCandidatesInSharedNiches": true,
+    "noNearFitnessLeakagePooledOrWithinRoute": true
+  },
+  "niches": {
+    "occupied": 26,
+    "uniqueByRoute": {"recurrence":7,"orbit":10,"family":4,"sheet":4,"filament":13},
+    "crossRouteCount": 11,
+    "crossRouteParticipants": ["family","filament","orbit","recurrence","sheet"],
+    "sharedCandidateCount": 457,
+    "sharedCandidateFraction": 0.7616666666666667,
+    "weightedDominantRoutePurity": 0.7066666666666667
+  },
+  "fitnessLeakage": {
+    "threshold": 0.9,
+    "maxAbsolute": 0.7959400984239666,
+    "pooledMaxAbsolute": 0.7959400984239666,
+    "byRouteMaxAbsolute": {
+      "family":0.29960413917633166,
+      "filament":0.609234337861773,
+      "orbit":0.2859762100334476,
+      "recurrence":0.6303723535434683,
+      "sheet":0.5611057104796182
+    },
+    "pooledSpearman": {
+      "anisotropy":{"centeringError":0.19106286406351128,"diagnosticScore":0.33149858749607636,"dominantBBoxSpan":0.5573739995295748,"occupancyMean":-0.5542376208814875},
+      "central_void":{"centeringError":-0.10594301650837919,"diagnosticScore":-0.17176764379901055,"dominantBBoxSpan":-0.6295323317917023,"occupancyMean":0.2357362366757538},
+      "shape_motion":{"centeringError":0.11827127297575826,"diagnosticScore":0.6112614757263215,"dominantBBoxSpan":0.22295167761197296,"occupancyMean":-0.7959400984239666}
+    }
+  },
+  "diagnostics": {
+    "family":{"anisotropyMedian":0.23791290736717874,"centralVoidMedian":0.5353856214456534,"shapeMotionMedian":0.12425507341454803},
+    "filament":{"anisotropyMedian":0.6580051677510086,"centralVoidMedian":0.4280089668602193,"shapeMotionMedian":0.5910871150346246},
+    "orbit":{"anisotropyMedian":0.19326040179367687,"centralVoidMedian":0.7854019278659049,"shapeMotionMedian":0.34106215078474156},
+    "recurrence":{"anisotropyMedian":0.7857964920011971,"centralVoidMedian":0.39862384839149534,"shapeMotionMedian":0.5202693602693602},
+    "sheet":{"anisotropyMedian":0.19499882524440015,"centralVoidMedian":0.5118399328534153,"shapeMotionMedian":0.052317656832140014}
+  },
+  "workflow": {
+    "runId": 33256954969,
+    "aggregateArtifactId": 9716101904,
+    "aggregateDigest": "sha256:38da442adee6daf66e9eb963baa0a867dbd3f8cbc429b464337fec87a7f04b12",
+    "headSha": "98e6ae52b8b3571ab6bc2256e603fe3fae7c97bd"
+  },
+  "failureDiscipline": "do not retune structural-v1 axes/bins on these 20 holdout seeds"
+}
