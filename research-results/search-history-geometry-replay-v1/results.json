@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "sourceWorkflowRun": 33229374600,
+  "sourceArtifactId": 9708895248,
+  "sourceArtifactDigest": "sha256:a702ae60ab1572b0f57259023d85af409947e4b2c2feb4aaf6b06e462c65e436",
+  "metric": "sparse-geometry-v1",
+  "freshSearchSeedsConsumed": false,
+  "classifications": {
+    "56-search-leverage": "SURVIVES",
+    "57-route-conditional": "SURVIVES",
+    "58-online-probe": "SURVIVES",
+    "59-start-state": "SURVIVES",
+    "60-stage1-response": "SURVIVES",
+    "61-fixed-hedge": "SURVIVES",
+    "62-mutation-scale": "REVERSES_CALIBRATION_ONLY",
+    "63-mutation-schedule": "UNRESOLVED_HETEROGENEOUS"
+  },
+  "topology": {
+    "searchLeverage": {
+      "localAdaptiveMinusFixedMean": -0.0341035571851427,
+      "globalBreadthMinusAdaptiveMean": 0.024199398938756698
+    },
+    "routeConditional": {
+      "meanSeedEffect": 0.00982306898743856,
+      "leaveOneSeedOutMeanRange": [-0.0034614082535459802, 0.0231071938274689],
+      "leaveOneRouteOutMeanRange": [-0.012624788468861864, 0.03581828347370989]
+    },
+    "onlineProbe": {
+      "historicalPilotSize": 4,
+      "geometryPilotSize": 3,
+      "meanSeedEffect": 0.03441475694398549,
+      "medianSeedEffect": -0.01884652613874444,
+      "leaveOneSeedOutMeanRange": [-0.029330931968678753, 0.07152980431528477],
+      "leaveOneRouteOutMeanRange": [-0.01538673551469992, 0.05780885338755563]
+    },
+    "startState": {
+      "historicalThreshold": 0.5,
+      "geometryThreshold": 0.3,
+      "meanSeedEffect": 0.01719992894659925,
+      "leaveOneSeedOutMeanRange": [-0.0057232943210666545, 0.04068250510863647],
+      "leaveOneRouteOutMeanRange": [0.0007569555642537538, 0.02494624662739028]
+    },
+    "stage1Response": {
+      "historicalThreshold": 0.025,
+      "geometryThreshold": 0.0,
+      "meanSeedEffect": 0.0
+    },
+    "fixedHedge": {
+      "historicalShare": 0.5,
+      "geometryShare": 1.0,
+      "meanSeedEffect": 0.0
+    }
+  },
+  "mutationScale": {
+    "historicalSelected": 1.0,
+    "geometrySelected": 1.25,
+    "calibration": {
+      "completeMasterSeeds": 18,
+      "meanSeedEffect": 0.007933281801091232,
+      "medianSeedEffect": 0.005981543344419561,
+      "seedEffectSD": 0.01790553193927797,
+      "seedEffectSE": 0.004220374351671922,
+      "meanLocalDelta": 0.00719069454158405,
+      "meanGlobalDelta": 0.008675869060598414,
+      "leaveOneSeedOutMeanRange": [0.005931637333700979, 0.010405871282851652],
+      "leaveOneRouteOutMeanRange": [0.0038558829145596643, 0.011197199291740255],
+      "routeMeanEffects": {
+        "recurrence": -0.00512238816150486,
+        "orbit": 0.024242877347217504,
+        "family": 0.005697256835375802,
+        "sheet": 0.005104280458878533,
+        "filament": 0.009744382525489183
+      }
+    }
+  },
+  "mutationSchedule": {
+    "historicalSelected": 1.25,
+    "geometrySelected": 1.25,
+    "consumedHoldout": {
+      "seeds": [193, 197, 199],
+      "meanSeedEffect": 0.0039070395298418025,
+      "medianSeedEffect": 0.003314149608286782,
+      "seedEffectSD": 0.007417934863698788,
+      "leaveOneSeedOutMeanRange": [0.00005874546913980927, 0.007458888629766286],
+      "leaveOneRouteOutMeanRange": [-0.001198823153211008, 0.008555461091299532],
+      "routeMeanEffects": {
+        "recurrence": 0.012688837602439218,
+        "orbit": -0.005045953646749419,
+        "family": -0.014686646715989118,
+        "sheet": 0.0022484701474552865,
+        "filament": 0.024330490262053046
+      }
+    }
+  },
+  "nextExperiment": {
+    "candidate": "global-mutation-scale-1.25-vs-1.0",
+    "freshMasterSeedsPlanned": 32,
+    "routesPerSeed": 5,
+    "directionalAlpha": 0.05,
+    "approximatePowerAtObservedEffect": 0.8,
+    "sequentialStopping": false,
+    "reselectMultiplier": false,
+    "promotionBoundary": "fresh confirmation required before changing defaults"
+  }
+}
