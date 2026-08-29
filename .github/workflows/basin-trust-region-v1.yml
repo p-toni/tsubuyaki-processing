@@ -1,0 +1,126 @@
+name: basin-trust-region-v1
+
+on:
+  pull_request:
+    paths:
+      - "experiments/basin-trust-region-v1/**"
+      - ".github/workflows/basin-trust-region-v1.yml"
+      - "experiments/search-history-geometry-replay-v1/metric.py"
+      - "experiments/search-measurement-geometry-v1/audit.py"
+      - "experiments/search-leverage-v1/reproduce.py"
+      - "prototypes/autonomous-discovery/representations.py"
+      - "prototypes/autonomous-discovery/orbit_representation.py"
+      - "prototypes/autonomous-discovery/rng_streams.py"
+
+concurrency:
+  group: basin-trust-region-v1-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # The consumed-seed pilot runs once when the PR opens. Synchronize events are
+    # code/result persistence only and must not silently rerun the fixed pilot.
+    if: github.event.action != 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate partitions, targets, event-keyed fork and trust invariant
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/basin-trust-region-v1/run.py --route recurrence --seed 9001 > /tmp/smoke.json
+          test -s /tmp/smoke.json
+          python -m json.tool /tmp/smoke.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/smoke.json'))
+          assert d['analysisSeed'] is False
+          assert d['metric'] == 'sparse-geometry-v1'
+          assert d['exploitBudget'] == 20
+          for regime in ('same-basin','identity-jump'):
+              r=d['regimes'][regime]
+              assert r['policies']['generic']['initialCandidate'] == r['policies']['trust-region']['initialCandidate']
+              assert r['policies']['generic']['candidateCount'] == 20
+              assert r['policies']['trust-region']['candidateCount'] == 20
+              assert r['policies']['trust-region']['championFrozenDriftKeys'] == []
+          assert d['regimes']['same-basin']['target']['frozenDeltaKeysFromAncestor'] == []
+          assert d['regimes']['identity-jump']['target']['identityDeltaKeysFromAncestor']
+          PY
+
+  pilot:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [recurrence, orbit, family, sheet, filament]
+        seeds:
+          - "1009 1013 1019 1021"
+          - "1031 1033 1039 1049"
+          - "1051 1061 1063 1069"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fixed consumed-seed basin pilot block
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/out
+          for seed in ${{ matrix.seeds }}; do
+            python experiments/basin-trust-region-v1/run.py \
+              --route "${{ matrix.route }}" \
+              --seed "$seed" \
+              > "/tmp/out/${{ matrix.route }}-$seed.json"
+          done
+          test "$(find /tmp/out -name '*.json' | wc -l)" -eq 4
+          for f in /tmp/out/*.json; do python -m json.tool "$f" >/dev/null; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: basin-trust-${{ matrix.route }}-${{ strategy.job-index }}
+          path: /tmp/out/*.json
+
+  aggregate:
+    needs: pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: basin-trust-*
+          path: /tmp/basin-trust
+          merge-multiple: false
+      - name: Reduce complete consumed-seed basin pilot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/basin-trust-region-v1/aggregate.py \
+            --results-dir /tmp/basin-trust \
+            > /tmp/basin-trust-region-summary.json
+          test -s /tmp/basin-trust-region-summary.json
+          python -m json.tool /tmp/basin-trust-region-summary.json >/dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/basin-trust-region-summary.json'))
+          assert d['population']['completeMasterSeeds'] == 12
+          assert d['population']['routeSeedBlocks'] == 60
+          assert all(d['hardInvariants'].values())
+          assert d['classification'] in ('PILOT_PROMISING','PILOT_MIXED')
+          PY
+          cat /tmp/basin-trust-region-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: basin-trust-region-summary
+          path: /tmp/basin-trust-region-summary.json
