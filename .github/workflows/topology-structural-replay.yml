@@ -188,10 +188,15 @@ jobs:
         with:
           pattern: topology-replay-*
           path: /tmp/replay
-          merge-multiple: true
+          merge-multiple: false
       - name: Reduce continuous structural replay
+        shell: bash
         run: |
-          python experiments/topology-structural-replay-v1/aggregate.py --results-dir /tmp/replay | tee /tmp/topology-structural-replay-summary.json
+          set -euo pipefail
+          python experiments/topology-structural-replay-v1/aggregate.py --results-dir /tmp/replay > /tmp/topology-structural-replay-summary.json
+          test -s /tmp/topology-structural-replay-summary.json
+          python -m json.tool /tmp/topology-structural-replay-summary.json >/dev/null
+          cat /tmp/topology-structural-replay-summary.json
       - uses: actions/upload-artifact@v4
         with:
           name: topology-structural-replay-summary
