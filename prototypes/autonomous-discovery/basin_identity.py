@@ -1,14 +1,23 @@
-"""Explicit mathematical basin identity for repertoire search.
+"""Basin lineage and structural anchor metadata for repertoire search.
 
-Prepared after the consumed-seed trust-region pilot (#72). The partition is an
-exact promotion of that pilot's frozen intervention boundary. This module does
-not change search behavior by itself.
+Prepared after the consumed-seed trust-region pilot (#72). The route partition is
+an exact promotion of that pilot's frozen intervention boundary, but the pilot did
+*not* establish that every distinct continuous identity-key tuple is a new basin.
 
-Important distinction:
-- `identity` defines the mathematical basin.
-- `sampling` is execution/resolution state and is tracked separately.
-- a trust region freezes both identity and sampling, but changing resolution
-  alone does not create a new mathematical basin.
+The existing search engine already has the right higher-level semantic:
+`Candidate.basin` is a lineage label created by discovery and inherited by its
+mutations. This module preserves that contract.
+
+Distinctions:
+- `lineage_id` identifies a search basin as an explicit discovery object;
+- `identity` keys describe the structural anchor of that basin;
+- `sampling` is execution/resolution state and is tracked separately;
+- `local` keys are eligible for trust-region exploitation;
+- changing an identity key crosses the frozen trust boundary, but does not by
+  itself authorize creation of a new basin lineage.
+
+New basin creation must therefore be an explicit search/allocation event rather
+than an automatic consequence of floating-point inequality.
 """
 from __future__ import annotations
 
@@ -116,19 +125,46 @@ def _stable_digest(payload: object) -> str:
 
 
 @dataclass(frozen=True)
-class BasinIdentity:
+class BasinAnchor:
+    """Immutable structural metadata captured when a basin lineage is admitted.
+
+    `anchor_id` fingerprints the exact identity-key state for reproducibility and
+    drift diagnostics. It is deliberately *not* a basin-lineage classifier.
+    """
+
     route: str
     identity: tuple[tuple[str, object], ...]
-    basin_id: str
+    anchor_id: str
 
     @classmethod
-    def from_genome(cls, route: str, genome: Mapping[str, object]) -> "BasinIdentity":
+    def from_genome(cls, route: str, genome: Mapping[str, object]) -> "BasinAnchor":
         ident = identity_signature(route, genome)
         digest = _stable_digest({"route": route, "identity": ident})[:16]
-        return cls(route=route, identity=ident, basin_id=f"{route}:{digest}")
+        return cls(route=route, identity=ident, anchor_id=f"{route}:anchor:{digest}")
 
 
-def same_basin(route: str, a: Mapping[str, object], b: Mapping[str, object]) -> bool:
+@dataclass(frozen=True)
+class BasinIdentity:
+    """Explicit lineage identity plus the structural anchor it was created from."""
+
+    route: str
+    lineage_id: str
+    anchor: BasinAnchor
+
+    @classmethod
+    def from_lineage(cls, route: str, lineage_id: str, genome: Mapping[str, object]) -> "BasinIdentity":
+        if not lineage_id:
+            raise ValueError("basin lineage_id is required")
+        return cls(route=route, lineage_id=lineage_id, anchor=BasinAnchor.from_genome(route, genome))
+
+    @property
+    def basin_id(self) -> str:
+        """Compatibility alias: repertoire identity is the explicit lineage id."""
+        return self.lineage_id
+
+
+def same_anchor(route: str, a: Mapping[str, object], b: Mapping[str, object]) -> bool:
+    """Exact identity-signature equality; useful for boundary diagnostics only."""
     return identity_signature(route, a) == identity_signature(route, b)
 
 
