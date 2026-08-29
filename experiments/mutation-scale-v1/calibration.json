@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "complete": true,
+  "sourceWorkflowRun": 33222085480,
+  "blocks": 90,
+  "regimeCases": 180,
+  "exactBaselineReplayCases": 180,
+  "calibrationSeeds": [101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191],
+  "holdoutSeedsReserved": [193, 197, 199],
+  "holdoutConsumed": false,
+  "multiplierGrid": [0.5, 0.75, 1.0, 1.25, 1.5],
+  "selectionRule": "highest mean combined normalized improvement across all 90 calibration blocks; exact ties choose multiplier closest to 1.0, then smaller multiplier",
+  "baselineMeanCombinedImprovement": 0.07811269992941056,
+  "multipliers": {
+    "0.5": {
+      "meanCombinedImprovement": 0.0726883127320461,
+      "meanDeltaVsBaseline": -0.005424387197364461,
+      "rawStrictWinsVsBaseline": 41,
+      "rawNonWorseVsBaseline": 41,
+      "meanLocalImprovement": 0.09393167913538383,
+      "meanGlobalImprovement": 0.05144494632870837,
+      "meanValidYield": 1.0,
+      "meanUniquePhenotypeRate": 0.9683760683760685,
+      "meanWinnerLineageDepth": 3.3777777777777778,
+      "routeMeans": {
+        "recurrence": 0.07403030421791387,
+        "orbit": 0.06345653502785825,
+        "family": 0.05740028349260425,
+        "sheet": 0.09396137413425035,
+        "filament": 0.07459306678760375
+      }
+    },
+    "0.75": {
+      "meanCombinedImprovement": 0.07509620829982902,
+      "meanDeltaVsBaseline": -0.003016491629581536,
+      "rawStrictWinsVsBaseline": 31,
+      "rawNonWorseVsBaseline": 31,
+      "meanLocalImprovement": 0.09569168975798471,
+      "meanGlobalImprovement": 0.05450072684167333,
+      "meanValidYield": 1.0,
+      "meanUniquePhenotypeRate": 0.9747863247863248,
+      "meanWinnerLineageDepth": 3.15,
+      "routeMeans": {
+        "recurrence": 0.0772561169510845,
+        "orbit": 0.06278336621443663,
+        "family": 0.05668718240740039,
+        "sheet": 0.08813086836922152,
+        "filament": 0.09062350755700209
+      }
+    },
+    "1.0": {
+      "meanCombinedImprovement": 0.07811269992941056,
+      "meanDeltaVsBaseline": 0.0,
+      "rawStrictWinsVsBaseline": 0,
+      "rawNonWorseVsBaseline": 90,
+      "meanLocalImprovement": 0.09765521726364382,
+      "meanGlobalImprovement": 0.05857018259517729,
+      "meanValidYield": 0.9982905982905982,
+      "meanUniquePhenotypeRate": 0.9798547008547008,
+      "meanWinnerLineageDepth": 3.25,
+      "routeMeans": {
+        "recurrence": 0.0760140728783022,
+        "orbit": 0.07574965902772728,
+        "family": 0.057107034977768395,
+        "sheet": 0.08026100159371004,
+        "filament": 0.10143173116954486
+      }
+    },
+    "1.25": {
+      "meanCombinedImprovement": 0.07741980478887532,
+      "meanDeltaVsBaseline": -0.0006928951405352352,
+      "rawStrictWinsVsBaseline": 54,
+      "rawNonWorseVsBaseline": 54,
+      "meanLocalImprovement": 0.09339747384587584,
+      "meanGlobalImprovement": 0.061442135731874806,
+      "meanValidYield": 0.9978632478632479,
+      "meanUniquePhenotypeRate": 0.9832393162393163,
+      "meanWinnerLineageDepth": 3.216666666666667,
+      "routeMeans": {
+        "recurrence": 0.07797252567034091,
+        "orbit": 0.06929276540892287,
+        "family": 0.062146472348692604,
+        "sheet": 0.08012139197019955,
+        "filament": 0.09756586854622072
+      }
+    },
+    "1.5": {
+      "meanCombinedImprovement": 0.07450779933914846,
+      "meanDeltaVsBaseline": -0.0036049005902620973,
+      "rawStrictWinsVsBaseline": 50,
+      "rawNonWorseVsBaseline": 50,
+      "meanLocalImprovement": 0.08500624871156826,
+      "meanGlobalImprovement": 0.06400934996672868,
+      "meanValidYield": 0.9970085470085469,
+      "meanUniquePhenotypeRate": 0.9847428774928776,
+      "meanWinnerLineageDepth": 3.1555555555555554,
+      "routeMeans": {
+        "recurrence": 0.06783770204117799,
+        "orbit": 0.05125959880307797,
+        "family": 0.05976977017403816,
+        "sheet": 0.09647191667903537,
+        "filament": 0.09720000899841282
+      }
+    }
+  },
+  "selectedMultiplier": 1.0,
+  "decision": "current global numeric mutation scale retained; no alternative multiplier advances to holdout",
+  "holdoutDecision": "skip untouched holdout because the preregistered selected multiplier is exactly the m=1.0 null; strict selected-vs-baseline wins are impossible and running fresh seeds would add no information",
+  "boundary": "objective search-mechanics calibration only; no artistic-quality, representation-pruning, production-default, portfolio-sufficiency, or SKILL.md claim"
+}

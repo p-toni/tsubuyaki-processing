@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "experiment": "mutation-scale-v1",
+  "calibrationSourceWorkflowRun": 33222085480,
+  "calibrationComplete": true,
+  "calibrationBlocks": 90,
+  "calibrationRegimeCases": 180,
+  "exactBaselineReplayCases": 180,
+  "selectedMultiplier": 1.0,
+  "baselineMeanCombinedImprovement": 0.07811269992941056,
+  "selectedMeanCombinedImprovement": 0.07811269992941056,
+  "nearestAlternative": {
+    "multiplier": 1.25,
+    "meanCombinedImprovement": 0.07741980478887532,
+    "absoluteDeltaVsBaseline": -0.0006928951405352352,
+    "relativeDeltaVsBaseline": -0.008870451807524156,
+    "rawStrictWinBlocksVsBaseline": 54,
+    "rawNonWorseBlocksVsBaseline": 54
+  },
+  "allMultiplierMeans": {
+    "0.5": 0.0726883127320461,
+    "0.75": 0.07509620829982902,
+    "1.0": 0.07811269992941056,
+    "1.25": 0.07741980478887532,
+    "1.5": 0.07450779933914846
+  },
+  "selectedLocalMeanImprovement": 0.09765521726364382,
+  "selectedGlobalMeanImprovement": 0.05857018259517729,
+  "holdoutSeedsReserved": [193, 197, 199],
+  "holdoutConsumed": false,
+  "holdoutRun": null,
+  "classification": "no general global mutation-scale change advances beyond calibration",
+  "decision": "retain the current m=1.0 global numeric mutation amplitude in research baselines; do not run the untouched holdout because the frozen selected policy is identical to baseline",
+  "nextStep": "move to a distinct mutation-mechanics hypothesis rather than tuning the global multiplier grid post hoc",
+  "boundary": "objective search-mechanics evidence only; no artistic promotion authority, hard representation pruning, portfolio sufficiency claim, production/default change, or SKILL.md change"
+}
