@@ -43,6 +43,8 @@ def combine(root: Path, seed: int) -> dict:
     for field in equal_fields:
         if any(shard[field] != first[field] for shard in shards[1:]):
             raise AssertionError(f"shard metadata drift for seed {seed}: {field}")
+    if tuple(first["representations"]) != run.REPRESENTATIONS:
+        raise AssertionError(f"representation contract drift for seed {seed}")
     if first.get("transport") != "challenge-shard-v1" or any(
         shard.get("transport") != "challenge-shard-v1" for shard in shards
     ):
@@ -76,10 +78,17 @@ def combine(root: Path, seed: int) -> dict:
             )
         niche_records[rep] = combined
 
+    representation_set = set(run.REPRESENTATIONS)
     hard_invariants = {
         "completeChallengeRectangle": len(challenges) == len(run.CHALLENGES),
+        # Shards are written with sort_keys=True, so JSON serialization intentionally
+        # destroys insertion order inside the per-challenge representation mapping.
+        # Validate the exact rectangle membership here; the canonical order is
+        # preserved and checked by the top-level `representations` field above.
         "completeRepresentationRectangle": all(
-            tuple(row["representations"]) == run.REPRESENTATIONS for row in challenges
+            len(row["representations"]) == len(run.REPRESENTATIONS)
+            and set(row["representations"]) == representation_set
+            for row in challenges
         ),
         "equalCandidateBudget": all(
             int(result["totalCandidates"]) == run.TOTAL_CANDIDATES_PER_SEARCH
