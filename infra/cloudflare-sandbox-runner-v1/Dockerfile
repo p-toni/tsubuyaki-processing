@@ -5,7 +5,8 @@ FROM docker.io/cloudflare/sandbox:0.12.9-python
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh \
     && /root/.local/bin/uv python install 3.12
 
-ENV PATH="/root/.local/bin:/root/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/bin:${PATH}"
+# uv installs versioned Python executables into ~/.local/bin by default.
+ENV PATH="/root/.local/bin:${PATH}"
 
 RUN python3.12 -c 'import sys; assert sys.version_info[:2] == (3, 12)' \
     && git --version
