@@ -1,0 +1,170 @@
+{
+  "decision": "CONFIRMED",
+  "freshSearchEvidence": true,
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneRouteOutPrimaryPositive": true,
+    "primaryOneSided95LowerBoundPositive": true,
+    "robustnessOneSided95LowerBoundPositive": true
+  },
+  "interpretationBoundary": "fresh mechanical confirmation of the exact #77 allocator only; route signs and diagnostics cannot override the preregistered gates",
+  "population": {
+    "generatedCandidatesPerArmPerBlock": 36,
+    "masterSeeds": 24,
+    "routeSeedBlocks": 120,
+    "routes": 5,
+    "seeds": [
+      31013,
+      31019,
+      31033,
+      31039,
+      31051,
+      31063,
+      31069,
+      31079,
+      31081,
+      31091,
+      31121,
+      31123,
+      31139,
+      31147,
+      31151,
+      31153,
+      31159,
+      31177,
+      31181,
+      31183,
+      31189,
+      31193,
+      31219,
+      31223
+    ]
+  },
+  "preregisteredInference": {
+    "criticalValue": 1.713871527747048,
+    "df": 23,
+    "noEarlyStopping": true,
+    "noSeedReplacement": true,
+    "test": "Student-t one-sided 95% lower bound over complete master-seed effects"
+  },
+  "primary": {
+    "completeMasterSeedEffects": {
+      "max": 0.024161931258133613,
+      "mean": 0.002554193852156981,
+      "median": 6.971485996293617e-05,
+      "min": -0.0028976099531012435,
+      "n": 24,
+      "sd": 0.005809630157145923
+    },
+    "largestAbsoluteRouteSeedCell": {
+      "primaryDelta": 0.1062383606695798,
+      "route": "filament",
+      "seed": 31159
+    },
+    "leaveOneRouteOut": [
+      {
+        "omittedRoute": "recurrence",
+        "primaryMean": 0.0019098310158661876
+      },
+      {
+        "omittedRoute": "orbit",
+        "primaryMean": 0.0027323464471458703
+      },
+      {
+        "omittedRoute": "family",
+        "primaryMean": 0.0031927423151962265
+      },
+      {
+        "omittedRoute": "sheet",
+        "primaryMean": 0.0031910291384622453
+      },
+      {
+        "omittedRoute": "filament",
+        "primaryMean": 0.0017450203441143756
+      }
+    ],
+    "leaveOneRouteOutRange": [
+      0.0017450203441143756,
+      0.0031927423151962265
+    ],
+    "oneSided95LowerBound": 0.0005217379616171756,
+    "routeMeans": {
+      "family": 0.0,
+      "filament": 0.005790887884327402,
+      "orbit": 0.001841583472201424,
+      "recurrence": 0.005131645197320155,
+      "sheet": 6.852706935923473e-06
+    },
+    "seedEffects": {
+      "31013": 0.015259894309824634,
+      "31019": 0.0028463188799988217,
+      "31033": -0.0009142721865833412,
+      "31039": -0.000628558561463733,
+      "31051": 0.0015787412351800617,
+      "31063": 0.00013875029855429238,
+      "31069": 0.0005078220914437242,
+      "31079": 0.004575990848742034,
+      "31081": 0.005709843254070391,
+      "31091": 0.0,
+      "31121": 0.0,
+      "31123": 0.0,
+      "31139": -0.0007909722140272399,
+      "31147": -0.0001859884715566293,
+      "31151": -1.8737957747570756e-05,
+      "31153": 0.0,
+      "31159": 0.024161931258133613,
+      "31177": -0.0028976099531012435,
+      "31181": 0.0,
+      "31183": 0.0021120477748297977,
+      "31189": 0.0019725647849159894,
+      "31193": 0.004976183728838089,
+      "31219": 6.794213715799469e-07,
+      "31223": 0.0028960239103442754
+    }
+  },
+  "robustness": {
+    "completeMasterSeedEffects": {
+      "max": 0.0028811307957711694,
+      "mean": 0.0003744734639681187,
+      "median": 0.0,
+      "min": -0.0006585508709135717,
+      "n": 24,
+      "sd": 0.0008920878472658231
+    },
+    "oneSided95LowerBound": 6.238316716596803e-05,
+    "routeMeans": {
+      "family": 0.0,
+      "filament": 0.0003213684542881904,
+      "orbit": 0.0003116432949292138,
+      "recurrence": 0.0012393555706231895,
+      "sheet": 0.0
+    },
+    "seedEffects": {
+      "31013": 0.0,
+      "31019": 0.0,
+      "31033": 0.0,
+      "31039": 0.0,
+      "31051": 0.002154438686573798,
+      "31063": 0.0,
+      "31069": 0.0015425685805833139,
+      "31079": 0.0,
+      "31081": 0.0028811307957711694,
+      "31091": 0.0,
+      "31121": 0.0,
+      "31123": 0.0,
+      "31139": 0.0,
+      "31147": 0.0,
+      "31151": 0.0,
+      "31153": 0.0,
+      "31159": 0.002311079492686275,
+      "31177": -0.0006585508709135717,
+      "31181": 0.0,
+      "31183": 0.0,
+      "31189": 0.0,
+      "31193": 0.0,
+      "31219": 0.0,
+      "31223": 0.0007566964505338652
+    }
+  },
+  "version": 1
+}
