@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "classification": "PILOT_PROMISING",
+  "workflowRun": 33249133828,
+  "aggregateArtifactId": 9713885630,
+  "aggregateArtifactDigest": "sha256:63b4a35d1fb6a7c30788e127e779f12572baa99924f4739636292ffda34e65b2",
+  "completeMasterSeeds": 12,
+  "routes": 5,
+  "routeSeedBlocks": 60,
+  "sameBasinMeanSeedEffect": 0.04687956621825295,
+  "sameBasinMedianSeedEffect": 0.05571137183435587,
+  "sameBasinSeedEffectSD": 0.10449120932920307,
+  "identityJumpMeanSeedEffect": -0.08721265296928941,
+  "identityJumpSeedEffectSD": 0.14235272132372268,
+  "meanInteraction": 0.13409221918754236,
+  "interactionSeedEffectSD": 0.1732234048432508,
+  "leaveOneRouteOutSameBasinRange": [0.028265427272557774, 0.07463239669052114],
+  "hardInvariants": {
+    "sameRepresentativeForBothPolicies": true,
+    "equalTwentyCandidateBudgets": true,
+    "trustChampionFrozenDriftZero": true,
+    "sameBasinTargetFrozenDriftZero": true,
+    "identityJumpTargetCrossesIdentity": true
+  },
+  "pilotChecks": {
+    "everyLeaveOneRouteOutSameBasinMeanAboveZero": true,
+    "meanInteractionAboveZero": true
+  },
+  "routeEffects": {
+    "recurrence": {
+      "sameBasinMean": 0.07638524046847357,
+      "identityJumpMean": -0.09629346867402049,
+      "interactionMean": 0.17267870914249406
+    },
+    "orbit": {
+      "sameBasinMean": 0.04265889147749094,
+      "identityJumpMean": -0.12189841386436033,
+      "interactionMean": 0.16455730534185126
+    },
+    "family": {
+      "sameBasinMean": 0.05814933281508641,
+      "identityJumpMean": 0.027213427290615672,
+      "interactionMean": 0.030935905524470748
+    },
+    "sheet": {
+      "sameBasinMean": -0.06413175567081984,
+      "identityJumpMean": -0.06850319379154234,
+      "interactionMean": 0.004371438120722487
+    },
+    "filament": {
+      "sameBasinMean": 0.12133612200103366,
+      "identityJumpMean": -0.17658161580713957,
+      "interactionMean": 0.29791773780817327
+    }
+  },
+  "plannedFreshConfirmationMasterSeeds": 32,
+  "plannedConfirmationChecks": [
+    "one-sided 95% Student-t lower bound for same-basin master-seed mean > 0",
+    "every leave-one-route-out same-basin mean > 0",
+    "one-sided 95% Student-t lower bound for interaction master-seed mean > 0"
+  ],
+  "next": "freeze route partitions and run one 32-master-seed fresh mechanical confirmation before integrating basin identity into search state",
+  "boundary": "mechanistic consumed-seed architecture triage only; no artistic authority or production/default change"
+}
