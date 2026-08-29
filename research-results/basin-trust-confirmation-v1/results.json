@@ -1,0 +1,32 @@
+{
+  "boundary": "fresh mechanical confirmation only; not artistic evidence or automatic production adoption",
+  "classification": "NOT_CONFIRMED",
+  "criticalValue": {"df":31,"distribution":"Student-t","oneSidedConfidence":0.95,"t":1.695519},
+  "diagnostics": {"identityJumpSelectedAncestorRate":0.9875,"meanGenericValidYield":0.9996875,"meanTrustValidYield":1.0,"sameBasinSelectedAncestorRate":1.0},
+  "hardInvariants": {"equalTwentyCandidateBudgets":true,"frozenMechanismMarker":true,"identityJumpTargetCrossesIdentity":true,"sameBasinTargetFrozenDriftZero":true,"sameRepresentativeForBothPolicies":true,"trustChampionFrozenDriftZero":true},
+  "population": {"completeMasterSeeds":32,"routeSeedBlocks":160,"routes":["recurrence","orbit","family","sheet","filament"],"targetRegimes":["same-basin","identity-jump"]},
+  "primary": {
+    "sameBasin": {"mean":0.027364303241883523,"median":0.0017136886784614267,"n":32,"oneSided95LowerBound":-0.01364922637894898,"sd":0.13683571774913048,"se":0.024189365982234645},
+    "identityJumpMean": -0.045207347705621403,
+    "interaction": {"mean":0.07257165094750492,"median":0.041005433713909106,"n":32,"oneSided95LowerBound":0.02225908662169738,"sd":0.1678606039267641,"se":0.029673842832671025},
+    "leaveOneRouteOut": [
+      {"omittedRoute":"recurrence","sameBasinMean":0.0179695873695025},
+      {"omittedRoute":"orbit","sameBasinMean":0.02041937167708366},
+      {"omittedRoute":"family","sameBasinMean":0.027184628830917608},
+      {"omittedRoute":"sheet","sameBasinMean":0.0324755129002919},
+      {"omittedRoute":"filament","sameBasinMean":0.03877241543162196}
+    ],
+    "leaveOneRouteOutSameBasinRange":[0.0179695873695025,0.03877241543162196],
+    "confirmationChecks": {"sameBasinOneSided95LowerBoundAboveZero":false,"everyLeaveOneRouteOutSameBasinMeanAboveZero":true,"interactionOneSided95LowerBoundAboveZero":true}
+  },
+  "routeEffects": {
+    "recurrence":{"sameBasinMean":0.06494316673140761,"identityJumpMean":0.0900985176581759,"interactionMean":-0.025155350926768284},
+    "orbit":{"sameBasinMean":0.05514402950108299,"identityJumpMean":-0.03310724842900295,"interactionMean":0.08825127793008594},
+    "family":{"sameBasinMean":0.028083000885747188,"identityJumpMean":-0.09038033344866114,"interactionMean":0.11846333433440832},
+    "sheet":{"sameBasinMean":0.006919464608250021,"identityJumpMean":-0.12141939988948092,"interactionMean":0.12833886449773094},
+    "filament":{"sameBasinMean":-0.0182681455170702,"identityJumpMean":-0.07122827441913791,"interactionMean":0.052960128902067714}
+  },
+  "workflow": {"runId":33249680729,"aggregateArtifactId":9715480072,"aggregateDigest":"sha256:06f8fadf2f3a192b3299f54e1622e31d322148eeda5cd7ee5ef67efd3bbbd59c","headSha":"cfb6153570a8b72dc97d54f9a7b1c81bad0702a1"},
+  "next": "do not tune local mutation on fresh evidence; move to archive/repertoire architecture using completed evidence",
+  "version": 1
+}
