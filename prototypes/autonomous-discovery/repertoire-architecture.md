@@ -33,7 +33,7 @@ Changing sampling resolution alone does not change the mathematical anchor, alth
 
 ## Layer 2 — phenotype-structural niches
 
-A repertoire niche is not a genome bucket and is not a route label. It is computed from rendered geometry after removing translation and global scale.
+A repertoire niche is not a genome bucket and is not a route label. Its cell key is computed only from rendered geometry after removing translation and global scale.
 
 `phenotype_descriptors.py` measures:
 
@@ -42,33 +42,36 @@ A repertoire niche is not a genome bucket and is not a route label. It is comput
 - radial variation;
 - angular coverage;
 - shape motion after per-frame translation/scale normalization;
-- intrinsic dimension (1-D vs 2-D mathematical manifold).
+- intrinsic mathematical dimension as a **diagnostic only**.
 
 The first sparse niche grid deliberately uses only:
 
 ```text
-intrinsic dimension
-× 4 anisotropy bins
+4 anisotropy bins
 × 4 central-void bins
 × 4 shape-motion bins
 ```
 
-Maximum: 128 coarse structural cells.
+Maximum: **64 phenotype cells**.
 
-`radial_cv` and `angular_coverage` are retained as diagnostics but do not create extra dimensions yet. This avoids immediately producing a mostly empty high-dimensional grid.
+`intrinsic_dimension` is intentionally not a cell axis: it is supplied by the representation specification rather than inferred from the rendered phenotype, and route/grammar identity is already preserved separately by the archive stratum. Using it in the outer cell key would make a supposedly phenotype-defined niche partly representation-defined twice over.
+
+`radial_cv` and `angular_coverage` are also retained as diagnostics rather than cell dimensions so the first archive does not explode into a mostly empty high-dimensional grid.
 
 ### Explicit exclusion
 
 The v1 niche key does **not** use:
 
+- route or representation metadata;
+- mathematical intrinsic dimension;
 - raw occupancy;
 - raw canvas span / bounding-box size;
 - centering;
 - diagnostic score.
 
-Those quantities already participate in viability/composition heuristics. Reusing them as diversity axes would partially turn “quality” into “diversity” and preserve optimization artifacts rather than genuinely different forms.
+Those quantities belong to mathematical strata or viability/composition heuristics. Reusing them as diversity axes would partially turn grammar/quality into “diversity” and preserve optimization artifacts rather than genuinely different rendered forms.
 
-The niche map itself must be qualified before allocation. `experiments/repertoire-niche-audit-v1/` preregisters an out-of-design consumed-seed audit for within-route diversity, cross-route overlap, and leakage against existing composition/fitness proxies. A failed map cannot be rescued by retuning the same axes or bins on that holdout.
+The niche map itself must be qualified before allocation. `experiments/repertoire-niche-audit-v1/` preregisters an out-of-design consumed-seed audit for within-route diversity, substantive cross-route overlap, and pooled **plus route-conditioned** leakage against existing composition/fitness proxies. A failed map cannot be rescued by retuning the same axes or bins on that holdout.
 
 ## Layer 3 — review-gated archive
 
