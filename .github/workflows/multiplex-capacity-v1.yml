@@ -34,28 +34,20 @@ jobs:
     needs: preflight
     if: needs.preflight.outputs.run_science == 'true'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
-      - name: Validate excluded-seed full experiment mechanics
-        shell: bash
+      - name: Validate excluded-seed mechanics shard
         run: |
-          set -euo pipefail
-          python experiments/multiplex-capacity-v1/run.py --seed 9001 --output smoke.json
-          python - <<'PY'
-          import json
-          result = json.load(open('smoke.json'))
-          assert result['population'] == 'smoke-excluded'
-          assert result['seed'] == 9001
-          assert len(result['challenges']) == 12
-          assert len(result['representations']) == 10
-          assert all(result['hardInvariants'].values()), result['hardInvariants']
-          assert result['settings']['candidateEvaluationsPerRepresentationChallenge'] == 20
-          print('excluded multiplex smoke passed')
-          PY
+          python experiments/multiplex-capacity-v1/smoke_shard.py --shard ${{ matrix.shard }}
 
   block:
     needs: [preflight, smoke]
