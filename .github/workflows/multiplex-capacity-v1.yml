@@ -30,7 +30,7 @@ jobs:
             echo 'run_science=true' >> "$GITHUB_OUTPUT"
           fi
 
-  smoke:
+  smoke-shard:
     needs: preflight
     if: needs.preflight.outputs.run_science == 'true'
     runs-on: ubuntu-latest
@@ -45,17 +45,108 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
-      - name: Validate excluded-seed mechanics shard
+      - name: Run excluded-seed scientific challenge shard
         run: |
-          python experiments/multiplex-capacity-v1/smoke_shard.py --shard ${{ matrix.shard }}
+          mkdir -p out
+          python experiments/multiplex-capacity-v1/run_shard.py \
+            --seed 9001 \
+            --shard ${{ matrix.shard }} \
+            --output out/smoke-shard-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multiplex-smoke-shard-${{ matrix.shard }}
+          path: out/smoke-shard-${{ matrix.shard }}.json
+          if-no-files-found: error
 
-  block:
-    needs: [preflight, smoke]
+  smoke-assemble:
+    needs: [preflight, smoke-shard]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: multiplex-smoke-shard-*
+          path: smoke-shards
+          merge-multiple: true
+      - name: Reconstruct excluded-seed full block
+        run: |
+          python experiments/multiplex-capacity-v1/combine_shards.py \
+            --results-dir smoke-shards \
+            --seed 9001 \
+            --output smoke.json
+          python - <<'PY'
+          import json
+          result = json.load(open('smoke.json'))
+          assert result['population'] == 'smoke-excluded'
+          assert result['seed'] == 9001
+          assert len(result['challenges']) == 12
+          assert len(result['representations']) == 10
+          assert all(result['hardInvariants'].values()), result['hardInvariants']
+          assert result['settings']['candidateEvaluationsPerRepresentationChallenge'] == 20
+          print('excluded reconstructed multiplex smoke passed')
+          PY
+
+  block-shard:
+    needs: [preflight, smoke-assemble]
     if: needs.preflight.outputs.run_science == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: 40
+      matrix:
+        seed:
+          - 1087
+          - 1091
+          - 1093
+          - 1097
+          - 1103
+          - 1109
+          - 1117
+          - 1123
+          - 1129
+          - 1151
+          - 1153
+          - 1163
+          - 1171
+          - 1181
+          - 1187
+          - 1193
+          - 1201
+          - 1213
+          - 1217
+          - 1223
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fixed consumed master-seed challenge shard
+        run: |
+          mkdir -p out
+          python experiments/multiplex-capacity-v1/run_shard.py \
+            --seed ${{ matrix.seed }} \
+            --shard ${{ matrix.shard }} \
+            --output out/seed-${{ matrix.seed }}-shard-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multiplex-capacity-shard-${{ matrix.seed }}-${{ matrix.shard }}
+          path: out/seed-${{ matrix.seed }}-shard-${{ matrix.shard }}.json
+          if-no-files-found: error
+
+  combine-seed:
+    needs: [preflight, block-shard]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
       matrix:
         seed:
           - 1087
@@ -84,10 +175,16 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
-      - name: Run fixed consumed master-seed block
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: multiplex-capacity-shard-${{ matrix.seed }}-*
+          path: seed-shards
+          merge-multiple: true
+      - name: Reconstruct fixed consumed master-seed block
         run: |
           mkdir -p out
-          python experiments/multiplex-capacity-v1/run.py \
+          python experiments/multiplex-capacity-v1/combine_shards.py \
+            --results-dir seed-shards \
             --seed ${{ matrix.seed }} \
             --output out/seed-${{ matrix.seed }}.json
       - uses: actions/upload-artifact@v4
@@ -97,7 +194,7 @@ jobs:
           if-no-files-found: error
 
   aggregate:
-    needs: [preflight, block]
+    needs: [preflight, combine-seed]
     if: needs.preflight.outputs.run_science == 'true'
     runs-on: ubuntu-latest
     steps:
