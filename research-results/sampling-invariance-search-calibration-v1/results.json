@@ -1,0 +1,82 @@
+{
+  "contracts": {
+    "basePhenotypesDistinct": true,
+    "completeRectangle": true,
+    "distinctChildFractionAtLeast0p95": true,
+    "exactProjectiveAngles": true,
+    "medianPhenotypeDistanceStrictlyIncreasing": true,
+    "validFractionAtLeast0p95": true
+  },
+  "decision": "CALIBRATION_VALID",
+  "experiment": "sampling-invariance-search-calibration-v1",
+  "operator": "isotropic-projective-geodesic-v1",
+  "perAngle": {
+    "0.04": {
+      "distinctChildFraction": 1.0,
+      "maxAbsoluteAngleError": 1.326716514427062e-14,
+      "n": 192,
+      "phenotypeDistance": {
+        "max": 0.2401749435825006,
+        "mean": 0.020226835178169856,
+        "median": 0.012547575322911472,
+        "min": 0.0004510834516299858,
+        "sd": 0.028446249099665026
+      },
+      "validFraction": 1.0
+    },
+    "0.08": {
+      "distinctChildFraction": 1.0,
+      "maxAbsoluteAngleError": 6.231126725708691e-15,
+      "n": 192,
+      "phenotypeDistance": {
+        "max": 0.26474067241446153,
+        "mean": 0.05461457043187614,
+        "median": 0.04152799549348858,
+        "min": 0.0030912983425162655,
+        "sd": 0.04809738418440819
+      },
+      "validFraction": 1.0
+    },
+    "0.16": {
+      "distinctChildFraction": 1.0,
+      "maxAbsoluteAngleError": 2.6645352591003757e-15,
+      "n": 192,
+      "phenotypeDistance": {
+        "max": 0.3301391252695458,
+        "mean": 0.13515858455459007,
+        "median": 0.12347745812377874,
+        "min": 0.030813421443784593,
+        "sd": 0.05266987927430955
+      },
+      "validFraction": 1.0
+    },
+    "0.32": {
+      "distinctChildFraction": 1.0,
+      "maxAbsoluteAngleError": 1.6653345369377348e-15,
+      "n": 192,
+      "phenotypeDistance": {
+        "max": 0.39530105597790705,
+        "mean": 0.2156278186582193,
+        "median": 0.20819716952141393,
+        "min": 0.10812920016917152,
+        "sd": 0.05280848493807463
+      },
+      "validFraction": 1.0
+    }
+  },
+  "population": "excluded-design",
+  "seeds": [94001, 94007, 94009, 94033],
+  "settings": {
+    "angles": [0.04, 0.08, 0.16, 0.32],
+    "basesPerSeed": 12,
+    "fieldBandwidth": 2,
+    "metric": "sparse-geometry-v1-exact-binary-equivalent",
+    "replicatesPerBaseAngle": 4
+  },
+  "artifact": {
+    "workflowRun": 33282820425,
+    "artifactId": 9723489652,
+    "digest": "sha256:26ad367c8edebbc8f498b0732b5aa8f6db1f2b85a82afd8c57f69779df35d906"
+  },
+  "version": 1
+}
