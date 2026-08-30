@@ -1,0 +1,153 @@
+name: sampling-invariance-capacity-confirmation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/sampling-invariance-v1/**'
+      - '.github/workflows/sampling-invariance-capacity-confirmation-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      run_science: ${{ steps.guard.outputs.run_science }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        shell: bash
+        run: |
+          if [[ -f research-results/sampling-invariance-capacity-confirmation-v1/results.json ]]; then
+            echo 'run_science=false' >> "$GITHUB_OUTPUT"
+            echo 'Persisted confirmation result exists; skip rerun.'
+          else
+            echo 'run_science=true' >> "$GITHUB_OUTPUT"
+          fi
+          python - <<'PY'
+          import json
+          result = json.load(open('research-results/sampling-invariance-capacity-v1/results.json'))
+          assert result['decision'] == 'SAMPLING_INVARIANCE_CAPACITY_PROMISING', result['decision']
+          print('positive Stage-B pilot prerequisite is persisted')
+          PY
+
+  frozen-source:
+    needs: preflight
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact Stage-B scientific blobs
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
+          test "$(git hash-object experiments/sampling-invariance-v1/aggregate_capacity.py)" = bf163da46b3b7728beaa13013d42eadf93d98fae
+          test "$(git hash-object experiments/sampling-invariance-v1/fast_binary_metric.py)" = 7e1c875350050312971d9397091e8708752c0bcd
+          test "$(git hash-object experiments/sampling-invariance-v1/run_capacity.py)" = 4fd07ccd9b548b2537fe86ee3e64914a30fc88bd
+          test "$(git hash-object experiments/sampling-invariance-v1/validate_fast_metric.py)" = ece688dbd8f489c3f6ed03bb55b11dd236eb4f8e
+          test "$(git hash-object experiments/sampling-invariance-v1/STAGE-B.md)" = f9cef9e3c66a0f4161c444d6340d32cd7b32abbb
+
+  metric-equivalence:
+    needs: [preflight, frozen-source]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Re-prove exact cached metric equivalence
+        working-directory: experiments/sampling-invariance-v1
+        run: python validate_fast_metric.py
+
+  confirmation-seed:
+    needs: [preflight, frozen-source, metric-equivalence]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 24
+      matrix:
+        seed:
+          - 61001
+          - 61007
+          - 61027
+          - 61031
+          - 61043
+          - 61051
+          - 61057
+          - 61091
+          - 61099
+          - 61121
+          - 61129
+          - 61141
+          - 61151
+          - 61153
+          - 61169
+          - 61211
+          - 61223
+          - 61231
+          - 61253
+          - 61261
+          - 61283
+          - 61291
+          - 61297
+          - 61331
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run frozen fresh confirmation block
+        working-directory: experiments/sampling-invariance-v1
+        run: |
+          mkdir -p confirmation-out
+          python confirmation_capacity.py \
+            --seed ${{ matrix.seed }} \
+            --output confirmation-out/seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-capacity-confirmation-${{ matrix.seed }}
+          path: experiments/sampling-invariance-v1/confirmation-out/seed-${{ matrix.seed }}.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: [preflight, confirmation-seed]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sampling-invariance-capacity-confirmation-*
+          path: experiments/sampling-invariance-v1/confirmation-blocks
+          merge-multiple: true
+      - name: Reduce complete fresh confirmation
+        working-directory: experiments/sampling-invariance-v1
+        run: |
+          python aggregate_confirmation.py \
+            --results-dir confirmation-blocks \
+            --output confirmation-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('confirmation-summary.json'))
+          assert result['gates']['completeConfirmationRectangle'], result['gates']
+          assert result['gates']['frozenSourceBlobsExact'], result['frozenSource']
+          assert result['gates']['metricEquivalenceExact'], result['metricEquivalence']
+          print('decision:', result['decision'])
+          print('gates:', result['gates'])
+          print('master-seed inference:', result['masterSeedInference'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-capacity-confirmation-summary
+          path: experiments/sampling-invariance-v1/confirmation-summary.json
+          if-no-files-found: error
