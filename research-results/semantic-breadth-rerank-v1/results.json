@@ -1,0 +1,49 @@
+{
+  "decision": "SEMANTIC_BREADTH_RERANK_NOT_PROMISING",
+  "workflowRunId": 33327932950,
+  "artifactId": 9736956876,
+  "artifactDigest": "sha256:8380b65b0156025762086ecd7b2588ffa59a4f4ede7dd15e17fc12a2257dc43a",
+  "seedCount": 16,
+  "conceptCount": 8,
+  "blockCount": 128,
+  "overall": {
+    "meanDeltaHeldoutTargetF1": 0.046634706431492104,
+    "seedMeanDeltaStdDev": 0.037424722214581,
+    "seedMeanDeltaOneSided95LowerBound": 0.030232850784000533,
+    "adaptiveHeldoutTop1Fraction": 0.359375,
+    "breadthHeldoutTop1Fraction": 0.515625,
+    "top1FractionDelta": 0.15625,
+    "breadthPooledValidFraction": 0.9864583333333333,
+    "breadthRouteValidFraction": {
+      "recurrence": 1.0,
+      "orbit": 0.96875,
+      "filament": 0.990625
+    },
+    "maxPositiveDeltaContributionShare": 0.20436046244758088
+  },
+  "concepts": {
+    "diamond": {"adaptiveTop1Fraction": 0.875, "breadthTop1Fraction": 0.9375, "meanDeltaHeldoutTargetF1": 0.03823222275168804},
+    "spiral": {"adaptiveTop1Fraction": 0.125, "breadthTop1Fraction": 0.25, "meanDeltaHeldoutTargetF1": 0.05688931078740424},
+    "lightning": {"adaptiveTop1Fraction": 0.6875, "breadthTop1Fraction": 0.75, "meanDeltaHeldoutTargetF1": 0.043375196842588684},
+    "leaf": {"adaptiveTop1Fraction": 0.4375, "breadthTop1Fraction": 0.8125, "meanDeltaHeldoutTargetF1": 0.09581602371384315},
+    "umbrella": {"adaptiveTop1Fraction": 0.25, "breadthTop1Fraction": 0.375, "meanDeltaHeldoutTargetF1": 0.003369613357043607},
+    "crown": {"adaptiveTop1Fraction": 0.1875, "breadthTop1Fraction": 0.125, "meanDeltaHeldoutTargetF1": 0.06203878105420865},
+    "letter-s": {"adaptiveTop1Fraction": 0.0, "breadthTop1Fraction": 0.0, "meanDeltaHeldoutTargetF1": 0.05047102749175743},
+    "sailboat": {"adaptiveTop1Fraction": 0.3125, "breadthTop1Fraction": 0.875, "meanDeltaHeldoutTargetF1": 0.022885475453403047}
+  },
+  "gates": {
+    "completePairedRectangle": true,
+    "hardInvariants": true,
+    "exactAttemptBudgets": true,
+    "meanF1DeltaAtLeastPoint03": true,
+    "seedMeanOneSided95LowerBoundPositive": true,
+    "top1ImprovementAtLeastPoint10": true,
+    "breadthTop1AtLeastPoint60": false,
+    "everyConceptBreadthTop1AtLeastPoint40": false,
+    "everyLeaveOneConceptOutMeanDeltaPositive": true,
+    "breadthPooledValidityAtLeastPoint90": true,
+    "everyBreadthRouteValidityAtLeastPoint85": true,
+    "noConceptDominatesPositiveDelta": true
+  },
+  "interpretation": "Global breadth plus end rerank is materially better than adaptive local semantic search at the same 60-challenger budget, but it does not reach the preregistered absolute semantic top-1 floors. Early exploitation is therefore a real bottleneck, while 60 attempts also remain insufficient. The preregistered next step is a fresh breadth budget-response curve rather than another selector change. Human recognizability remains unproven."
+}
