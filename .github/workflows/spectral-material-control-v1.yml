@@ -23,6 +23,8 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
           test "$(git hash-object experiments/spectral-material-control-v1/spectral_control.py)" = 4109cb064b31e9ab8be77148a88bfb46e86cd2c0
           test "$(git hash-object experiments/spectral-material-control-v1/calibrate.py)" = 6269827a48d9197862f1209ef9d17d6ae1f15874
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = 5acf47a96807a0027cdf4d66e03ce158638d9389
+          test "$(git hash-object experiments/spectral-material-control-v1/run_fast_calibration.py)" = 9033713978d98fdcec00fbf46c55a6f3a1137e77
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -31,9 +33,12 @@ jobs:
       - name: Prove vectorized warp equivalence
         working-directory: experiments/spectral-material-control-v1
         run: python validate_vectorized.py
+      - name: Prove fast grayscale metric equivalence
+        working-directory: experiments/spectral-material-control-v1
+        run: python validate_fast_grayscale_metric.py
       - name: Run excluded calibration
         working-directory: experiments/spectral-material-control-v1
-        run: python calibrate.py > calibration.json
+        run: python run_fast_calibration.py > calibration.json
       - name: Verify complete calibration contract
         working-directory: experiments/spectral-material-control-v1
         shell: python
