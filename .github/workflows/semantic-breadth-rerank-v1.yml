@@ -1,0 +1,133 @@
+name: semantic-breadth-rerank-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-breadth-rerank-v1/**'
+      - 'research-results/semantic-breadth-rerank-v1/**'
+      - 'research-results/semantic-accessible-capacity-v1/**'
+      - '.github/workflows/semantic-breadth-rerank-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/semantic-breadth-rerank-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-breadth-rerank-v1/results.json').read_text())
+          assert d['decision'] in {'SEMANTIC_BREADTH_RERANK_PROMISING','SEMANTIC_BREADTH_RERANK_NOT_PROMISING'}
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = 24492a967fcccbe01be773bf723dd9df0f501249
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = 5b5093de73c459270e3a96016c867c20f81a75d4
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = 46f707729cf4b9b0e027a220a17ec956a4c6c4ec
+          test "$(git hash-object experiments/semantic-breadth-rerank-v1/run_block.py)" = fa658d1db33ee315156e4c7714d01cbcd845c999
+          test "$(git hash-object experiments/semantic-breadth-rerank-v1/aggregate.py)" = bf1822c318c0817acbecd053977d05a5554abdb1
+          test "$(git hash-object research-results/semantic-accessible-capacity-v1/results.json)" = 35b28dd956cc4601cd86516a50619679d9fa9c2a
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-accessible-capacity-v1/results.json').read_text())
+          assert d['decision']=='ACCESSIBLE_SEMANTIC_CAPACITY_PRESENT'
+          PY
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded deterministic breadth smoke
+        run: |
+          python experiments/semantic-breadth-rerank-v1/run_block.py --seed 732299999 --prompt diamond --smoke --output smoke-diamond.json
+          python experiments/semantic-breadth-rerank-v1/run_block.py --seed 732299999 --prompt spiral --smoke --output smoke-spiral.json
+      - name: Verify smoke invariants, budgets, and target-blind breadth
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('smoke-diamond.json'))
+          b=json.load(open('smoke-spiral.json'))
+          for d in (a,b):
+              assert all(d['hardInvariants'].values()), d['hardInvariants']
+              assert d['breadthContract']['totalChallengers']==60
+              assert d['breadthContract']['nativeChallengers']==30
+              assert d['breadthContract']['spectralChallengers']==30
+              assert sum(d['adaptiveRoutes'][r]['operatorContract']['totalChallengers'] for r in ('recurrence','orbit','filament'))==60
+          assert a['breadthArchiveSignature']==b['breadthArchiveSignature']
+          assert a['startFingerprints']==b['startFingerprints']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-rerank-smoke
+          path: smoke-*.json
+
+  consumed:
+    needs: [preflight, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 24
+      matrix:
+        seed: [732300011,732300029,732300041,732300067,732300079,732300101,732300113,732300137,732300151,732300173,732300197,732300211,732300233,732300257,732300271,732300293]
+        prompt: [diamond,spiral,lightning,leaf,umbrella,crown,letter-s,sailboat]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fresh paired search-policy block
+        run: |
+          python experiments/semantic-breadth-rerank-v1/run_block.py \
+            --seed ${{ matrix.seed }} \
+            --prompt ${{ matrix.prompt }} \
+            --output block-${{ matrix.seed }}-${{ matrix.prompt }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-block-${{ matrix.seed }}-${{ matrix.prompt }}
+          path: block-${{ matrix.seed }}-${{ matrix.prompt }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-breadth-block-*
+          path: collected
+          merge-multiple: true
+      - name: Reduce only complete 16x8 paired rectangle
+        run: |
+          python experiments/semantic-breadth-rerank-v1/aggregate.py --input-root collected --output semantic-breadth-rerank-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-rerank-summary
+          path: semantic-breadth-rerank-summary.json
