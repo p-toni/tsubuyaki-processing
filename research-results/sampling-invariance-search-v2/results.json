@@ -1,0 +1,97 @@
+{
+  "decision": "SPECTRAL_HEDGE_SEARCH_NOT_PROMISING",
+  "experiment": "sampling-invariance-search-v2",
+  "familyDiagnostics": {
+    "concave-loops": {
+      "meaningfulFraction": 0.45,
+      "positiveContributionShare": 0.20347405232396487,
+      "secondBasinWinnerFraction": 0.2833333333333333,
+      "top1VsBreadth": {"max": 0.033479365978665854, "mean": 0.008150746070933195, "median": 0.00806367192705676, "min": -0.027820891280835536, "n": 60, "sd": 0.011316695070891065},
+      "top2VsBreadth": {"max": 0.029698203600869055, "mean": 0.005062496674021205, "median": 0.003470651676791281, "min": -0.020661821985702322, "n": 60, "sd": 0.010634108149720867},
+      "top2VsTop1": {"max": 0.03976819434701939, "mean": -0.0030882493969119906, "median": -0.0025489441809497526, "min": -0.029620051347662102, "n": 60, "sd": 0.010342776604123347}
+    },
+    "dense-regions": {
+      "meaningfulFraction": 0.31666666666666665,
+      "positiveContributionShare": 0.11750494237256745,
+      "secondBasinWinnerFraction": 0.21666666666666667,
+      "top1VsBreadth": {"max": 0.03383381377505401, "mean": 0.003346190158222706, "median": 0.0034780022134215383, "min": -0.028548598946098513, "n": 60, "sd": 0.010375818657682239},
+      "top2VsBreadth": {"max": 0.019583281624529603, "mean": 0.001194989730957887, "median": 0.002519287565687034, "min": -0.030328648683501047, "n": 60, "sd": 0.009436174999385063},
+      "top2VsTop1": {"max": 0.02374162979711747, "mean": -0.0021512004272648193, "median": -0.0012997328171608369, "min": -0.017719011265294626, "n": 60, "sd": 0.0058366648414297515}
+    },
+    "disconnected-loops": {
+      "meaningfulFraction": 0.5833333333333334,
+      "positiveContributionShare": 0.2877231530438393,
+      "secondBasinWinnerFraction": 0.18333333333333332,
+      "top1VsBreadth": {"max": 0.05499407836404724, "mean": 0.012600475467102377, "median": 0.008990389393794207, "min": -0.01769858054291218, "n": 60, "sd": 0.01720454625767529},
+      "top2VsBreadth": {"max": 0.04583971438219825, "mean": 0.0076805901965227375, "median": 0.007731945894780656, "min": -0.022230628487620918, "n": 60, "sd": 0.013670157740711057},
+      "top2VsTop1": {"max": 0.029756128202773846, "mean": -0.00491988527057964, "median": -0.0015128270359375806, "min": -0.051579622135674574, "n": 60, "sd": 0.012724090852759296}
+    },
+    "nested-loops": {
+      "meaningfulFraction": 0.3333333333333333,
+      "positiveContributionShare": 0.18482934266233844,
+      "secondBasinWinnerFraction": 0.23333333333333334,
+      "top1VsBreadth": {"max": 0.045670788854313304, "mean": 0.0038890265378299983, "median": 0.0036120254224955017, "min": -0.029818087092082002, "n": 60, "sd": 0.014227792928408384},
+      "top2VsBreadth": {"max": 0.041850126358644935, "mean": 0.0017735586784969966, "median": 0.0012971450217156844, "min": -0.04408154742627268, "n": 60, "sd": 0.014778516457955585},
+      "top2VsTop1": {"max": 0.024565839665257716, "mean": -0.0021154678593330017, "median": -0.0002960971660125322, "min": -0.02505856401153228, "n": 60, "sd": 0.007628170124950497}
+    },
+    "open-networks": {
+      "meaningfulFraction": 0.4,
+      "positiveContributionShare": 0.20646850959729,
+      "secondBasinWinnerFraction": 0.21666666666666667,
+      "top1VsBreadth": {"max": 0.05145782217146655, "mean": 0.0069514015280606484, "median": 0.006337435756451404, "min": -0.03884919497486128, "n": 60, "sd": 0.015151721010982949},
+      "top2VsBreadth": {"max": 0.0460903216356785, "mean": 0.003228171215644306, "median": 0.0037489796985936685, "min": -0.04790602484366824, "n": 60, "sd": 0.01513431679731779},
+      "top2VsTop1": {"max": 0.044504446378060725, "mean": -0.0037232303124163425, "median": -0.0017181841648465368, "min": -0.035481674602901414, "n": 60, "sd": 0.011799601295301157}
+    }
+  },
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneFamilyOutTop2VsBreadthPositive": true,
+    "everyLeaveOneFamilyOutTop2VsTop1Positive": false,
+    "meanTop2VsBreadthPositive": true,
+    "meanTop2VsTop1Positive": false,
+    "meaningfulTop2VsBreadthFractionAtLeast0p30": true,
+    "noFamilyAbove60PercentPositiveContribution": true,
+    "top2ValidYieldAtLeast0p95": true
+  },
+  "hardInvariants": {"allBlockHardInvariants": true, "completeCellRectangle": true, "completeSeedRectangle": true, "identicalSettings": true, "identicalTargetSuite": true},
+  "interpretation": {
+    "discipline": "Do not override the preregistered hedge gate. Do not tune 12/8 split, basin count, or angle schedule on v2. Exact hybrid-top1 may only advance via a new fresh hypothesis test.",
+    "hedgeMechanismSupported": false,
+    "top1DiagnosticMeanVsBreadth": 0.006987567952429785
+  },
+  "lineage": {
+    "invalidatedBeforeConsumedExecution": true,
+    "invalidatedRunId": 33284801661,
+    "preOutcomeCorrection": "v2-dense-3 support reduced from 41411 to 39821 to satisfy existing <=40000 target support contract",
+    "targetBlob": "b130319589cf4c783232a4a0d66dcbc089de72ca"
+  },
+  "meaningfulMargin": 0.005,
+  "population": "pilot",
+  "primary": {
+    "acceptedImprovementsTop1": {"max": 4.0, "mean": 1.21, "median": 1.0, "min": 0.0, "n": 300, "sd": 0.9356735273762831},
+    "acceptedImprovementsTop2": {"max": 4.0, "mean": 1.3266666666666667, "median": 1.0, "min": 0.0, "n": 300, "sd": 0.8958967530894448},
+    "anchorRecoveryGap": {"max": 0.052442435249013375, "mean": 0.01393414955105977, "median": 0.011714146935124903, "min": 1.288665675069911e-05, "n": 300, "sd": 0.010887363018046462},
+    "breadthTailValidYield": 1.0,
+    "largestFamilyPositiveContributionShare": 0.2877231530438393,
+    "leaveOneFamilyOutTop2VsBreadthMean": {"concave-loops": 0.0034693274554054815, "dense-regions": 0.0044362041911713114, "disconnected-loops": 0.0028148040747800985, "nested-loops": 0.0042915619542865345, "open-networks": 0.003927908819999706},
+    "leaveOneFamilyOutTop2VsTop1Mean": {"concave-loops": -0.0032274459673984506, "dense-regions": -0.003461708209810244, "disconnected-loops": -0.0027695369989815385, "nested-loops": -0.003470641351793198, "open-networks": -0.0030687007385223628},
+    "meaningfulTop2VsBreadthFraction": 0.4166666666666667,
+    "positiveContributionShareByFamily": {"concave-loops": 0.20347405232396487, "dense-regions": 0.11750494237256745, "disconnected-loops": 0.2877231530438393, "nested-loops": 0.18482934266233844, "open-networks": 0.20646850959729},
+    "secondBasinWinnerFraction": 0.22666666666666666,
+    "top1ExploitValidYield": 1.0,
+    "top1VsBreadth": {"max": 0.05499407836404724, "mean": 0.006987567952429785, "median": 0.006312771152581054, "min": -0.03884919497486128, "n": 300, "sd": 0.014189712185343522},
+    "top2ExploitValidYield": 1.0,
+    "top2UniquePhenotypeRate": 1.0,
+    "top2VsBreadth": {"max": 0.0460903216356785, "mean": 0.003787961299128626, "median": 0.0034001186552088947, "min": -0.04790602484366824, "n": 300, "sd": 0.013063122770016656},
+    "top2VsTop1": {"max": 0.044504446378060725, "mean": -0.0031996066533011586, "median": -0.0013704669921585921, "min": -0.051579622135674574, "n": 300, "sd": 0.009992065414918521}
+  },
+  "provenance": {
+    "artifactDigest": "sha256:95a2f7d7ddd90dbeb98273abb8203d923fcc61230665107c399e0ea61548c7fa",
+    "artifactId": 9724099800,
+    "artifactName": "sampling-invariance-search-v2-summary",
+    "authoritativeHead": "c861a95df4c504d855a1207656c77796e438c486",
+    "workflowRunId": 33284874665
+  },
+  "seeds": [96001,96013,96017,96043,96053,96059,96079,96097,96137,96149,96157,96167,96179,96181,96199,96211,96221,96223,96233,96259],
+  "version": 2
+}
