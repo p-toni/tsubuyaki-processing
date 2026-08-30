@@ -6,7 +6,13 @@ from typing import Dict, List, Optional, Sequence
 from PIL import Image, ImageDraw
 
 from core import Candidate, SearchState, ROUTES, TIMES, evaluate_candidate, render_candidate_frame
+from material_control import mutate_native, with_spectral_control
+from rng_streams import derived_seed
 from pairwise_selector import PairwiseSelector, DeterministicTemporalSelector, incumbent_challenge, route_aware_frontier
+
+NATIVE_ONLY = 'native-only'
+MIXED_1D_V1 = 'native-spectral-50-50-v1'
+
 
 def _record(state,stage,decisions):
     for d in decisions:
@@ -17,6 +23,35 @@ def _select_local(selector,incumbent,challengers,brief,state,stage):
     for c in challengers:
         champion,d=incumbent_challenge(selector,champion,c,brief); _record(state,stage,[d])
     return champion
+
+def _portfolio_mode(brief):
+    mode=str(brief.get('mutation_portfolio',NATIVE_ONLY))
+    if mode not in {NATIVE_ONLY,MIXED_1D_V1}:
+        raise ValueError(f'unsupported mutation_portfolio {mode!r}')
+    return mode
+
+def _operator_for(brief,route,index,count):
+    mode=_portfolio_mode(brief)
+    if mode==NATIVE_ONLY or int(ROUTES[route].get('intrinsic_dimension',-1))!=1:
+        return 'native'
+    # Preserve the native prefix, then spend the remaining half on the confirmed
+    # spectral operator. Odd batches conservatively keep the extra attempt native.
+    native_n=(int(count)+1)//2
+    return 'native' if int(index)<native_n else 'spectral'
+
+def _spawn(brief,seed,parent,cid,stage,index,count,rng,scale):
+    op=_operator_for(brief,parent.route,index,count)
+    if op=='native':
+        if _portfolio_mode(brief)==NATIVE_ONLY:
+            genome=ROUTES[parent.route]['mutate'](parent.genome,rng,scale)
+        else:
+            genome=mutate_native(ROUTES[parent.route],parent.genome,rng,scale)
+    else:
+        field_seed=derived_seed(seed,'runtime-spectral-material-control-v1',parent.route,parent.basin,stage,index,parent.id)
+        genome=with_spectral_control(parent.genome,field_seed)
+    c=Candidate(cid,parent.route,parent.basin,genome,parent.id,stage); evaluate_candidate(c,brief)
+    c.checks['generationOperator']=op
+    return c
 
 def montage(cands,out,title):
     from PIL import ImageOps
@@ -34,19 +69,20 @@ def timeline(cand,out):
     can.save(out)
 
 def _finish_search(brief,seed,out_dir,selector,state,basins,rng):
+    mode=_portfolio_mode(brief)
     if not basins:
         raise ValueError('adaptive search requires at least one valid start candidate')
     for bid,inc in list(basins.items()):
-        ch=[]
-        for j in range(int(brief.get('explore_per_basin',4))):
-            cid=f'{bid}-E{j+1}'; c=Candidate(cid,inc.route,bid,ROUTES[inc.route]['mutate'](inc.genome,rng,1),inc.id,'explore'); evaluate_candidate(c,brief); state.candidates[cid]=c; ch.append(c)
+        ch=[]; n=int(brief.get('explore_per_basin',4))
+        for j in range(n):
+            cid=f'{bid}-E{j+1}'; c=_spawn(brief,seed,inc,cid,'explore',j,n,rng,1); state.candidates[cid]=c; ch.append(c)
         basins[bid]=_select_local(selector,inc,ch,brief,state,'explore')
     montage(list(basins.values()),out_dir/'stage1_representatives.png','Stage 1 representatives')
     _,survivors,ds=route_aware_frontier(selector,list(basins.values()),brief); _record(state,'frontier',ds); live={c.basin for c in survivors}; basins={k:v for k,v in basins.items() if k in live}
     for bid,inc in list(basins.items()):
-        ch=[]
-        for j in range(max(1,int(brief.get('roundA_per_survivor',3)))):
-            cid=f'{bid}-A{j+1}'; c=Candidate(cid,inc.route,bid,ROUTES[inc.route]['mutate'](inc.genome,rng,.7),inc.id,'roundA'); evaluate_candidate(c,brief); state.candidates[cid]=c; ch.append(c)
+        ch=[]; n=max(1,int(brief.get('roundA_per_survivor',3)))
+        for j in range(n):
+            cid=f'{bid}-A{j+1}'; c=_spawn(brief,seed,inc,cid,'roundA',j,n,rng,.7); state.candidates[cid]=c; ch.append(c)
         basins[bid]=_select_local(selector,inc,ch,brief,state,'roundA')
     _,survivors,ds=route_aware_frontier(selector,list(basins.values()),brief); _record(state,'allocate-frontier',ds); live={c.basin for c in survivors}; basins={k:v for k,v in basins.items() if k in live}; montage(list(basins.values()),out_dir/'stage2_survivors.png','Stage 2 survivors')
     remaining=int(brief.get('total_extra_budget',12)); vals=list(basins.values()); allocations={}
@@ -57,7 +93,7 @@ def _finish_search(brief,seed,out_dir,selector,state,basins,rng):
         inc=basins[bid]; champion=inc
         for j in range(budget):
             parent=champion if j<budget*.7 else inc; scale=.55 if j<budget*.7 else 1.2; cid=f'{bid}-R{j+1}'
-            c=Candidate(cid,inc.route,bid,ROUTES[inc.route]['mutate'](parent.genome,rng,scale),parent.id,'refine'); evaluate_candidate(c,brief); state.candidates[cid]=c; champion,d=incumbent_challenge(selector,champion,c,brief); _record(state,'refine',[d])
+            c=_spawn(brief,seed,parent,cid,'refine',j,budget,rng,scale); state.candidates[cid]=c; champion,d=incumbent_challenge(selector,champion,c,brief); _record(state,'refine',[d])
         basins[bid]=champion
     winner,frontier,ds=route_aware_frontier(selector,list(basins.values()),brief); _record(state,'final',ds); status='clear' if len(frontier)==1 else 'tie-defer'; state.winner_id=winner.id if status=='clear' else None
     montage(frontier,out_dir/'finalists.png','Artistic frontier'); timeline(winner,out_dir/'winner_timeline.png')
@@ -65,16 +101,19 @@ def _finish_search(brief,seed,out_dir,selector,state,basins,rng):
     for d in state.stage_decisions:
         if d.get('verdict') in counts: counts[d['verdict']]+=1
         if d.get('source'): sources[d['source']]=sources.get(d['source'],0)+1
-    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only; representation validity is topology/geometry-specific'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
+    operator_counts={'native':0,'spectral':0}
+    operator_valid={'native':0,'spectral':0}
+    for c in state.candidates.values():
+        op=c.checks.get('generationOperator')
+        if op in operator_counts:
+            operator_counts[op]+=1
+            if c.checks.get('valid',False): operator_valid[op]+=1
+    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'mutationPortfolio':mode,'mutationPortfolioEligibleRoutes':[r for r in brief['routes'] if int(ROUTES[r].get('intrinsic_dimension',-1))==1],'generationOperatorCounts':operator_counts,'generationOperatorValidCounts':operator_valid,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only; representation validity is topology/geometry-specific'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
     (out_dir/'report.json').write_text(json.dumps(report,indent=2)+'\n'); (out_dir/'search_state.json').write_text(json.dumps(state.to_json(),indent=2)+'\n'); return state,report
 
 def run_search_from_starts(brief,seed,out_dir:Path,starts:Sequence[Candidate],selector:Optional[PairwiseSelector]=None):
-    """Run the existing adaptive search from exact externally generated start phenotypes.
-
-    This is the evidence-safe entrypoint for route-screened search: reviewed probe
-    candidates can become the actual search basins instead of being discarded and
-    regenerated through the legacy shared-RNG start loop.
-    """
+    """Run the adaptive search from exact externally generated start phenotypes."""
+    _portfolio_mode(brief)
     out_dir.mkdir(parents=True,exist_ok=True); selector=selector or DeterministicTemporalSelector(); rng=random.Random(seed); state=SearchState(brief,seed); basins={}
     routes=tuple(brief.get('routes') or ())
     if not routes: raise ValueError('brief must define at least one active route')
@@ -93,6 +132,7 @@ def run_search_from_starts(brief,seed,out_dir:Path,starts:Sequence[Candidate],se
     return _finish_search(brief,seed,out_dir,selector,state,basins,rng)
 
 def run_search(brief,seed,out_dir:Path,selector:Optional[PairwiseSelector]=None):
+    _portfolio_mode(brief)
     rng=random.Random(seed); state=SearchState(brief,seed); out_dir.mkdir(parents=True,exist_ok=True); selector=selector or DeterministicTemporalSelector(); basins={}
     for route in brief['routes']:
         prefix=ROUTES[route].get('prefix',route[:1].upper())
