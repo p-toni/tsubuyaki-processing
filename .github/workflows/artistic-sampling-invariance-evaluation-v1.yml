@@ -19,12 +19,13 @@ jobs:
         run: |
           test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
           test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
+          test "$(git hash-object experiments/sampling-invariance-v1/run_capacity.py)" = 4fd07ccd9b548b2537fe86ee3e64914a30fc88bd
           test "$(git hash-object prototypes/autonomous-discovery/core.py)" = 3b70f2f4a4b80fb149cb83de5f59d1b3b8b4a40a
           test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = 1838d8afd05a55ae4acf49ac37a9a670858af913
           test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = ec2aea2f0e889cea25e442dae7b5849bf8549cd1
           test "$(git hash-object prototypes/autonomous-discovery/checkers.py)" = ef7e62d893c179f4650e5cc89cc7cba0a7ac9b6d
           test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
-          test "$(git hash-object experiments/artistic-sampling-invariance-evaluation-v1/generate.py)" = 4f34b074aac8bd2df96de60250e86245491e4fee
+          test "$(git hash-object experiments/artistic-sampling-invariance-evaluation-v1/generate.py)" = 41a759626aa9b05e5ef683433e4a2c589c66df5e
           test "$(git hash-object experiments/artistic-sampling-invariance-evaluation-v1/aggregate.py)" = 933157cdda6ba18ccd8d68ac4407dbf9721e552c
           python - <<'PY'
           import json
