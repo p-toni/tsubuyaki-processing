@@ -61,6 +61,8 @@ Before consumed seeds can run, for every intrinsic-1D route the smoke must prove
 5. every spectral challenger serializes a K=2/amplitude-16 material-control record;
 6. the two arms start from the identical phenotype.
 
+The excluded replay smoke passed all six requirements on all three routes before any consumed seed ran.
+
 ## Fresh consumed seeds
 
 Exactly 16 master seeds:
@@ -81,7 +83,7 @@ Consumed seeds may not be reused to tune the runtime schedule, operator split, K
 - open networks;
 - dense regions.
 
-The target contract must pass hard validity and image-fingerprint disjointness against every prior sampling-invariance, spectral-search, spectral-operator, 1D-confirmation, and fixed-budget portfolio target suite before smoke or consumed evidence runs.
+The initial pre-evidence contract rejected only `runtime-dense-3` because support was `40,875`, above the frozen density ceiling. No smoke or consumed job had run. That control was reduced in size, then source-locked. The corrected suite passed hard validity, distinctness, and image-fingerprint disjointness against every prior sampling-invariance, spectral-search, spectral-operator, 1D-confirmation, and fixed-budget portfolio target suite before smoke or consumed evidence ran.
 
 ## Cell outcome
 
@@ -115,6 +117,55 @@ One-sided t critical for df=15 is frozen as `1.7530503556925547`.
 
 If any gate fails, decision is `SPECTRAL_MATERIAL_CONTROL_RUNTIME_NOT_PROMISING` and this exact runtime schedule is not tuned on these seeds.
 
+## Results
+
+Authoritative workflow run: `33311382534`.
+
+Aggregate artifact: `9732111435`, digest `sha256:9947fab9a04f8a56eb1648f953f0144bcc25a371261f9ac535a96eb16916f13c`.
+
+**Decision: `SPECTRAL_MATERIAL_CONTROL_RUNTIME_PROMISING`. Every preregistered gate passed.**
+
+Primary paired result:
+
+- 720-cell mean delta: `+0.021387817775104574`;
+- median delta: `+0.018721747217702034`;
+- master-seed mean: `+0.021387817775104574`;
+- one-sided 95% lower bound: `+0.016602777813513443`;
+- all 16 master-seed means were positive; minimum `+0.001185419064936065`;
+- meaningful win fraction (`delta > +0.005`): `0.7111111111111111`;
+- meaningful loss fraction (`delta < -0.005`): `0.07083333333333333`.
+
+Route means and route-level one-sided 95% lower bounds:
+
+| route | mean delta | lower 95% |
+|---|---:|---:|
+| recurrence | `+0.025605660014987056` | `+0.0170752481642411` |
+| orbit | `+0.024630118514826327` | `+0.017000925266376022` |
+| filament | `+0.01392767479550034` | `+0.0063612819469718185` |
+
+Every target-family mean was positive, from `+0.01927271699033277` to `+0.02301174059240893`; every leave-one-family-out mean was positive. The largest target family supplied only `0.21957782267098608` of total positive advantage.
+
+Spectral hard-validity was `0.96875` pooled: recurrence `0.98125`, orbit `0.9625`, filament `0.9625`.
+
+Mean structural recovery moved from `0.5421934160577356` under native-only runtime to `0.5635812338328402` under the mixed runtime at the same total challenger budget.
+
+## Decision
+
+The fixed 50/50 native+spectral portfolio survives integration into the actual adaptive runtime. The implementation may remain as an opt-in mechanical search path for intrinsic-1D grammars.
+
+This closes the mechanical chain:
+
+```text
+representation capacity
+→ local spectral operator
+→ fresh intrinsic-1D confirmation
+→ equal-budget mixed portfolio
+→ exact runtime implementation equivalence
+→ fresh end-to-end adaptive runtime replication
+```
+
+The next unresolved question is artistic, not mechanical: under blind same-grammar comparison, does mixed search produce mathematical forms a human reviewer prefers to the native-only search output?
+
 ## Authority boundary
 
-A positive result authorizes continued opt-in mechanical integration and a blinded human comparison of **the same incumbent grammar searched native-only vs mixed**. It does not authorize production defaulting, route promotion, or aesthetic claims.
+This positive result authorizes a blinded human comparison of **the same incumbent grammar searched native-only vs mixed**. It does not authorize making the portfolio the production default, promoting a route, or claiming aesthetic superiority without human evidence.
