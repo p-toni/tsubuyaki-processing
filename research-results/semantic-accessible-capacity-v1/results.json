@@ -1,0 +1,41 @@
+{
+  "decision": "ACCESSIBLE_SEMANTIC_CAPACITY_PRESENT",
+  "workflowRunId": 33323375003,
+  "artifactId": 9735785539,
+  "artifactDigest": "sha256:5425876834eaadb67ce5a0b5e3b02a3eaf0641d2f3caae4bb0abe3b936cae25a",
+  "seedCount": 12,
+  "conceptCount": 8,
+  "totalAttempts": 18432,
+  "totalValid": 18191,
+  "pooledValidFraction": 0.9869249131944444,
+  "routeValidFraction": {
+    "recurrence": 0.9988606770833334,
+    "orbit": 0.9684244791666666,
+    "filament": 0.9934895833333334
+  },
+  "top1FoundFraction": 0.96875,
+  "meanBestTop1TargetF1": 0.6474042547710153,
+  "maxTop1F1ContributionShare": 0.15483650813828811,
+  "conceptMeans": {
+    "diamond": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.7977413424159076},
+    "spiral": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.5921281181335168},
+    "lightning": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.739758922919635},
+    "leaf": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.8019345133009174},
+    "umbrella": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.5714052457161843},
+    "crown": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.6120434143081418},
+    "letter-s": {"top1FoundFraction": 0.75, "meanBestTop1TargetF1": 0.3680934028609329},
+    "sailboat": {"top1FoundFraction": 1.0, "meanBestTop1TargetF1": 0.6961290785128865}
+  },
+  "gates": {
+    "completeSeedRectangle": true,
+    "exactAttemptBudgets": true,
+    "top1FoundAtLeast80PctCells": true,
+    "everyConceptFoundAtLeast50Pct": true,
+    "weakConceptsFoundAtLeast50Pct": true,
+    "meanBestTop1F1AtLeastPoint45": true,
+    "pooledValidityAtLeastPoint90": true,
+    "everyRouteValidityAtLeastPoint85": true,
+    "noConceptDominatesTop1F1Mass": true
+  },
+  "interpretation": "Broad target-blind archives expose held-out top-1 semantic candidates in 93/96 seed-by-concept cells. Accessible semantic capacity is therefore present under the current intrinsic-1D grammar/runtime distribution. The remaining bottleneck is search efficiency/retention at small budget, not a demonstrated absence of representational capacity. This does not establish human recognizability."
+}
