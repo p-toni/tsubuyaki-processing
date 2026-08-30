@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -13,19 +12,12 @@ from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-CAPACITY_PATH = ROOT / "experiments" / "sampling-invariance-v1" / "capacity.py"
+CAPACITY_DIR = ROOT / "experiments" / "sampling-invariance-v1"
+sys.path.insert(0, str(CAPACITY_DIR))
 
+import run_capacity
 
-def _load(name: str, path: Path):
-    spec = importlib.util.spec_from_file_location(name, path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    sys.modules[name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-capacity = _load("artistic_sampling_invariance_capacity", CAPACITY_PATH)
+capacity = run_capacity.capacity
 
 STREAM = "artistic-sampling-invariance-evaluation-v1"
 REVIEW_SEEDS = (98009, 98011, 98017, 98041)
