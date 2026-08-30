@@ -1,0 +1,153 @@
+name: spectral-material-control-1d-confirmation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/spectral-material-control-1d-confirmation-v1/**'
+      - '.github/workflows/spectral-material-control-1d-confirmation-v1.yml'
+      - 'research-results/spectral-material-control-1d-confirmation-v1/**'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/spectral-material-control-1d-confirmation-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/spectral-material-control-1d-confirmation-v1/results.json').read_text())
+          assert d['decision'] in {'SPECTRAL_MATERIAL_CONTROL_1D_CONFIRMED','SPECTRAL_MATERIAL_CONTROL_1D_NOT_CONFIRMED'}
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = 3b70f2f4a4b80fb149cb83de5f59d1b3b8b4a40a
+          test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = 1838d8afd05a55ae4acf49ac37a9a670858af913
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = ec2aea2f0e889cea25e442dae7b5849bf8549cd1
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object experiments/spectral-material-control-v1/spectral_control.py)" = 4109cb064b31e9ab8be77148a88bfb46e86cd2c0
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = 5acf47a96807a0027cdf4d66e03ce158638d9389
+          test "$(git hash-object experiments/spectral-material-control-operator-v1/targets_operator.py)" = 45605c13aaabeaf7f305dac2d57ac38bcb2c1ff5
+          test "$(git hash-object experiments/spectral-material-control-1d-confirmation-v1/targets_1d.py)" = 115b55cdd2356b4bec3cbae3523706cafba6c24c
+          test "$(git hash-object experiments/spectral-material-control-1d-confirmation-v1/run_1d.py)" = 54f042f2c4383a81fba6417db8ea9037dc9717f5
+          test "$(git hash-object experiments/spectral-material-control-1d-confirmation-v1/aggregate_1d.py)" = c1e5ac4524ca5cfaaf45b61ea52c11cb80f5b3f2
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/spectral-material-control-operator-v1/results.json').read_text())
+          assert d['decision']=='SPECTRAL_MATERIAL_CONTROL_OPERATOR_NOT_PROMISING'
+          assert d['routeMeanDelta']['sheet'] < 0
+          assert d['routeMeanDelta']['recurrence'] > 0
+          assert d['routeMeanDelta']['orbit'] > 0
+          assert d['routeMeanDelta']['filament'] > 0
+          PY
+
+  target-contract:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Verify fresh target contract
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        run: python targets_1d.py > target-contract.json
+      - name: Fail closed on target drift
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('target-contract.json').read_text())
+          assert d['valid'] is True
+          assert d['disjointFromAllPriorSamplingTargets'] is True
+          assert not d['priorOverlap']
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-control-1d-target-contract
+          path: experiments/spectral-material-control-1d-confirmation-v1/target-contract.json
+
+  smoke:
+    needs: [preflight, target-contract]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run excluded confirmation smoke
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        run: python run_1d.py --seed 120999 --output smoke.json
+      - name: Verify excluded topology rectangle and budgets
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('smoke.json').read_text())
+          assert all(d['hardInvariants'].values())
+          assert d['settings']['routes']==['recurrence','orbit','filament']
+          assert d['settings']['excludedRoutesByFrozenIntrinsicDimension']==['family','sheet']
+          assert d['settings']['spectralAmplitude']==16.0
+          assert d['settings']['challengersPerArm']==12
+          assert len(d['cells'])==45
+
+  consumed:
+    needs: [preflight, target-contract, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [121001,121007,121013,121019,121021,121039,121061,121063,121067,121081,121123,121139,121151,121157,121169,121171,121181,121189,121229,121259,121267,121271,121283,121291]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run consumed intrinsic-1d block
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        run: python run_1d.py --seed ${{ matrix.seed }} --output seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-control-1d-seed-${{ matrix.seed }}
+          path: experiments/spectral-material-control-1d-confirmation-v1/seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spectral-control-1d-seed-*
+          path: blocks
+      - name: Reduce only after complete consumed rectangle
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        run: python aggregate_1d.py --input-root ../../../blocks --output 1d-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-control-1d-summary
+          path: experiments/spectral-material-control-1d-confirmation-v1/1d-summary.json
