@@ -1,0 +1,154 @@
+name: spectral-material-control-runtime-replay-v1
+
+on:
+  pull_request:
+    paths:
+      - 'prototypes/autonomous-discovery/core.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - 'experiments/spectral-material-control-runtime-replay-v1/**'
+      - 'research-results/spectral-material-control-runtime-replay-v1/**'
+      - '.github/workflows/spectral-material-control-runtime-replay-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/spectral-material-control-runtime-replay-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/spectral-material-control-runtime-replay-v1/results.json').read_text())
+          assert d['decision'] in {'SPECTRAL_MATERIAL_CONTROL_RUNTIME_PROMISING','SPECTRAL_MATERIAL_CONTROL_RUNTIME_NOT_PROMISING'}
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = 24492a967fcccbe01be773bf723dd9df0f501249
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = ab05eb0d050f8053627a909c3d31e3236e97460c
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/run_runtime.py)" = 7ad9b41074cee17a028ca2c440dfc66c06c1fb5d
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/aggregate_runtime.py)" = bb2acca59fdd07544dce36c8c584919f42eecf83
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/spectral-material-control-1d-portfolio-v1/results.json').read_text())
+          assert d['decision']=='SPECTRAL_MATERIAL_CONTROL_1D_PORTFOLIO_PROMISING'
+          PY
+
+  target-contract:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Verify fresh target contract
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        run: python targets_runtime.py > target-contract.json
+      - name: Fail closed on target drift
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('target-contract.json').read_text())
+          assert d['valid'] is True
+          assert d['disjointFromAllPriorSamplingTargets'] is True
+          assert not d['priorOverlap']
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-runtime-target-contract
+          path: experiments/spectral-material-control-runtime-replay-v1/target-contract.json
+
+  smoke:
+    needs: [preflight, target-contract]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded replay smoke
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        run: python run_runtime.py --seed 123999 --smoke --output smoke.json
+      - name: Verify replay and equal-budget invariants
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('smoke.json').read_text())
+          assert all(d['hardInvariants'].values())
+          for route,x in d['routes'].items():
+              assert x['nativeDiagnostics']['totalChallengers']==20
+              assert x['mixedDiagnostics']['totalChallengers']==20
+              assert x['mixedDiagnostics']['nativeChallengers']==10
+              assert x['mixedDiagnostics']['spectralChallengers']==10
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-runtime-smoke
+          path: experiments/spectral-material-control-runtime-replay-v1/smoke.json
+
+  consumed:
+    needs: [preflight, target-contract, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [124003,124009,124021,124037,124051,124067,124087,124097,124121,124123,124133,124139,124147,124153,124171,124181]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run consumed runtime block
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        run: python run_runtime.py --seed ${{ matrix.seed }} --output seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-runtime-seed-${{ matrix.seed }}
+          path: experiments/spectral-material-control-runtime-replay-v1/seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spectral-runtime-seed-*
+          path: blocks
+      - name: Reduce only after complete consumed rectangle
+        working-directory: experiments/spectral-material-control-runtime-replay-v1
+        run: python aggregate_runtime.py --input-root ../../blocks --output runtime-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-runtime-summary
+          path: experiments/spectral-material-control-runtime-replay-v1/runtime-summary.json
