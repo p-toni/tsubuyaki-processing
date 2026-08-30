@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "experiment": "sampling-invariance-search-v1",
+  "decision": "SPECTRAL_SEARCH_NOT_PROMISING",
+  "authoritativeWorkflowRun": 33282969465,
+  "aggregateArtifact": {
+    "id": 9723541443,
+    "name": "sampling-invariance-search-summary",
+    "digest": "sha256:35451ac61052601e4bf6ef6f07fc5eef7c91d6799894ce9f8465f75dff1fb138",
+    "canonicalExactRecord": true
+  },
+  "frozenScientificHead": "7f0d96f1355f89d9c1c91d97a6775be77b8dc13e",
+  "population": {
+    "masterSeeds": 20,
+    "targetsPerSeed": 15,
+    "seedTargetCells": 300,
+    "evaluationsPerPolicyTarget": 20,
+    "commonStarts": 4,
+    "incrementalEvaluations": 16
+  },
+  "policies": [
+    "independent-breadth",
+    "fixed-parent-geodesic",
+    "adaptive-geodesic"
+  ],
+  "angles": [0.04, 0.08, 0.16, 0.32, 0.04, 0.08, 0.16, 0.32, 0.04, 0.08, 0.16, 0.32, 0.04, 0.08, 0.16, 0.32],
+  "meaningfulMargin": 0.005,
+  "hardInvariants": {
+    "allBlockHardInvariants": true,
+    "completeCellRectangle": true,
+    "completeSeedRectangle": true,
+    "identicalSettings": true,
+    "identicalTargetSuite": true
+  },
+  "gates": {
+    "adaptiveValidYieldAtLeast0p95": true,
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneFamilyOutAdaptiveVsBreadthPositive": false,
+    "meanAdaptiveVsBreadthPositive": true,
+    "meanAdaptiveVsFixedPositive": true,
+    "meaningfulAdaptiveVsBreadthFractionAtLeast0p30": true,
+    "noFamilyAbove60PercentPositiveContribution": true
+  },
+  "primary": {
+    "adaptiveVsBreadth": {
+      "n": 300,
+      "mean": 0.001213541399666246,
+      "median": 0.002385860078604307,
+      "sd": 0.024427210498832626,
+      "min": -0.10851440769373422,
+      "max": 0.06782292613466923
+    },
+    "adaptiveVsFixed": {
+      "n": 300,
+      "mean": 0.009803789123177935,
+      "median": 0.007678246204467942,
+      "sd": 0.014563386476406714,
+      "min": -0.04976628681472439,
+      "max": 0.07123437856940706
+    },
+    "adaptiveGainFromInitial": {
+      "n": 300,
+      "mean": 0.031177753540076902,
+      "median": 0.026311537367004423,
+      "sd": 0.02157532430803123,
+      "min": 0.0,
+      "max": 0.11037967320596853
+    },
+    "meaningfulAdaptiveVsBreadthFraction": 0.44666666666666666,
+    "adaptiveIncrementalValidYield": 1.0,
+    "fixedIncrementalValidYield": 1.0,
+    "breadthIncrementalValidYield": 1.0,
+    "adaptiveUniquePhenotypeRate": 1.0,
+    "leaveOneFamilyOutAdaptiveVsBreadthMean": {
+      "concave-loops": 0.0005006512085515225,
+      "dense-regions": 0.0015070036388436236,
+      "disconnected-loops": 0.00245741781311532,
+      "nested-loops": -0.00020771334715955584,
+      "open-networks": 0.0018103476849803193
+    },
+    "positiveContributionShareByFamily": {
+      "concave-loops": 0.23299619998928245,
+      "dense-regions": 0.11106555525729726,
+      "disconnected-loops": 0.19225686907429917,
+      "nested-loops": 0.25787661600854517,
+      "open-networks": 0.20580475967057588
+    },
+    "largestFamilyPositiveContributionShare": 0.25787661600854517
+  },
+  "familyDiagnostics": {
+    "concave-loops": {
+      "meanAdaptiveVsBreadth": 0.00406510216412514,
+      "meanAdaptiveVsFixed": 0.01162451893986886,
+      "meaningfulFraction": 0.5166666666666667
+    },
+    "dense-regions": {
+      "meanAdaptiveVsBreadth": 0.000039692442956734686,
+      "meanAdaptiveVsFixed": 0.007770847080656005,
+      "meaningfulFraction": 0.35
+    },
+    "disconnected-loops": {
+      "meanAdaptiveVsBreadth": -0.0037619642541300495,
+      "meanAdaptiveVsFixed": 0.011739527714413967,
+      "meaningfulFraction": 0.4166666666666667
+    },
+    "nested-loops": {
+      "meanAdaptiveVsBreadth": 0.006898560386969453,
+      "meanAdaptiveVsFixed": 0.007035572517194237,
+      "meaningfulFraction": 0.5666666666666667
+    },
+    "open-networks": {
+      "meanAdaptiveVsBreadth": -0.001173683741590048,
+      "meanAdaptiveVsFixed": 0.010848479363756602,
+      "meaningfulFraction": 0.38333333333333336
+    }
+  },
+  "diagnosis": {
+    "mutationGeometrySupported": true,
+    "adaptiveParentUpdatingSupported": true,
+    "singleLineageAllocationRobustlyBeatsBreadth": false,
+    "failedAssumption": "committing all incremental budget to one greedily improving basin",
+    "nextHypothesis": "combine fresh-basin discovery with projective local exploitation under a fixed multi-parent/repertoire-preserving allocation"
+  },
+  "nextStep": "define a materially distinct multi-basin spectral search experiment on new consumed seeds; do not tune this single-lineage operator on the consumed pilot"
+}
