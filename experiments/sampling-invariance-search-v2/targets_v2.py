@@ -145,7 +145,7 @@ def build_targets_v2():
     def draw_lobes(drawer) -> None:
         drawer.ellipse((74, 113, 221, 293), fill=capacity.FG)
         drawer.ellipse((183, 105, 329, 279), fill=capacity.FG)
-        drawer.ellipse((143, 167, 260, 321), fill=capacity.FG)
+        drawer.ellipse((158, 182, 245, 306), fill=capacity.FG)
 
     targets.append(capacity.Target("v2-dense-3", "dense-regions", capacity._filled_target(draw_lobes)))
 
