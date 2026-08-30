@@ -21,11 +21,16 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = 1838d8afd05a55ae4acf49ac37a9a670858af913
           test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = ec2aea2f0e889cea25e442dae7b5849bf8549cd1
           test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
+          test "$(git hash-object experiments/spectral-material-control-v1/spectral_control.py)" = 4109cb064b31e9ab8be77148a88bfb46e86cd2c0
+          test "$(git hash-object experiments/spectral-material-control-v1/calibrate.py)" = 6269827a48d9197862f1209ef9d17d6ae1f15874
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install frozen experiment dependencies
         run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Prove vectorized warp equivalence
+        working-directory: experiments/spectral-material-control-v1
+        run: python validate_vectorized.py
       - name: Run excluded calibration
         working-directory: experiments/spectral-material-control-v1
         run: python calibrate.py > calibration.json
