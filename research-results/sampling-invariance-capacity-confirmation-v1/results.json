@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "experiment": "sampling-invariance-capacity-confirmation-v1",
+  "decision": "SAMPLING_INVARIANCE_CAPACITY_CONFIRMED",
+  "authoritativeWorkflowRun": 33282503619,
+  "aggregateArtifact": {
+    "id": 9723423972,
+    "name": "sampling-invariance-capacity-confirmation-summary",
+    "digest": "sha256:f96c528bbae7eabd81f21893cec7cab2f47766cedc44e0bb8f5e3adc6bc0c10c",
+    "canonicalExactRecord": true
+  },
+  "frozenConfirmationHead": "45a5ddf26836e38dc96e8e59167bd4e09919d45b",
+  "population": {
+    "masterSeeds": 24,
+    "targetsPerSeed": 15,
+    "seedTargetCells": 360,
+    "viableCandidatesPerRepresentationPerSeed": 48
+  },
+  "gates": {
+    "allOriginalStageBGatesPass": true,
+    "completeConfirmationRectangle": true,
+    "fieldMeanLowerBoundAbove0p002": true,
+    "frozenSourceBlobsExact": true,
+    "metricEquivalenceExact": true,
+    "pairedAddedMarginLowerBoundAboveZero": true,
+    "pairedMeaningfulMarginLowerBoundAboveZero": true
+  },
+  "masterSeedInference": {
+    "fieldMeanAddedRecovery": {
+      "n": 24,
+      "mean": 0.014413646281798158,
+      "median": 0.013561003919459011,
+      "sd": 0.004897448327199987,
+      "min": 0.006162260936306755,
+      "max": 0.023996020207798008,
+      "oneSided95LowerBound": 0.012700310418414745,
+      "nullThreshold": 0.002
+    },
+    "pairedAddedMarginVsCurrentRouteMedian": {
+      "n": 24,
+      "mean": 0.008586918641751122,
+      "median": 0.007825161783567314,
+      "sd": 0.006043168459540849,
+      "min": -0.0025855139243798966,
+      "max": 0.021198870344237272,
+      "oneSided95LowerBound": 0.006472761113494259,
+      "nullThreshold": 0.0
+    },
+    "fieldMeaningfulFraction": {
+      "n": 24,
+      "mean": 0.43333333333333335,
+      "median": 0.4666666666666667,
+      "sd": 0.08105583451657718,
+      "min": 0.26666666666666666,
+      "max": 0.6
+    },
+    "pairedMeaningfulMarginVsCurrentRouteMedian": {
+      "n": 24,
+      "mean": 0.24166666666666667,
+      "median": 0.26666666666666666,
+      "sd": 0.09792533880807525,
+      "min": 0.06666666666666665,
+      "max": 0.5333333333333333,
+      "oneSided95LowerBound": 0.2074082153866363,
+      "nullThreshold": 0.0
+    },
+    "studentT": {
+      "df": 23,
+      "oneSided95Critical": 1.7138715277470473,
+      "clusterUnit": "master-seed"
+    }
+  },
+  "freshStageBReplication": {
+    "decision": "SAMPLING_INVARIANCE_CAPACITY_PROMISING",
+    "fieldPortfolioAddedRecoveryMean": 0.014413646281798158,
+    "currentRouteMedianMeanAddedRecovery": 0.007782076079689072,
+    "fieldMeaningfulUniqueContributionFraction": 0.43333333333333335,
+    "currentRouteMedianMeaningfulFraction": 0.2,
+    "largestSingleTargetContribution": {
+      "target": "concave-1",
+      "share": 0.16582590573162778
+    },
+    "meaningfulFamilies": [
+      "concave-loops",
+      "disconnected-loops",
+      "nested-loops",
+      "open-networks"
+    ],
+    "familyDiagnostics": {
+      "concave-loops": {
+        "meanAddedRecovery": 0.030444407615261546,
+        "meaningfulFraction": 0.875,
+        "meanSignedDelta": 0.02814570606102548
+      },
+      "nested-loops": {
+        "meanAddedRecovery": 0.01735967086679774,
+        "meaningfulFraction": 0.625,
+        "meanSignedDelta": 0.005896396267712916
+      },
+      "open-networks": {
+        "meanAddedRecovery": 0.013901387589784257,
+        "meaningfulFraction": 0.3611111111111111,
+        "meanSignedDelta": -0.00417344227258587
+      },
+      "disconnected-loops": {
+        "meanAddedRecovery": 0.010362765337147245,
+        "meaningfulFraction": 0.3055555555555556,
+        "meanSignedDelta": -0.015697026110701482
+      },
+      "dense-regions": {
+        "meanAddedRecovery": 0.0,
+        "meaningfulFraction": 0.0,
+        "meanSignedDelta": -0.26965577500379034
+      }
+    }
+  },
+  "nextStep": "design a separate spectral search-operator experiment; require objective search evidence before blinded artistic admission"
+}
