@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "decision": "SPECTRAL_MATERIAL_CONTROL_CALIBRATED",
+  "selectedAmplitude": 16.0,
+  "authoritativeEvidence": {
+    "headSha": "41167c0bf7bb06e2602c5c30dd71e453c67d65d5",
+    "workflowRunId": 33288153632,
+    "artifactId": 9725169289,
+    "artifactName": "spectral-material-control-calibration",
+    "artifactDigest": "sha256:0e374f2a20166668c343077ad128ab2dab831d728eb1537ae67aaf01c7a9782c",
+    "canonicalDetailedRecord": "workflow artifact calibration.json"
+  },
+  "equivalence": {
+    "vectorWarp": {
+      "decision": "VECTOR_WARP_EQUIVALENT",
+      "cases": 45,
+      "renderedExact": 45,
+      "validityExact": 15,
+      "maxPointDelta": 1.657256204579568e-13,
+      "maxRmsRelativeDifference": 1.4984686074651441e-15,
+      "tolerance": 2e-10
+    },
+    "fastGrayscaleMetric": {
+      "decision": "FAST_GRAYSCALE_METRIC_EQUIVALENT",
+      "cases": 66,
+      "maxAbsoluteDifference": 0.0,
+      "tolerance": 1e-12
+    }
+  },
+  "population": {
+    "masterSeeds": [99001, 99007, 99019, 99037],
+    "routes": ["recurrence", "orbit", "family", "sheet", "filament"],
+    "pairsPerRouteSeed": 6,
+    "amplitudes": [4.0, 8.0, 12.0, 16.0, 24.0],
+    "casesPerAmplitude": 120
+  },
+  "invariants": {
+    "passed": true,
+    "maxSignScaleDelta": 1.1368683772161603e-13
+  },
+  "amplitudeSummaries": {
+    "4": {
+      "pooledValidFraction": 1.0,
+      "minRouteValidFraction": 1.0,
+      "medianDistanceFromBase": 0.016332906545818628,
+      "meanDistanceFromBase": 0.020605355576843884
+    },
+    "8": {
+      "pooledValidFraction": 1.0,
+      "minRouteValidFraction": 1.0,
+      "medianDistanceFromBase": 0.040168526303094476,
+      "meanDistanceFromBase": 0.05076599562791303
+    },
+    "12": {
+      "pooledValidFraction": 1.0,
+      "minRouteValidFraction": 1.0,
+      "medianDistanceFromBase": 0.06431618934370707,
+      "meanDistanceFromBase": 0.07914222487435005
+    },
+    "16": {
+      "pooledValidFraction": 0.9666666666666667,
+      "minRouteValidFraction": 0.9166666666666666,
+      "routeValidFraction": {
+        "recurrence": 1.0,
+        "orbit": 0.9166666666666666,
+        "family": 0.9166666666666666,
+        "sheet": 1.0,
+        "filament": 1.0
+      },
+      "medianDistanceFromBase": 0.09006515875085054,
+      "meanDistanceFromBase": 0.10493641250268017,
+      "invalidCases": 4,
+      "invalidByRoute": {"family": 2, "orbit": 2},
+      "failureModes": {
+        "shared family law loses sibling-scale coherence": 2,
+        "closed recurrence loses its central aperture": 2
+      }
+    },
+    "24": {
+      "pooledValidFraction": 0.8833333333333333,
+      "minRouteValidFraction": 0.6666666666666666,
+      "medianDistanceFromBase": 0.13908401995578545,
+      "meanDistanceFromBase": 0.15338742702364766,
+      "invalidCases": 14
+    }
+  },
+  "selectionRule": "largest amplitude with invariant gate true, pooled validity >=0.95, every-route validity >=0.90, and median sparse-geometry displacement in [0.01,0.12]",
+  "interpretation": "The K=2 bandlimited field is calibrated as a sign/scale-invariant deformation-control substrate inside incumbent grammars. This does not admit a standalone spectral route or establish artistic benefit."
+}
