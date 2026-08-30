@@ -1,0 +1,222 @@
+name: semantic-world-model-navigation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-world-model-navigation-v1/**'
+      - '.github/workflows/semantic-world-model-navigation-v1.yml'
+      - 'research-results/semantic-breadth-budget-v1/results.json'
+      - 'prototypes/autonomous-discovery/**'
+      - 'experiments/semantic-perceptual-steering-v1/perceptual_metric.py'
+  workflow_dispatch:
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Persisted-result guard and frozen source lock
+        run: |
+          set -euo pipefail
+          test ! -f research-results/semantic-world-model-navigation-v1/results.json
+          grep -q 'SEMANTIC_BREADTH_BUDGET_NOT_SUFFICIENT' research-results/semantic-breadth-budget-v1/results.json
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/world_model.py)" = "1c5a19157b032284edc496834ffabd5205975596"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/generate_dataset.py)" = "bff81bf83f05ecc86398686dd87a5bdce862e4e0"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/fit_model.py)" = "2684439e0c63614905b3a9d63860b11dda76c11c"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/calibrate_model.py)" = "c17589e9274ab9804e23c1b9c212b7188ceecc19"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/unseen_targets.py)" = "bdf5e73cb95f8ee66a72b8f681d6a1f242a2d289"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/run_navigation.py)" = "4604acdd67954916d0398454592d7ee7738a3877"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/aggregate.py)" = "4d399b64f7ededc7096fd9d1b13f21cbbe87806e"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = "1838d8afd05a55ae4acf49ac37a9a670858af913"
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = "46f707729cf4b9b0e027a220a17ec956a4c6c4ec"
+
+  targets:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate frozen unseen target suite
+        run: |
+          python experiments/semantic-world-model-navigation-v1/unseen_targets.py > target-contract.json
+          python - <<'PY'
+          import json
+          x=json.load(open('target-contract.json'))
+          assert x['valid'], x['failures']
+          assert len(x['prompts']) == 8
+          assert x['distinctFingerprints'] and x['disjointFromPriorTargets']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-target-contract
+          path: target-contract.json
+
+  train-data:
+    needs: preflight
+    strategy:
+      fail-fast: true
+      max-parallel: 6
+      matrix:
+        seed: [733100011, 733100029, 733100041, 733100067, 733100079, 733100101, 733100113, 733100137, 733100151, 733100173, 733100197, 733100211]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate target-blind training shard
+        run: |
+          python experiments/semantic-world-model-navigation-v1/generate_dataset.py \
+            --seed ${{ matrix.seed }} --bases-per-route 80 --output train-${{ matrix.seed }}.npz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wm-train-${{ matrix.seed }}
+          path: train-${{ matrix.seed }}.npz
+
+  fit-model:
+    needs: train-data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wm-train-*
+          path: training
+          merge-multiple: true
+      - name: Fit frozen target-agnostic surrogate
+        run: |
+          python experiments/semantic-world-model-navigation-v1/fit_model.py \
+            --input-dir training --model-output model.npz --summary-output training-summary.json
+          python - <<'PY'
+          import json
+          x=json.load(open('training-summary.json'))
+          assert x['rowCount'] == 5760, x
+          assert x['shardCount'] == 12, x
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-v1
+          path: |
+            model.npz
+            training-summary.json
+
+  calibrate:
+    needs: fit-model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-world-model-v1
+          path: model
+      - name: Run target-free held-out model calibration
+        run: |
+          python experiments/semantic-world-model-navigation-v1/calibrate_model.py \
+            --model model/model.npz --output calibration-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-calibration
+          path: calibration-summary.json
+      - name: Enforce frozen calibration gate before semantic evidence
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('calibration-summary.json'))
+          assert x['decision'] == 'WORLD_MODEL_CALIBRATED', x
+          assert all(x['gates'].values()), x['gates']
+          PY
+
+  smoke:
+    needs: [calibrate, targets]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-world-model-v1
+          path: model
+      - name: Run excluded exact-budget semantic smoke
+        run: |
+          python experiments/semantic-world-model-navigation-v1/run_navigation.py \
+            --seed 733399999 --model model/model.npz --output smoke.json --smoke
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert all(x['hardInvariants'].values()), x['hardInvariants']
+          assert x['poolSize'] == 6144
+          assert x['renderBudgetPerArmConcept'] == 60
+          assert len(x['concepts']) == 8
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-smoke
+          path: smoke.json
+
+  consumed:
+    needs: smoke
+    strategy:
+      fail-fast: true
+      max-parallel: 6
+      matrix:
+        seed: [733300011, 733300029, 733300041, 733300067, 733300079, 733300101, 733300113, 733300137, 733300151, 733300173, 733300197, 733300211]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-world-model-v1
+          path: model
+      - name: Run fresh zero-shot learned-navigation seed
+        run: |
+          python experiments/semantic-world-model-navigation-v1/run_navigation.py \
+            --seed ${{ matrix.seed }} --model model/model.npz --output semantic-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-${{ matrix.seed }}
+          path: semantic-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: consumed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-world-model-7333*
+          path: evidence
+          merge-multiple: true
+      - name: Reduce only complete fresh semantic rectangle
+        run: |
+          python experiments/semantic-world-model-navigation-v1/aggregate.py \
+            --input-dir evidence --output semantic-world-model-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-world-model-navigation-summary
+          path: semantic-world-model-summary.json
