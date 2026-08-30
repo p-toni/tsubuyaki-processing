@@ -32,7 +32,7 @@ jobs:
           test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
           test "$(git hash-object experiments/sampling-invariance-v1/fast_binary_metric.py)" = 7e1c875350050312971d9397091e8708752c0bcd
           test "$(git hash-object experiments/sampling-invariance-search-v1/spectral_operator.py)" = c86f3a5b9d2862afba4232956066faeda9f378f0
-          test "$(git hash-object experiments/sampling-invariance-search-v2/targets_v2.py)" = 6d63669f4697ae89dc584bd775a8eb25def4779b
+          test "$(git hash-object experiments/sampling-invariance-search-v2/targets_v2.py)" = b130319589cf4c783232a4a0d66dcbc089de72ca
           test "$(git hash-object experiments/sampling-invariance-search-v2/run_search_v2.py)" = 1e2f0dc4c03971287fe87da184e3c01674f84284
           test "$(git hash-object experiments/sampling-invariance-search-v2/run_v2.py)" = 697a3ee18ce1cf8634789941b1ea8adcb6e2eac8
           test "$(git hash-object experiments/sampling-invariance-search-v2/aggregate_v2.py)" = 5c1b000694e122e128a472bc6e0346e17c44e514
