@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "decision": "LOCAL_DYNAMICS_NOT_CALIBRATED",
+  "trainingContainsSemanticTargets": false,
+  "calibrationContainsSemanticTargets": false,
+  "semanticEvidenceConsumed": false,
+  "training": {
+    "rowCount": 13824,
+    "shardCount": 12,
+    "trainingMSE": 0.00019709825317095465,
+    "trainingRouteFamilyMeanBaselineMSE": 0.00023955678385676306,
+    "trainingZeroDeltaBaselineMSE": 0.0002423140243892964,
+    "childValidityRate": 0.9962384259259259
+  },
+  "calibration": {
+    "seeds": [734200011, 734200029, 734200041, 734200067],
+    "pairRows": 1536,
+    "modelMSE": 0.0002874979489983826,
+    "routeActionMeanMSE": 0.0002511725992502177,
+    "zeroDeltaMSE": 0.00025357080865101665,
+    "overallMSEImprovement": -0.14462305942845943,
+    "goalInPredictedTop4Fraction": 0.20833333333333334,
+    "predictedTop1TrueTopQuartileFraction": 0.3385416666666667,
+    "meanPredictedTop1TrueRegret": 0.0321295637790231,
+    "validityBalancedAccuracy": 0.5,
+    "validityConfusion": {"fn": 0, "fp": 7, "negative": 7, "positive": 1529, "tn": 0, "tp": 1529},
+    "routeMSEImprovement": {
+      "recurrence": -0.08298756966921243,
+      "orbit": -0.5073278635490334,
+      "filament": -0.06770295048625344
+    }
+  },
+  "gates": {
+    "allShardHardInvariants": true,
+    "calibrationContainsNoSemanticTargets": true,
+    "exactCalibrationPairRows": true,
+    "exactCalibrationSeeds": true,
+    "exactRetrievalTaskCount": true,
+    "overallMSEImprovementAtLeastPoint20": false,
+    "everyRouteMSEImprovementPositive": false,
+    "pseudoGoalInPredictedTop4AtLeastPoint55": false,
+    "predictedTop1TrueTopQuartileAtLeastPoint80": false,
+    "meanPredictedTop1RegretAtMostPoint035": true,
+    "validityBalancedAccuracyAtLeastPoint80OrDegenerate": false
+  },
+  "interpretation": "A learned current-visual-state plus generic-action to delta-visual-state surrogate overfits training and underperforms the route/action-family empirical mean on fresh target-free transitions. The failure is strongest on orbit. Because the fail-closed calibration gate failed, semantic smoke and consumed jobs were skipped and the frozen arrow/key/mushroom/cloud/number-3/hourglass/bird/cactus suite remains unconsumed. The next hypothesis is nonparametric empirical action memory: retrieve similar observed parent states and reuse their actual action-conditioned visual deltas rather than fitting a global conditional function."
+}
