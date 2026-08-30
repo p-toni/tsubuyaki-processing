@@ -1,0 +1,40 @@
+name: sampling-invariance-search-calibration-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/sampling-invariance-search-v1/**'
+      - '.github/workflows/sampling-invariance-search-calibration-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify confirmed representation implementation is unchanged
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
+          test "$(git hash-object experiments/sampling-invariance-v1/fast_binary_metric.py)" = 7e1c875350050312971d9397091e8708752c0bcd
+          python - <<'PY'
+          import json
+          result = json.load(open('research-results/sampling-invariance-capacity-confirmation-v1/results.json'))
+          assert result['decision'] == 'SAMPLING_INVARIANCE_CAPACITY_CONFIRMED', result
+          print('confirmed capacity prerequisite is persisted')
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run excluded projective-operator calibration
+        working-directory: experiments/sampling-invariance-search-v1
+        run: python calibrate.py > calibration.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-search-calibration
+          path: experiments/sampling-invariance-search-v1/calibration.json
+          if-no-files-found: error
