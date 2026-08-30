@@ -169,6 +169,48 @@ One-sided t critical for df=9 is frozen as `1.8331129326536335`.
 
 If any gate fails, decision is **`SEMANTIC_SHAPE_STEERING_NOT_READY`**. This exact eight-concept / 60-budget protocol may not be tuned on the consumed seeds.
 
+## Mechanical results
+
+Authoritative workflow run: `33313722689`.
+Aggregate artifact: `9732898969`, digest `sha256:67283d2517ff7b50b1987f6f1a96d4808a37907e59f25c6757a49f152ff722ef`.
+
+All target-contract and smoke gates passed, and all 80 consumed blocks completed.
+
+Primary held-out results:
+
+- mean `deltaCoarse`: `+0.002599407437562983`;
+- one-sided 95% lower bound over master-seed coarse means: `+0.00003836126298378947`;
+- mean `deltaMultiscale`: `+0.02768383727612065`;
+- one-sided 95% lower bound over master-seed multiscale means: `+0.014148452084777172`;
+- mean guided objective gain from the best shared start: `+0.0312971468854357`;
+- guided objective gain positive in `79/80` blocks (`0.9875`);
+- `7/8` concepts have positive mean improvement on both held-out proxies.
+
+Concept-level held-out deltas:
+
+| concept | delta coarse | delta multiscale |
+|---|---:|---:|
+| heart | +0.000279 | +0.029513 |
+| star | +0.004346 | +0.022553 |
+| crescent | +0.003066 | +0.053414 |
+| fish | -0.013519 | +0.030976 |
+| butterfly | +0.000377 | +0.006151 |
+| tree | +0.012933 | +0.028559 |
+| letter-a | +0.003268 | +0.015523 |
+| flower | +0.010045 | +0.034782 |
+
+Fish is the sole concept with a negative mean coarse-overlap delta, while it remains positive on multiscale F1 and has the strongest mean target-objective gain among the eight concepts (`+0.05057`). This heterogeneity was allowed by the preregistered 6/8 concept gate and does not trigger any post-hoc tuning.
+
+Every preregistered mechanical gate passes.
+
+## Mechanical decision
+
+**`SEMANTIC_SHAPE_STEERING_MECHANICALLY_PROMISING`**
+
+For this frozen eight-concept catalog and fixed equal budget, giving the requested silhouette authority over within-route mutation survival causes the generated forms to move toward the request in held-out geometry measures, not only in the metric used to steer them.
+
+This establishes intentional **finite-catalog shape steering** mechanically. It still does not establish that a human looking only at the generated form recognizes the requested identity.
+
 ## Human recognition gate after a positive mechanical result
 
 A positive mechanical result still does **not** establish that a person recognizes X.
