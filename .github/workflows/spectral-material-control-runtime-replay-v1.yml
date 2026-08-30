@@ -38,7 +38,7 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
           test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = 24492a967fcccbe01be773bf723dd9df0f501249
           test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
-          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = ab05eb0d050f8053627a909c3d31e3236e97460c
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = d70da5ca546d4bbf402b6b2e8b15920d01ba6b47
           test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/run_runtime.py)" = 7ad9b41074cee17a028ca2c440dfc66c06c1fb5d
           test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/aggregate_runtime.py)" = bb2acca59fdd07544dce36c8c584919f42eecf83
           python - <<'PY'
