@@ -1,0 +1,66 @@
+name: semantic-shape-recognition-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-shape-steering-v1/recognition/**'
+      - 'research-results/semantic-shape-steering-v1/results.json'
+      - '.github/workflows/semantic-shape-recognition-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen prerequisites
+        shell: bash
+        run: |
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = 24492a967fcccbe01be773bf723dd9df0f501249
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object research-results/semantic-shape-steering-v1/results.json)" = 42fa9652a21b2f9e9ae7f5018961186f5131e759
+          test "$(git hash-object experiments/semantic-shape-steering-v1/recognition/generate_package.py)" = 8384ebd0c7f136471bc6e8bc185a2f72fe5c25f3
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-shape-steering-v1/results.json').read_text())
+          assert d['decision']=='SEMANTIC_SHAPE_STEERING_MECHANICALLY_PROMISING'
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen blinded recognition package
+        working-directory: experiments/semantic-shape-steering-v1/recognition
+        run: python generate_package.py --output-root output
+      - name: Verify package contract
+        working-directory: experiments/semantic-shape-steering-v1/recognition
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('output/manifest.json').read_text())
+          assert d['panelCount']==8
+          assert d['distinctPhenotypes'] is True
+          assert d['allDisplayOutputsValid'] is True
+          assert d['exactBudgetPerConcept']==60
+          assert d['exactNativePerConcept']==30
+          assert d['exactSpectralPerConcept']==30
+          review=Path('output/review')
+          key=Path('output/sealed-key')
+          assert (review/'recognition-sheet.png').is_file()
+          assert all((review/f'panel-{x}.png').is_file() for x in 'ABCDEFGH')
+          assert (key/'recognition-key.json').is_file()
+          assert not (review/'recognition-key.json').exists()
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-shape-recognition-review
+          path: experiments/semantic-shape-steering-v1/recognition/output/review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-shape-recognition-sealed-key
+          path: experiments/semantic-shape-steering-v1/recognition/output/sealed-key
