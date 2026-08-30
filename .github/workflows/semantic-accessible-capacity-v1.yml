@@ -37,7 +37,7 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
           test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = 5b5093de73c459270e3a96016c867c20f81a75d4
           test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = 46f707729cf4b9b0e027a220a17ec956a4c6c4ec
-          test "$(git hash-object experiments/semantic-accessible-capacity-v1/run_archive.py)" = caa9b50a5790f1676309713798feda4868c4fe4d
+          test "$(git hash-object experiments/semantic-accessible-capacity-v1/run_archive.py)" = bf8faa3c9038e5c40c4d6628d0ddddf00335b4c2
           test "$(git hash-object experiments/semantic-accessible-capacity-v1/aggregate.py)" = 074ec2379c26c7a51e223d30ef1fdd8e5f85a1d1
           test "$(git hash-object research-results/semantic-perceptual-steering-v1/results.json)" = a17ac7196dfff3dcfbf549fe9095764208a9a179
           python - <<'PY'
@@ -70,6 +70,7 @@ jobs:
           d=json.loads(Path('smoke.json').read_text())
           assert d['targetBlindGeneration'] is True
           assert all(d['hardInvariants'].values()), d['hardInvariants']
+          assert d['maxHeldoutEquivalenceDelta'] <= 1e-12
           assert d['totalAttempts']==1536
           assert d['attempted']=={'native':768,'spectral':768}
           assert all(x['attempted']==512 for x in d['routes'].values())
