@@ -1,0 +1,133 @@
+{
+  "decision": "SPECTRAL_MATERIAL_CONTROL_RUNTIME_PROMISING",
+  "delta": {
+    "max": 0.09387025502416113,
+    "mean": 0.021387817775104574,
+    "median": 0.018721747217702034,
+    "min": -0.05318105852789601,
+    "n": 720,
+    "sd": 0.02278719772565169
+  },
+  "familyMeanDelta": {
+    "concave-loops": 0.01927271699033277,
+    "dense-regions": 0.02292481851003888,
+    "disconnected-loops": 0.021551843990924482,
+    "nested-loops": 0.02301174059240893,
+    "open-networks": 0.02017796879181781
+  },
+  "gates": {
+    "allLeaveOneFamilyOutPositive": true,
+    "allThreeRouteMeansPositive": true,
+    "allThreeRouteSeedLower95Positive": true,
+    "completeHardInvariantRectangle": true,
+    "exactMixed10Native10SpectralEveryRouteSeed": true,
+    "exactRuntimeBudgetEveryRouteSeed": true,
+    "globalMasterSeedLower95Positive": true,
+    "meanDeltaAtLeast003": true,
+    "meaningfulWinsExceedLosses": true,
+    "positiveAdvantageNotFamilyConcentrated": true,
+    "spectralValidityRetained": true
+  },
+  "leaveOneFamilyOutMeanDelta": {
+    "concave-loops": 0.021916592971297527,
+    "dense-regions": 0.021003567591370998,
+    "disconnected-loops": 0.0213468112211496,
+    "nested-loops": 0.020981837070778487,
+    "open-networks": 0.021690280020926267
+  },
+  "masterSeedDelta": {
+    "max": 0.0412580999696084,
+    "mean": 0.021387817775104574,
+    "median": 0.02408376554289512,
+    "min": 0.001185419064936065,
+    "n": 16,
+    "oneSided95Lower": 0.016602777813513443,
+    "perSeed": {
+      "124003": 0.009520024369799516,
+      "124009": 0.0412580999696084,
+      "124021": 0.025057297180836616,
+      "124037": 0.039523836483676515,
+      "124051": 0.025390087550396883,
+      "124067": 0.01389238776654373,
+      "124087": 0.001185419064936065,
+      "124097": 0.013712423327991875,
+      "124121": 0.012354348984257415,
+      "124123": 0.03052534251003634,
+      "124133": 0.027558205748015346,
+      "124139": 0.0262891766811471,
+      "124147": 0.02529908454979009,
+      "124153": 0.015899792084468883,
+      "124171": 0.023110233904953627,
+      "124181": 0.011629324225214812
+    },
+    "sd": 0.010918203110487992,
+    "tCritical": 1.7530503556925547
+  },
+  "meaningful": {
+    "lossFraction": 0.07083333333333333,
+    "margin": 0.005,
+    "winFraction": 0.7111111111111111
+  },
+  "population": {
+    "cells": 720,
+    "masterSeeds": [124003,124009,124021,124037,124051,124067,124087,124097,124121,124123,124133,124139,124147,124153,124171,124181],
+    "routes": ["recurrence","orbit","filament"],
+    "settings": {
+      "canonicalTime": 90,
+      "challengersPerRouteArm": 20,
+      "explorePerBasin": 4,
+      "metric": "sparse-geometry-v1-exact-fast-grayscale",
+      "mixedNativePerRoute": 10,
+      "mixedSpectralPerRoute": 10,
+      "roundAPerSurvivor": 4,
+      "routes": ["recurrence","orbit","filament"],
+      "selector": "deterministic-temporal-selector-runtime-driver-only",
+      "spectralAmplitude": 16.0,
+      "spectralBandwidth": 2,
+      "startsPerRoute": 1,
+      "totalExtraBudget": 12
+    },
+    "targetFamilies": ["disconnected-loops","nested-loops","concave-loops","open-networks","dense-regions"]
+  },
+  "positiveAdvantageConcentration": {
+    "byFamily": {
+      "concave-loops": 2.8811407493133285,
+      "dense-regions": 3.5990854894456925,
+      "disconnected-loops": 3.3839615044097364,
+      "nested-loops": 3.4542235895693425,
+      "open-networks": 3.072522167128769
+    },
+    "maxFamilyShare": 0.21957782267098608,
+    "shareByFamily": {
+      "concave-loops": 0.1757764894437971,
+      "dense-regions": 0.21957782267098608,
+      "disconnected-loops": 0.20645325078264895,
+      "nested-loops": 0.21073989407603896,
+      "open-networks": 0.18745254302652894
+    }
+  },
+  "recovery": {
+    "mixed": {"max":0.7532755282824316,"mean":0.5635812338328402,"median":0.5699688843759042,"min":0.33621056354126855,"n":720,"sd":0.07275139238874043},
+    "native": {"max":0.7299015270888216,"mean":0.5421934160577356,"median":0.54541757645929,"min":0.29749284153357713,"n":720,"sd":0.07663910215152848}
+  },
+  "routeMasterSeedDelta": {
+    "filament": {"max":0.04631450159916018,"mean":0.013927674795500342,"median":0.010896040133669545,"min":-0.01306881460893563,"n":16,"oneSided95Lower":0.0063612819469718185,"sd":0.01726451912566851},
+    "orbit": {"max":0.055054305068873495,"mean":0.024630118514826327,"median":0.02283318475928888,"min":-0.002976608416639618,"n":16,"oneSided95Lower":0.017000925266376022,"sd":0.017407813126819938},
+    "recurrence": {"max":0.051939160510785225,"mean":0.025605660014987056,"median":0.030145523455307445,"min":-0.01521519261819344,"n":16,"oneSided95Lower":0.0170752481642411,"sd":0.01946415702902261}
+  },
+  "routeMeanDelta": {
+    "filament": 0.01392767479550034,
+    "orbit": 0.024630118514826327,
+    "recurrence": 0.025605660014987056
+  },
+  "validity": {
+    "spectralByRoute": {"filament":0.9625,"orbit":0.9625,"recurrence":0.98125},
+    "spectralPooled": 0.96875
+  },
+  "artifact": {
+    "workflowRun": 33311382534,
+    "artifactId": 9732111435,
+    "digest": "sha256:9947fab9a04f8a56eb1648f953f0144bcc25a371261f9ac535a96eb16916f13c"
+  },
+  "version": 1
+}
