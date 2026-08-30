@@ -1,0 +1,141 @@
+name: semantic-breadth-budget-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-breadth-budget-v1/**'
+      - 'research-results/semantic-breadth-budget-v1/**'
+      - 'research-results/semantic-breadth-rerank-v1/**'
+      - '.github/workflows/semantic-breadth-budget-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/semantic-breadth-budget-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-breadth-budget-v1/results.json').read_text())
+          assert d['decision'] in {
+            'SEMANTIC_BREADTH_BUDGET_120_SUFFICIENT',
+            'SEMANTIC_BREADTH_BUDGET_240_SUFFICIENT',
+            'SEMANTIC_BREADTH_BUDGET_480_SUFFICIENT',
+            'SEMANTIC_BREADTH_BUDGET_NOT_SUFFICIENT',
+          }
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = 5b5093de73c459270e3a96016c867c20f81a75d4
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = 46f707729cf4b9b0e027a220a17ec956a4c6c4ec
+          test "$(git hash-object experiments/semantic-breadth-budget-v1/run_archive.py)" = a31ca664e7a65be5f6680e18791430b44b1f81e3
+          test "$(git hash-object experiments/semantic-breadth-budget-v1/aggregate.py)" = 793b810d4f7c2a310b529c12d3811a3d5d209487
+          test "$(git hash-object research-results/semantic-breadth-rerank-v1/results.json)" = 40a8cc28590e4bb758ad7debc5efaf81ed56c1cf
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-breadth-rerank-v1/results.json').read_text())
+          assert d['decision']=='SEMANTIC_BREADTH_RERANK_NOT_PROMISING'
+          PY
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded nested breadth smoke
+        run: |
+          python experiments/semantic-breadth-budget-v1/run_archive.py \
+            --seed 732499999 --smoke --output smoke.json
+      - name: Verify smoke invariants and nested contracts
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('smoke.json'))
+          assert all(d['hardInvariants'].values()), d['hardInvariants']
+          assert d['targetBlindGeneration'] is True
+          expected={60:20,120:40,240:80,480:160}
+          for b,pr in expected.items():
+              c=d['budgets'][str(b)]['contract']
+              assert c['totalAttempts']==b
+              assert c['nativeAttempted']==b//2
+              assert c['spectralAttempted']==b//2
+              for r in ('recurrence','orbit','filament'):
+                  assert c['routes'][r]['attempted']==pr
+                  assert c['routes'][r]['nativeAttempted']==pr//2
+                  assert c['routes'][r]['spectralAttempted']==pr//2
+          assert d['maxSelectionEquivalenceDelta'] <= 1e-12
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-budget-smoke
+          path: smoke.json
+
+  consumed:
+    needs: [preflight, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [732500011,732500029,732500041,732500067,732500079,732500101,732500113,732500137,732500151,732500173,732500197,732500211,732500233,732500257,732500271,732500293,732500317,732500341,732500363,732500389]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate fresh nested target-blind archive
+        run: |
+          python experiments/semantic-breadth-budget-v1/run_archive.py \
+            --seed ${{ matrix.seed }} --output archive-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-budget-seed-${{ matrix.seed }}
+          path: archive-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-breadth-budget-seed-*
+          path: collected
+          merge-multiple: true
+      - name: Reduce complete 20-seed nested budget rectangle
+        run: |
+          python experiments/semantic-breadth-budget-v1/aggregate.py \
+            --input-root collected --output semantic-breadth-budget-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-budget-summary
+          path: semantic-breadth-budget-summary.json
