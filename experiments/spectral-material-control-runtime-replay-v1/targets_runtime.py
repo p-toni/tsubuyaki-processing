@@ -108,9 +108,9 @@ def build_targets_runtime():
     targets.append(capacity.Target('runtime-dense-2', 'dense-regions', capacity._filled_target(annulus)))
 
     def lobes(drawer):
-        drawer.ellipse((72, 114, 218, 292), fill=capacity.FG)
-        drawer.ellipse((190, 104, 331, 283), fill=capacity.FG)
-        drawer.ellipse((154, 194, 247, 309), fill=capacity.FG)
+        drawer.ellipse((78, 121, 211, 286), fill=capacity.FG)
+        drawer.ellipse((195, 112, 326, 278), fill=capacity.FG)
+        drawer.ellipse((163, 199, 239, 296), fill=capacity.FG)
     targets.append(capacity.Target('runtime-dense-3', 'dense-regions', capacity._filled_target(lobes)))
 
     if len(targets) != 15:
