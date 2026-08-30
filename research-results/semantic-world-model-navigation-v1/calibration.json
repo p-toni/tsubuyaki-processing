@@ -1,0 +1,23 @@
+{
+  "decision": "WORLD_MODEL_NOT_CALIBRATED",
+  "workflowRunId": 33333661645,
+  "calibrationArtifactId": 9738447271,
+  "calibrationArtifactDigest": "sha256:d6af8fabae18c3d5b26c9e933a21ecd61d025e220b76a1d329d7e8f9eb001f5f",
+  "trainingArtifactId": 9738414367,
+  "trainingArtifactDigest": "sha256:6ffa02b01d7d9a357038453a3b479b8e56d095ae6cf205fd3bb67e00ba2d1aa0",
+  "trainingRows": 5760,
+  "trainingMSE": 0.0012303233265757731,
+  "heldoutRows": 1536,
+  "modelMSE": 0.0016147117389413534,
+  "routeOperatorMeanBaselineMSE": 0.0017393890375351389,
+  "overallMSEImprovement": 0.07167878830055396,
+  "routeMSEImprovement": {
+    "recurrence": 0.11539279047650819,
+    "orbit": -0.15270976060552766,
+    "filament": 0.12151611252268713
+  },
+  "oracleInPredictedTop8Fraction": 0.1875,
+  "predictedTop1BeatsMedianFraction": 0.8333333333333334,
+  "meanPredictedTop1Regret": 0.05316971927166995,
+  "semanticSeedsConsumed": false
+}
