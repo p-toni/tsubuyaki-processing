@@ -211,6 +211,7 @@ def _arm_record(state, prompt: str, targets, bank, logical_count: int, valid_cou
 
 def run(seed: int, model_path: Path, smoke: bool = False) -> dict:
     model = ld.load_model(model_path)
+    model_sha = hashlib.sha256(model_path.read_bytes()).hexdigest()
     targets = unseen_targets.build_targets()
     bank = pm.PrototypeBank(targets)
     breadth_states, breadth_fp = _breadth_pool(seed)
@@ -266,6 +267,7 @@ def run(seed: int, model_path: Path, smoke: bool = False) -> dict:
         'version': 1,
         'seed': int(seed),
         'smoke': bool(smoke),
+        'modelSha256': model_sha,
         'semanticTargetsUsedOnlyAtControllerEvaluation': True,
         'poolFingerprint': breadth_fp,
         'prompts': list(unseen_targets.PROMPTS),
