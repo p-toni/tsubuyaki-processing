@@ -1,0 +1,127 @@
+name: semantic-accessible-capacity-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-accessible-capacity-v1/**'
+      - 'research-results/semantic-accessible-capacity-v1/**'
+      - 'research-results/semantic-perceptual-steering-v1/**'
+      - '.github/workflows/semantic-accessible-capacity-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/semantic-accessible-capacity-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-accessible-capacity-v1/results.json').read_text())
+          assert d['decision'] in {'ACCESSIBLE_SEMANTIC_CAPACITY_PRESENT','ACCESSIBLE_SEMANTIC_CAPACITY_LIMITED'}
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = 5b5093de73c459270e3a96016c867c20f81a75d4
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = 46f707729cf4b9b0e027a220a17ec956a4c6c4ec
+          test "$(git hash-object experiments/semantic-accessible-capacity-v1/run_archive.py)" = caa9b50a5790f1676309713798feda4868c4fe4d
+          test "$(git hash-object experiments/semantic-accessible-capacity-v1/aggregate.py)" = 074ec2379c26c7a51e223d30ef1fdd8e5f85a1d1
+          test "$(git hash-object research-results/semantic-perceptual-steering-v1/results.json)" = a17ac7196dfff3dcfbf549fe9095764208a9a179
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-perceptual-steering-v1/results.json').read_text())
+          assert d['decision']=='PERCEPTUAL_SEMANTIC_STEERING_NOT_READY'
+          PY
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded target-blind archive smoke
+        working-directory: experiments/semantic-accessible-capacity-v1
+        run: python run_archive.py --seed 732099999 --output smoke.json
+      - name: Verify exact archive contract
+        working-directory: experiments/semantic-accessible-capacity-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('smoke.json').read_text())
+          assert d['targetBlindGeneration'] is True
+          assert all(d['hardInvariants'].values()), d['hardInvariants']
+          assert d['totalAttempts']==1536
+          assert d['attempted']=={'native':768,'spectral':768}
+          assert all(x['attempted']==512 for x in d['routes'].values())
+          assert len(d['concepts'])==8
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-accessible-capacity-smoke
+          path: experiments/semantic-accessible-capacity-v1/smoke.json
+
+  consumed:
+    needs: [preflight, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        seed: [732100011,732100027,732100039,732100057,732100081,732100103,732100119,732100143,732100157,732100181,732100207,732100229]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate fresh target-blind archive
+        working-directory: experiments/semantic-accessible-capacity-v1
+        run: python run_archive.py --seed '${{ matrix.seed }}' --output 'archive-${{ matrix.seed }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-accessible-capacity-archive-${{ matrix.seed }}
+          path: experiments/semantic-accessible-capacity-v1/archive-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-accessible-capacity-archive-*
+          path: archives
+      - name: Reduce only complete 12-seed archive rectangle
+        working-directory: experiments/semantic-accessible-capacity-v1
+        run: python aggregate.py --input-root ../../archives --output semantic-accessible-capacity-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-accessible-capacity-summary
+          path: experiments/semantic-accessible-capacity-v1/semantic-accessible-capacity-summary.json
