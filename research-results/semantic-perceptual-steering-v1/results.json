@@ -1,0 +1,48 @@
+{
+  "decision": "PERCEPTUAL_SEMANTIC_STEERING_NOT_READY",
+  "workflowRunId": 33318093451,
+  "artifactId": 9734211299,
+  "artifactDigest": "sha256:c5d6da3daf0b647d6451068ef5950a57a3ade22989965a59376995f0535335c6",
+  "blockCount": 96,
+  "seedCount": 12,
+  "conceptCount": 8,
+  "prompts": ["diamond", "spiral", "lightning", "leaf", "umbrella", "crown", "letter-s", "sailboat"],
+  "overall": {
+    "meanDeltaHeldoutTargetF1": 0.1159155114933576,
+    "heldoutF1OneSided95LowerBound": 0.09162902169716437,
+    "meanDeltaHeldoutMargin": 0.09166287003859648,
+    "heldoutMarginOneSided95LowerBound": 0.06012687981146905,
+    "baselineHeldoutTop1Fraction": 0.17708333333333334,
+    "perceptualHeldoutTop1Fraction": 0.3854166666666667,
+    "heldoutTop1Improvement": 0.20833333333333334,
+    "baselineSelectionTop1Fraction": 0.20833333333333334,
+    "perceptualSelectionTop1Fraction": 0.5833333333333334,
+    "positiveConceptCount": 8,
+    "strongHeldoutTop1ConceptCount": 4,
+    "maxPositiveF1ContributionShare": 0.2575962909362409
+  },
+  "conceptMeans": {
+    "diamond": {"deltaHeldoutTargetF1": 0.25646705078737136, "perceptualHeldoutTop1Fraction": 0.8333333333333334},
+    "spiral": {"deltaHeldoutTargetF1": 0.0741441722188834, "perceptualHeldoutTop1Fraction": 0.08333333333333333},
+    "lightning": {"deltaHeldoutTargetF1": 0.1730507256006736, "perceptualHeldoutTop1Fraction": 0.75},
+    "leaf": {"deltaHeldoutTargetF1": 0.12802796675783643, "perceptualHeldoutTop1Fraction": 0.5},
+    "umbrella": {"deltaHeldoutTargetF1": 0.1495067813335329, "perceptualHeldoutTop1Fraction": 0.08333333333333333},
+    "crown": {"deltaHeldoutTargetF1": 0.0379243912693362, "perceptualHeldoutTop1Fraction": 0.25},
+    "letter-s": {"deltaHeldoutTargetF1": 0.07992871308638215, "perceptualHeldoutTop1Fraction": 0.0},
+    "sailboat": {"deltaHeldoutTargetF1": 0.028274290892844736, "perceptualHeldoutTop1Fraction": 0.5833333333333334}
+  },
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "exactEqualBudget": true,
+    "meanHeldoutF1GainAtLeastPoint025": true,
+    "heldoutF1SeedLowerBoundPositive": true,
+    "meanHeldoutMarginGainPositive": true,
+    "heldoutMarginSeedLowerBoundPositive": true,
+    "heldoutTop1ImprovementAtLeast20Points": true,
+    "atLeastSixConceptsPositiveF1": true,
+    "noConceptDominatesPositiveF1": true,
+    "perceptualHeldoutTop1AtLeast60Pct": false,
+    "perceptualSelectionTop1AtLeast70Pct": false,
+    "atLeastFiveConceptsHeldoutTop1AtLeastHalf": false
+  }
+}
