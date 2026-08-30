@@ -1,0 +1,30 @@
+{
+  "decision": "SEMANTIC_BREADTH_BUDGET_NOT_SUFFICIENT",
+  "workflowRunId": 33328855845,
+  "artifactId": 9737166449,
+  "artifactDigest": "sha256:237e3085847a33b740f90657383746dfbffa66d93a5716c753262693d29ca337",
+  "seedCount": 20,
+  "conceptCount": 8,
+  "smallestSufficientBudget": null,
+  "budgets": {
+    "60": {"heldoutTop1Fraction": 0.53125, "meanHeldoutTargetF1": 0.5762412173627263},
+    "120": {"heldoutTop1Fraction": 0.625, "meanHeldoutTargetF1": 0.5957598988623917},
+    "240": {"heldoutTop1Fraction": 0.675, "meanHeldoutTargetF1": 0.6095457950569351},
+    "480": {"heldoutTop1Fraction": 0.66875, "meanHeldoutTargetF1": 0.6210116572541666}
+  },
+  "conceptTop1At480": {
+    "crown": 0.65,
+    "diamond": 1.0,
+    "leaf": 0.9,
+    "letter-s": 0.05,
+    "lightning": 0.95,
+    "sailboat": 0.95,
+    "spiral": 0.35,
+    "umbrella": 0.5
+  },
+  "comparisonsVs60": {
+    "120": {"meanDeltaHeldoutTargetF1": 0.01951868149966545, "seedMeanDeltaOneSided95LowerBound": 0.011998389411985614, "top1FractionDelta": 0.09375},
+    "240": {"meanDeltaHeldoutTargetF1": 0.03330457769420886, "seedMeanDeltaOneSided95LowerBound": 0.024762053945903414, "top1FractionDelta": 0.14375},
+    "480": {"meanDeltaHeldoutTargetF1": 0.04477043989144035, "seedMeanDeltaOneSided95LowerBound": 0.03455626037194362, "top1FractionDelta": 0.1375}
+  }
+}
