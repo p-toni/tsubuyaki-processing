@@ -1,0 +1,204 @@
+name: semantic-perceptual-steering-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-perceptual-steering-v1/**'
+      - 'research-results/semantic-perceptual-steering-v1/**'
+      - 'research-results/semantic-shape-steering-v1/**'
+      - 'prototypes/autonomous-discovery/core.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - '.github/workflows/semantic-perceptual-steering-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        name: Persisted-result guard and frozen source lock
+        shell: bash
+        run: |
+          if test -f research-results/semantic-perceptual-steering-v1/results.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research-results/semantic-perceptual-steering-v1/results.json').read_text())
+          assert d['decision'] in {'PERCEPTUAL_SEMANTIC_STEERING_MECHANICALLY_PROMISING','PERCEPTUAL_SEMANTIC_STEERING_NOT_READY'}
+          PY
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = c06b5c2d6440663becb6761981ab4cc033fe052a
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = 24492a967fcccbe01be773bf723dd9df0f501249
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = 33e0462ad27f841a4369da306ecb64a15d2e0c13
+          test "$(git hash-object experiments/semantic-shape-steering-v1/semantic_targets.py)" = ca1a9301ad65a74b6219aaeee02f7dad10ad79c0
+          test "$(git hash-object experiments/semantic-shape-steering-v1/steering.py)" = b5a9e456b578f0ac286575b96869616e98d6733c
+          test "$(git hash-object research-results/semantic-shape-steering-v1/results.json)" = 42fa9652a21b2f9e9ae7f5018961186f5131e759
+          test "$(git hash-object research-results/semantic-shape-steering-v1/human-recognition.md)" = dd62a3034bda694b16b7fecff05ff9bcd078c083
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/README.md)" = 4831c7fdd11be69ab1450c081fe5a733942fa643
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = 46f707729cf4b9b0e027a220a17ec956a4c6c4ec
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = 5b5093de73c459270e3a96016c867c20f81a75d4
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/calibrate_metric.py)" = e633e4326c129b7b4f9d768db18276cc5e59eb38
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/run_block.py)" = 270ebf7b8030c5d18ee230bd5311ce2241f8f75c
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/aggregate.py)" = 451117f8ef1dbc6166f30dd6881d3c3ee3cc4cf7
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          mechanical=json.loads(Path('research-results/semantic-shape-steering-v1/results.json').read_text())
+          assert mechanical['decision']=='SEMANTIC_SHAPE_STEERING_MECHANICALLY_PROMISING'
+          human=Path('research-results/semantic-shape-steering-v1/human-recognition.md').read_text()
+          assert 'HUMAN_SEMANTIC_RECOGNITION_NOT_DEMONSTRATED' in human
+          PY
+
+  calibration:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Calibrate perceptual prototype metric
+        working-directory: experiments/semantic-perceptual-steering-v1
+        run: python calibrate_metric.py --output metric-calibration.json
+      - name: Fail closed unless calibration passes
+        working-directory: experiments/semantic-perceptual-steering-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('metric-calibration.json').read_text())
+          assert d['decision']=='PERCEPTUAL_PROTOTYPE_METRIC_CALIBRATED', d
+          assert all(d['gates'].values()), d['gates']
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-perceptual-metric-calibration
+          path: experiments/semantic-perceptual-steering-v1/metric-calibration.json
+
+  target-contract:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Verify fresh semantic target contract
+        working-directory: experiments/semantic-perceptual-steering-v1
+        run: python fresh_targets.py > target-contract.json
+      - name: Fail closed on target drift
+        working-directory: experiments/semantic-perceptual-steering-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('target-contract.json').read_text())
+          assert d['valid'] is True, d['failures']
+          assert d['distinctFingerprints'] is True
+          assert d['disjointFromPriorTargets'] is True
+          assert len(d['prompts']) == 8
+          assert len(d['targets']) == 8
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-perceptual-target-contract
+          path: experiments/semantic-perceptual-steering-v1/target-contract.json
+
+  smoke:
+    needs: [preflight, calibration, target-contract]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        prompt: [diamond, spiral, lightning, leaf, umbrella, crown, letter-s, sailboat]
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded deterministic perceptual smoke
+        working-directory: experiments/semantic-perceptual-steering-v1
+        run: python run_block.py --seed 731899999 --prompt '${{ matrix.prompt }}' --smoke --output 'smoke-${{ matrix.prompt }}.json'
+      - name: Verify smoke invariants and budgets
+        working-directory: experiments/semantic-perceptual-steering-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          d=json.loads(Path('smoke-${{ matrix.prompt }}.json').read_text())
+          assert d['smoke'] is True
+          assert all(d['hardInvariants'].values()), d['hardInvariants']
+          for route,x in d['routes'].items():
+              for arm in ('baseline','perceptual'):
+                  c=x[arm]['operatorContract']
+                  assert c['totalChallengers']==20
+                  assert c['nativeChallengers']==10
+                  assert c['spectralChallengers']==10
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-perceptual-smoke-${{ matrix.prompt }}
+          path: experiments/semantic-perceptual-steering-v1/smoke-${{ matrix.prompt }}.json
+
+  consumed:
+    needs: [preflight, calibration, target-contract, smoke]
+    if: needs.preflight.outputs.skip != 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 24
+      matrix:
+        seed: [731900011,731900027,731900039,731900057,731900081,731900103,731900119,731900143,731900157,731900181,731900207,731900229]
+        prompt: [diamond, spiral, lightning, leaf, umbrella, crown, letter-s, sailboat]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run fresh paired semantic objective block
+        working-directory: experiments/semantic-perceptual-steering-v1
+        run: python run_block.py --seed '${{ matrix.seed }}' --prompt '${{ matrix.prompt }}' --output 'seed-${{ matrix.seed }}-${{ matrix.prompt }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-perceptual-seed-${{ matrix.seed }}-${{ matrix.prompt }}
+          path: experiments/semantic-perceptual-steering-v1/seed-${{ matrix.seed }}-${{ matrix.prompt }}.json
+
+  aggregate:
+    needs: [preflight, consumed]
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-perceptual-seed-*
+          path: blocks
+      - name: Reduce only after complete 96-block rectangle
+        working-directory: experiments/semantic-perceptual-steering-v1
+        run: python aggregate.py --input-root ../../blocks --output semantic-perceptual-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-perceptual-steering-summary
+          path: experiments/semantic-perceptual-steering-v1/semantic-perceptual-summary.json
