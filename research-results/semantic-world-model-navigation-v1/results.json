@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "decision": "WORLD_MODEL_NOT_CALIBRATED",
+  "trainingContainsSemanticTargets": false,
+  "calibrationContainsSemanticTargets": false,
+  "semanticEvidenceConsumed": false,
+  "training": {
+    "rowCount": 5760,
+    "shardCount": 12,
+    "trainingMSE": 0.0012303233265757731,
+    "trainingValidityMAE": 0.03099219683497004,
+    "mathDim": 63,
+    "visualDim": 490
+  },
+  "calibration": {
+    "rows": 1536,
+    "modelMSE": 0.0016147117389413534,
+    "routeOperatorMeanBaselineMSE": 0.0017393890375351389,
+    "overallMSEImprovement": 0.07167878830055396,
+    "routeMSEImprovement": {
+      "recurrence": 0.11539279047650819,
+      "orbit": -0.15270976060552766,
+      "filament": 0.12151611252268713
+    },
+    "retrievalTaskCount": 48,
+    "oracleInPredictedTop8Fraction": 0.1875,
+    "predictedTop1BeatsMedianFraction": 0.8333333333333334,
+    "meanPredictedTop1Regret": 0.05316971927166995
+  },
+  "gates": {
+    "overallMSEImprovementAtLeastPoint20": false,
+    "everyRouteMSEImprovementPositive": false,
+    "oracleTop8RecallAtLeastPoint50": false,
+    "predictedTop1BeatsMedianAtLeastPoint85": false
+  },
+  "interpretation": "A global raw mathematical-state to perceptual-state surrogate is not calibrated strongly enough for semantic navigation. The failure is especially concentrated in orbit. No semantic evaluation was authorized or consumed. The next hypothesis is target-agnostic local dynamics: current visual state plus mathematical intervention predicts delta visual state."
+}
