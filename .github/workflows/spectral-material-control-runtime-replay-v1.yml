@@ -62,16 +62,19 @@ jobs:
       - name: Verify fresh target contract
         working-directory: experiments/spectral-material-control-runtime-replay-v1
         run: python targets_runtime.py > target-contract.json
-      - name: Fail closed on target drift
+      - name: Expose and fail closed on target drift
         working-directory: experiments/spectral-material-control-runtime-replay-v1
-        shell: python
+        shell: bash
         run: |
+          cat target-contract.json
+          python - <<'PY'
           import json
           from pathlib import Path
           d=json.loads(Path('target-contract.json').read_text())
           assert d['valid'] is True
           assert d['disjointFromAllPriorSamplingTargets'] is True
           assert not d['priorOverlap']
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: spectral-runtime-target-contract
