@@ -1,0 +1,750 @@
+{
+  "archiveDiagnostics": {
+    "bandlimited-k2": {
+      "meanAttemptsPerAccepted": 1.0,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    },
+    "family": {
+      "meanAttemptsPerAccepted": 1.0,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    },
+    "filament": {
+      "meanAttemptsPerAccepted": 1.0052083333333335,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    },
+    "orbit": {
+      "meanAttemptsPerAccepted": 1.009375,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    },
+    "recurrence": {
+      "meanAttemptsPerAccepted": 1.0,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    },
+    "sheet": {
+      "meanAttemptsPerAccepted": 1.0,
+      "meanUniquePhenotypeRate": 1.0,
+      "minUniquePhenotypeRate": 1.0
+    }
+  },
+  "bestCurrentRouteCounts": {
+    "family": 0,
+    "filament": 132,
+    "orbit": 106,
+    "recurrence": 2,
+    "sheet": 60
+  },
+  "currentRouteContribution": {
+    "family": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 300,
+        "sd": 0.0
+      },
+      "meaningfulUniqueContributionFraction": 0.0
+    },
+    "filament": {
+      "addedRecovery": {
+        "max": 0.10515184817149326,
+        "mean": 0.01066203064292535,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 300,
+        "sd": 0.016578893649506526
+      },
+      "meaningfulUniqueContributionFraction": 0.3933333333333333
+    },
+    "orbit": {
+      "addedRecovery": {
+        "max": 0.06415547378341524,
+        "mean": 0.008029389613904217,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 300,
+        "sd": 0.014190692418278368
+      },
+      "meaningfulUniqueContributionFraction": 0.31
+    },
+    "recurrence": {
+      "addedRecovery": {
+        "max": 0.012665204717055234,
+        "mean": 5.6020851806776185e-05,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 300,
+        "sd": 0.0007672770288685805
+      },
+      "meaningfulUniqueContributionFraction": 0.0033333333333333335
+    },
+    "sheet": {
+      "addedRecovery": {
+        "max": 0.13615136707538644,
+        "mean": 0.01827741580980741,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 300,
+        "sd": 0.03764064205774543
+      },
+      "meaningfulUniqueContributionFraction": 0.2
+    }
+  },
+  "decision": "SAMPLING_INVARIANCE_CAPACITY_PROMISING",
+  "experiment": "sampling-invariance-capacity-v1",
+  "failures": [],
+  "familyDiagnostics": {
+    "concave-loops": {
+      "addedRecovery": {
+        "max": 0.060073907525841075,
+        "mean": 0.02916482369062252,
+        "median": 0.02687305982057392,
+        "min": 0.0,
+        "n": 60,
+        "sd": 0.013599140949009762
+      },
+      "meaningfulFraction": 0.9666666666666667,
+      "meaningfulUniqueContributions": 58,
+      "signedDelta": {
+        "max": 0.060073907525841075,
+        "mean": 0.028963452729295215,
+        "median": 0.02687305982057392,
+        "min": -0.012082257679638442,
+        "n": 60,
+        "sd": 0.01410939393801043
+      }
+    },
+    "dense-regions": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 60,
+        "sd": 0.0
+      },
+      "meaningfulFraction": 0.0,
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.216934199073597,
+        "mean": -0.2697729445842799,
+        "median": -0.2724848039476128,
+        "min": -0.3227226809151439,
+        "n": 60,
+        "sd": 0.02039836482591796
+      }
+    },
+    "disconnected-loops": {
+      "addedRecovery": {
+        "max": 0.06494084122852006,
+        "mean": 0.010103874684518961,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 60,
+        "sd": 0.0181723842838684
+      },
+      "meaningfulFraction": 0.3,
+      "meaningfulUniqueContributions": 18,
+      "signedDelta": {
+        "max": 0.06494084122852006,
+        "mean": -0.01524334943785158,
+        "median": -0.026574519527070017,
+        "min": -0.09425311000795533,
+        "n": 60,
+        "sd": 0.036729103260121215
+      }
+    },
+    "nested-loops": {
+      "addedRecovery": {
+        "max": 0.06812170662059058,
+        "mean": 0.01505735243322951,
+        "median": 0.007363627866052658,
+        "min": 0.0,
+        "n": 60,
+        "sd": 0.017584216536674704
+      },
+      "meaningfulFraction": 0.5333333333333333,
+      "meaningfulUniqueContributions": 32,
+      "signedDelta": {
+        "max": 0.06812170662059058,
+        "mean": 0.003974755526882475,
+        "median": 0.007363627866052658,
+        "min": -0.06031810528249815,
+        "n": 60,
+        "sd": 0.029989455913946115
+      }
+    },
+    "open-networks": {
+      "addedRecovery": {
+        "max": 0.0839289621857443,
+        "mean": 0.013522713177623677,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 60,
+        "sd": 0.02232003891328134
+      },
+      "meaningfulFraction": 0.4,
+      "meaningfulUniqueContributions": 24,
+      "signedDelta": {
+        "max": 0.0839289621857443,
+        "mean": -0.00046152287941118956,
+        "median": -0.002501669138994689,
+        "min": -0.07566373044261165,
+        "n": 60,
+        "sd": 0.03508356707084262
+      }
+    }
+  },
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "fieldMeanAddedAboveCurrentRouteMedian": true,
+    "fieldMeaningfulFractionAtLeastCurrentRouteMedian": true,
+    "meanFieldAddedRecoveryAtLeast0p002": true,
+    "meaningfulContributionInAtLeastTwoFamilies": true,
+    "noSingleTargetAbove35PercentPositiveContribution": true
+  },
+  "hardInvariants": {
+    "allBlockHardInvariants": true,
+    "completeCellRectangle": true,
+    "completeSeedRectangle": true,
+    "identicalRepresentationList": true,
+    "identicalSettings": true,
+    "identicalTargetSuite": true
+  },
+  "population": "holdout",
+  "primary": {
+    "currentRouteMedianMeanAddedRecovery": 0.008029389613904217,
+    "currentRouteMedianMeaningfulFraction": 0.2,
+    "fieldMeaningfulUniqueContributionFraction": 0.44,
+    "fieldPortfolioAddedRecovery": {
+      "max": 0.0839289621857443,
+      "mean": 0.013569752797198934,
+      "median": 0.0,
+      "min": 0.0,
+      "n": 300,
+      "sd": 0.018783678537781446
+    },
+    "fieldSignedCompetitiveDelta": {
+      "max": 0.0839289621857443,
+      "mean": -0.05050792172907301,
+      "median": -0.008202418555677604,
+      "min": -0.3227226809151439,
+      "n": 300,
+      "sd": 0.11419620245810813
+    },
+    "largestSingleTargetContribution": {
+      "share": 0.1637163676541526,
+      "target": "network-2"
+    },
+    "meaningfulFamilies": [
+      "concave-loops",
+      "disconnected-loops",
+      "nested-loops",
+      "open-networks"
+    ]
+  },
+  "seedDiagnostics": {
+    "51001": {
+      "meanAddedRecovery": 0.015287729402351798,
+      "meanSignedDelta": -0.048826168987745416,
+      "meaningfulUniqueContributions": 6
+    },
+    "51031": {
+      "meanAddedRecovery": 0.012345608870247656,
+      "meanSignedDelta": -0.060511512417063845,
+      "meaningfulUniqueContributions": 6
+    },
+    "51043": {
+      "meanAddedRecovery": 0.018265499406888628,
+      "meanSignedDelta": -0.05186329960567871,
+      "meaningfulUniqueContributions": 7
+    },
+    "51047": {
+      "meanAddedRecovery": 0.009284887226456751,
+      "meanSignedDelta": -0.05829287101087281,
+      "meaningfulUniqueContributions": 6
+    },
+    "51059": {
+      "meanAddedRecovery": 0.018215102514017145,
+      "meanSignedDelta": -0.043150385331423693,
+      "meaningfulUniqueContributions": 8
+    },
+    "51061": {
+      "meanAddedRecovery": 0.006184821646702798,
+      "meanSignedDelta": -0.05247622323482995,
+      "meaningfulUniqueContributions": 4
+    },
+    "51071": {
+      "meanAddedRecovery": 0.009579118413663663,
+      "meanSignedDelta": -0.05309159701584472,
+      "meaningfulUniqueContributions": 6
+    },
+    "51109": {
+      "meanAddedRecovery": 0.00849501145449166,
+      "meanSignedDelta": -0.059289781836093666,
+      "meaningfulUniqueContributions": 5
+    },
+    "51131": {
+      "meanAddedRecovery": 0.013138053360860203,
+      "meanSignedDelta": -0.0505475639214309,
+      "meaningfulUniqueContributions": 7
+    },
+    "51133": {
+      "meanAddedRecovery": 0.010669686491663317,
+      "meanSignedDelta": -0.05602007356922421,
+      "meaningfulUniqueContributions": 6
+    },
+    "51137": {
+      "meanAddedRecovery": 0.01002010683368335,
+      "meanSignedDelta": -0.05192274051888627,
+      "meaningfulUniqueContributions": 6
+    },
+    "51151": {
+      "meanAddedRecovery": 0.013595394859344889,
+      "meanSignedDelta": -0.053618340162958404,
+      "meaningfulUniqueContributions": 6
+    },
+    "51157": {
+      "meanAddedRecovery": 0.012492947294655436,
+      "meanSignedDelta": -0.043901873591306075,
+      "meaningfulUniqueContributions": 8
+    },
+    "51169": {
+      "meanAddedRecovery": 0.01733432989272039,
+      "meanSignedDelta": -0.046628673211628696,
+      "meaningfulUniqueContributions": 8
+    },
+    "51193": {
+      "meanAddedRecovery": 0.011753166889444033,
+      "meanSignedDelta": -0.050732959222168826,
+      "meaningfulUniqueContributions": 7
+    },
+    "51197": {
+      "meanAddedRecovery": 0.015527619799793387,
+      "meanSignedDelta": -0.053969022800838616,
+      "meaningfulUniqueContributions": 7
+    },
+    "51199": {
+      "meanAddedRecovery": 0.012045561680574135,
+      "meanSignedDelta": -0.054253506556062286,
+      "meaningfulUniqueContributions": 7
+    },
+    "51203": {
+      "meanAddedRecovery": 0.021492198170967532,
+      "meanSignedDelta": -0.03639467586168996,
+      "meaningfulUniqueContributions": 8
+    },
+    "51217": {
+      "meanAddedRecovery": 0.01399907139913418,
+      "meanSignedDelta": -0.0468657599971597,
+      "meaningfulUniqueContributions": 6
+    },
+    "51229": {
+      "meanAddedRecovery": 0.021669140336317727,
+      "meanSignedDelta": -0.03780140572855331,
+      "meaningfulUniqueContributions": 8
+    }
+  },
+  "targetDiagnostics": {
+    "components-1": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.0
+      },
+      "family": "disconnected-loops",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.021819682689357855,
+        "mean": -0.047720453643727505,
+        "median": -0.04786869928576104,
+        "min": -0.07324654001579211,
+        "n": 20,
+        "sd": 0.014022850661439721
+      }
+    },
+    "components-2": {
+      "addedRecovery": {
+        "max": 0.06494084122852006,
+        "mean": 0.03021402390844718,
+        "median": 0.03158001445665881,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.018382867740698473
+      },
+      "family": "disconnected-loops",
+      "meaningfulUniqueContributions": 18,
+      "signedDelta": {
+        "max": 0.06494084122852006,
+        "mean": 0.03324608824211763,
+        "median": 0.03158001445665881,
+        "min": -0.030671705362240065,
+        "n": 20,
+        "sd": 0.025424882116994594
+      }
+    },
+    "components-3": {
+      "addedRecovery": {
+        "max": 0.0019320029021940854,
+        "mean": 9.660014510970427e-05,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.00042107027046456573
+      },
+      "family": "disconnected-loops",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": 0.0019320029021940854,
+        "mean": -0.03125568291207777,
+        "median": -0.03142426357154149,
+        "min": -0.060203852670991265,
+        "n": 20,
+        "sd": 0.015743691179308388
+      }
+    },
+    "concave-1": {
+      "addedRecovery": {
+        "max": 0.05598362182476313,
+        "mean": 0.029071942567493826,
+        "median": 0.028486192499070806,
+        "min": 0.009726264098364745,
+        "n": 20,
+        "sd": 0.012123968306660043
+      },
+      "family": "concave-loops",
+      "meaningfulUniqueContributions": 20,
+      "signedDelta": {
+        "max": 0.05598362182476313,
+        "mean": 0.029071942567493826,
+        "median": 0.028486192499070806,
+        "min": 0.009726264098364745,
+        "n": 20,
+        "sd": 0.012123968306660043
+      }
+    },
+    "concave-2": {
+      "addedRecovery": {
+        "max": 0.04572725698821345,
+        "mean": 0.02711084200240759,
+        "median": 0.022981795652608106,
+        "min": 0.0011164706511102018,
+        "n": 20,
+        "sd": 0.012102384465243837
+      },
+      "family": "concave-loops",
+      "meaningfulUniqueContributions": 19,
+      "signedDelta": {
+        "max": 0.04572725698821345,
+        "mean": 0.02711084200240759,
+        "median": 0.022981795652608106,
+        "min": 0.0011164706511102018,
+        "n": 20,
+        "sd": 0.012102384465243837
+      }
+    },
+    "concave-3": {
+      "addedRecovery": {
+        "max": 0.060073907525841075,
+        "mean": 0.03131168650196615,
+        "median": 0.025603799159111318,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.015890723671322955
+      },
+      "family": "concave-loops",
+      "meaningfulUniqueContributions": 19,
+      "signedDelta": {
+        "max": 0.060073907525841075,
+        "mean": 0.030707573617984225,
+        "median": 0.025603799159111318,
+        "min": -0.012082257679638442,
+        "n": 20,
+        "sd": 0.017241832281509148
+      }
+    },
+    "dense-1": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.0
+      },
+      "family": "dense-regions",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.24500478057007558,
+        "mean": -0.2857428170284699,
+        "median": -0.2892097382686063,
+        "min": -0.3227226809151439,
+        "n": 20,
+        "sd": 0.01775557084828573
+      }
+    },
+    "dense-2": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.0
+      },
+      "family": "dense-regions",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.216934199073597,
+        "mean": -0.2527245661585556,
+        "median": -0.2535980922770114,
+        "min": -0.28098044428893476,
+        "n": 20,
+        "sd": 0.01403321346960203
+      }
+    },
+    "dense-3": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.0
+      },
+      "family": "dense-regions",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.24192028535408583,
+        "mean": -0.2708514505658144,
+        "median": -0.2731446563019304,
+        "min": -0.2971880159647451,
+        "n": 20,
+        "sd": 0.013756499492938635
+      }
+    },
+    "nested-1": {
+      "addedRecovery": {
+        "max": 0.0496526932158563,
+        "mean": 0.01707416127246934,
+        "median": 0.018094332489847764,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.012767829835576255
+      },
+      "family": "nested-loops",
+      "meaningfulUniqueContributions": 16,
+      "signedDelta": {
+        "max": 0.0496526932158563,
+        "mean": 0.016027464729154638,
+        "median": 0.018094332489847764,
+        "min": -0.008154202056891768,
+        "n": 20,
+        "sd": 0.01430877876690935
+      }
+    },
+    "nested-2": {
+      "addedRecovery": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.0
+      },
+      "family": "nested-loops",
+      "meaningfulUniqueContributions": 0,
+      "signedDelta": {
+        "max": -0.008045733674725275,
+        "mean": -0.03170101057249455,
+        "median": -0.029672098895907273,
+        "min": -0.06031810528249815,
+        "n": 20,
+        "sd": 0.010985480641264322
+      }
+    },
+    "nested-3": {
+      "addedRecovery": {
+        "max": 0.06812170662059058,
+        "mean": 0.028097896027219193,
+        "median": 0.029743904637524132,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.019072214803123873
+      },
+      "family": "nested-loops",
+      "meaningfulUniqueContributions": 16,
+      "signedDelta": {
+        "max": 0.06812170662059058,
+        "mean": 0.027597812423987338,
+        "median": 0.029743904637524132,
+        "min": -0.01000167206463709,
+        "n": 20,
+        "sd": 0.019914907990441603
+      }
+    },
+    "network-1": {
+      "addedRecovery": {
+        "max": 0.027766396743715616,
+        "mean": 0.001716210875015839,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.006081435779704191
+      },
+      "family": "open-networks",
+      "meaningfulUniqueContributions": 2,
+      "signedDelta": {
+        "max": 0.027766396743715616,
+        "mean": -0.025114765375126163,
+        "median": -0.024237242069661435,
+        "min": -0.07566373044261165,
+        "n": 20,
+        "sd": 0.02474723982899214
+      }
+    },
+    "network-2": {
+      "addedRecovery": {
+        "max": 0.0839289621857443,
+        "mean": 0.03332385956883279,
+        "median": 0.02196726426441753,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.027789421350266724
+      },
+      "family": "open-networks",
+      "meaningfulUniqueContributions": 16,
+      "signedDelta": {
+        "max": 0.0839289621857443,
+        "mean": 0.029248971738539315,
+        "median": 0.02196726426441753,
+        "min": -0.04975577219118832,
+        "n": 20,
+        "sd": 0.03433285798369497
+      }
+    },
+    "network-3": {
+      "addedRecovery": {
+        "max": 0.031824146787332586,
+        "mean": 0.005528069089022397,
+        "median": 0.0,
+        "min": 0.0,
+        "n": 20,
+        "sd": 0.009482793998335525
+      },
+      "family": "open-networks",
+      "meaningfulUniqueContributions": 6,
+      "signedDelta": {
+        "max": 0.031824146787332586,
+        "mean": -0.005518775001646719,
+        "median": -0.007917785300011082,
+        "min": -0.040883163372518405,
+        "n": 20,
+        "sd": 0.019629757098269626
+      }
+    }
+  },
+  "targetPositiveContributionShare": {
+    "components-1": 0.0,
+    "components-2": 0.1484430083093047,
+    "components-3": 0.00047458562954143355,
+    "concave-1": 0.14282717846559861,
+    "concave-2": 0.1331925123352471,
+    "concave-3": 0.1538307880765988,
+    "dense-1": 0.0,
+    "dense-2": 0.0,
+    "dense-3": 0.0,
+    "nested-1": 0.0838834306841305,
+    "nested-2": 0.0,
+    "nested-3": 0.1380417975534487,
+    "network-1": 0.00843155067334805,
+    "network-2": 0.1637163676541526,
+    "network-3": 0.027158780618629495
+  },
+  "targets": [
+    {
+      "family": "disconnected-loops",
+      "fingerprint": "311c6f7442a4d224e83b46cdf4f7c8ee8dab39bb6d75af6e3de2dd06153815ca",
+      "id": "components-1"
+    },
+    {
+      "family": "disconnected-loops",
+      "fingerprint": "280dfc4c35303b67e4b9cd345414e646dd77877639712588d799bb8d682e9cdf",
+      "id": "components-2"
+    },
+    {
+      "family": "disconnected-loops",
+      "fingerprint": "08902a5cadeaafa464df3c215df00ac8d5c21d726769c8cdc4cb63a18f82bb00",
+      "id": "components-3"
+    },
+    {
+      "family": "nested-loops",
+      "fingerprint": "545b6274f1fee41ea7984cc528b27f0c4284b9ed8a8e99f3d7759eb7f206a336",
+      "id": "nested-1"
+    },
+    {
+      "family": "nested-loops",
+      "fingerprint": "05de4765c4101c81c2632dd5894988b7e0cf7a8ae058f95caa12211de990a7fa",
+      "id": "nested-2"
+    },
+    {
+      "family": "nested-loops",
+      "fingerprint": "47415a6e3c476e33c2200211d876c3c4c3df1b73d0e9bdabf90c8b8f94794dca",
+      "id": "nested-3"
+    },
+    {
+      "family": "concave-loops",
+      "fingerprint": "f3603cb93313c1c478f390b4a70c2e3a8b917dbc2557dd760c0f889b25fa92b9",
+      "id": "concave-1"
+    },
+    {
+      "family": "concave-loops",
+      "fingerprint": "0d00ffca2a8e4f7f5eacc848d2e1b97da1b827702babd0dd8b9fa388a1be6b92",
+      "id": "concave-2"
+    },
+    {
+      "family": "concave-loops",
+      "fingerprint": "ba4e4673d70f39c16b9b91fd01faeecb58b4d5c4aa515981dbac6a5594cc74d3",
+      "id": "concave-3"
+    },
+    {
+      "family": "open-networks",
+      "fingerprint": "43facbf5ceffea57ac87daeed8bd7b9970c5e46810fd10649634de32a451e78e",
+      "id": "network-1"
+    },
+    {
+      "family": "open-networks",
+      "fingerprint": "152866480c9b869e0100b0109a3a5bb9cbda98673c2d96a9d447ea8cf33cacd3",
+      "id": "network-2"
+    },
+    {
+      "family": "open-networks",
+      "fingerprint": "8d054807468a72da3cf0b1f9d98ffc5afd8ae8d4637e6ca7786f1f2d6ae0e0d2",
+      "id": "network-3"
+    },
+    {
+      "family": "dense-regions",
+      "fingerprint": "543af7c226dcbd90e799144d57ac2a0eff156edea198ddf267b2b968bd3736bb",
+      "id": "dense-1"
+    },
+    {
+      "family": "dense-regions",
+      "fingerprint": "9e139f4130ef2765d4196a2c4fd47401eb763f3a32d3c021c5408933d57cabb7",
+      "id": "dense-2"
+    },
+    {
+      "family": "dense-regions",
+      "fingerprint": "76680bcd5377a941ebf8892f19e95b99911170f251782c7de7c7325d5cc8a8de",
+      "id": "dense-3"
+    }
+  ],
+  "version": 1
+}
