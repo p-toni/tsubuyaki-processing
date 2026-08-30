@@ -1,0 +1,143 @@
+name: sampling-invariance-search-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/sampling-invariance-search-v1/**'
+      - '.github/workflows/sampling-invariance-search-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      run_science: ${{ steps.guard.outputs.run_science }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: guard
+        shell: bash
+        run: |
+          if [[ -f research-results/sampling-invariance-search-v1/results.json ]]; then
+            echo 'run_science=false' >> "$GITHUB_OUTPUT"
+            echo 'Persisted search result exists; skip expensive rerun.'
+          else
+            echo 'run_science=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Verify frozen prerequisites and source
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
+          test "$(git hash-object experiments/sampling-invariance-v1/fast_binary_metric.py)" = 7e1c875350050312971d9397091e8708752c0bcd
+          test "$(git hash-object experiments/sampling-invariance-search-v1/spectral_operator.py)" = c86f3a5b9d2862afba4232956066faeda9f378f0
+          python - <<'PY'
+          import json
+          capacity = json.load(open('research-results/sampling-invariance-capacity-confirmation-v1/results.json'))
+          calibration = json.load(open('research-results/sampling-invariance-search-calibration-v1/results.json'))
+          assert capacity['decision'] == 'SAMPLING_INVARIANCE_CAPACITY_CONFIRMED', capacity
+          assert calibration['decision'] == 'CALIBRATION_VALID', calibration
+          assert calibration['settings']['angles'] == [0.04, 0.08, 0.16, 0.32], calibration
+          print('confirmed capacity and calibrated operator prerequisites passed')
+          PY
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run excluded search smoke
+        working-directory: experiments/sampling-invariance-search-v1
+        run: |
+          mkdir -p smoke-out
+          python run_search.py --population smoke --seed 94999 --output smoke-out/seed-94999.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-search-smoke
+          path: experiments/sampling-invariance-search-v1/smoke-out/seed-94999.json
+          if-no-files-found: error
+
+  pilot-seed:
+    needs: [preflight, smoke]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed:
+          - 95003
+          - 95009
+          - 95021
+          - 95027
+          - 95063
+          - 95071
+          - 95083
+          - 95087
+          - 95089
+          - 95093
+          - 95101
+          - 95107
+          - 95111
+          - 95131
+          - 95143
+          - 95153
+          - 95177
+          - 95189
+          - 95191
+          - 95203
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run fixed consumed search block
+        working-directory: experiments/sampling-invariance-search-v1
+        run: |
+          mkdir -p pilot-out
+          python run_search.py --population pilot --seed ${{ matrix.seed }} --output pilot-out/seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-search-${{ matrix.seed }}
+          path: experiments/sampling-invariance-search-v1/pilot-out/seed-${{ matrix.seed }}.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: [preflight, pilot-seed]
+    if: needs.preflight.outputs.run_science == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sampling-invariance-search-95*
+          path: experiments/sampling-invariance-search-v1/pilot-blocks
+          merge-multiple: true
+      - name: Reduce complete consumed search pilot
+        working-directory: experiments/sampling-invariance-search-v1
+        run: |
+          python aggregate_search.py --results-dir pilot-blocks --output search-summary.json
+          python - <<'PY'
+          import json
+          result = json.load(open('search-summary.json'))
+          assert result['gates']['completeHardInvariantRectangle'], result['hardInvariants']
+          print('decision:', result['decision'])
+          print('gates:', result['gates'])
+          print('primary:', result['primary'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sampling-invariance-search-summary
+          path: experiments/sampling-invariance-search-v1/search-summary.json
+          if-no-files-found: error
