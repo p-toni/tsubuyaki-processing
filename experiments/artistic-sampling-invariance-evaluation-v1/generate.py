@@ -5,7 +5,6 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -98,8 +97,8 @@ def _permutation(label: str, side: str) -> list[int]:
 def _generate_incumbent(route: str, seed: int, label: str):
     brief = capacity._route_brief(route)
     version = capacity.ROUTES[route].get("version", "1")
-    rng_seed = _hash_u64(STREAM, label, seed, route, "native-prior")
-    rng = np.random.default_rng(rng_seed)
+    rng_stream = f"{STREAM}|{label}|native-prior"
+    rng = capacity.representation_rng(seed, route, version, rng_stream)
     prefix = capacity.ROUTES[route].get("prefix", route[0].upper())
     accepted = []
     attempts = 0
@@ -119,7 +118,7 @@ def _generate_incumbent(route: str, seed: int, label: str):
         accepted.append(candidate)
     if len(accepted) != EXEMPLARS_PER_SIDE:
         raise RuntimeError(f"{label}/{route}: only {len(accepted)}/{EXEMPLARS_PER_SIDE} valid incumbents in {attempts} attempts")
-    return accepted, attempts, rng_seed
+    return accepted, attempts, rng_stream
 
 
 def _generate_spectral(seed: int, label: str, incumbent_route: str, rasterizer):
@@ -147,12 +146,12 @@ def _neutral_incumbent(candidate) -> Image.Image:
 
 def _neutral_spectral(binary: Image.Image) -> Image.Image:
     array = np.asarray(binary, dtype=np.uint8)
-    ys, xs = np.nonzero(array > capacity.SUPPORT_THRESHOLD if hasattr(capacity, "SUPPORT_THRESHOLD") else array > 20)
+    ys, xs = np.nonzero(array > 20)
     points = [(float(x), float(y)) for y, x in zip(ys, xs)]
     return capacity.draw_points(points, NEUTRAL_ALPHA).convert("RGB")
 
 
-def _render_portfolios(label: str, incumbent_candidates, spectral_candidates):
+def _render_portfolios(incumbent_candidates, spectral_candidates):
     incumbent = [_neutral_incumbent(candidate) for candidate in incumbent_candidates]
     spectral = [_neutral_spectral(binary) for _coefficients, binary in spectral_candidates]
     return incumbent, spectral
@@ -212,9 +211,9 @@ def generate(label: str, out_dir: Path) -> dict:
         raise AssertionError("smoke block escaped excluded population")
 
     rasterizer = capacity.FieldRasterizer()
-    incumbent_candidates, incumbent_attempts, incumbent_rng_seed = _generate_incumbent(incumbent_route, seed, label)
+    incumbent_candidates, incumbent_attempts, incumbent_rng_stream = _generate_incumbent(incumbent_route, seed, label)
     spectral_candidates, spectral_attempts, spectral_rng_seed = _generate_spectral(seed, label, incumbent_route, rasterizer)
-    incumbent_images, spectral_images = _render_portfolios(label, incumbent_candidates, spectral_candidates)
+    incumbent_images, spectral_images = _render_portfolios(incumbent_candidates, spectral_candidates)
 
     spectral_side = _candidate_side(label, seed, incumbent_route)
     incumbent_side = "B" if spectral_side == "A" else "A"
@@ -255,7 +254,7 @@ def generate(label: str, out_dir: Path) -> dict:
         "exemplarsPerSide": EXEMPLARS_PER_SIDE,
         "incumbentAttempts": incumbent_attempts,
         "spectralAttempts": spectral_attempts,
-        "incumbentRngSeed": incumbent_rng_seed,
+        "incumbentRngStream": incumbent_rng_stream,
         "spectralRngSeed": spectral_rng_seed,
         "sideOrder": {side: _permutation(label, side) for side in ("A", "B")},
         "renderedFingerprints": {
