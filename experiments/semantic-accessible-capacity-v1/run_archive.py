@@ -7,6 +7,8 @@ import random
 import sys
 from pathlib import Path
 
+import numpy as np
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 PROTO = ROOT / 'prototypes' / 'autonomous-discovery'
@@ -38,20 +40,52 @@ def _brief(route: str) -> dict:
     }
 
 
-def _score_image(image, target_fields: dict[str, object]) -> tuple[str, dict[str, float]]:
+def _target_cache(targets) -> dict[str, dict]:
+    cache = {}
+    for target in targets:
+        field = perceptual_metric.normalize_soft(target.image)
+        mask = field > 0.08
+        cache[target.id] = {
+            'mask': mask,
+            'count': max(1, int(mask.sum())),
+            'dilated': [perceptual_metric._dilate(mask, r) for r in perceptual_metric.HELDOUT_RADII],
+        }
+    return cache
+
+
+def _score_image(image, target_cache: dict[str, dict]) -> tuple[str, dict[str, float]]:
     field = perceptual_metric.normalize_soft(image)
-    scores = {
-        prompt: float(perceptual_metric._heldout_f1_from_fields(field, target_field))
-        for prompt, target_field in target_fields.items()
-    }
+    mask = field > 0.08
+    count = max(1, int(mask.sum()))
+    dilated = [perceptual_metric._dilate(mask, r) for r in perceptual_metric.HELDOUT_RADII]
+    scores = {}
+    if not mask.any():
+        scores = {prompt: 0.0 for prompt in target_cache}
+    else:
+        for prompt, target in target_cache.items():
+            f1s = []
+            for candidate_dilated, target_dilated in zip(dilated, target['dilated']):
+                precision = float(np.count_nonzero(mask & target_dilated)) / count
+                recall = float(np.count_nonzero(target['mask'] & candidate_dilated)) / target['count']
+                f1s.append(2.0 * precision * recall / max(1e-12, precision + recall))
+            scores[prompt] = float(sum(f1s) / len(f1s))
     top1 = sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
     return top1, scores
 
 
+def _verify_equivalence(image, targets, scores: dict[str, float]) -> float:
+    max_delta = 0.0
+    for target in targets:
+        reference = perceptual_metric.heldout_prototype_record(image, target.id, targets)
+        delta = abs(float(reference['targetF1']) - float(scores[target.id]))
+        max_delta = max(max_delta, delta)
+    return max_delta
+
+
 def run_archive(master_seed: int) -> dict:
     targets = fresh_targets.build_targets()
-    target_fields = {t.id: perceptual_metric.normalize_soft(t.image) for t in targets}
-    if tuple(target_fields) != PROMPTS:
+    target_cache = _target_cache(targets)
+    if tuple(target_cache) != PROMPTS:
         raise AssertionError('prompt ordering drifted')
 
     stats = {
@@ -69,12 +103,14 @@ def run_archive(master_seed: int) -> dict:
     route_attempted = {r: {'native': 0, 'spectral': 0} for r in ROUTES}
     route_valid = {r: {'native': 0, 'spectral': 0} for r in ROUTES}
     top1_counts = {p: 0 for p in PROMPTS}
+    equivalence_deltas = []
 
     for route in ROUTES:
         rng = random.Random(derived_seed(master_seed, STREAM, route, 'native-draws'))
         spec = core.ROUTES[route]
         prefix = spec.get('prefix', route[:1].upper())
         brief = _brief(route)
+        verified_for_route = 0
         for i in range(DRAWS_PER_ROUTE):
             base_genome = spec['seed'](rng)
             candidates = [
@@ -93,7 +129,10 @@ def run_archive(master_seed: int) -> dict:
                 valid[operator] += 1
                 route_valid[route][operator] += 1
                 image = perceptual_metric.binary_candidate_image(cand)
-                top1, scores = _score_image(image, target_fields)
+                top1, scores = _score_image(image, target_cache)
+                if verified_for_route < 2:
+                    equivalence_deltas.append(_verify_equivalence(image, targets, scores))
+                    verified_for_route += 1
                 top1_counts[top1] += 1
                 for prompt, score in scores.items():
                     if score > stats[prompt]['bestAnyTargetF1']:
@@ -120,6 +159,7 @@ def run_archive(master_seed: int) -> dict:
             'spectralValid': route_valid[route]['spectral'],
         }
 
+    max_equivalence_delta = max(equivalence_deltas) if equivalence_deltas else float('inf')
     hard = {
         'exactTotalAttempts': total_attempts == 1536,
         'exactOperatorSplit': attempted == {'native': 768, 'spectral': 768},
@@ -129,6 +169,7 @@ def run_archive(master_seed: int) -> dict:
             for v in stats.values()
             for k in ('bestTop1TargetF1', 'bestAnyTargetF1')
         ),
+        'fastHeldoutExactlyEquivalent': max_equivalence_delta <= 1e-12,
     }
 
     return {
@@ -144,6 +185,7 @@ def run_archive(master_seed: int) -> dict:
         'routes': route_summaries,
         'top1Counts': top1_counts,
         'concepts': stats,
+        'maxHeldoutEquivalenceDelta': max_equivalence_delta,
         'hardInvariants': hard,
     }
 
