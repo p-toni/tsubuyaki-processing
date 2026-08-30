@@ -5,6 +5,7 @@ from typing import Dict,List
 from PIL import Image
 from checkers import check_candidate
 from representations import REPRESENTATIONS,get_representation
+from material_control import candidate_geometry as _controlled_geometry, candidate_points as _controlled_points
 W=H=400; BG=9; FG=255; TIMES=(30,90,150)
 @dataclass
 class Candidate:
@@ -36,11 +37,12 @@ def image_metrics(im):
 def _frame_difference(a,b):
     ap=list(a.getdata()); bp=list(b.getdata()); return statistics.fmean(abs(x-y) for x,y in zip(ap,bp))/255 if ap and len(ap)==len(bp) else 0
 def candidate_features(route,genome):
-    ims=[draw_points(ROUTES[route]['render'](genome,t),genome['alpha']) for t in TIMES]; mets=[image_metrics(im) for im in ims]; changes=[_frame_difference(a,b) for a,b in zip(ims,ims[1:])]; mean=statistics.fmean(changes) if changes else 0
+    ims=[draw_points(_controlled_points(ROUTES[route],genome,t,W,H),genome['alpha']) for t in TIMES]; mets=[image_metrics(im) for im in ims]; changes=[_frame_difference(a,b) for a,b in zip(ims,ims[1:])]; mean=statistics.fmean(changes) if changes else 0
     return {'occupancy_mean':statistics.fmean(m['occupancy'] for m in mets),'occupancy_var':statistics.pvariance(m['occupancy'] for m in mets),'bbox_w_mean':statistics.fmean(m['bbox_w'] for m in mets),'bbox_h_mean':statistics.fmean(m['bbox_h'] for m in mets),'center_dx_mean':statistics.fmean(m['center_dx'] for m in mets),'center_dy_mean':statistics.fmean(m['center_dy'] for m in mets),'temporal_change_mean':mean,'temporal_change_cv':statistics.pstdev(changes)/mean if len(changes)>1 and mean>1e-9 else 0}
 def diagnostic_score(route,f,brief):
     lo,hi=ROUTES[route]['target_occupancy']; occ=f['occupancy_mean']; occs=1 if lo<=occ<=hi else max(0,1-(lo-occ)/lo) if occ<lo else max(0,1-(occ-hi)/(1-hi)); blo,bhi=brief.get('bbox_target',[.55,.82]); span=max(f['bbox_w_mean'],f['bbox_h_mean']); fill=1 if blo<=span<=bhi else max(0,1-(blo-span)/blo) if span<blo else max(0,1-(span-bhi)/(1-bhi)); center=max(0,1-f['center_dx_mean']-f['center_dy_mean']); return .4*occs+.35*fill+.25*center
 def evaluate_candidate(cand,brief):
-    cand.checks=check_candidate(cand.route,cand.genome,TIMES,ROUTES[cand.route]['geometry'],W,H); cand.features=candidate_features(cand.route,cand.genome); cand.score=diagnostic_score(cand.route,cand.features,brief) if cand.checks['valid'] else -1e9; return cand
-def render_candidate_frame(cand,t):return draw_points(ROUTES[cand.route]['render'](cand.genome,t),cand.genome['alpha'])
+    geometry_fn=lambda g,t:_controlled_geometry(ROUTES[cand.route],g,t,W,H)
+    cand.checks=check_candidate(cand.route,cand.genome,TIMES,geometry_fn,W,H); cand.features=candidate_features(cand.route,cand.genome); cand.score=diagnostic_score(cand.route,cand.features,brief) if cand.checks['valid'] else -1e9; return cand
+def render_candidate_frame(cand,t):return draw_points(_controlled_points(ROUTES[cand.route],cand.genome,t,W,H),cand.genome['alpha'])
 def default_brief():return {'name':'autonomous-discovery-prototype','artistic_intent':'Discover an original mathematically generated living form with coherent material, strong composition, and meaningful motion across time. Prefer distinctive non-generic structure over merely filling the canvas.','routes':['recurrence','family'],'bbox_target':[.55,.82],'starts_per_route':3,'explore_per_basin':4,'roundA_per_survivor':3,'total_extra_budget':12}
