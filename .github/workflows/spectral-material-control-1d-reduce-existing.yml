@@ -1,0 +1,48 @@
+name: spectral-material-control-1d-reduce-existing
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/spectral-material-control-1d-reduce-existing.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  reduce-existing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lock frozen reducer and source run
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/spectral-material-control-1d-confirmation-v1/aggregate_1d.py)" = c1e5ac4524ca5cfaaf45b61ea52c11cb80f5b3f2
+          python - <<'PY'
+          RUN_ID = 33307586473
+          EXPECTED = 24
+          assert RUN_ID == 33307586473
+          assert EXPECTED == 24
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download only frozen consumed artifacts from authoritative run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: spectral-control-1d-seed-*
+          path: blocks
+          run-id: 33307586473
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: p-toni/tsubuyaki-processing
+      - name: Verify artifact rectangle without reading outcomes
+        shell: bash
+        run: |
+          test "$(find blocks -type f -name '*.json' | wc -l)" -eq 24
+      - name: Reduce frozen evidence
+        working-directory: experiments/spectral-material-control-1d-confirmation-v1
+        run: python aggregate_1d.py --input-root ../../blocks --output 1d-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-control-1d-authoritative-summary
+          path: experiments/spectral-material-control-1d-confirmation-v1/1d-summary.json
