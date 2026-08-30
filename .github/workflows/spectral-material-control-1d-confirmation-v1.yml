@@ -146,7 +146,7 @@ jobs:
           path: blocks
       - name: Reduce only after complete consumed rectangle
         working-directory: experiments/spectral-material-control-1d-confirmation-v1
-        run: python aggregate_1d.py --input-root ../../../blocks --output 1d-summary.json
+        run: python aggregate_1d.py --input-root ../../blocks --output 1d-summary.json
       - uses: actions/upload-artifact@v4
         with:
           name: spectral-control-1d-summary
