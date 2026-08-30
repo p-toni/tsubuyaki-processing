@@ -22,7 +22,7 @@ from orbit_representation import register_orbit
 register_orbit()
 
 import core
-from material_control import with_spectral_control
+from material_control import candidate_geometry, with_spectral_control
 from rng_streams import derived_seed
 import perceptual_metric as pm
 import unseen_targets
@@ -33,8 +33,9 @@ POOL_BASES_PER_ROUTE = 1024
 RENDER_BUDGET = 60
 
 
-def _brief(route: str) -> dict:
-    return {'name': STREAM, 'artistic_intent': 'Zero-shot semantic world-model navigation.', 'routes': [route], 'bbox_target': [0.55, 0.82]}
+def _checks(route: str, genome: dict) -> dict:
+    geometry_fn = lambda g, t: candidate_geometry(core.ROUTES[route], g, t, core.W, core.H)
+    return core.check_candidate(route, genome, core.TIMES, geometry_fn, core.W, core.H)
 
 
 def _pool(seed: int):
@@ -64,10 +65,7 @@ def _pool(seed: int):
     if len(baseline) != RENDER_BUDGET:
         raise AssertionError('baseline budget drifted')
     payload = [
-        {
-            'route': r['route'], 'operator': r['operator'], 'baseIndex': r['baseIndex'],
-            'genome': r['genome'],
-        }
+        {'route': r['route'], 'operator': r['operator'], 'baseIndex': r['baseIndex'], 'genome': r['genome']}
         for r in records
     ]
     fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
@@ -80,7 +78,9 @@ def _render(records, index: int, cache: dict):
     r = records[index]
     prefix = core.ROUTES[r['route']].get('prefix', r['route'][0].upper())
     cand = core.Candidate(f'{prefix}-WM-{index:05d}', r['route'], f'{prefix}-WM-{index:05d}', r['genome'], None, 'world-model-navigation')
-    core.evaluate_candidate(cand, _brief(r['route']))
+    # Exact runtime validity; skip diagnostic features/score, which are unused by
+    # both semantic arms and by the held-out evaluation.
+    cand.checks = _checks(r['route'], r['genome'])
     image = pm.binary_candidate_image(cand)
     cache[index] = (cand, image)
     return cand, image
