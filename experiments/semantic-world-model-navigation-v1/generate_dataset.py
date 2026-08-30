@@ -17,28 +17,22 @@ from orbit_representation import register_orbit
 register_orbit()
 
 import core
-from material_control import with_spectral_control
+from material_control import candidate_geometry, with_spectral_control
 from rng_streams import derived_seed
 import world_model as wm
 
 STREAM = 'semantic-world-model-navigation-v1'
 
 
-def _brief(route: str) -> dict:
-    return {
-        'name': STREAM,
-        'artistic_intent': 'Target-blind generator world-model data.',
-        'routes': [route],
-        'bbox_target': [0.55, 0.82],
-    }
+def _checks(route: str, genome: dict) -> dict:
+    geometry_fn = lambda g, t: candidate_geometry(core.ROUTES[route], g, t, core.W, core.H)
+    return core.check_candidate(route, genome, core.TIMES, geometry_fn, core.W, core.H)
 
 
 def generate(seed: int, bases_per_route: int) -> dict[str, np.ndarray]:
     X = []; Y = []; valid = []; route_idx = []; operator_idx = []
-    fingerprints = []
     for ri, route in enumerate(wm.ROUTES):
         rng = random.Random(derived_seed(seed, STREAM, 'dataset', route, 'bases'))
-        brief = _brief(route)
         prefix = core.ROUTES[route].get('prefix', route[0].upper())
         for i in range(int(bases_per_route)):
             base = core.ROUTES[route]['seed'](rng)
@@ -48,12 +42,12 @@ def generate(seed: int, bases_per_route: int) -> dict[str, np.ndarray]:
             )
             for oi, (operator, genome) in enumerate(states):
                 cand = core.Candidate(f'{prefix}-{i:04d}-{operator}', route, f'{prefix}-{i:04d}', genome, None, 'world-model-data')
-                core.evaluate_candidate(cand, brief)
+                # Exact runtime route validity, without the unused diagnostic-feature pass.
+                cand.checks = _checks(route, genome)
                 X.append(wm.math_vector(route, genome))
                 Y.append(wm.visual_vector_for_candidate(cand))
                 valid.append(1.0 if cand.checks.get('valid', False) else 0.0)
                 route_idx.append(ri); operator_idx.append(oi)
-                fingerprints.append(hash((route, i, operator, tuple(sorted((k, str(v)) for k, v in wm.native_genome(genome).items())))))
     expected = len(wm.ROUTES) * int(bases_per_route) * 2
     if len(X) != expected:
         raise AssertionError(f'dataset rows {len(X)} != {expected}')
