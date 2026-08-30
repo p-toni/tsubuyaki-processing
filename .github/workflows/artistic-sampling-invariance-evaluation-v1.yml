@@ -1,0 +1,144 @@
+name: artistic-sampling-invariance-evaluation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/artistic-sampling-invariance-evaluation-v1/**'
+      - '.github/workflows/artistic-sampling-invariance-evaluation-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify confirmed evidence and frozen generation stack
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object experiments/sampling-invariance-v1/capacity.py)" = fa5aa481ddab9babff17abdf1e4342d7ed74d2a2
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = 3b70f2f4a4b80fb149cb83de5f59d1b3b8b4a40a
+          test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = 1838d8afd05a55ae4acf49ac37a9a670858af913
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = ec2aea2f0e889cea25e442dae7b5849bf8549cd1
+          test "$(git hash-object prototypes/autonomous-discovery/checkers.py)" = ef7e62d893c179f4650e5cc89cc7cba0a7ac9b6d
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
+          test "$(git hash-object experiments/artistic-sampling-invariance-evaluation-v1/generate.py)" = 4f34b074aac8bd2df96de60250e86245491e4fee
+          test "$(git hash-object experiments/artistic-sampling-invariance-evaluation-v1/aggregate.py)" = 933157cdda6ba18ccd8d68ac4407dbf9721e552c
+          python - <<'PY'
+          import json
+          result = json.load(open('research-results/sampling-invariance-search-top1-confirmation-v1/results.json'))
+          assert result['decision'] == 'SPECTRAL_TOP1_SEARCH_CONFIRMED', result
+          assert all(result['gates'].values()), result['gates']
+          print('confirmed spectral capacity/search evidence present')
+          PY
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        label: [S01, S02, S03, S04, S05]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Generate excluded blind-panel smoke block
+        working-directory: experiments/artistic-sampling-invariance-evaluation-v1
+        run: |
+          mkdir -p smoke-out/${{ matrix.label }}
+          python generate.py --label ${{ matrix.label }} --out-dir smoke-out/${{ matrix.label }}
+
+  review-block:
+    needs: smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        label:
+          - R01
+          - R02
+          - R03
+          - R04
+          - R05
+          - R06
+          - R07
+          - R08
+          - R09
+          - R10
+          - R11
+          - R12
+          - R13
+          - R14
+          - R15
+          - R16
+          - R17
+          - R18
+          - R19
+          - R20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Generate blind artistic review block
+        working-directory: experiments/artistic-sampling-invariance-evaluation-v1
+        run: |
+          mkdir -p review-out/${{ matrix.label }}
+          python generate.py --label ${{ matrix.label }} --out-dir review-out/${{ matrix.label }}
+      - name: Upload reviewer-facing sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: artistic-sampling-invariance-sheet-${{ matrix.label }}
+          path: experiments/artistic-sampling-invariance-evaluation-v1/review-out/${{ matrix.label }}/sheet/${{ matrix.label }}.png
+          if-no-files-found: error
+      - name: Upload sealed blind key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: artistic-sampling-invariance-key-${{ matrix.label }}
+          path: experiments/artistic-sampling-invariance-evaluation-v1/review-out/${{ matrix.label }}/key/${{ matrix.label }}.json
+          if-no-files-found: error
+
+  bundle-sheets:
+    needs: review-block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: artistic-sampling-invariance-sheet-R*
+          path: review-sheets
+          merge-multiple: true
+      - name: Verify complete blind review rectangle
+        shell: bash
+        run: |
+          test "$(find review-sheets -type f -name 'R*.png' | wc -l | tr -d ' ')" = 20
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artistic-sampling-invariance-review-sheets
+          path: review-sheets
+          if-no-files-found: error
+
+  bundle-key:
+    needs: review-block
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: artistic-sampling-invariance-key-R*
+          path: blind-key
+          merge-multiple: true
+      - name: Verify complete sealed-key rectangle
+        shell: bash
+        run: |
+          test "$(find blind-key -type f -name 'R*.json' | wc -l | tr -d ' ')" = 20
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artistic-sampling-invariance-blind-key
+          path: blind-key
+          if-no-files-found: error
