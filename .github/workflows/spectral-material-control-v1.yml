@@ -1,0 +1,53 @@
+name: spectral-material-control-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/spectral-material-control-v1/**'
+      - '.github/workflows/spectral-material-control-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen substrate and incumbent geometry sources
+        shell: bash
+        run: |
+          test "$(git hash-object experiments/sampling-invariance-v1/field.py)" = 66f59d92ab39379d3a2016d18adbd271827997dd
+          test "$(git hash-object prototypes/autonomous-discovery/representations.py)" = 1838d8afd05a55ae4acf49ac37a9a670858af913
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = ec2aea2f0e889cea25e442dae7b5849bf8549cd1
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = 58b2dcea6dc692c34b2ed176c42ec85af82e30c1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install frozen experiment dependencies
+        run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt -r experiments/sampling-invariance-v1/requirements.txt
+      - name: Run excluded calibration
+        working-directory: experiments/spectral-material-control-v1
+        run: python calibrate.py > calibration.json
+      - name: Verify complete calibration contract
+        working-directory: experiments/spectral-material-control-v1
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          data = json.loads(Path('calibration.json').read_text())
+          assert data['decision'] in {
+              'SPECTRAL_MATERIAL_CONTROL_INVALID',
+              'SPECTRAL_MATERIAL_CONTROL_NOT_READY',
+              'SPECTRAL_MATERIAL_CONTROL_CALIBRATED',
+          }
+          assert data['population']['masterSeeds'] == [99001, 99007, 99019, 99037]
+          assert data['population']['routes'] == ['recurrence', 'orbit', 'family', 'sheet', 'filament']
+          assert data['population']['pairsPerRouteSeed'] == 6
+          assert data['population']['amplitudes'] == [4.0, 8.0, 12.0, 16.0, 24.0]
+          assert len(data['rows']) == 4 * 5 * 6 * 5
+          assert len(data['invariants']) == 4 * 5 * 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spectral-material-control-calibration
+          path: experiments/spectral-material-control-v1/calibration.json
