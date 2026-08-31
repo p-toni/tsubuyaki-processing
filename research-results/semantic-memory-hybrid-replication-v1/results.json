@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "decision": "EMPIRICAL_MEMORY_REFINEMENT_NOT_REPLICATED",
+  "semanticEvidenceConsumed": true,
+  "trainingContainsSemanticTargets": false,
+  "seedCount": 20,
+  "conceptCount": 8,
+  "cellCount": 160,
+  "selectedMemoryConfig": {
+    "k": 16,
+    "actionWeight": 4.0,
+    "shrinkage": 0.5
+  },
+  "breadthHeldoutTop1Fraction": 0.65,
+  "meanHeldoutTop1Fraction": 0.69375,
+  "memoryHeldoutTop1Fraction": 0.69375,
+  "meanSelectedProposalOverlapFraction": 0.5901041666666667,
+  "meanVsBreadth": {
+    "meanF1Delta": 0.013246320796337563,
+    "seed95LowerBound": 0.00796237135375801,
+    "seedStdDev": 0.013666122187125556
+  },
+  "memoryVsBreadth": {
+    "meanF1Delta": 0.01229428501815839,
+    "seed95LowerBound": 0.006723680700417301,
+    "seedStdDev": 0.014407510913884519
+  },
+  "memoryVsMean": {
+    "meanF1Delta": -0.0009520357781791714,
+    "seed95LowerBound": -0.005160915314827524,
+    "seedStdDev": 0.010885619297418703
+  },
+  "causalReplicationGates": {
+    "completeHardInvariantRectangle": true,
+    "identicalFrozenMemoryConfig": true,
+    "memoryVsMeanMeanF1AbovePoint005": false,
+    "memoryVsMeanSeed95LowerBoundPositive": false,
+    "atLeastFiveConceptsMemoryPositiveVsMean": false,
+    "everyLeaveOneConceptOutMemoryVsMeanPositive": false,
+    "noConceptDominatesMemoryVsMeanPositiveGain": true,
+    "memoryVsBreadthMeanF1AbovePoint010": true,
+    "memoryVsBreadthSeed95LowerBoundPositive": true
+  },
+  "causalReplicationPassed": false,
+  "recognitionAdvancementGates": {
+    "causalReplicationPassed": false,
+    "memoryTop1ImprovementOverBreadthAtLeastPoint05": false,
+    "atLeastFiveConceptsMemoryPositiveVsBreadth": true,
+    "everyLeaveOneConceptOutMemoryVsBreadthPositive": true,
+    "noConceptDominatesMemoryVsBreadthPositiveGain": true
+  },
+  "recognitionAdvancementPassed": false,
+  "winningArmForRecognition": null,
+  "leaveOneConceptOutMemoryVsMean": {
+    "anchor": -0.0002713868001471942,
+    "bicycle": -0.0006057241897503443,
+    "butterfly": -0.0007232575726467948,
+    "chair": -0.0014613268714603583,
+    "fish": -0.001774916142499211,
+    "guitar": -0.0001143003520437185,
+    "star": -0.0020592023500646374,
+    "tree": -0.0006061719468211133
+  },
+  "conceptMemoryVsMean": {
+    "anchor": -0.005716578624403013,
+    "bicycle": -0.0033762168971809615,
+    "butterfly": -0.002553483216905808,
+    "chair": 0.0026130018747891363,
+    "fish": 0.004808126772061105,
+    "guitar": -0.0068161837611273425,
+    "star": 0.006798130225019089,
+    "tree": -0.0033730825976855785
+  },
+  "authoritativeWorkflowRun": 33350686624,
+  "authoritativeExperimentHead": "0e012ecd6939f037563cd36400d73588556f087d",
+  "aggregateArtifact": 9743637929,
+  "aggregateArtifactDigest": "sha256:4da6aa129ec9be86104150313ab03d534b145bdd40d843d579bfdf6408f033e3",
+  "researchLineStatus": "STOPPED"
+}
