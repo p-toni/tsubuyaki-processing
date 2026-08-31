@@ -33,6 +33,7 @@ The restart sidecar MUST satisfy all of the following:
 10. **Eligible topology scope.** v1 is limited to active representations whose frozen intrinsic dimension is 1.
 11. **Separate artifacts.** Sidecar candidates, report, timelines, and contact sheet live under `<out>/restart_sidecar/`.
 12. **Explicit authority label.** Sidecar output is exploratory only and carries no automatic artistic-promotion authority.
+13. **Record binding.** The sidecar report stores the SHA-256 digest of the exact `candidates.json` bytes so a later reviewed handoff can detect stale or modified candidate records before any lineage starts.
 
 ## Runtime interface
 
@@ -68,6 +69,48 @@ restart_sidecar/
    └─ <candidate>.png       # valid candidates only
 ```
 
+## Reviewed-start handoff
+
+A sidecar candidate may become the start of a **new isolated lineage** only after explicit external artistic selection. This is not automatic promotion into the run that discovered it.
+
+The handoff manifest is intentionally explicit:
+
+```json
+{
+  "version": 1,
+  "authority": "explicit-independent-artistic-selection-v1",
+  "sourceCandidates": "run-with-sidecar/restart_sidecar/candidates.json",
+  "sourceReport": "run-with-sidecar/restart_sidecar/report.json",
+  "selectedCandidateIds": ["SC-R1", "SC-O2", "SC-F3"],
+  "selectionNote": "optional reviewer note"
+}
+```
+
+Then run a new lineage with a fresh search seed:
+
+```bash
+python run.py \
+  --brief brief.json \
+  --seed 260901 \
+  --out reviewed-lineage \
+  --reviewed-starts handoff.json
+```
+
+The handoff fails closed unless all of the following hold:
+
+- authority string is explicit and exact;
+- source report is a `restart-sidecar-v1` exploratory report with the baseline-isolation contract intact;
+- exact `candidates.json` SHA-256 matches the digest recorded by the sidecar report;
+- every selected ID exists and was hard-valid in the source sidecar;
+- every source candidate is an independent sidecar start (`parent_id = null`, `basin = id`);
+- every selected phenotype reproduces its recorded multi-time phenotype hash;
+- every selected candidate remains hard-valid under the active brief;
+- every active route retains at least one explicitly selected start.
+
+The new lineage is executed by the existing `run_search_from_starts(...)` path and receives an independent search seed. Source selection provenance is persisted in the candidate's `reviews` record and in `reviewed_start_handoff.json`.
+
+`--restart-sidecar` and `--reviewed-starts` are intentionally separate runtime surfaces and cannot be combined in one command in v1.
+
 ## Non-degradation claim
 
 The sidecar does not require a statistical non-degradation claim for the baseline because baseline non-degradation is an architectural property: the baseline run finishes before sidecar generation and its output files are not rewritten by the sidecar.
@@ -75,3 +118,5 @@ The sidecar does not require a statistical non-degradation claim for the baselin
 Regression tests therefore require byte-identical baseline artifacts with and without sidecar generation.
 
 This guarantee is narrower than artistic superiority. The sidecar may contain useful discoveries, weak discoveries, or no valid discoveries. It is a plural exploration surface, not a hidden winner-selection policy.
+
+Likewise, a reviewed-start lineage is not evidence that its selected start is universally superior. It means only that explicit independent artistic authority chose to spend a **new** search budget developing that phenotype. The original baseline and discovery run remain unchanged.
