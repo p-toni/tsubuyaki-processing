@@ -1,0 +1,268 @@
+name: semantic-memory-hybrid-replication-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-memory-hybrid-replication-v1/**'
+      - '.github/workflows/semantic-memory-hybrid-replication-v1.yml'
+      - 'research-results/semantic-breadth-memory-hybrid-v1/results.json'
+      - 'experiments/semantic-breadth-memory-hybrid-v1/run_hybrid.py'
+      - 'experiments/semantic-breadth-memory-hybrid-v1/targets.py'
+      - 'experiments/semantic-empirical-action-memory-v1/empirical_memory.py'
+      - 'experiments/semantic-local-dynamics-v1/**'
+      - 'experiments/semantic-world-model-navigation-v1/**'
+      - 'experiments/semantic-perceptual-steering-v1/**'
+      - 'experiments/semantic-shape-steering-v1/**'
+      - 'prototypes/autonomous-discovery/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze causal-replication lineage and source contract
+        run: |
+          set -euo pipefail
+          test ! -f research-results/semantic-memory-hybrid-replication-v1/results.json
+          grep -q 'HYBRID_REFINEMENT_NOT_PROMISING' research-results/semantic-breadth-memory-hybrid-v1/results.json
+          test "$(git hash-object research-results/semantic-breadth-memory-hybrid-v1/results.json)" = "c8a4e04a4b9210048fb236ad14f73f8d23006929"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/run_hybrid.py)" = "1e75f6294bbb653414077ad75d6d6a345bf16a0a"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/targets.py)" = "1c707cb79851e2aad16911a02349931030d36bc0"
+          test "$(git hash-object experiments/semantic-memory-hybrid-replication-v1/README.md)" = "0a600455ab2723778cec7e8f4c5b4cfa0fe1e620"
+          test "$(git hash-object experiments/semantic-memory-hybrid-replication-v1/targets.py)" = "5c45f138fa8531712a034b41e21eb667b46a6352"
+          test "$(git hash-object experiments/semantic-memory-hybrid-replication-v1/run_replication.py)" = "37668602352ffc62c2656d03cdb57063a9c26f09"
+          test "$(git hash-object experiments/semantic-memory-hybrid-replication-v1/aggregate.py)" = "e7d7677e809dcd1ce82df3218dec3f7cccb783d0"
+          test "$(git hash-object experiments/semantic-memory-hybrid-replication-v1/generate_recognition.py)" = "ef10ee50ff895a292c05b1254622986e3b531c3f"
+          test "$(git hash-object experiments/semantic-empirical-action-memory-v1/empirical_memory.py)" = "d6c632c3fd854b591d5d5303ce634d67d91908f6"
+          test "$(git hash-object experiments/semantic-local-dynamics-v1/local_dynamics.py)" = "a598026cf191e742885a5a01bb5498aca99af842"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/world_model.py)" = "1c5a19157b032284edc496834ffabd5205975596"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/unseen_targets.py)" = "bdf5e73cb95f8ee66a72b8f681d6a1f242a2d289"
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = "46f707729cf4b9b0e027a220a17ec956a4c6c4ec"
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = "5b5093de73c459270e3a96016c867c20f81a75d4"
+          test "$(git hash-object experiments/semantic-shape-steering-v1/semantic_targets.py)" = "ca1a9301ad65a74b6219aaeee02f7dad10ad79c0"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile experiments/semantic-memory-hybrid-replication-v1/*.py
+
+  targets:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate fresh replication semantic suite
+        run: |
+          python experiments/semantic-memory-hybrid-replication-v1/targets.py > target-contract.json
+          python - <<'PY'
+          import json
+          x=json.load(open('target-contract.json'))
+          assert x['valid'], x['failures']
+          assert x['distinctFingerprints'] and x['disjointFromPriorTargets']
+          assert tuple(x['prompts']) == ('star','tree','fish','chair','anchor','guitar','butterfly','bicycle')
+          assert not x['priorOverlap']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-target-contract
+          path: target-contract.json
+
+  frozen-memory:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download immutable target-blind memory
+        uses: actions/download-artifact@v4
+        with:
+          name: semantic-empirical-action-memory-v1
+          path: prior-memory
+          run-id: 33347529752
+          github-token: ${{ github.token }}
+          repository: p-toni/tsubuyaki-processing
+      - name: Verify exact frozen memory provenance and configuration
+        run: |
+          set -euo pipefail
+          test -f prior-memory/memory.npz
+          python - <<'PY'
+          import numpy as np
+          with np.load('prior-memory/memory.npz', allow_pickle=False) as d:
+              assert int(d['prior_train_run_id'][0]) == 33336810605
+              assert str(d['prior_train_head_sha'][0]) == 'a22ad8d607b8f879949fec3f3c8f537079629ed6'
+              assert int(d['selected_k'][0]) == 16
+              assert float(d['selected_action_weight'][0]) == 4.0
+              assert float(d['selected_shrinkage'][0]) == 0.5
+              assert len(d['parent_visual']) == 13824
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-frozen-memory
+          path: prior-memory/memory.npz
+
+  smoke:
+    needs: [targets, frozen-memory]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-frozen-memory
+          path: memory
+      - name: Run excluded replication smoke
+        run: |
+          python experiments/semantic-memory-hybrid-replication-v1/run_replication.py \
+            --seed 735599999 --memory memory/memory.npz --output smoke.json --smoke
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True
+          assert x['renderBudgetPerArmConcept'] == 60
+          assert x['breadthPrefixBudget'] == 48 and x['refinementBudget'] == 12
+          assert x['refinementParentCount'] == 6 and x['proposalsPerParent'] == 64
+          assert set(x['prefixRouteCounts'].values()) == {16}
+          assert all(x['hardInvariants'].values()), x['hardInvariants']
+          assert x['selectedMemoryConfig'] == {'k':16,'actionWeight':4.0,'shrinkage':0.5}
+          for c in x['concepts'].values():
+              assert c['breadth60']['logicalRenderedCount'] == 60
+              assert c['meanHybrid60']['logicalRenderedCount'] == 60
+              assert c['memoryHybrid60']['logicalRenderedCount'] == 60
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-smoke
+          path: smoke.json
+
+  consumed:
+    needs: smoke
+    strategy:
+      fail-fast: true
+      max-parallel: 8
+      matrix:
+        seed: [735500011, 735500029, 735500041, 735500067, 735500079, 735500101, 735500113, 735500137, 735500151, 735500173, 735500197, 735500211, 735500229, 735500251, 735500271, 735500293, 735500307, 735500331, 735500353, 735500379]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-frozen-memory
+          path: memory
+      - name: Run fresh blinded causal-replication shard
+        run: |
+          python experiments/semantic-memory-hybrid-replication-v1/run_replication.py \
+            --seed ${{ matrix.seed }} --memory memory/memory.npz --output semantic-${{ matrix.seed }}.json
+          python - <<'PY'
+          import glob,json
+          x=json.load(open(glob.glob('semantic-*.json')[0]))
+          assert x['smoke'] is False
+          assert x['renderBudgetPerArmConcept'] == 60
+          assert x['breadthPrefixBudget'] == 48 and x['refinementBudget'] == 12
+          assert all(x['hardInvariants'].values()), x['hardInvariants']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-${{ matrix.seed }}
+          path: semantic-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: consumed
+    runs-on: ubuntu-latest
+    outputs:
+      recognition-authorized: ${{ steps.verdict.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-memory-hybrid-replication-7355*
+          path: evidence
+          merge-multiple: true
+      - name: Reduce only complete fresh 20 x 8 rectangle
+        run: |
+          python experiments/semantic-memory-hybrid-replication-v1/aggregate.py \
+            --input-dir evidence --output semantic-memory-hybrid-replication-summary.json
+          python - <<'PY'
+          import json
+          x=json.load(open('semantic-memory-hybrid-replication-summary.json'))
+          assert x['cellCount'] == 160 and x['seedCount'] == 20 and x['conceptCount'] == 8
+          assert x['decision'] in {
+              'EMPIRICAL_MEMORY_REFINEMENT_NOT_REPLICATED',
+              'EMPIRICAL_MEMORY_REFINEMENT_REPLICATED_NO_RECOGNITION',
+              'EMPIRICAL_MEMORY_REFINEMENT_REPLICATED_RECOGNITION_AUTHORIZED',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-summary
+          path: semantic-memory-hybrid-replication-summary.json
+      - name: Publish recognition authorization only after aggregate
+        id: verdict
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('semantic-memory-hybrid-replication-summary.json'))
+          print('authorized=' + ('true' if x.get('winningArmForRecognition') else 'false'))
+          PY
+
+  recognition-package:
+    needs: aggregate
+    if: needs.aggregate.outputs.recognition-authorized == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-memory-hybrid-replication-7355*
+          path: evidence
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-summary
+          path: summary
+      - name: Freeze anonymous recognition package
+        run: |
+          python experiments/semantic-memory-hybrid-replication-v1/generate_recognition.py \
+            --summary summary/semantic-memory-hybrid-replication-summary.json \
+            --evidence-dir evidence \
+            --output-root recognition
+          test -f recognition/manifest.json
+          test -f recognition/review/recognition-sheet.png
+          test -f recognition/sealed-key/recognition-key.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-recognition-review
+          path: recognition/review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-memory-hybrid-replication-recognition-sealed-key
+          path: recognition/sealed-key
