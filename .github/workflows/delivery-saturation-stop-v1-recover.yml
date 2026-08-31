@@ -1,0 +1,60 @@
+name: delivery-saturation-stop-v1-recover
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/delivery-saturation-stop-v1-recover.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  aggregate-recovery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact frozen scientific sources
+        run: |
+          set -euo pipefail
+          test ! -f research-results/delivery-saturation-stop-v1/results.json
+          test "$(git hash-object research-results/delivery-dispersion-shortlist-v1/results.json)" = "276ea942d8b7bed71ad6659b43e3d8b497579ae3"
+          test "$(git hash-object research-results/delivery-dispersion-artistic-v1/results.json)" = "530c025ccfc735787032960726e6c131ba7bef64"
+          test "$(git hash-object experiments/delivery-saturation-stop-v1/README.md)" = "8fa08bcfe2706ddd2ec282090ee0c5a90659426c"
+          test "$(git hash-object experiments/delivery-saturation-stop-v1/run_stop.py)" = "bebbbee4a6e99207935910f0a5563676dc145406"
+          test "$(git hash-object experiments/delivery-saturation-stop-v1/aggregate.py)" = "1f4caa998e741b94ba0fd357f5c33c5c8fc62c53"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download completed frozen seed artifacts from parallel run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: saturation-seed-*
+          path: seed-results
+          merge-multiple: true
+          run-id: 33400268616
+          github-token: ${{ github.token }}
+      - name: Reduce exact completed 20-seed rectangle
+        run: |
+          python experiments/delivery-saturation-stop-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 20
+          assert x['routeSeedCount'] == 60
+          assert x['cellCount'] == 900
+          assert x['artisticEvidence'] is False
+          assert x['noninferiorityMargin'] == 0.003255297955511336
+          PY
+      - name: Upload recovered authoritative summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: delivery-saturation-stop-v1-recovered-summary
+          path: aggregate.json
