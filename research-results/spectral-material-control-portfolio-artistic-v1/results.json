@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "decision": "ARTISTIC_SUPPORT",
+  "authority": "independent-human-artistic-usefulness-only",
+  "sourceRunId": 33388387478,
+  "sourceHeadSha": "3c1edff345d48179087043f012d2f7ca0861e961",
+  "reviewArtifactId": 9756540975,
+  "keyArtifactId": 9756541440,
+  "reviewableCount": 12,
+  "blockCount": 12,
+  "judgmentCounts": {
+    "A>B": 8,
+    "B>A": 4
+  },
+  "totalMixedVsNativeNetPreference": 12,
+  "routeNetPreference": {
+    "recurrence": 4,
+    "orbit": 4,
+    "filament": 4
+  },
+  "leaveOneRouteOutNetPreference": {
+    "recurrence": 8,
+    "orbit": 8,
+    "filament": 8
+  },
+  "gates": {
+    "atLeastNineReviewable": true,
+    "totalMixedVsNativeNetPositive": true,
+    "everyLeaveOneRouteOutNetPositive": true
+  },
+  "artisticSupportPassed": true,
+  "diagnostic": {
+    "allTwelveHumanChoicesResolveToMixed": true,
+    "allTwelveDisplayedNativeMixedPortfoliosNonidentical": true,
+    "sameHardValidStartWithinEveryBlock": true,
+    "nativeBudgetPerBlock": "20 native",
+    "mixedBudgetPerBlock": "10 native + 10 spectral",
+    "portfolioSampling": "generated hard-valid challengers in deterministic generation order; q=0.20/0.50/0.80",
+    "priorChampionSurfaceResult": "ARTISTIC_SUPPORT_NOT_DEMONSTRATED because both arms delivered the unchanged shared start in all 12 blocks"
+  },
+  "reviewerQualitativeNote": "Ratings favor the side in each set demonstrating structural variation and dynamic morphologic exploration across seeds (rows 1–3), over the side containing redundant/identical copies.",
+  "rows": [
+    {"blockId":"R01","route":"recurrence","seed":128003,"judgment":"B>A","A":"native","B":"mixed","mixedVsNativeScore":1},
+    {"blockId":"R02","route":"orbit","seed":128003,"judgment":"B>A","A":"native","B":"mixed","mixedVsNativeScore":1},
+    {"blockId":"R03","route":"filament","seed":128003,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R04","route":"recurrence","seed":128021,"judgment":"B>A","A":"native","B":"mixed","mixedVsNativeScore":1},
+    {"blockId":"R05","route":"orbit","seed":128021,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R06","route":"filament","seed":128021,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R07","route":"recurrence","seed":128041,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R08","route":"orbit","seed":128041,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R09","route":"filament","seed":128041,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R10","route":"recurrence","seed":128053,"judgment":"B>A","A":"native","B":"mixed","mixedVsNativeScore":1},
+    {"blockId":"R11","route":"orbit","seed":128053,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1},
+    {"blockId":"R12","route":"filament","seed":128053,"judgment":"A>B","A":"mixed","B":"native","mixedVsNativeScore":1}
+  ]
+}
