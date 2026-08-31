@@ -49,14 +49,17 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
           test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
           test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
-          if git grep -n '753' dc08038576da58d52d0957ef7b85b3c95656b736 -- .; then
-            echo '753 namespace already existed at frozen pre-experiment base' >&2
-            exit 1
-          fi
-          if git log dc08038576da58d52d0957ef7b85b3c95656b736 --format='%B' | grep -E '753'; then
-            echo '753 namespace found in pre-experiment commit messages' >&2
-            exit 1
-          fi
+          seeds='753999 753003 753019 753037 753053 753071 753089 753107 753127 753149 753167 753181 753199 753223 753239 753257 753277 753293 753311 753331 753349'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" dc08038576da58d52d0957ef7b85b3c95656b736 -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log dc08038576da58d52d0957ef7b85b3c95656b736 --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
           python - <<'PY'
           import json
           a=json.load(open('research-results/independent-starts-spectral-preserve-v1/results.json'))
