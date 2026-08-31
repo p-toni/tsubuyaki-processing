@@ -32,7 +32,7 @@ Refine schedule: `N,N,N,N,N,N,S,S,S,S,S,S`.
 - 6 native + 10 spectral + 4 restart;
 - restarts never become parents and invalidity consumes the evaluation.
 
-The treatment therefore preserves the full spectral evaluation count. Because R9-R12 in the baseline are anchored to the frozen pre-refine incumbent, their rendered phenotypes must also replay exactly in the treatment; this is a hard smoke invariant. R7-R8 may differ because their parent is the evolving champion.
+The treatment therefore preserves the full spectral evaluation count. In the current runtime, R10-R12 are anchored to the frozen pre-refine incumbent and their explicit RNG streams depend only on the unchanged search seed, stage/index, parent identity, and operator. Therefore baseline R10-R12 must replay phenotype-exactly in treatment; this is a hard smoke invariant. R7-R9 may differ because they use the evolving champion as parent.
 
 ## Fresh population
 
@@ -57,7 +57,7 @@ Use the same meaningful-effect margin frozen before the restart line:
 1. complete 20-seed × 3-route × 15-target rectangle;
 2. exact supported baseline replay in excluded smoke;
 3. exact shared start and first 10 generated candidates;
-4. exact baseline R9-R12 spectral phenotype replay inside treatment in smoke;
+4. exact baseline R10-R12 spectral phenotype replay inside treatment in smoke;
 5. archive mean treatment-minus-baseline > meaningful margin;
 6. one-sided seed bootstrap 95% lower bound on archive delta > 0;
 7. every route archive mean > 0;
