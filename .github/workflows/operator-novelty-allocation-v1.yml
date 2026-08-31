@@ -1,0 +1,173 @@
+name: operator-novelty-allocation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/operator-novelty-allocation-v1/**'
+      - '.github/workflows/operator-novelty-allocation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/operator-novelty-allocation-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; scientific jobs remain closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze scientific source and prerequisite contract
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/README.md)" = "e62bb427837aeb741727132e19d995589f513718"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/aggregate.py)" = "e96726d910857cf362fa2f246e10093d9225f8c0"
+          test "$(git hash-object research-results/spectral-material-control-portfolio-artistic-v1/results.json)" = "311a8eb650201f43d6cf3f11c8d8671fa8c0376c"
+          test "$(git hash-object research-results/selector-frontier-allocation-v1/results.json)" = "3becb7c2c91b14a43388ecf3e66b2c7fa1ae250e"
+          test "$(git hash-object research-results/delivery-dispersion-shortlist-v1/results.json)" = "276ea942d8b7bed71ad6659b43e3d8b497579ae3"
+          test "$(git hash-object research-results/delivery-saturation-stop-v1/results.json)" = "072fffc9e9b0bc70176f09b7b7f10b55f5ba6250"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen experiment
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/operator-novelty-allocation-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded baseline-equivalence smoke
+        run: |
+          python experiments/operator-novelty-allocation-v1/run_allocation.py \
+            --seed 745999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 745999
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          assert x['hardInvariants']['smokeBaselineRuntimeReplayExact'] is True
+          assert x['smokeBaselineEquivalence'] == {
+              'recurrence': True, 'orbit': True, 'filament': True
+          }
+          assert x['settings']['sharedPrefixAttempts'] == 8
+          assert x['settings']['meaningfulEffectMargin'] == 0.003255297955511336
+          PY
+
+  seed:
+    needs: smoke
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed:
+          - 745003
+          - 745019
+          - 745037
+          - 745053
+          - 745071
+          - 745089
+          - 745107
+          - 745127
+          - 745149
+          - 745167
+          - 745181
+          - 745199
+          - 745223
+          - 745239
+          - 745257
+          - 745277
+          - 745293
+          - 745311
+          - 745331
+          - 745349
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        run: |
+          python experiments/operator-novelty-allocation-v1/run_allocation.py \
+            --seed "${{ matrix.seed }}" --output "seed-${{ matrix.seed }}.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed'] == seed and x['smoke'] is False
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          PY
+        env:
+          SEED: ${{ matrix.seed }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: operator-novelty-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download frozen seed artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: operator-novelty-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/operator-novelty-allocation-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 20
+          assert x['routeSeedCount'] == 60
+          assert x['cellCount'] == 900
+          assert x['artisticEvidence'] is False
+          assert x['meaningfulEffectMargin'] == 0.003255297955511336
+          PY
+      - name: Upload authoritative summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: operator-novelty-allocation-v1-summary
+          path: aggregate.json
