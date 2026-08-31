@@ -1,0 +1,38 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-benchmark-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 742555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "cellCount": 720,
+  "decision": "DISPERSION_SHORTLIST_PROMISING",
+  "dispersionMinusQuantileMeanRegret": -0.0065105959110226715,
+  "dispersionShortlistPassed": true,
+  "gates": {
+    "everyRouteMeanPositive": true,
+    "meanSeedEffectPositive": true,
+    "oneSided95BootstrapLowerPositive": true
+  },
+  "meanDispersionFullArchiveRegret": 0.017560986223687014,
+  "meanQuantileFullArchiveRegret": 0.024071582134709685,
+  "meanSeedEffect": 0.006510595911022672,
+  "medianMinimumPairwiseDistanceLift": 0.0009850326797385617,
+  "minimumPairwiseDistanceLiftMin": 0.0,
+  "oneSided95BootstrapLower": 0.0011871329689249832,
+  "routeMeanEffects": {
+    "filament": 0.005689136098123338,
+    "orbit": 0.005570540130965609,
+    "recurrence": 0.00827211150397907
+  },
+  "routeSeedCount": 48,
+  "routeSeedCountWithStrictDistanceLift": 47,
+  "seedCount": 16,
+  "version": 1,
+  "authoritativeRunId": 33393096273,
+  "authoritativeArtifactId": 9758648314,
+  "authoritativeArtifactDigest": "sha256:be4eb59c173126ee81d720823a6a309cdedf32df4cddcde5ec67e17cf57c5d12",
+  "researchLineStatus": "MECHANICALLY_CONFIRMED_ARTISTIC_REVIEW_AUTHORIZED",
+  "interpretation": "Keep incumbent-only search and preserve its complete hard-valid archive. A target-blind three-item max-dispersion delivery shortlist recovers more of the frozen external structural target space than simple generation-order quantiles without altering search. Fresh blinded artistic comparison is authorized."
+}
