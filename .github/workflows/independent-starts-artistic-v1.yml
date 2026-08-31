@@ -1,0 +1,120 @@
+name: independent-starts-artistic-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/independent-starts-artistic-v1/**'
+      - '.github/workflows/independent-starts-artistic-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/independent-starts-artistic-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative artistic result already archived; review regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze review source and prerequisite contract
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/independent-starts-artistic-v1/README.md)" = "6ea14784886cd1860a047bc6aeb7e1050343c186"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/generate_review.py)" = "5b8639227190c969015df2cda41931d6561a5640"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/reduce_review.py)" = "6ea138b59d2ebfe0daae9994aa4f5bf57f80a6fa"
+          test "$(git hash-object research-results/independent-starts-substitution-v1/results.json)" = "52776f7702ed63cf2321a6187a81c6300a0d52c5"
+          test "$(git hash-object experiments/independent-starts-substitution-v1/run_substitution.py)" = "39fff7aa92e1d8c32324f331aab9d5d5710f227e"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen review
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/independent-starts-artistic-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded three-route review smoke
+        run: |
+          python experiments/independent-starts-artistic-v1/generate_review.py \
+            --output-root smoke-output --smoke > smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True
+          assert x['blockCount'] == 3
+          assert x['allBudgetsExact'] is True
+          assert x['allSharedStartsExact'] is True
+          assert x['allSharedFirst16Exact'] is True
+          assert x['allMinimumValidGeneratedMet'] is True
+          assert x['allShortlistsThreeDistinctWithinSide'] is True
+          assert isinstance(x['displayIdenticalBlockIds'], list)
+          PY
+
+  generate-review:
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate sealed 12-block review
+        run: |
+          python experiments/independent-starts-artistic-v1/generate_review.py \
+            --output-root review-output > generation.json
+          python - <<'PY'
+          import json, shutil
+          x=json.load(open('generation.json'))
+          assert x['smoke'] is False
+          assert x['blockCount'] == 12
+          assert x['allBudgetsExact'] is True
+          assert x['allSharedStartsExact'] is True
+          assert x['allSharedFirst16Exact'] is True
+          assert x['allMinimumValidGeneratedMet'] is True
+          assert x['allShortlistsThreeDistinctWithinSide'] is True
+          assert isinstance(x['displayIdenticalBlockIds'], list)
+          shutil.copy('experiments/independent-starts-artistic-v1/REVIEWER.md', 'review-output/review/REVIEWER.md')
+          shutil.copy('experiments/independent-starts-artistic-v1/ratings-template.json', 'review-output/review/ratings-template.json')
+          PY
+      - name: Upload reviewer-facing artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-artistic-reviewer
+          path: review-output/review
+      - name: Upload sealed A/B key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-artistic-key
+          path: review-output/key
