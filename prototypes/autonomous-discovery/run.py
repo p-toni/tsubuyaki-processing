@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 from core import *
-from search_engine import run_search, run_search_from_starts
+from search_engine import run_search
 from pairwise_selector import PairwiseSelector, DeterministicTemporalSelector
 from judge_queue import QueueingSelector, RecordedPhenotypeDecisionSelector, decode_blind_decisions
 
@@ -34,7 +34,7 @@ def main():
         type=int,
         default=0,
         metavar='N',
-        help='after baseline search completes, generate N isolated route-prior attempts per eligible intrinsic-1D route',
+        help='after baseline search completes, generate N isolated route-prior attempts per active evidence-authorized restart route',
     )
     ap.add_argument(
         '--reviewed-starts',
@@ -80,12 +80,10 @@ def main():
 
     handoff_receipt = None
     if args.reviewed_starts:
-        from reviewed_start_handoff import load_reviewed_starts
+        from reviewed_start_handoff import run_reviewed_start_lineage
 
-        starts, handoff_receipt = load_reviewed_starts(Path(args.reviewed_starts), brief)
-        _, report = run_search_from_starts(brief, args.seed, out, starts, selector)
-        (out / 'reviewed_start_handoff.json').write_text(
-            json.dumps(handoff_receipt, indent=2, sort_keys=True) + '\n'
+        report, handoff_receipt = run_reviewed_start_lineage(
+            Path(args.reviewed_starts), brief, args.seed, out, selector
         )
     else:
         _, report = run_search(brief, args.seed, out, selector)
