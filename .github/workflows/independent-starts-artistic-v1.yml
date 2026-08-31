@@ -33,8 +33,8 @@ jobs:
         if: steps.guard.outputs.consumed != 'true'
         run: |
           set -euo pipefail
-          test "$(git hash-object experiments/independent-starts-artistic-v1/README.md)" = "b2927ab8f8f6090b9fe69db265b102f2cdd115c7"
-          test "$(git hash-object experiments/independent-starts-artistic-v1/generate_review.py)" = "fdec7c5a4e0166e1eac717d9c6934a9763748b02"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/README.md)" = "05e50918d07b4aef81b56f5c5112bb6099373396"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/generate_review.py)" = "51bf4fd0a09ac7fcfb256053c26f39d5a0ad4607"
           test "$(git hash-object experiments/independent-starts-artistic-v1/reduce_review.py)" = "6ea138b59d2ebfe0daae9994aa4f5bf57f80a6fa"
           test "$(git hash-object research-results/independent-starts-substitution-v1/results.json)" = "52776f7702ed63cf2321a6187a81c6300a0d52c5"
           test "$(git hash-object experiments/independent-starts-substitution-v1/run_substitution.py)" = "39fff7aa92e1d8c32324f331aab9d5d5710f227e"
