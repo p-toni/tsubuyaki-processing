@@ -43,14 +43,14 @@ No structural score, semantic target, model judge, human label, proxy champion, 
 
 ## Fresh population
 
-Excluded smoke: `748999`.
+Excluded smoke: `749999`.
 
 Review seeds:
 
-- `748003`
-- `748021`
-- `748043`
-- `748063`
+- `749003`
+- `749021`
+- `749043`
+- `749063`
 
 Routes:
 
@@ -60,7 +60,11 @@ Routes:
 
 This yields 12 authoritative A/B blocks.
 
-Before preregistration, all five seeds were absent from repository code and the `748` namespace was absent from repository commit messages.
+Before preregistration, all five seeds were absent from repository code and the `749` namespace was absent from repository commit messages.
+
+### Retired feasibility population
+
+An earlier pre-review population (`748003, 748021, 748043, 748063`; smoke `748999`) was retired **before any reviewer artifact or A/B key uploaded** because the presentation-integrity gate found one display-identical block (`recurrence`, seed `748043`). No `748xxx` human evidence was exposed or scored. The gate, treatment, question, and artistic decision rule are unchanged; only the fresh population and blind salt changed.
 
 ## Presentation contract
 
