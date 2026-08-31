@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "experiment": "semantic-breadth-memory-hybrid-v1",
+  "authoritativeRunId": 33349871777,
+  "authoritativeHeadSha": "509550c3e722e0387bc9ee11a8f1b15c14eb719f",
+  "aggregateArtifactId": 9743350229,
+  "aggregateArtifactZipSha256": "74a8d04a40315c63b033d95cbbd41deba4ef9ba61a04b3d271751f8fb3b3fff6",
+  "decision": "HYBRID_REFINEMENT_NOT_PROMISING",
+  "semanticEvidenceConsumed": true,
+  "recognitionAuthorized": false,
+  "selectedMemoryConfig": {
+    "k": 16,
+    "actionWeight": 4.0,
+    "shrinkage": 0.5
+  },
+  "design": {
+    "seedCount": 12,
+    "conceptCount": 8,
+    "cellCount": 96,
+    "renderBudgetPerArmConcept": 60,
+    "breadthPrefixBudget": 48,
+    "refinementBudget": 12,
+    "refinementParentCount": 6,
+    "proposalsPerParent": 64
+  },
+  "aggregate": {
+    "memoryVsBreadth": {
+      "meanF1Delta": 0.013509529126016386,
+      "seed95LowerBound": 0.0009164685883162379,
+      "seedStdDev": 0.024290890421617063
+    },
+    "memoryVsMean": {
+      "meanF1Delta": 0.005232840177821506,
+      "seed95LowerBound": -0.0014441701397165958,
+      "seedStdDev": 0.012879357284257542
+    },
+    "meanVsBreadth": {
+      "meanF1Delta": 0.008276688948194881,
+      "seed95LowerBound": -0.005788013520758813,
+      "seedStdDev": 0.02712955643016349
+    },
+    "breadthHeldoutTop1Fraction": 0.6458333333333334,
+    "meanHeldoutTop1Fraction": 0.6145833333333334,
+    "memoryHeldoutTop1Fraction": 0.6458333333333334,
+    "meanSelectedProposalOverlapFraction": 0.568576388888889,
+    "positiveConceptCounts": {
+      "memoryVsBreadth": 6,
+      "memoryVsMean": 5,
+      "meanVsBreadth": 4
+    },
+    "everyLeaveOneConceptOutMemoryVsBreadthPositive": true,
+    "noConceptDominatesMemoryPositiveGain": true
+  },
+  "failedPrimaryGates": [
+    "memoryTop1ImprovementOverBreadthAtLeastPoint05",
+    "memoryVsMeanSeed95LowerBoundPositive"
+  ],
+  "failedSecondaryMeanGates": [
+    "atLeastFiveConceptsMeanPositiveVsBreadth",
+    "meanTop1ImprovementOverBreadthAtLeastPoint05",
+    "meanVsBreadthMeanF1AbovePoint010",
+    "meanVsBreadthSeed95LowerBoundPositive"
+  ],
+  "interpretation": "Preserving 48/60 renders as global breadth and spending 12/60 on empirical-memory-ranked refinement produces a small statistically positive continuous semantic gain over breadth. However the direct memory-vs-mean lower bound crosses zero and prototype top-1 does not improve, so the gain cannot yet be cleanly attributed to empirical memory and no human recognition test is authorized. One fresh higher-power replication of the exact architecture may resolve the direct-controller effect; do not retune the consumed 48/12 experiment."
+}
