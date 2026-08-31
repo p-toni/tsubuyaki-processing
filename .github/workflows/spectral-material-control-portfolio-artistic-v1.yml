@@ -1,0 +1,147 @@
+name: spectral-material-control-portfolio-artistic-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/spectral-material-control-portfolio-artistic-v1/**'
+      - '.github/workflows/spectral-material-control-portfolio-artistic-v1.yml'
+      - 'experiments/spectral-material-control-artistic-v1/reduce_review.py'
+      - 'experiments/spectral-material-control-runtime-replay-v1/run_runtime.py'
+      - 'prototypes/autonomous-discovery/core.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - 'prototypes/autonomous-discovery/orbit_representation.py'
+      - 'prototypes/autonomous-discovery/pairwise_selector.py'
+      - 'prototypes/autonomous-discovery/rng_streams.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      result_persisted: ${{ steps.guard.outputs.result_persisted }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/spectral-material-control-portfolio-artistic-v1/results.json; then
+            echo 'result_persisted=true' >> "$GITHUB_OUTPUT"
+            echo 'Authoritative human result already persisted; consumed portfolio review will not rerun.'
+          else
+            echo 'result_persisted=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze portfolio-review source contract
+        if: steps.guard.outputs.result_persisted != 'true'
+        run: |
+          set -euo pipefail
+          test -f research-results/spectral-material-control-artistic-v1/results.json
+          python - <<'PY'
+          import json
+          x=json.load(open('research-results/spectral-material-control-artistic-v1/results.json'))
+          assert x['decision'] == 'ARTISTIC_SUPPORT_NOT_DEMONSTRATED'
+          assert x['diagnostic']['allTwelveNativeAndMixedChampionsEqualSharedStart'] is True
+          assert x['diagnostic']['allTwelveDisplayedABFrameRegionsPixelIdentical'] is True
+          PY
+          test "$(git hash-object experiments/spectral-material-control-portfolio-artistic-v1/README.md)" = "a41623d2711db341cd16cb44b9f9607c74db23d2"
+          test "$(git hash-object experiments/spectral-material-control-portfolio-artistic-v1/generate_review.py)" = "30bf3fafb341e05f7243dcc2aefacdbe4d8976f9"
+          test "$(git hash-object experiments/spectral-material-control-artistic-v1/reduce_review.py)" = "3d1167a2cadd8bb7e8f69ad75e1f4e49eb1cbc19"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/run_runtime.py)" = "7ad9b41074cee17a028ca2c440dfc66c06c1fb5d"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.result_persisted != 'true'
+        with:
+          python-version: '3.12'
+      - if: steps.guard.outputs.result_persisted != 'true'
+        run: python -m py_compile experiments/spectral-material-control-portfolio-artistic-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.result_persisted != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate excluded portfolio smoke
+        run: |
+          python experiments/spectral-material-control-portfolio-artistic-v1/generate_review.py \
+            --smoke --output-root smoke > smoke-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('smoke-summary.json'))
+          assert x['smoke'] is True
+          assert x['blockCount'] == 3
+          assert x['minimumValidGenerated'] == 12
+          assert x['allNativeBudgetsExact'] and x['allMixedBudgetsExact'] and x['allStartsShared']
+          assert x['allPortfoliosNonidentical'] and x['allPortfoliosThreeCandidates']
+          contract=json.load(open('smoke/review/review-contract.json'))
+          key=json.load(open('smoke/key/key.json'))
+          assert contract['smoke'] is True and contract['blockCount'] == 3
+          assert contract['candidatesPerSide'] == 3 and contract['minimumValidGenerated'] == 12
+          assert key['smoke'] is True and len(key['blocks']) == 3
+          assert sorted(p.name for p in Path('smoke/review').glob('S*.png')) == ['S01.png','S02.png','S03.png']
+          assert Path('smoke/review/contact-sheet.png').is_file()
+          PY
+
+  review-package:
+    needs: smoke
+    if: needs.preflight.outputs.result_persisted != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen 12-block portfolio review package
+        run: |
+          python experiments/spectral-material-control-portfolio-artistic-v1/generate_review.py \
+            --output-root package > package-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('package-summary.json'))
+          assert x['smoke'] is False
+          assert x['blockCount'] == 12
+          assert x['minimumValidGenerated'] == 12
+          assert x['allNativeBudgetsExact'] and x['allMixedBudgetsExact'] and x['allStartsShared']
+          assert x['allPortfoliosNonidentical'] and x['allPortfoliosThreeCandidates']
+          contract=json.load(open('package/review/review-contract.json'))
+          key=json.load(open('package/key/key.json'))
+          assert contract['smoke'] is False and contract['blockCount'] == 12
+          assert contract['allowedJudgments'] == ['A>B','B>A','equivalent','unreviewable']
+          assert contract['candidatesPerSide'] == 3 and contract['minimumValidGenerated'] == 12
+          assert key['smoke'] is False and len(key['blocks']) == 12
+          assert sorted({b['route'] for b in key['blocks']}) == ['filament','orbit','recurrence']
+          assert sorted({int(b['seed']) for b in key['blocks']}) == [128003,128021,128041,128053]
+          assert all(b['A'] != b['B'] and {b['A'],b['B']} == {'native','mixed'} for b in key['blocks'])
+          assert all(b['nativePortfolio']['displayPhenotypes'] != b['mixedPortfolio']['displayPhenotypes'] for b in key['blocks'])
+          assert all(b['nativePortfolio']['validGeneratedCount'] >= 12 and b['mixedPortfolio']['validGeneratedCount'] >= 12 for b in key['blocks'])
+          assert sorted(p.name for p in Path('package/review').glob('R*.png')) == [f'R{i:02d}.png' for i in range(1,13)]
+          assert Path('package/review/contact-sheet.png').is_file()
+          PY
+      - name: Upload reviewer-facing portfolio artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectral-material-control-portfolio-artistic-review
+          path: package/review/
+      - name: Upload sealed portfolio identity key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectral-material-control-portfolio-artistic-key
+          path: package/key/key.json
