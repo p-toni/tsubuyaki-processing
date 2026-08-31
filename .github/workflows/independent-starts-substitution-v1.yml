@@ -1,0 +1,152 @@
+name: independent-starts-substitution-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/independent-starts-substitution-v1/**'
+      - '.github/workflows/independent-starts-substitution-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/independent-starts-substitution-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; scientific jobs remain closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze scientific source and prerequisite contract
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/independent-starts-substitution-v1/README.md)" = "b3428b7586030527b1094354579512a1e347242b"
+          test "$(git hash-object experiments/independent-starts-substitution-v1/run_substitution.py)" = "39fff7aa92e1d8c32324f331aab9d5d5710f227e"
+          test "$(git hash-object experiments/independent-starts-substitution-v1/aggregate.py)" = "c3a63e7d8b5595f9417b3044e648fa96c86e1668"
+          test "$(git hash-object research-results/independent-starts-marginal-v1/results.json)" = "f187e30d779253576e9cb82fe072974da8bbaaa6"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen experiment
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/independent-starts-substitution-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded exact-prefix smoke
+        run: |
+          python experiments/independent-starts-substitution-v1/run_substitution.py \
+            --seed 747999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 747999
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          assert x['smokeBaselineEquivalence'] == {'recurrence': True, 'orbit': True, 'filament': True}
+          assert x['settings']['budgetPerArm'] == 20
+          assert x['settings']['sharedPrefixAttempts'] == 16
+          assert x['settings']['baselinePortfolio'] == {'native':10,'spectral':10,'restart':0}
+          assert x['settings']['treatmentPortfolio'] == {'native':10,'spectral':6,'restart':4}
+          assert x['settings']['replacedBaselineAttempts'] == ['R9','R10','R11','R12']
+          PY
+
+  seed:
+    needs: smoke
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [747003,747019,747037,747053,747071,747089,747107,747127,747149,747167,747181,747199,747223,747239,747257,747277,747293,747311,747331,747349]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        run: |
+          python experiments/independent-starts-substitution-v1/run_substitution.py \
+            --seed "${{ matrix.seed }}" --output "seed-${{ matrix.seed }}.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed'] == seed and x['smoke'] is False
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          PY
+        env:
+          SEED: ${{ matrix.seed }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-substitution-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download frozen seed artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: independent-starts-substitution-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/independent-starts-substitution-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 20
+          assert x['routeSeedCount'] == 60
+          assert x['cellCount'] == 900
+          assert x['budgetPerArm'] == 20
+          assert x['sharedPrefixAttempts'] == 16
+          assert x['meaningfulEffectMargin'] == 0.003255297955511336
+          PY
+      - name: Upload authoritative summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-substitution-v1-summary
+          path: aggregate.json

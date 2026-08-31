@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "decision": "INDEPENDENT_STARTS_SUBSTITUTION_PROMISING",
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-equal-budget-only",
+  "seedCount": 20,
+  "routeSeedCount": 60,
+  "cellCount": 900,
+  "budgetPerArm": 20,
+  "sharedPrefixAttempts": 16,
+  "meaningfulEffectMargin": 0.003255297955511336,
+  "meanArchiveDelta": 0.02296078020062122,
+  "oneSided95BootstrapLowerArchiveDelta": 0.017528380702206137,
+  "meanDeliveryDelta": 0.02171522216472643,
+  "oneSided95BootstrapLowerDeliveryDelta": 0.013066487786327083,
+  "routeMeanEffects": {
+    "archiveDelta": {
+      "recurrence": 0.01615733197543852,
+      "orbit": 0.02507881936308777,
+      "filament": 0.027646189263337374
+    },
+    "deliveryDelta": {
+      "recurrence": 0.005065745641721814,
+      "orbit": 0.032319793742151104,
+      "filament": 0.027760127110306374
+    }
+  },
+  "validity": {
+    "baselineValidCount": 1178,
+    "treatmentValidCount": 1182,
+    "attemptsPerArm": 1200,
+    "baselineValidRate": 0.9816666666666667,
+    "treatmentValidRate": 0.985,
+    "restartAttemptCount": 240,
+    "validRestartCount": 238,
+    "treatmentMinusBaselineValidRate": 0.0033333333333332993
+  },
+  "gates": {
+    "archiveMeanAboveMeaningfulMargin": true,
+    "archive95LowerPositive": true,
+    "everyRouteArchivePositive": true,
+    "deliveryMeanAboveMeaningfulMargin": true,
+    "delivery95LowerPositive": true,
+    "everyRouteDeliveryPositive": true,
+    "treatmentValidityNoMoreThanFivePointsLower": true
+  },
+  "mechanicalPassed": true,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 747555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "provenance": {
+    "authoritativeRunId": 33409253077,
+    "authoritativeHeadSha": "c49a5f3cfe6f4f38424ca9fccce6a8c273243cd6",
+    "summaryArtifactId": 9764604250,
+    "summaryArtifactDigest": "sha256:04f8e9853593bffec1decbd8c6148f18348c5c1efe0bc418a8b715d3660d73be",
+    "individualSeedArtifactsInspected": false,
+    "excludedSmokeSeed": 747999,
+    "smokeBaselineRuntimeReplayExact": true,
+    "smokeSharedPrefix16Exact": true
+  },
+  "researchLineStatus": "FRESH_BLINDED_ARTISTIC_COMPARISON_AUTHORIZED",
+  "interpretation": "At exactly equal 20-candidate compute, preserving the first 16 candidates of the supported runtime and replacing refinement R9-R12 with four independent one-shot route-prior starts materially improves both full-archive structural recovery and the promoted max-dispersion delivery surface across all three routes. This mechanical pass authorizes a fresh blinded human artistic comparison only; production remains unchanged until that boundary passes."
+}
