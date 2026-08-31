@@ -107,9 +107,16 @@ def load_reviewed_starts(
         evaluate_candidate(cand, brief)
         if not cand.checks.get("valid", False):
             raise ValueError(f"selected candidate {cid!r} is no longer hard-valid under the active brief")
-        cand.checks["reviewedStartHandoff"] = True
-        cand.checks["reviewAuthority"] = AUTHORITY
-        cand.checks["sourceSidecarMasterSeed"] = source_report.get("masterSeed")
+        cand.reviews.append(
+            {
+                "source": "reviewed-start-handoff",
+                "authority": AUTHORITY,
+                "sourceMode": SIDECAR_MODE,
+                "sourceSidecarMasterSeed": source_report.get("masterSeed"),
+                "sourcePhenotypeHash": observed_hash,
+                "automaticPromotion": False,
+            }
+        )
         starts.append(cand)
         provenance.append(
             {
