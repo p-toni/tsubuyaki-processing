@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "experiment": "semantic-empirical-action-memory-v1",
+  "authoritativeRunId": 33347529752,
+  "authoritativeHeadSha": "6c5daf49398ecde65b1c0b2dab2d7b67b40a18c0",
+  "aggregateArtifactId": 9742879071,
+  "aggregateArtifactZipSha256": "da0b03e2d554f9df85e7a43ab87347dd8093f2ef53b2f136cd1d1f0749fee24d",
+  "decision": "EMPIRICAL_ACTION_NAVIGATION_NOT_PROMISING",
+  "semanticEvidenceConsumed": true,
+  "recognitionAuthorized": false,
+  "selectedMemoryConfig": {
+    "k": 16,
+    "actionWeight": 4.0,
+    "shrinkage": 0.5
+  },
+  "aggregate": {
+    "seedCount": 12,
+    "conceptCount": 8,
+    "cellCount": 96,
+    "breadthHeldoutTop1Fraction": 0.625,
+    "meanHeldoutTop1Fraction": 0.5,
+    "memoryHeldoutTop1Fraction": 0.53125,
+    "memoryVsBreadth": {
+      "meanF1Delta": -0.025133204123774955,
+      "seed95LowerBound": -0.03697920195426042
+    },
+    "memoryVsMean": {
+      "meanF1Delta": 0.01837252850342944,
+      "seed95LowerBound": 0.007681804722913157
+    },
+    "meanVsBreadth": {
+      "meanF1Delta": -0.04350573262720439,
+      "seed95LowerBound": -0.05463123858187196
+    }
+  },
+  "interpretation": "Target-free empirical action memory generalizes and improves semantic navigation over the route/action mean controller, but pure local MPC sacrifices enough global breadth that both controller arms underperform breadth60 at equal render budget. The next fresh test should preserve most global breadth and use empirical memory only as a bounded refinement suffix."
+}
