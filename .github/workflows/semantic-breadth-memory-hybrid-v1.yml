@@ -1,0 +1,264 @@
+name: semantic-breadth-memory-hybrid-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-breadth-memory-hybrid-v1/**'
+      - '.github/workflows/semantic-breadth-memory-hybrid-v1.yml'
+      - 'research-results/semantic-empirical-action-memory-v1/results.json'
+      - 'experiments/semantic-empirical-action-memory-v1/empirical_memory.py'
+      - 'experiments/semantic-local-dynamics-v1/**'
+      - 'experiments/semantic-world-model-navigation-v1/**'
+      - 'experiments/semantic-perceptual-steering-v1/**'
+      - 'experiments/semantic-shape-steering-v1/**'
+      - 'prototypes/autonomous-discovery/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze scientific lineage and source contract
+        run: |
+          set -euo pipefail
+          test ! -f research-results/semantic-breadth-memory-hybrid-v1/results.json
+          grep -q 'EMPIRICAL_ACTION_NAVIGATION_NOT_PROMISING' research-results/semantic-empirical-action-memory-v1/results.json
+          test "$(git hash-object research-results/semantic-empirical-action-memory-v1/results.json)" = "b16dfed1d885e4149c808c4e5c87fa23041dc849"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/README.md)" = "087796375ed735f8bfd7d0f9ebe3faa3ef1bf4d5"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/targets.py)" = "1c707cb79851e2aad16911a02349931030d36bc0"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/run_hybrid.py)" = "1e75f6294bbb653414077ad75d6d6a345bf16a0a"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/aggregate.py)" = "b431cef2ba4c4321b052caf578360215d259f7e0"
+          test "$(git hash-object experiments/semantic-breadth-memory-hybrid-v1/generate_recognition.py)" = "884a8bce03f0d43694fee02619d13a68483de316"
+          test "$(git hash-object experiments/semantic-empirical-action-memory-v1/empirical_memory.py)" = "d6c632c3fd854b591d5d5303ce634d67d91908f6"
+          test "$(git hash-object experiments/semantic-local-dynamics-v1/local_dynamics.py)" = "a598026cf191e742885a5a01bb5498aca99af842"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/world_model.py)" = "1c5a19157b032284edc496834ffabd5205975596"
+          test "$(git hash-object experiments/semantic-world-model-navigation-v1/unseen_targets.py)" = "bdf5e73cb95f8ee66a72b8f681d6a1f242a2d289"
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/perceptual_metric.py)" = "46f707729cf4b9b0e027a220a17ec956a4c6c4ec"
+          test "$(git hash-object experiments/semantic-perceptual-steering-v1/fresh_targets.py)" = "5b5093de73c459270e3a96016c867c20f81a75d4"
+          test "$(git hash-object experiments/semantic-shape-steering-v1/semantic_targets.py)" = "ca1a9301ad65a74b6219aaeee02f7dad10ad79c0"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile experiments/semantic-breadth-memory-hybrid-v1/*.py
+
+  targets:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Validate fresh semantic suite before any semantic render
+        run: |
+          python experiments/semantic-breadth-memory-hybrid-v1/targets.py > target-contract.json
+          python - <<'PY'
+          import json
+          x=json.load(open('target-contract.json'))
+          assert x['valid'], x['failures']
+          assert x['distinctFingerprints'] and x['disjointFromPriorTargets']
+          assert tuple(x['prompts']) == ('glasses','cup','ladder','house','envelope','snowman','scissors','rocket')
+          assert not x['priorOverlap']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-target-contract
+          path: target-contract.json
+
+  frozen-memory:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download immutable target-blind memory from authoritative prior run
+        uses: actions/download-artifact@v4
+        with:
+          name: semantic-empirical-action-memory-v1
+          path: prior-memory
+          run-id: 33347529752
+          github-token: ${{ github.token }}
+          repository: p-toni/tsubuyaki-processing
+      - name: Verify exact frozen memory provenance and selected config
+        run: |
+          set -euo pipefail
+          test -f prior-memory/memory.npz
+          python - <<'PY'
+          import numpy as np
+          with np.load('prior-memory/memory.npz', allow_pickle=False) as d:
+              assert int(d['prior_train_run_id'][0]) == 33336810605
+              assert str(d['prior_train_head_sha'][0]) == 'a22ad8d607b8f879949fec3f3c8f537079629ed6'
+              assert int(d['selected_k'][0]) == 16
+              assert float(d['selected_action_weight'][0]) == 4.0
+              assert float(d['selected_shrinkage'][0]) == 0.5
+              assert len(d['parent_visual']) == 13824
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-frozen-memory
+          path: prior-memory/memory.npz
+
+  smoke:
+    needs: [targets, frozen-memory]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-frozen-memory
+          path: memory
+      - name: Run excluded equal-budget hybrid smoke
+        run: |
+          python experiments/semantic-breadth-memory-hybrid-v1/run_hybrid.py \
+            --seed 735499999 --memory memory/memory.npz --output smoke.json --smoke
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True
+          assert x['renderBudgetPerArmConcept'] == 60
+          assert x['breadthPrefixBudget'] == 48 and x['refinementBudget'] == 12
+          assert x['refinementParentCount'] == 6 and x['proposalsPerParent'] == 64
+          assert set(x['prefixRouteCounts'].values()) == {16}
+          assert all(x['hardInvariants'].values()), x['hardInvariants']
+          assert x['selectedMemoryConfig'] == {'k':16,'actionWeight':4.0,'shrinkage':0.5}
+          for c in x['concepts'].values():
+              assert c['breadth60']['logicalRenderedCount'] == 60
+              assert c['meanHybrid60']['logicalRenderedCount'] == 60
+              assert c['memoryHybrid60']['logicalRenderedCount'] == 60
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-smoke
+          path: smoke.json
+
+  consumed:
+    needs: smoke
+    strategy:
+      fail-fast: true
+      max-parallel: 6
+      matrix:
+        seed: [735400011, 735400029, 735400041, 735400067, 735400079, 735400101, 735400113, 735400137, 735400151, 735400173, 735400197, 735400211]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-frozen-memory
+          path: memory
+      - name: Run fresh blinded semantic hybrid shard
+        run: |
+          python experiments/semantic-breadth-memory-hybrid-v1/run_hybrid.py \
+            --seed ${{ matrix.seed }} --memory memory/memory.npz --output semantic-${{ matrix.seed }}.json
+          python - <<'PY'
+          import glob,json
+          x=json.load(open(glob.glob('semantic-*.json')[0]))
+          assert x['smoke'] is False
+          assert x['renderBudgetPerArmConcept'] == 60
+          assert x['breadthPrefixBudget'] == 48 and x['refinementBudget'] == 12
+          assert all(x['hardInvariants'].values()), x['hardInvariants']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-${{ matrix.seed }}
+          path: semantic-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: consumed
+    runs-on: ubuntu-latest
+    outputs:
+      recognition-authorized: ${{ steps.verdict.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-breadth-memory-hybrid-7354*
+          path: evidence
+          merge-multiple: true
+      - name: Reduce only complete fresh 12 x 8 rectangle
+        run: |
+          python experiments/semantic-breadth-memory-hybrid-v1/aggregate.py \
+            --input-dir evidence --output semantic-breadth-memory-hybrid-summary.json
+          python - <<'PY'
+          import json
+          x=json.load(open('semantic-breadth-memory-hybrid-summary.json'))
+          assert x['cellCount'] == 96 and x['seedCount'] == 12 and x['conceptCount'] == 8
+          assert x['decision'] in {
+              'EMPIRICAL_MEMORY_HYBRID_PROMISING',
+              'MEAN_REFINEMENT_HYBRID_PROMISING',
+              'HYBRID_REFINEMENT_NOT_PROMISING',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-summary
+          path: semantic-breadth-memory-hybrid-summary.json
+      - name: Publish human-recognition authorization only after aggregate
+        id: verdict
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('semantic-breadth-memory-hybrid-summary.json'))
+          print('authorized=' + ('true' if x.get('winningArmForRecognition') else 'false'))
+          PY
+
+  recognition-package:
+    needs: aggregate
+    if: needs.aggregate.outputs.recognition-authorized == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: semantic-breadth-memory-hybrid-7354*
+          path: evidence
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-summary
+          path: summary
+      - name: Freeze anonymous human-recognition package
+        run: |
+          python experiments/semantic-breadth-memory-hybrid-v1/generate_recognition.py \
+            --summary summary/semantic-breadth-memory-hybrid-summary.json \
+            --evidence-dir evidence \
+            --output-root recognition
+          test -f recognition/manifest.json
+          test -f recognition/review/recognition-sheet.png
+          test -f recognition/sealed-key/recognition-key.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-recognition-review
+          path: recognition/review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semantic-breadth-memory-hybrid-recognition-sealed-key
+          path: recognition/sealed-key
