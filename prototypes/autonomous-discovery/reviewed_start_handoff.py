@@ -66,7 +66,11 @@ def load_reviewed_starts(
     if source_report.get("baselineContract") != expected_contract:
         raise ValueError("source sidecar baseline-isolation contract drift")
 
-    raw_candidates = json.loads(source_candidates_path.read_text())
+    candidate_bytes = source_candidates_path.read_bytes()
+    observed_candidate_digest = hashlib.sha256(candidate_bytes).hexdigest()
+    if observed_candidate_digest != source_report.get("candidatesSha256"):
+        raise ValueError("source sidecar candidates.json digest mismatch")
+    raw_candidates = json.loads(candidate_bytes.decode("utf-8"))
     if not isinstance(raw_candidates, list):
         raise ValueError("sourceCandidates must contain a candidate list")
     by_id = {}
@@ -114,6 +118,7 @@ def load_reviewed_starts(
                 "sourceMode": SIDECAR_MODE,
                 "sourceSidecarMasterSeed": source_report.get("masterSeed"),
                 "sourcePhenotypeHash": observed_hash,
+                "sourceCandidatesSha256": observed_candidate_digest,
                 "automaticPromotion": False,
             }
         )
@@ -139,6 +144,7 @@ def load_reviewed_starts(
         "authority": AUTHORITY,
         "sourceMode": SIDECAR_MODE,
         "sourceSidecarMasterSeed": source_report.get("masterSeed"),
+        "sourceCandidatesSha256": observed_candidate_digest,
         "selectedCandidateIds": selected_ids,
         "selected": provenance,
         "activeRoutes": list(active_routes),
