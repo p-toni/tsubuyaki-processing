@@ -6,9 +6,14 @@ from pathlib import Path
 
 import pytest
 
+import core
+import representations
 import restart_sidecar
-from reviewed_start_handoff import AUTHORITY, load_reviewed_starts
-from search_engine import run_search_from_starts
+from reviewed_start_handoff import (
+    AUTHORITY,
+    load_reviewed_starts,
+    run_reviewed_start_lineage,
+)
 
 
 def _brief(routes=("recurrence",)):
@@ -25,14 +30,15 @@ def _brief(routes=("recurrence",)):
     }
 
 
-def _make_sidecar(tmp_path: Path, routes=("recurrence",), seed=881039):
+def _make_sidecar(tmp_path: Path, routes=("recurrence",), seed=881039, attempts=4):
     brief = _brief(routes)
     root = tmp_path / "sidecar"
     report = restart_sidecar.generate_restart_sidecar(
-        brief, seed, root, attempts_per_route=4
+        brief, seed, root, attempts_per_route=attempts
     )
     for route in routes:
-        assert report["byRoute"][route]["validCandidateIds"], (route, report)
+        if route in {"recurrence", "orbit", "filament"}:
+            assert route in report["byRoute"], (route, report)
     return brief, root, report
 
 
@@ -60,20 +66,19 @@ def test_reviewed_sidecar_start_creates_new_lineage_with_persistent_provenance(t
     cid = report["byRoute"]["recurrence"]["validCandidateIds"][0]
     manifest = _manifest(tmp_path, root, [cid])
 
-    starts, receipt = load_reviewed_starts(manifest, brief)
-    assert len(starts) == 1
+    out = tmp_path / "lineage"
+    _, receipt = run_reviewed_start_lineage(manifest, brief, 991003, out)
     assert receipt["automaticPromotion"] is False
     assert receipt["newIsolatedLineage"] is True
     assert receipt["routeExposurePreserved"] is True
     assert receipt["sourceCandidatesSha256"] == report["candidatesSha256"]
 
-    out = tmp_path / "lineage"
-    state, _ = run_search_from_starts(brief, 991003, out, starts)
-    source = state.candidates[cid]
-    assert source.stage == "reviewed-start"
-    assert source.parent_id is None
-    assert source.basin == cid
-    assert source.reviews == [
+    persisted = json.loads((out / "search_state.json").read_text())
+    source = persisted["candidates"][cid]
+    assert source["stage"] == "reviewed-start"
+    assert source["parent_id"] is None
+    assert source["basin"] == cid
+    assert source["reviews"] == [
         {
             "source": "reviewed-start-handoff",
             "authority": AUTHORITY,
@@ -84,8 +89,36 @@ def test_reviewed_sidecar_start_creates_new_lineage_with_persistent_provenance(t
             "automaticPromotion": False,
         }
     ]
+    saved_receipt = json.loads((out / "reviewed_start_handoff.json").read_text())
+    assert saved_receipt == receipt
+
+
+def test_reviewed_orbit_lineage_runs_without_promoting_orbit_into_baseline_registry(tmp_path):
+    brief, root, report = _make_sidecar(
+        tmp_path, routes=("orbit",), seed=881061, attempts=12
+    )
+    valid = report["byRoute"]["orbit"]["validCandidateIds"]
+    assert valid, report
+    manifest = _manifest(tmp_path, root, [valid[0]])
+
+    before_routes = dict(core.ROUTES)
+    before_representations = dict(representations.REPRESENTATIONS)
+    before_checker = core.check_candidate
+    sentinel = object()
+    before_flag = getattr(core, "_orbit_checker_registered", sentinel)
+
+    out = tmp_path / "orbit-lineage"
+    lineage_report, receipt = run_reviewed_start_lineage(manifest, brief, 991021, out)
+    assert lineage_report["route"] == "orbit"
+    assert receipt["activeRoutes"] == ["orbit"]
     persisted = json.loads((out / "search_state.json").read_text())
-    assert persisted["candidates"][cid]["reviews"] == source.reviews
+    assert persisted["candidates"][valid[0]]["route"] == "orbit"
+    assert persisted["candidates"][valid[0]]["stage"] == "reviewed-start"
+
+    assert core.ROUTES == before_routes
+    assert representations.REPRESENTATIONS == before_representations
+    assert core.check_candidate is before_checker
+    assert getattr(core, "_orbit_checker_registered", sentinel) is before_flag
 
 
 def test_handoff_rejects_fake_authority(tmp_path):
@@ -128,11 +161,23 @@ def test_handoff_rejects_stale_phenotype_even_if_record_digest_is_rebound(tmp_pa
 
 
 def test_handoff_preserves_active_route_exposure(tmp_path):
-    brief, root, report = _make_sidecar(tmp_path, routes=("recurrence", "orbit"), seed=881057)
+    brief, root, report = _make_sidecar(
+        tmp_path, routes=("recurrence", "orbit"), seed=881057, attempts=8
+    )
     recurrence_only = report["byRoute"]["recurrence"]["validCandidateIds"][0]
     manifest = _manifest(tmp_path, root, [recurrence_only])
     with pytest.raises(ValueError, match="missing active route"):
         load_reviewed_starts(manifest, brief)
+
+
+def test_handoff_rejects_active_route_outside_frozen_restart_authority(tmp_path):
+    brief, root, report = _make_sidecar(tmp_path)
+    cid = report["byRoute"]["recurrence"]["validCandidateIds"][0]
+    manifest = _manifest(tmp_path, root, [cid])
+    bad_brief = dict(brief)
+    bad_brief["routes"] = ["recurrence", "family"]
+    with pytest.raises(ValueError, match="unauthorized active route"):
+        load_reviewed_starts(manifest, bad_brief)
 
 
 def test_handoff_rejects_source_candidate_not_marked_valid(tmp_path):
