@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "decision": "ARTISTIC_SUPPORT",
+  "artisticSupportPassed": true,
+  "authority": "independent-human-artistic-usefulness-only",
+  "blockCount": 12,
+  "reviewableCount": 12,
+  "judgmentCounts": {
+    "A>B": 4,
+    "B>A": 8
+  },
+  "totalDispersionVsQuantileNetPreference": 6,
+  "routeNetPreference": {
+    "recurrence": 4,
+    "orbit": 2,
+    "filament": 0
+  },
+  "leaveOneRouteOutNetPreference": {
+    "recurrence": 2,
+    "orbit": 4,
+    "filament": 6
+  },
+  "gates": {
+    "atLeastNineReviewable": true,
+    "totalDispersionVsQuantileNetPositive": true,
+    "everyLeaveOneRouteOutNetPositive": true
+  },
+  "authoritativeRunId": 33395817546,
+  "reviewArtifact": {
+    "id": 9759391278,
+    "digest": "sha256:6c68ebf64fbf59bd8432a0cba694984b0500dad24206ba370178a25ed1417d10"
+  },
+  "sealedKeyArtifact": {
+    "id": 9759391642,
+    "digest": "sha256:8debac25b64026e9aef6a84d625a098d7d2b5b633514d8693fd81d397d7203da",
+    "openedOnlyAfterAllRatingsFixed": true
+  },
+  "ratings": {
+    "R01": "B>A",
+    "R02": "B>A",
+    "R03": "B>A",
+    "R04": "B>A",
+    "R05": "B>A",
+    "R06": "A>B",
+    "R07": "B>A",
+    "R08": "A>B",
+    "R09": "B>A",
+    "R10": "B>A",
+    "R11": "A>B",
+    "R12": "A>B"
+  },
+  "rows": [
+    {"blockId":"R01","route":"recurrence","seed":743003,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R02","route":"orbit","seed":743003,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R03","route":"filament","seed":743003,"judgment":"B>A","A":"dispersion","B":"quantile","dispersionVsQuantileScore":-1},
+    {"blockId":"R04","route":"recurrence","seed":743021,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R05","route":"orbit","seed":743021,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R06","route":"filament","seed":743021,"judgment":"A>B","A":"quantile","B":"dispersion","dispersionVsQuantileScore":-1},
+    {"blockId":"R07","route":"recurrence","seed":743043,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R08","route":"orbit","seed":743043,"judgment":"A>B","A":"quantile","B":"dispersion","dispersionVsQuantileScore":-1},
+    {"blockId":"R09","route":"filament","seed":743043,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R10","route":"recurrence","seed":743063,"judgment":"B>A","A":"quantile","B":"dispersion","dispersionVsQuantileScore":1},
+    {"blockId":"R11","route":"orbit","seed":743063,"judgment":"A>B","A":"dispersion","B":"quantile","dispersionVsQuantileScore":1},
+    {"blockId":"R12","route":"filament","seed":743063,"judgment":"A>B","A":"dispersion","B":"quantile","dispersionVsQuantileScore":1}
+  ],
+  "promotion": {
+    "defaultThreeItemDeliveryShortlist": "max-dispersion",
+    "searchPolicyChanged": false,
+    "searchPolicy": "incumbent-only native-spectral-50-50-v1",
+    "fullHardValidArchivePreserved": true,
+    "artisticAuthorityChanged": false
+  },
+  "researchLineStatus": "DELIVERY_SHORTLIST_PROMOTED",
+  "interpretation": "The target-blind max-dispersion shortlist's fresh mechanical advantage survives independent blinded artistic review. Promote it as the default three-item delivery surface for the supported mixed-search regime while leaving search allocation, parenting, and artistic authority unchanged. Filament is neutral in this 4-block stratum and should remain visible rather than being treated as a positive route-specific claim."
+}
