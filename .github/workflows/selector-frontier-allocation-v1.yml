@@ -1,0 +1,124 @@
+name: selector-frontier-allocation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/selector-frontier-allocation-v1/**'
+      - '.github/workflows/selector-frontier-allocation-v1.yml'
+      - 'prototypes/autonomous-discovery/core.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - 'prototypes/autonomous-discovery/orbit_representation.py'
+      - 'prototypes/autonomous-discovery/pairwise_selector.py'
+      - 'prototypes/autonomous-discovery/rng_streams.py'
+      - 'experiments/spectral-material-control-v1/fast_grayscale_metric.py'
+      - 'experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze frontier experiment contract
+        run: |
+          set -euo pipefail
+          test ! -f research-results/selector-frontier-allocation-v1/results.json
+          test -f research-results/spectral-material-control-portfolio-artistic-v1/results.json
+          python - <<'PY'
+          import json
+          x=json.load(open('research-results/spectral-material-control-portfolio-artistic-v1/results.json'))
+          assert x['decision'] == 'ARTISTIC_SUPPORT'
+          assert x['diagnostic']['allTwelveHumanChoicesResolveToMixed'] is True
+          assert x['totalMixedVsNativeNetPreference'] == 12
+          PY
+          test "$(git hash-object experiments/selector-frontier-allocation-v1/README.md)" = "b3feed14463697e8dc96308f5bac733b5a21cf11"
+          test "$(git hash-object experiments/selector-frontier-allocation-v1/run_frontier.py)" = "d21a1cbc69b724cd667eebafb1584a4fa723f6e4"
+          test "$(git hash-object experiments/selector-frontier-allocation-v1/aggregate.py)" = "9bada196d4b75c83707a0d62cb77adbe1eead65a"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile experiments/selector-frontier-allocation-v1/*.py
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded frontier smoke
+        run: |
+          python experiments/selector-frontier-allocation-v1/run_frontier.py \
+            --seed 731999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 731999
+          assert x['artisticEvidence'] is False
+          assert all(x['hardInvariants'].values())
+          assert len(x['cells']) == 45
+          assert all(x['routes'][r]['frontierSize'] <= 4 for r in ('recurrence','orbit','filament'))
+          PY
+
+  authoritative:
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen 16-seed selector experiment
+        run: |
+          set -euo pipefail
+          mkdir -p seed-results
+          for seed in \
+            731003 731019 731037 731051 \
+            731069 731087 731101 731123 \
+            731141 731159 731177 731191 \
+            731207 731219 731233 731251
+          do
+            python experiments/selector-frontier-allocation-v1/run_frontier.py \
+              --seed "$seed" --output "seed-results/seed-$seed.json"
+          done
+          python experiments/selector-frontier-allocation-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 16
+          assert x['cellCount'] == 720
+          assert x['artisticEvidence'] is False
+          assert set(x['gates']) == {
+            'meanSeedEffectPositive',
+            'oneSided95BootstrapLowerPositive',
+            'everyRouteMeanPositive',
+            'validityRateNoMoreThanFivePointsLower',
+            'medianFinalNonStartFrontierAtLeastTwo',
+          }
+          PY
+      - name: Upload authoritative selector result
+        uses: actions/upload-artifact@v4
+        with:
+          name: selector-frontier-allocation-v1-result
+          path: |
+            aggregate.json
+            seed-results/
