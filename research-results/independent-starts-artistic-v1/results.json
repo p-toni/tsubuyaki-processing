@@ -1,0 +1,56 @@
+{
+  "artisticSupportPassed": false,
+  "authority": "independent-human-artistic-usefulness-only",
+  "blockCount": 12,
+  "decision": "INDEPENDENT_STARTS_ARTISTIC_SUPPORT_NOT_DEMONSTRATED",
+  "gates": {
+    "atLeastNineReviewable": true,
+    "everyLeaveOneRouteOutNetPositive": false,
+    "totalRestartTailVsBaselineNetPositive": false
+  },
+  "interpretation": "The equal-budget restart-tail policy remained mechanically strong in #111 but failed the fresh blinded artistic boundary in #112. Human preference favored baseline20 overall and in every route stratum. The exact R9-R12 restart substitution is therefore not promoted; production remains on the current 20-attempt 10-native/10-spectral search with full archive preservation and max-dispersion delivery. Independent starts remain a mechanically promising primitive that requires a materially different integration strategy before any future artistic retest.",
+  "judgmentCounts": {
+    "A>B": 5,
+    "B>A": 5,
+    "equivalent": 2
+  },
+  "leaveOneRouteOutNetPreference": {
+    "filament": -5,
+    "orbit": -2,
+    "recurrence": -5
+  },
+  "productionDecision": "KEEP_BASELINE20_DO_NOT_PROMOTE_RESTART_TAIL",
+  "provenance": {
+    "authoritativeHeadSha": "274aeff2a01f25556a3510a7202b1a2186cf370b",
+    "authoritativeRunId": 33414087867,
+    "failedPreReviewPopulations": ["748xxx", "749xxx"],
+    "finalUnbiasedPopulation": "750xxx",
+    "keyArtifactDigest": "sha256:773f289f1728f27ec9dd345cd0e0843cac77c33df88083bc8df02a653bdd23db",
+    "keyArtifactId": 9766571615,
+    "keyOpenedOnlyAfterRatingsFixed": true,
+    "reviewerArtifactDigest": "sha256:262d98f8244a1b69a46540c9302ecd4272aa2a49cc275a706851f59add939b5f",
+    "reviewerArtifactId": 9766571236
+  },
+  "reviewableCount": 12,
+  "routeNetPreference": {
+    "filament": -1,
+    "orbit": -4,
+    "recurrence": -1
+  },
+  "rows": [
+    {"A":"restartTail20","B":"baseline20","blockId":"R01","displayIdentical":false,"judgment":"B>A","restartTailVsBaselineScore":-1,"route":"recurrence","seed":750003},
+    {"A":"restartTail20","B":"baseline20","blockId":"R02","displayIdentical":false,"judgment":"B>A","restartTailVsBaselineScore":-1,"route":"orbit","seed":750003},
+    {"A":"restartTail20","B":"baseline20","blockId":"R03","displayIdentical":false,"judgment":"A>B","restartTailVsBaselineScore":1,"route":"filament","seed":750003},
+    {"A":"baseline20","B":"restartTail20","blockId":"R04","displayIdentical":false,"judgment":"B>A","restartTailVsBaselineScore":1,"route":"recurrence","seed":750021},
+    {"A":"baseline20","B":"restartTail20","blockId":"R05","displayIdentical":false,"judgment":"A>B","restartTailVsBaselineScore":-1,"route":"orbit","seed":750021},
+    {"A":"baseline20","B":"restartTail20","blockId":"R06","displayIdentical":false,"judgment":"A>B","restartTailVsBaselineScore":-1,"route":"filament","seed":750021},
+    {"A":"restartTail20","B":"baseline20","blockId":"R07","displayIdentical":false,"judgment":"equivalent","restartTailVsBaselineScore":0,"route":"recurrence","seed":750043},
+    {"A":"restartTail20","B":"baseline20","blockId":"R08","displayIdentical":false,"judgment":"B>A","restartTailVsBaselineScore":-1,"route":"orbit","seed":750043},
+    {"A":"restartTail20","B":"baseline20","blockId":"R09","displayIdentical":true,"judgment":"equivalent","restartTailVsBaselineScore":0,"route":"filament","seed":750043},
+    {"A":"restartTail20","B":"baseline20","blockId":"R10","displayIdentical":false,"judgment":"B>A","restartTailVsBaselineScore":-1,"route":"recurrence","seed":750063},
+    {"A":"baseline20","B":"restartTail20","blockId":"R11","displayIdentical":false,"judgment":"A>B","restartTailVsBaselineScore":-1,"route":"orbit","seed":750063},
+    {"A":"baseline20","B":"restartTail20","blockId":"R12","displayIdentical":false,"judgment":"A>B","restartTailVsBaselineScore":-1,"route":"filament","seed":750063}
+  ],
+  "totalRestartTailVsBaselineNetPreference": -6,
+  "version": 1
+}
