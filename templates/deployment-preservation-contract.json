@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "phase": "preservation",
+  "sourceElite": {
+    "candidateId": "<elite-id>",
+    "route": "<route>",
+    "sourceState": "<discovery-state-path-or-lineage-ref>"
+  },
+  "observationContract": {
+    "horizon": {
+      "start": 0,
+      "end": "<meaningful-H>",
+      "unit": "frame"
+    },
+    "verificationFrames": [
+      "<frame-inside-H>"
+    ],
+    "briefInvariants": [
+      "<selected-elite invariant>"
+    ],
+    "namedDefiningRelationships": [
+      "<relationship that must remain causal after compression>"
+    ]
+  },
+  "preservation": {
+    "grade0ObservationPreserved": null,
+    "grade1CausePreserved": null,
+    "deploymentEligible": null
+  },
+  "verificationAuthority": "veto-not-intention-certificate",
+  "notes": []
+}
