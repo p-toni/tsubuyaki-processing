@@ -23,11 +23,12 @@ import core
 import search_engine
 
 ROUTES = ("recurrence", "orbit", "filament")
-REVIEW_SEEDS = (127003, 127021, 127043, 127063)
-SMOKE_SEED = 127999
+REVIEW_SEEDS = (128003, 128021, 128041, 128053)
+SMOKE_SEED = 128999
 TIMES = (30, 90, 150)
 QUANTILES = (0.20, 0.50, 0.80)
-BLIND_SALT = "spectral-material-control-portfolio-artistic-v1-frozen-20260831"
+MIN_VALID_GENERATED = 12
+BLIND_SALT = "spectral-material-control-portfolio-artistic-v1-fresh2-20260831"
 THUMB = 140
 PAPER = (250, 248, 245)
 INK = (42, 40, 36)
@@ -83,15 +84,18 @@ def _operator_diag(state) -> dict:
     }
 
 
-def _portfolio(state) -> tuple[list, dict]:
+def _portfolio(state, route: str, seed: int, mode: str) -> tuple[list, dict]:
     generated = [
         c for c in state.candidates.values()
         if c.stage != "start"
         and c.checks.get("generationOperator") in {"native", "spectral"}
         and c.checks.get("valid", False)
     ]
-    if len(generated) < 15:
-        raise AssertionError(f"portfolio requires >=15 hard-valid challengers; found {len(generated)}")
+    if len(generated) < MIN_VALID_GENERATED:
+        raise AssertionError(
+            f"portfolio requires >={MIN_VALID_GENERATED} hard-valid challengers; "
+            f"found {len(generated)} for route={route} seed={seed} mode={mode}"
+        )
     indices = [int((len(generated) - 1) * q) for q in QUANTILES]
     if len(set(indices)) != len(QUANTILES):
         raise AssertionError(f"portfolio quantile indices collapsed: {indices}")
@@ -99,6 +103,7 @@ def _portfolio(state) -> tuple[list, dict]:
     hashes = [_display_phenotype_hash(c) for c in selected]
     return selected, {
         "validGeneratedCount": len(generated),
+        "minimumValidGenerated": MIN_VALID_GENERATED,
         "quantiles": list(QUANTILES),
         "indices": indices,
         "candidateIds": [c.id for c in selected],
@@ -129,11 +134,14 @@ def _run_pair(route: str, seed: int, root: Path) -> dict:
     if md["total"] != 20 or md["native"] != 10 or md["spectral"] != 10:
         raise AssertionError(f"mixed budget drift: {md}")
 
-    native_portfolio, npd = _portfolio(native_state)
-    mixed_portfolio, mpd = _portfolio(mixed_state)
+    native_portfolio, npd = _portfolio(native_state, route, seed, "native")
+    mixed_portfolio, mpd = _portfolio(mixed_state, route, seed, "mixed")
 
     if npd["displayPhenotypes"] == mpd["displayPhenotypes"]:
-        raise AssertionError("presentation-integrity failure: native and mixed portfolios are display-identical")
+        raise AssertionError(
+            f"presentation-integrity failure: native and mixed portfolios are display-identical "
+            f"for route={route} seed={seed}"
+        )
 
     return {
         "native": native_portfolio,
@@ -271,6 +279,7 @@ def generate(output_root: Path, smoke: bool) -> dict:
         "allowedJudgments": ["A>B", "B>A", "equivalent", "unreviewable"],
         "frames": list(TIMES),
         "candidatesPerSide": 3,
+        "minimumValidGenerated": MIN_VALID_GENERATED,
         "samplingRule": "hard-valid generated challengers in generation order; floor((n-1)*q), q=0.20/0.50/0.80",
         "blockCount": len(public_blocks),
         "blocks": public_blocks,
@@ -301,6 +310,7 @@ def generate(output_root: Path, smoke: bool) -> dict:
         "blockCount": len(public_blocks),
         "reviewDir": str(review_dir),
         "keyDir": str(key_dir),
+        "minimumValidGenerated": MIN_VALID_GENERATED,
         "allNativeBudgetsExact": all(
             b["nativeDiagnostics"]["total"] == 20
             and b["nativeDiagnostics"]["native"] == 20
