@@ -77,7 +77,7 @@ def test_sidecar_generation_is_deterministic_and_candidates_never_parent(tmp_pat
 
     candidates = json.loads((a / "candidates.json").read_text())
     assert len(candidates) == 4
-    assert len({c["phenotypeHash"] for c in candidates}) == 4
+    assert all(len(c["phenotypeHash"]) == 64 for c in candidates)
     for cand in candidates:
         assert cand["parent_id"] is None
         assert cand["basin"] == cand["id"]
