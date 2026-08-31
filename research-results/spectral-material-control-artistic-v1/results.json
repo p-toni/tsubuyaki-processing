@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "decision": "ARTISTIC_SUPPORT_NOT_DEMONSTRATED",
+  "blockCount": 12,
+  "reviewableCount": 12,
+  "judgmentCounts": {"equivalent": 12},
+  "totalMixedVsNativeNetPreference": 0,
+  "routeNetPreference": {"recurrence": 0, "orbit": 0, "filament": 0},
+  "leaveOneRouteOutNetPreference": {"recurrence": 0, "orbit": 0, "filament": 0},
+  "gates": {
+    "atLeastNineReviewable": true,
+    "totalMixedVsNativeNetPositive": false,
+    "everyLeaveOneRouteOutNetPositive": false
+  },
+  "artisticSupportPassed": false,
+  "authority": "independent-human-artistic-usefulness-only",
+  "diagnostic": {
+    "allTwelveNativeAndMixedChampionsEqualSharedStart": true,
+    "allTwelveDisplayedABFrameRegionsPixelIdentical": true
+  }
+}
