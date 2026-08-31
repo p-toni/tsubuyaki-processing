@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "decision": "NOVELTY_OPERATOR_ALLOCATION_NOT_PROMISING",
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-benchmark-only",
+  "seedCount": 20,
+  "routeSeedCount": 60,
+  "cellCount": 900,
+  "meaningfulEffectMargin": 0.003255297955511336,
+  "meanAdaptiveMinusBaselineArchive": 0.0015827451927652874,
+  "oneSided95BootstrapLowerAdaptiveMinusBaselineArchive": 0.0007456396969407105,
+  "meanAdaptiveMinusAntiArchive": 0.003207176881466917,
+  "oneSided95BootstrapLowerAdaptiveMinusAntiArchive": 0.0020282970978707446,
+  "meanAdaptiveMinusBaselineDelivery": -0.0010158533467307706,
+  "oneSided95BootstrapLowerAdaptiveMinusBaselineDelivery": -0.0028946613478441287,
+  "meanAdaptiveMinusAntiDelivery": -0.0009214887058437678,
+  "oneSided95BootstrapLowerAdaptiveMinusAntiDelivery": -0.0027942214402851763,
+  "routeMeanEffects": {
+    "adaptiveMinusBaselineArchive": {
+      "recurrence": 0.0022818069507314024,
+      "orbit": 0.001262425298703287,
+      "filament": 0.0012040033288611726
+    },
+    "adaptiveMinusAntiArchive": {
+      "recurrence": 0.0025646883097204436,
+      "orbit": 0.0031009634977687633,
+      "filament": 0.003955878836911545
+    },
+    "adaptiveMinusBaselineDelivery": {
+      "recurrence": 0.0015002789809673484,
+      "orbit": -0.0023256499853562935,
+      "filament": -0.0022221890358033666
+    },
+    "adaptiveMinusAntiDelivery": {
+      "recurrence": -0.0002518637668112844,
+      "orbit": -0.0012016598106639343,
+      "filament": -0.0013109425400560843
+    }
+  },
+  "noveltyWinnerCounts": {
+    "native": 0,
+    "spectral": 60
+  },
+  "minorityWinnerRate": 0.0,
+  "dominantOperator": "spectral",
+  "dominantOperatorRate": 1.0,
+  "validRates": {
+    "baseline10x10": 0.995,
+    "adaptive12x8": 0.995,
+    "antiAdaptive8x12": 0.9958333333333333
+  },
+  "adaptiveMinusBaselineValidRate": 0.0,
+  "gates": {
+    "archiveMeanVsBaselineAboveMeaningfulMargin": false,
+    "archive95LowerVsBaselinePositive": true,
+    "archiveMeanVsAntiPositive": true,
+    "archive95LowerVsAntiPositive": true,
+    "everyRouteArchiveVsBaselinePositive": true,
+    "everyRouteArchiveVsAntiPositive": true,
+    "deliveryMeanVsBaselinePositive": false,
+    "delivery95LowerVsBaselineAboveNegativeMargin": true,
+    "everyRouteDeliveryVsBaselineAboveNegativeMargin": true,
+    "adaptiveValidityNoMoreThanFivePointsLower": true,
+    "bothOperatorsWinAtLeastTwentyPercent": false
+  },
+  "corePerformancePassed": false,
+  "trajectorySpecificityPassed": false,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 745555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "provenance": {
+    "authoritativeRunId": 33405389033,
+    "authoritativeHeadSha": "90f0ffc79764b100dcde36350b43fb9d71a50add",
+    "summaryArtifactId": 9763132890,
+    "summaryArtifactDigest": "sha256:d030d4d48293b450013e58f7e1d7eb6d0a3dd217d41c64bfb8acba4596d206df",
+    "individualSeedArtifactsInspected": false,
+    "excludedSmokeSeed": 745999,
+    "smokeBaselineRuntimeReplayExact": true
+  },
+  "researchLineStatus": "EXACT_PREFIX_NOVELTY_12X8_POLICY_STOPPED",
+  "interpretation": "The early raw phenotype novelty signal chose spectral on all 60 route-seed prefixes. Favoring spectral 12/8 produced a small statistically positive full-archive gain over the current 10/10 portfolio and a larger positive gain over the anti-spectral complement, but the baseline gain remained below the preregistered complexity threshold and max-dispersion delivery regressed in mean. Core performance therefore failed, so neither adaptive allocation nor the separate global-operator-bias replication branch is authorized. Stop this exact policy and do not tune it on consumed 745xxx evidence."
+}
