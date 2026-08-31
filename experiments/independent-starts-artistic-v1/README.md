@@ -43,14 +43,14 @@ No structural score, semantic target, model judge, human label, proxy champion, 
 
 ## Fresh population
 
-Excluded smoke: `749999`.
+Excluded smoke: `750999`.
 
 Review seeds:
 
-- `749003`
-- `749021`
-- `749043`
-- `749063`
+- `750003`
+- `750021`
+- `750043`
+- `750063`
 
 Routes:
 
@@ -60,11 +60,25 @@ Routes:
 
 This yields 12 authoritative A/B blocks.
 
-Before preregistration, all five seeds were absent from repository code and the `749` namespace was absent from repository commit messages.
+Before preregistration, all five seeds were absent from repository code and the `750` namespace was absent from repository commit messages.
 
-### Retired feasibility population
+### Retired feasibility populations
 
-An earlier pre-review population (`748003, 748021, 748043, 748063`; smoke `748999`) was retired **before any reviewer artifact or A/B key uploaded** because the presentation-integrity gate found one display-identical block (`recurrence`, seed `748043`). No `748xxx` human evidence was exposed or scored. The gate, treatment, question, and artistic decision rule are unchanged; only the fresh population and blind salt changed.
+Two earlier pre-review populations were retired **before any reviewer artifact or A/B key uploaded**:
+
+- `748003, 748021, 748043, 748063` (smoke `748999`) failed because recurrence / `748043` produced an A/B display-identical delivery portfolio;
+- `749003, 749021, 749043, 749063` (smoke `749999`) failed because filament / `749063` produced an A/B display-identical delivery portfolio.
+
+No human evidence from either population was exposed or scored.
+
+Those two feasibility failures revealed that the original presentation-integrity rule was statistically inappropriate: resampling until every A/B block differs would condition the human sample on the treatment changing the delivered portfolio, biasing the artistic test toward a detectable difference.
+
+Therefore this final protocol changes **only** that symmetric presentation rule:
+
+- an A/B display-identical portfolio is valid evidence and should be judged `equivalent`;
+- populations are no longer rejected for containing such blocks.
+
+The treatment, fresh-population requirement, human question, A/B blinding, within-side distinctness requirement, and artistic decision gate are unchanged.
 
 ## Presentation contract
 
@@ -83,8 +97,9 @@ Fail closed before review if any block violates:
 1. exact equal 20-candidate budgets;
 2. exact shared start and first-16 phenotype prefix;
 3. at least 12 hard-valid generated candidates in each arm;
-4. exactly three distinct displayed phenotypes per side;
-5. A and B displayed portfolios are not phenotype-identical.
+4. exactly three distinct displayed phenotypes within each side.
+
+A/B identity across sides is **not** a failure. If the three displayed phenotypes are identical in the same order across A and B, the block is an admissible `equivalent` case.
 
 ## Human question
 
@@ -98,6 +113,8 @@ For each block answer one of:
 using only:
 
 > **Which side contains the stronger portfolio of mathematical forms worth keeping or developing further?**
+
+If A and B are visually identical, answer `equivalent`; do not infer identities.
 
 ## Preregistered artistic gate
 
