@@ -130,7 +130,7 @@ def aggregate(input_dir: Path) -> dict:
         "baselinePortfolio": {"native": 10, "spectral": 10, "restart": 0},
         "treatmentPortfolio": {"native": 6, "spectral": 10, "restart": 4},
         "replacedBaselineAttempts": ["R3", "R4", "R5", "R6"],
-        "exactlyReplayedBaselineSpectralAttempts": ["R9", "R10", "R11", "R12"],
+        "exactlyReplayedBaselineSpectralAttempts": ["R10", "R11", "R12"],
         "meaningfulEffectMargin": MEANINGFUL_MARGIN,
         "meanArchiveDelta": archive_mean,
         "oneSided95BootstrapLowerArchiveDelta": archive_lower,
