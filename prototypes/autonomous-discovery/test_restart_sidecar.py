@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import core
+import representations
 import restart_sidecar as sidecar
+from restart_route_authority import EVIDENCE_AUTHORIZED_RESTART_ROUTES
 from search_engine import run_search
 
 
@@ -59,6 +62,7 @@ def test_sidecar_is_post_search_and_baseline_artifacts_are_byte_identical(tmp_pa
         "baselineDeliveryReplacementAllowed": False,
         "defaultEnabled": False,
     }
+    assert report["evidenceAuthorizedRoutes"] == list(EVIDENCE_AUTHORIZED_RESTART_ROUTES)
     assert report["attemptedCandidates"] == 4
     assert report["eligibleRoutes"] == ["recurrence"]
 
@@ -88,7 +92,7 @@ def test_sidecar_generation_is_deterministic_and_candidates_never_parent(tmp_pat
         assert cand["checks"]["mayReplaceBaselineDelivery"] is False
 
 
-def test_sidecar_excludes_non_intrinsic_1d_routes(tmp_path):
+def test_sidecar_excludes_routes_without_restart_evidence_authority(tmp_path):
     report = sidecar.generate_restart_sidecar(
         _brief("family"),
         880057,
@@ -101,6 +105,33 @@ def test_sidecar_excludes_non_intrinsic_1d_routes(tmp_path):
     assert report["validCandidates"] == 0
     assert json.loads((tmp_path / "sidecar" / "candidates.json").read_text()) == []
     assert not (tmp_path / "sidecar" / "contact_sheet.png").exists()
+
+
+def test_orbit_sidecar_is_authorized_but_does_not_register_orbit_globally(tmp_path):
+    before_routes = dict(core.ROUTES)
+    before_representations = dict(representations.REPRESENTATIONS)
+    before_checker = core.check_candidate
+    sentinel = object()
+    before_flag = getattr(core, "_orbit_checker_registered", sentinel)
+
+    report = sidecar.generate_restart_sidecar(
+        _brief("orbit"),
+        880061,
+        tmp_path / "orbit-sidecar",
+        attempts_per_route=4,
+    )
+
+    assert report["eligibleRoutes"] == ["orbit"]
+    assert report["attemptedCandidates"] == 4
+    records = json.loads((tmp_path / "orbit-sidecar" / "candidates.json").read_text())
+    assert len(records) == 4
+    assert {r["route"] for r in records} == {"orbit"}
+
+    assert core.ROUTES == before_routes
+    assert representations.REPRESENTATIONS == before_representations
+    assert core.check_candidate is before_checker
+    after_flag = getattr(core, "_orbit_checker_registered", sentinel)
+    assert after_flag is before_flag
 
 
 def test_invalid_restart_consumes_budget_without_retry(tmp_path, monkeypatch):
