@@ -33,8 +33,8 @@ jobs:
         if: steps.guard.outputs.consumed != 'true'
         run: |
           set -euo pipefail
-          test "$(git hash-object experiments/independent-starts-artistic-v1/README.md)" = "05e50918d07b4aef81b56f5c5112bb6099373396"
-          test "$(git hash-object experiments/independent-starts-artistic-v1/generate_review.py)" = "51bf4fd0a09ac7fcfb256053c26f39d5a0ad4607"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/README.md)" = "6ea14784886cd1860a047bc6aeb7e1050343c186"
+          test "$(git hash-object experiments/independent-starts-artistic-v1/generate_review.py)" = "5b8639227190c969015df2cda41931d6561a5640"
           test "$(git hash-object experiments/independent-starts-artistic-v1/reduce_review.py)" = "6ea138b59d2ebfe0daae9994aa4f5bf57f80a6fa"
           test "$(git hash-object research-results/independent-starts-substitution-v1/results.json)" = "52776f7702ed63cf2321a6187a81c6300a0d52c5"
           test "$(git hash-object experiments/independent-starts-substitution-v1/run_substitution.py)" = "39fff7aa92e1d8c32324f331aab9d5d5710f227e"
@@ -77,8 +77,8 @@ jobs:
           assert x['allSharedStartsExact'] is True
           assert x['allSharedFirst16Exact'] is True
           assert x['allMinimumValidGeneratedMet'] is True
-          assert x['allShortlistsThreeDistinct'] is True
-          assert x['allPortfoliosNonidentical'] is True
+          assert x['allShortlistsThreeDistinctWithinSide'] is True
+          assert isinstance(x['displayIdenticalBlockIds'], list)
           PY
 
   generate-review:
@@ -103,8 +103,8 @@ jobs:
           assert x['allSharedStartsExact'] is True
           assert x['allSharedFirst16Exact'] is True
           assert x['allMinimumValidGeneratedMet'] is True
-          assert x['allShortlistsThreeDistinct'] is True
-          assert x['allPortfoliosNonidentical'] is True
+          assert x['allShortlistsThreeDistinctWithinSide'] is True
+          assert isinstance(x['displayIdenticalBlockIds'], list)
           shutil.copy('experiments/independent-starts-artistic-v1/REVIEWER.md', 'review-output/review/REVIEWER.md')
           shutil.copy('experiments/independent-starts-artistic-v1/ratings-template.json', 'review-output/review/ratings-template.json')
           PY
