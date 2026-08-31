@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "decision": "SATURATION_STOP_NOT_PROMISING",
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-noninferiority-only",
+  "seedCount": 20,
+  "routeSeedCount": 60,
+  "cellCount": 900,
+  "noninferiorityMargin": 0.003255297955511336,
+  "earlyStopCount": 44,
+  "earlyStopRate": 0.7333333333333333,
+  "medianAttemptsSaved": 3.0,
+  "meanAttemptsSaved": 2.8,
+  "medianStopAttempt": 17.0,
+  "meanStopAttempt": 17.2,
+  "medianValidAtStop": 17.0,
+  "meanDeliveryLoss": 0.0009394779239665187,
+  "oneSided95BootstrapUpperDeliveryLoss": 0.0040042705081515875,
+  "meanArchiveLoss": 0.005014214564779022,
+  "oneSided95BootstrapUpperArchiveLoss": 0.007111723935182653,
+  "routeMeanDeliveryLoss": {
+    "recurrence": 0.0002652711884527196,
+    "orbit": 0.0001574044922893462,
+    "filament": 0.0023957580911574904
+  },
+  "routeMeanArchiveLoss": {
+    "recurrence": 0.006121491233982623,
+    "orbit": 0.004773686314788942,
+    "filament": 0.004147466145565499
+  },
+  "routeEarlyStopCount": {
+    "recurrence": 14,
+    "orbit": 13,
+    "filament": 17
+  },
+  "attemptSavingsDistribution": {
+    "0": 16,
+    "1": 8,
+    "2": 6,
+    "4": 2,
+    "5": 28
+  },
+  "gates": {
+    "earlyStopRateAtLeastHalf": true,
+    "medianAttemptsSavedAtLeast3": true,
+    "meanDeliveryLossBelowMargin": true,
+    "delivery95UpperBelowMargin": false,
+    "meanArchiveLossBelowMargin": false,
+    "archive95UpperBelowMargin": false,
+    "everyRouteMeanDeliveryLossBelowMargin": true,
+    "everyRouteMeanArchiveLossBelowMargin": false
+  },
+  "saturationStopPassed": false,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 744555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "provenance": {
+    "frozenScientificHead": "7221e012f504bed0ddd62abb88e9754ff4ce59d7",
+    "completedParallelSeedRunId": 33400268616,
+    "parallelAggregateFailure": "operational-only: aggregate runner omitted requirements install and failed with ModuleNotFoundError: numpy before reduction",
+    "recoveryRunId": 33400912694,
+    "summaryArtifactId": 9761179376,
+    "summaryArtifactDigest": "sha256:e181ea9efd16584cebd360ad2be5bb8d40191101978df2520cebf9ae7f68bf5f",
+    "individualSeedArtifactsInspected": false,
+    "duplicateSequentialRunsUsed": false
+  },
+  "researchLineStatus": "STABLE_THREE_STOP_RULE_STOPPED",
+  "interpretation": "Exact max-dispersion shortlist stability frequently identifies a delivery-surface plateau and would save about 14% of the 20-attempt budget on average, but the suffix still contributes too much underlying archive capacity. The rule also fails the preregistered uncertainty bound for delivery loss. Keep the full 20-attempt search budget. Do not tune minimum prefix length, stability count, distance representation, or non-inferiority margin on the consumed 744xxx evidence."
+}
