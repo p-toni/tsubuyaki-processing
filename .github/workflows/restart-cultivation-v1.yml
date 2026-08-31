@@ -1,0 +1,151 @@
+name: restart-cultivation-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/restart-cultivation-v1/**'
+      - '.github/workflows/restart-cultivation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/restart-cultivation-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; seed regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze scientific source, prerequisites, and fresh namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/restart-cultivation-v1/README.md)" = "0e699c3569ebff254ab6f35f2deb9d530fcfe16f"
+          test "$(git hash-object experiments/restart-cultivation-v1/run_cultivation.py)" = "3fb4ebc83c03d1301a33f1b193e801b21ecad771"
+          test "$(git hash-object experiments/restart-cultivation-v1/aggregate.py)" = "601715a2d8bd015105abd942b37bf440314aedba"
+          test "$(git hash-object experiments/independent-starts-spectral-preserve-v1/run_spectral_preserve.py)" = "4547ffb2a6af1da7898158f1d5eb17487b21bc86"
+          test "$(git hash-object research-results/independent-starts-spectral-preserve-v1/results.json)" = "23e6177a9cda0bd236370bca782a95a8666a9542"
+          test "$(git hash-object research-results/spectral-preserve-restart-artistic-v1/results.json)" = "35eb44d1a7539acfc26815fff63e08fe6781aee4"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          seeds='753999 753003 753019 753037 753053 753071 753089 753107 753127 753149 753167 753181 753199 753223 753239 753257 753277 753293 753311 753331 753349'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" dc08038576da58d52d0957ef7b85b3c95656b736 -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log dc08038576da58d52d0957ef7b85b3c95656b736 --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
+          python - <<'PY'
+          import json
+          a=json.load(open('research-results/independent-starts-spectral-preserve-v1/results.json'))
+          b=json.load(open('research-results/spectral-preserve-restart-artistic-v1/results.json'))
+          assert a['decision'] == 'SPECTRAL_PRESERVE_RESTART_PROMISING'
+          assert b['decision'] == 'SPECTRAL_PRESERVE_RESTART_ARTISTIC_STAGE_A_NOT_DEMONSTRATED'
+          assert b['stageBAuthorized'] is False
+          PY
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen experiment
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/restart-cultivation-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded exact-isolation smoke
+        run: |
+          python experiments/restart-cultivation-v1/run_cultivation.py --seed 753999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True
+          assert x['masterSeed'] == 753999
+          assert all(x['hardInvariants'].values())
+          assert x['hardInvariants']['baselineBudgetExact']
+          assert x['hardInvariants']['oneShotBudgetExact']
+          assert x['hardInvariants']['cultivatedBudgetExact']
+          assert x['hardInvariants']['sharedStartExact']
+          assert x['hardInvariants']['sharedFirst10Exact']
+          assert x['hardInvariants']['sharedFirstTwoRestartsExact']
+          assert x['hardInvariants']['sharedSpectralTailExact']
+          assert x['hardInvariants']['smokeBaselineRuntimeReplayExact']
+          assert len(x['cells']) == 45
+          PY
+
+  seed:
+    needs: smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [753003, 753019, 753037, 753053, 753071, 753089, 753107, 753127, 753149, 753167, 753181, 753199, 753223, 753239, 753257, 753277, 753293, 753311, 753331, 753349]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        run: python experiments/restart-cultivation-v1/run_cultivation.py --seed ${{ matrix.seed }} --output seed-${{ matrix.seed }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: restart-cultivation-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: restart-cultivation-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/restart-cultivation-v1/aggregate.py \
+            --input-dir seed-results \
+            --output results.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: restart-cultivation-v1-summary
+          path: results.json

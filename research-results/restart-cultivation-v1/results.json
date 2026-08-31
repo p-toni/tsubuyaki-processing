@@ -1,0 +1,120 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-equal-budget-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seedBase": 753555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "budgetPerArm": 20,
+  "cellCount": 900,
+  "decision": "RESTART_CULTIVATION_NOT_PROMISING",
+  "effects": {
+    "cultivatedVsBaselineArchive": {
+      "mean": 0.02118026482594089,
+      "oneSided95BootstrapLower": 0.015429721231296847,
+      "routeMeans": {
+        "filament": 0.029577602483833024,
+        "orbit": 0.030343479618028652,
+        "recurrence": 0.0036197123759609956
+      }
+    },
+    "cultivatedVsBaselineDelivery": {
+      "mean": 0.023082102741646883,
+      "oneSided95BootstrapLower": 0.015741683067427056,
+      "routeMeans": {
+        "filament": 0.036406698491951224,
+        "orbit": 0.028880007784980233,
+        "recurrence": 0.003959601948009184
+      }
+    },
+    "cultivatedVsOneShotArchive": {
+      "mean": -0.005218923171289145,
+      "oneSided95BootstrapLower": -0.007073833107841462,
+      "routeMeans": {
+        "filament": -0.008164041859827238,
+        "orbit": -0.0025312575737604483,
+        "recurrence": -0.00496147008027975
+      }
+    },
+    "cultivatedVsOneShotDelivery": {
+      "mean": -0.0018494223665925808,
+      "oneSided95BootstrapLower": -0.006637040789473922,
+      "routeMeans": {
+        "filament": -0.006515594836215347,
+        "orbit": 0.00002557324598428094,
+        "recurrence": 0.0009417544904533237
+      }
+    },
+    "oneShotVsBaselineArchive": {
+      "mean": 0.026399187997230032,
+      "oneSided95BootstrapLower": 0.020161180858004345,
+      "routeMeans": {
+        "filament": 0.037741644343660265,
+        "orbit": 0.0328747371917891,
+        "recurrence": 0.008581182456240746
+      }
+    },
+    "oneShotVsBaselineDelivery": {
+      "mean": 0.024931525108239462,
+      "oneSided95BootstrapLower": 0.01640080572912514,
+      "routeMeans": {
+        "filament": 0.04292229332816657,
+        "orbit": 0.02885443453899595,
+        "recurrence": 0.003017847457555861
+      }
+    }
+  },
+  "gates": {
+    "cultivatedArchiveLowerPositive": true,
+    "cultivatedArchiveMeanAboveMargin": true,
+    "cultivatedArchiveNonInferiorToOneShot": false,
+    "cultivatedDeliveryLowerPositive": true,
+    "cultivatedDeliveryMeanAboveMargin": true,
+    "cultivatedDeliveryNonInferiorToOneShot": false,
+    "cultivatedEveryRouteArchivePositive": true,
+    "cultivatedEveryRouteArchiveWithinMarginOfOneShot": false,
+    "cultivatedEveryRouteDeliveryPositive": true,
+    "cultivatedEveryRouteDeliveryWithinMarginOfOneShot": false,
+    "cultivatedValidityWithinOnePointOfBaseline": true,
+    "cultivationChildValidRateAtLeast95Pct": true,
+    "oneShotArchiveLowerPositive": true,
+    "oneShotArchiveMeanAboveMargin": true,
+    "oneShotDeliveryLowerPositive": true,
+    "oneShotDeliveryMeanAboveMargin": true,
+    "oneShotEveryRouteArchivePositive": true,
+    "oneShotEveryRouteDeliveryPositive": true,
+    "restartParentValidRateAtLeast95Pct": true
+  },
+  "interpretation": "Cultivating restart basins does not satisfy the frozen replication, baseline-improvement, non-inferiority, and validity gates. Stop automatic restart substitution rather than tuning cultivation on consumed 753xxx evidence; use a baseline-preserving optional restart sidecar as the evidence-conservative fallback.",
+  "meaningfulEffectMargin": 0.003255297955511336,
+  "mechanicalPassed": false,
+  "researchLineStatus": "AUTOMATIC_RESTART_SUBSTITUTION_STOPPED",
+  "routeSeedCount": 60,
+  "seedCount": 20,
+  "validity": {
+    "attemptsPerArm": 1200,
+    "baselineValidCount": 1184,
+    "baselineValidRate": 0.9866666666666667,
+    "cultivatedMinusBaselineValidRate": -0.0016666666666667052,
+    "cultivatedValidCount": 1182,
+    "cultivatedValidRate": 0.985,
+    "cultivationChildAttemptCount": 120,
+    "cultivationChildValidRate": 0.9916666666666667,
+    "oneShotValidCount": 1183,
+    "oneShotValidRate": 0.9858333333333333,
+    "restartParentAttemptCount": 120,
+    "restartParentValidRate": 0.9916666666666667,
+    "validCultivationChildCount": 119,
+    "validRestartParentCount": 119
+  },
+  "version": 1,
+  "provenance": {
+    "authoritativeRun": 33433508367,
+    "frozenScientificHead": "2ac23023dd2731ae9c90460ca64178968552f184",
+    "summaryArtifactId": 9773719424,
+    "summaryArtifactDigest": "sha256:79ad992a83ab6c471ef8b34a85e8ab9d48c17b40403cf2c019c7b19c2bf86954",
+    "individualSeedArtifactsInspected": false,
+    "excludedSmoke": 753999
+  }
+}
