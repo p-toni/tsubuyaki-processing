@@ -1,0 +1,38 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-benchmark-only",
+  "baselineSharedStartChampionRate": 0.9583333333333334,
+  "baselineValidRate": 0.9864583333333333,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 731555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "cellCount": 720,
+  "decision": "FRONTIER_ALLOCATION_NOT_PROMISING",
+  "frontierAllocationPassed": false,
+  "frontierMinusBaselineValidRate": -0.007291666666666696,
+  "frontierValidRate": 0.9791666666666666,
+  "gates": {
+    "everyRouteMeanPositive": false,
+    "meanSeedEffectPositive": false,
+    "medianFinalNonStartFrontierAtLeastTwo": true,
+    "oneSided95BootstrapLowerPositive": false,
+    "validityRateNoMoreThanFivePointsLower": true
+  },
+  "meanSeedEffect": -0.006188385570172992,
+  "medianFinalNonStartFrontierCount": 3.0,
+  "oneSided95BootstrapLower": -0.009972041446243887,
+  "routeMeanEffects": {
+    "filament": -0.005521907080360743,
+    "orbit": 0.0012637391632608459,
+    "recurrence": -0.01430698879341908
+  },
+  "seedCount": 16,
+  "version": 1,
+  "authoritativeRunId": 33390005283,
+  "authoritativeArtifactId": 9757507512,
+  "authoritativeArtifactDigest": "sha256:576298dd19de805fe58d927bacffeb209066f5c805060e75940fd5d97a7df9b9",
+  "researchLineStatus": "STOPPED_EXACT_BOUNDED_FRONTIER_PARENTING_POLICY",
+  "interpretation": "Preserving plural parents under a fixed 20-challenger budget successfully creates a non-start frontier but reduces structural recovery overall. Preserve archive plurality for delivery/evidence; do not distribute search budget across this bounded frontier policy."
+}
