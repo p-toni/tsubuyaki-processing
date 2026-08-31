@@ -34,12 +34,20 @@ def main():
         type=int,
         default=0,
         metavar='N',
-        help='after baseline search completes, generate N isolated route-prior attempts per eligible intrinsic-1D route',
+        help='after baseline search completes, generate N isolated route-prior attempts per active evidence-authorized restart route',
+    )
+    ap.add_argument(
+        '--reviewed-starts',
+        default='',
+        metavar='MANIFEST',
+        help='start a new isolated lineage from explicitly reviewed sidecar candidates described by MANIFEST',
     )
     args = ap.parse_args()
 
     if args.restart_sidecar < 0:
         ap.error('--restart-sidecar must be >= 0')
+    if args.restart_sidecar > 0 and args.reviewed_starts:
+        ap.error('--restart-sidecar and --reviewed-starts are separate authority surfaces; run them separately')
 
     brief = default_brief() if not args.brief else json.loads(Path(args.brief).read_text())
     out = Path(args.out)
@@ -70,7 +78,15 @@ def main():
     if args.judge_queue:
         selector = QueueingSelector(selector, Path(args.judge_queue), render_candidate_frame, TIMES)
 
-    _, report = run_search(brief, args.seed, out, selector)
+    handoff_receipt = None
+    if args.reviewed_starts:
+        from reviewed_start_handoff import run_reviewed_start_lineage
+
+        report, handoff_receipt = run_reviewed_start_lineage(
+            Path(args.reviewed_starts), brief, args.seed, out, selector
+        )
+    else:
+        _, report = run_search(brief, args.seed, out, selector)
 
     sidecar_path = None
     if args.restart_sidecar > 0:
@@ -88,6 +104,8 @@ def main():
     print(out / 'winner_timeline.png')
     if sidecar_path is not None:
         print(sidecar_path / 'report.json')
+    if handoff_receipt is not None:
+        print(out / 'reviewed_start_handoff.json')
 
 
 if __name__ == '__main__':
