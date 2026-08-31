@@ -24,12 +24,23 @@ env:
 jobs:
   preflight:
     runs-on: ubuntu-latest
+    outputs:
+      result_persisted: ${{ steps.guard.outputs.result_persisted }}
     steps:
       - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/spectral-material-control-portfolio-artistic-v1/results.json; then
+            echo 'result_persisted=true' >> "$GITHUB_OUTPUT"
+            echo 'Authoritative human result already persisted; consumed portfolio review will not rerun.'
+          else
+            echo 'result_persisted=false' >> "$GITHUB_OUTPUT"
+          fi
       - name: Freeze portfolio-review source contract
+        if: steps.guard.outputs.result_persisted != 'true'
         run: |
           set -euo pipefail
-          test ! -f research-results/spectral-material-control-portfolio-artistic-v1/results.json
           test -f research-results/spectral-material-control-artistic-v1/results.json
           python - <<'PY'
           import json
@@ -49,12 +60,15 @@ jobs:
           test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
           test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
       - uses: actions/setup-python@v5
+        if: steps.guard.outputs.result_persisted != 'true'
         with:
           python-version: '3.12'
-      - run: python -m py_compile experiments/spectral-material-control-portfolio-artistic-v1/*.py
+      - if: steps.guard.outputs.result_persisted != 'true'
+        run: python -m py_compile experiments/spectral-material-control-portfolio-artistic-v1/*.py
 
   smoke:
     needs: preflight
+    if: needs.preflight.outputs.result_persisted != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -86,6 +100,7 @@ jobs:
 
   review-package:
     needs: smoke
+    if: needs.preflight.outputs.result_persisted != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
