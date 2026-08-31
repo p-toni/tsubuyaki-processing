@@ -114,7 +114,7 @@ def test_handoff_rejects_stale_phenotype_even_if_record_digest_is_rebound(tmp_pa
     candidates_path = root / "candidates.json"
     records = json.loads(candidates_path.read_text())
     record = next(x for x in records if x["id"] == cid)
-    record["genome"]["phase"] = float(record["genome"].get("phase", 0.0)) + 0.123456
+    record["genome"]["alpha"] = 1
     text = json.dumps(records, indent=2, sort_keys=True) + "\n"
     candidates_path.write_text(text)
 
