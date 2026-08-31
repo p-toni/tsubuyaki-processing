@@ -22,11 +22,11 @@ base = sub.base
 core = sub.core
 
 ROUTES = ("recurrence", "orbit", "filament")
-REVIEW_SEEDS = (748003, 748021, 748043, 748063)
-SMOKE_SEED = 748999
+REVIEW_SEEDS = (749003, 749021, 749043, 749063)
+SMOKE_SEED = 749999
 TIMES = (30, 90, 150)
 MIN_VALID_GENERATED = 12
-BLIND_SALT = "independent-starts-artistic-v1-20260831-fresh"
+BLIND_SALT = "independent-starts-artistic-v1-20260831-fresh-v2"
 THUMB = 140
 PAPER = (250, 248, 245)
 INK = (42, 40, 36)
