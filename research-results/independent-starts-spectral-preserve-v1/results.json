@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "decision": "SPECTRAL_PRESERVE_RESTART_PROMISING",
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-equal-budget-only",
+  "seedCount": 20,
+  "routeSeedCount": 60,
+  "cellCount": 900,
+  "budgetPerArm": 20,
+  "baselinePortfolio": {"native": 10, "spectral": 10, "restart": 0},
+  "treatmentPortfolio": {"native": 6, "spectral": 10, "restart": 4},
+  "replacedBaselineAttempts": ["R3", "R4", "R5", "R6"],
+  "exactlyReplayedBaselineSpectralAttempts": ["R10", "R11", "R12"],
+  "meaningfulEffectMargin": 0.003255297955511336,
+  "meanArchiveDelta": 0.025007835908553145,
+  "oneSided95BootstrapLowerArchiveDelta": 0.018855083588210253,
+  "meanDeliveryDelta": 0.0241663979747579,
+  "oneSided95BootstrapLowerDeliveryDelta": 0.014713841375822368,
+  "routeMeanEffects": {
+    "archiveDelta": {
+      "recurrence": 0.025831990850884095,
+      "orbit": 0.024499806185596235,
+      "filament": 0.02469171068917911
+    },
+    "deliveryDelta": {
+      "recurrence": 0.025470541633238215,
+      "orbit": 0.023270156145727767,
+      "filament": 0.023758496145307704
+    }
+  },
+  "validity": {
+    "baselineValidCount": 1188,
+    "treatmentValidCount": 1188,
+    "attemptsPerArm": 1200,
+    "baselineValidRate": 0.99,
+    "treatmentValidRate": 0.99,
+    "treatmentMinusBaselineValidRate": 0.0,
+    "restartAttemptCount": 240,
+    "validRestartCount": 240
+  },
+  "gates": {
+    "archiveMeanAboveMeaningfulMargin": true,
+    "archive95LowerPositive": true,
+    "everyRouteArchivePositive": true,
+    "deliveryMeanAboveMeaningfulMargin": true,
+    "delivery95LowerPositive": true,
+    "everyRouteDeliveryPositive": true,
+    "treatmentValidityNoMoreThanFivePointsLower": true
+  },
+  "mechanicalPassed": true,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 751555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "provenance": {
+    "authoritativeRunId": 33426619726,
+    "authoritativeHeadSha": "30e089a719d4e902fdbf8543bbfb0dd629f544dc",
+    "summaryArtifactId": 9771125241,
+    "summaryArtifactDigest": "sha256:2d0838d87b6a43d442791fff92bb6ad8c2b96888194f7680b4c6a65c5b9ffb14",
+    "individualSeedArtifactsInspected": false,
+    "excludedSmokeSeed": 751999,
+    "smokeBaselineRuntimeReplayExact": true,
+    "smokeR10R12SpectralReplayExact": true
+  },
+  "researchLineStatus": "FRESH_BLINDED_ARTISTIC_COMPARISON_AUTHORIZED",
+  "interpretation": "Preserving all ten spectral evaluations while replacing four native refine attempts with independent one-shot starts clears every fresh equal-budget mechanical gate. This closes the strongest operator-deletion confound exposed by #112. Production remains unchanged until a fresh blinded artistic comparison passes."
+}
