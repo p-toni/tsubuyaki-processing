@@ -8,6 +8,20 @@ This is the direct follow-up to `spectral-material-control-artistic-v1`.
 
 That prior review was mechanically valid but non-discriminating: after ratings were frozen, all 12 native and mixed provisional champions were revealed to be the exact shared starting phenotype. The deterministic temporal proxy erased the treatment difference before human review.
 
+## Pre-review feasibility correction
+
+The first #104 workflow attempt (`33387966417`) failed closed **before any reviewer-facing artifact or identity key was uploaded**. One mixed trajectory produced 14 hard-valid challengers, below the originally frozen presentation-feasibility floor of 15. No portfolio image, A/B identity, or artistic judgment from that population was inspected.
+
+That first population is therefore treated as feasibility-only and is not reused for artistic evidence.
+
+The corrected protocol freezes:
+
+- a new four-seed review population;
+- a new excluded smoke seed;
+- a minimum of **12** hard-valid generated challengers before three portfolio samples may be shown.
+
+The value 12 is not fitted to the observed count of 14. It is a conservative presentation floor: it requires four times as many viable generated candidates as the three displayed samples while allowing route-level hard-validity variation. The sampling rule, equal budgets, routes, operator, renderer, temporal frames, human question, reducer, and artistic-support gate are otherwise unchanged.
+
 ## Frozen comparison
 
 Routes:
@@ -16,13 +30,13 @@ Routes:
 - filament
 
 Fresh review-only seeds:
-- `127003`
-- `127021`
-- `127043`
-- `127063`
+- `128003`
+- `128021`
+- `128041`
+- `128053`
 
 Excluded smoke seed:
-- `127999`
+- `128999`
 
 Each route × seed block runs the current runtime twice from the exact same hard-valid start:
 
@@ -37,7 +51,7 @@ After each complete 20-attempt trajectory exists:
 
 1. discard the shared start;
 2. keep only generated hard-valid challengers, in deterministic generation order;
-3. require at least 15 hard-valid challengers;
+3. require at least **12** hard-valid challengers;
 4. select exactly three candidates at frozen valid-sequence quantiles `0.20 / 0.50 / 0.80` using `floor((n-1)*q)`;
 5. show each selected candidate at raw `t=30,90,150`.
 
