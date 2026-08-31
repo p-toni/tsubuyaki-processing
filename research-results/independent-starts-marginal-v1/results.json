@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "decision": "INDEPENDENT_STARTS_SCREEN_PROMISING",
+  "artisticEvidence": false,
+  "authority": "mechanical-structural-marginal-screen-only",
+  "seedCount": 20,
+  "routeSeedCount": 60,
+  "cellCount": 900,
+  "marginalEvaluationsPerArm": 4,
+  "deliveryNonInferiorityMargin": 0.003255297955511336,
+  "meanRestartMinusLocalArchive": 0.023741154056217514,
+  "oneSided95BootstrapLowerRestartMinusLocalArchive": 0.01867137039123147,
+  "meanLocalMarginalArchiveGain": 0.0025381070705036545,
+  "meanRestartMarginalArchiveGain": 0.02627926112672117,
+  "meanRestartMinusLocalDelivery": 0.027307098012815462,
+  "oneSided95BootstrapLowerRestartMinusLocalDelivery": 0.01929157020852127,
+  "meanRestartMinusBaselineDelivery": 0.02828487037761821,
+  "oneSided95BootstrapLowerRestartMinusBaselineDelivery": 0.020666866825069193,
+  "routeMeanEffects": {
+    "restartMinusLocalArchive": {
+      "recurrence": 0.014706911548925653,
+      "orbit": 0.024002883819704484,
+      "filament": 0.032513666800022406
+    },
+    "restartMinusLocalDelivery": {
+      "recurrence": 0.009880710412522978,
+      "orbit": 0.02932725122520938,
+      "filament": 0.042713332400714024
+    },
+    "restartMinusBaselineDelivery": {
+      "recurrence": 0.011429570026082359,
+      "orbit": 0.03043903590687318,
+      "filament": 0.0429860051998991
+    }
+  },
+  "marginalValidity": {
+    "deepLocalValidCount": 234,
+    "independentRestartValidCount": 240,
+    "attemptsPerArm": 240,
+    "deepLocalValidRate": 0.975,
+    "independentRestartValidRate": 1.0
+  },
+  "gates": {
+    "archiveMeanRestartMinusLocalPositive": true,
+    "archive95LowerRestartMinusLocalPositive": true,
+    "everyRouteArchiveRestartMinusLocalPositive": true,
+    "restartMarginalArchiveGainAboveLocal": true,
+    "deliveryMeanRestartMinusLocalAboveNegativeMargin": true,
+    "delivery95LowerRestartMinusLocalAboveNegativeMargin": true,
+    "everyRouteDeliveryRestartMinusLocalAboveNegativeMargin": true,
+    "delivery95LowerRestartMinusBaselineAboveNegativeMargin": true,
+    "everyRouteDeliveryRestartMinusBaselineAboveNegativeMargin": true
+  },
+  "screenPassed": true,
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 746555001,
+    "unit": "master-seed mean across 45 paired route-target cells"
+  },
+  "provenance": {
+    "authoritativeRunId": 33407757100,
+    "authoritativeHeadSha": "3528af300c21952e0270a67bcd552a5abf5977b5",
+    "summaryArtifactId": 9764029285,
+    "summaryArtifactDigest": "sha256:02abaac2e00cfdbefcd3cc73a01de16002f08a4edf2d16d55b369341a3442aed",
+    "individualSeedArtifactsInspected": false,
+    "excludedSmokeSeed": 746999,
+    "smokeBaselineRuntimeReplayExact": true
+  },
+  "researchLineStatus": "FRESH_EQUAL_20_SUBSTITUTION_AUTHORIZED",
+  "interpretation": "Four independent one-shot route-prior starts added substantially more frozen structural archive capacity than four additional low-scale local mutations after the exact supported 20-attempt trajectory. The target-blind max-dispersion delivery surface also improved strongly and consistently. This is screening evidence only: authorize one fresh equal-20-budget substitution experiment, but do not use consumed 746xxx outcomes to choose which current attempts are replaced and do not change production yet."
+}
