@@ -26,12 +26,23 @@ env:
 jobs:
   preflight:
     runs-on: ubuntu-latest
+    outputs:
+      result_persisted: ${{ steps.guard.outputs.result_persisted }}
     steps:
       - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/delivery-dispersion-shortlist-v1/results.json; then
+            echo 'result_persisted=true' >> "$GITHUB_OUTPUT"
+            echo 'Authoritative result already persisted; consumed shortlist experiment will not rerun.'
+          else
+            echo 'result_persisted=false' >> "$GITHUB_OUTPUT"
+          fi
       - name: Freeze delivery shortlist contract
+        if: steps.guard.outputs.result_persisted != 'true'
         run: |
           set -euo pipefail
-          test ! -f research-results/delivery-dispersion-shortlist-v1/results.json
           test -f research-results/spectral-material-control-portfolio-artistic-v1/results.json
           test -f research-results/selector-frontier-allocation-v1/results.json
           python - <<'PY'
@@ -57,12 +68,15 @@ jobs:
           test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
           test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
       - uses: actions/setup-python@v5
+        if: steps.guard.outputs.result_persisted != 'true'
         with:
           python-version: '3.12'
-      - run: python -m py_compile experiments/delivery-dispersion-shortlist-v1/*.py
+      - if: steps.guard.outputs.result_persisted != 'true'
+        run: python -m py_compile experiments/delivery-dispersion-shortlist-v1/*.py
 
   smoke:
     needs: preflight
+    if: needs.preflight.outputs.result_persisted != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -87,6 +101,7 @@ jobs:
 
   authoritative:
     needs: smoke
+    if: needs.preflight.outputs.result_persisted != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
