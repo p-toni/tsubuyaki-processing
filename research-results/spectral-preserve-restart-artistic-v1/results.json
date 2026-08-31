@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "decision": "SPECTRAL_PRESERVE_RESTART_ARTISTIC_STAGE_A_NOT_DEMONSTRATED",
+  "blockCount": 12,
+  "reviewableCount": 12,
+  "decisiveCount": 10,
+  "judgmentCounts": {
+    "A>B": 9,
+    "B>A": 1,
+    "equivalent": 2,
+    "unreviewable": 0
+  },
+  "treatmentWins": 6,
+  "baselineWins": 4,
+  "totalSpectralPreserveVsBaselineNetPreference": 2,
+  "oneSidedExactSignP": 0.376953125,
+  "routeNetPreference": {
+    "recurrence": 1,
+    "orbit": 0,
+    "filament": 1
+  },
+  "leaveOneRouteOutNetPreference": {
+    "recurrence": 1,
+    "orbit": 2,
+    "filament": 1
+  },
+  "gates": {
+    "atLeastNineReviewable": true,
+    "atLeastEightDecisive": true,
+    "treatmentWinsExceedBaselineWins": true,
+    "oneSidedExactSignPAtMostPoint10": false,
+    "noNegativeRouteNet": true,
+    "atLeastTwoPositiveRouteNets": true,
+    "everyLeaveOneRouteOutNetPositive": true
+  },
+  "stageAPassed": false,
+  "stageBAuthorized": false,
+  "authority": "single-reviewer-artistic-usefulness-stage-a",
+  "provenance": {
+    "reviewRun": 33429146227,
+    "reviewerArtifact": 9772194591,
+    "reviewerDigest": "sha256:f7c37339a9b48b6622c0887cd6eb138b49543de41068975afd30d55254ce6853",
+    "keyArtifact": 9772195313,
+    "keyDigest": "sha256:29f16d3418fb3c9f3bdeea9f0e028d0f0b5e896d02ef19a71e9dd910971232f2",
+    "frozenHead": "3af2befce0a564d1e429a58dd8c51917bdb8ef5d"
+  }
+}

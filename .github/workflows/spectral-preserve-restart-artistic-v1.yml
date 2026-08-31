@@ -1,0 +1,133 @@
+name: spectral-preserve-restart-artistic-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/spectral-preserve-restart-artistic-v1/**'
+      - '.github/workflows/spectral-preserve-restart-artistic-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/spectral-preserve-restart-artistic-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative artistic result already archived; regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze review source, prerequisites, and fresh namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/spectral-preserve-restart-artistic-v1/README.md)" = "90d2bf1d5011bd2e498c116486d92ef91f359547"
+          test "$(git hash-object experiments/spectral-preserve-restart-artistic-v1/generate_review.py)" = "c0f7cb175b4048cf86d2594e5b1b933cb25d8950"
+          test "$(git hash-object experiments/spectral-preserve-restart-artistic-v1/reduce_review.py)" = "53bbb6aab20c565ae0f516ce956826681b9c1a53"
+          test "$(git hash-object research-results/independent-starts-spectral-preserve-v1/results.json)" = "23e6177a9cda0bd236370bca782a95a8666a9542"
+          test "$(git hash-object experiments/independent-starts-spectral-preserve-v1/run_spectral_preserve.py)" = "4547ffb2a6af1da7898158f1d5eb17487b21bc86"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          if git grep -n '752' f9729e5ed4dfccae6d88d30df2eeb3d4fbbb44ac -- . ':!research-results/**'; then
+            echo '752 namespace existed in pre-experiment repository code' >&2
+            exit 1
+          fi
+          if git log f9729e5ed4dfccae6d88d30df2eeb3d4fbbb44ac --format='%s %b' | grep -E '(^|[^0-9])752([0-9]{3})?([^0-9]|$)'; then
+            echo '752 namespace existed in pre-experiment commit messages' >&2
+            exit 1
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen review
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/spectral-preserve-restart-artistic-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded three-route review smoke
+        run: |
+          python experiments/spectral-preserve-restart-artistic-v1/generate_review.py \
+            --output-root smoke-output --smoke > smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True
+          assert x['blockCount'] == 3
+          assert x['allBudgetsExact'] is True
+          assert x['allSharedStartsExact'] is True
+          assert x['allSharedFirst10Exact'] is True
+          assert x['allR10R12SpectralExact'] is True
+          assert x['allMinimumValidGeneratedMet'] is True
+          assert x['allThreeDeliveredCandidatesRenderable'] is True
+          assert x['visualDuplicateFilteringApplied'] is False
+          PY
+
+  generate-review:
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate sealed 12-block Stage-A review
+        run: |
+          python experiments/spectral-preserve-restart-artistic-v1/generate_review.py \
+            --output-root review-output > generation.json
+          python - <<'PY'
+          import json, shutil
+          x=json.load(open('generation.json'))
+          assert x['smoke'] is False
+          assert x['blockCount'] == 12
+          assert x['allBudgetsExact'] is True
+          assert x['allSharedStartsExact'] is True
+          assert x['allSharedFirst10Exact'] is True
+          assert x['allR10R12SpectralExact'] is True
+          assert x['allMinimumValidGeneratedMet'] is True
+          assert x['allThreeDeliveredCandidatesRenderable'] is True
+          assert x['authoritativeOrientationBalanced2x2PerRoute'] is True
+          assert x['visualDuplicateFilteringApplied'] is False
+          for route, counts in x['orientationBalanceByRoute'].items():
+              assert counts == {'treatmentA': 2, 'treatmentB': 2}, (route, counts)
+          shutil.copy('experiments/spectral-preserve-restart-artistic-v1/REVIEWER.md', 'review-output/review/REVIEWER.md')
+          shutil.copy('experiments/spectral-preserve-restart-artistic-v1/ratings-template.json', 'review-output/review/ratings-template.json')
+          PY
+      - name: Upload reviewer-facing artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectral-preserve-restart-artistic-reviewer
+          path: review-output/review
+      - name: Upload sealed A/B key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectral-preserve-restart-artistic-key
+          path: review-output/key
