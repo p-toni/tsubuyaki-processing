@@ -11,6 +11,11 @@ from typing import Dict, List
 from PIL import Image, ImageDraw
 
 from core import Candidate, ROUTES, TIMES, evaluate_candidate, render_candidate_frame
+from restart_route_authority import (
+    EVIDENCE_AUTHORIZED_RESTART_ROUTES,
+    eligible_restart_routes,
+    restart_route_registry,
+)
 from rng_streams import derived_seed
 
 SIDECAR_VERSION = 1
@@ -19,12 +24,10 @@ DEFAULT_ATTEMPTS_PER_ROUTE = 4
 
 
 def _eligible_routes(brief: Dict[str, object]) -> List[str]:
-    routes = list(brief.get("routes") or [])
-    return [
-        route
-        for route in routes
-        if route in ROUTES and int(ROUTES[route].get("intrinsic_dimension", -1)) == 1
-    ]
+    # Do not infer scientific authority from whichever representations happen to
+    # be registered in the current process. The restart line was confirmed on a
+    # frozen route class and must expand only through new evidence.
+    return eligible_restart_routes(brief)
 
 
 def _phenotype_hash(cand: Candidate) -> str:
@@ -112,21 +115,27 @@ def generate_restart_sidecar(
 
     eligible = _eligible_routes(brief)
     candidates: List[Candidate] = []
-    for route in eligible:
-        for index in range(attempts_per_route):
-            candidates.append(_spawn_restart(brief, master_seed, route, index))
 
-    valid = [c for c in candidates if bool(c.checks.get("valid", False))]
-    for cand in valid:
-        _write_timeline(cand, timelines_dir / f"{cand.id}.png")
-    if valid:
-        _write_contact_sheet(valid, out_dir / "contact_sheet.png")
+    # Orbit remains intentionally absent from the ordinary baseline registry.
+    # Register evidence-authorized experimental adapters only for this opt-in
+    # sidecar operation, then restore the process-global registry exactly.
+    with restart_route_registry(eligible):
+        for route in eligible:
+            for index in range(attempts_per_route):
+                candidates.append(_spawn_restart(brief, master_seed, route, index))
 
-    candidate_records = []
-    for cand in candidates:
-        record = asdict(cand)
-        record["phenotypeHash"] = _phenotype_hash(cand)
-        candidate_records.append(record)
+        valid = [c for c in candidates if bool(c.checks.get("valid", False))]
+        for cand in valid:
+            _write_timeline(cand, timelines_dir / f"{cand.id}.png")
+        if valid:
+            _write_contact_sheet(valid, out_dir / "contact_sheet.png")
+
+        candidate_records = []
+        for cand in candidates:
+            record = asdict(cand)
+            record["phenotypeHash"] = _phenotype_hash(cand)
+            candidate_records.append(record)
+
     candidate_text = json.dumps(candidate_records, indent=2, sort_keys=True) + "\n"
     candidate_digest = hashlib.sha256(candidate_text.encode("utf-8")).hexdigest()
 
@@ -145,6 +154,7 @@ def generate_restart_sidecar(
         "mode": SIDECAR_NAMESPACE,
         "masterSeed": int(master_seed),
         "attemptsPerEligibleRoute": attempts_per_route,
+        "evidenceAuthorizedRoutes": list(EVIDENCE_AUTHORIZED_RESTART_ROUTES),
         "eligibleRoutes": eligible,
         "attemptedCandidates": len(candidates),
         "validCandidates": len(valid),
