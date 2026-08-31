@@ -1,0 +1,178 @@
+name: independent-starts-marginal-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/independent-starts-marginal-v1/**'
+      - '.github/workflows/independent-starts-marginal-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/independent-starts-marginal-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; scientific jobs remain closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze scientific source and prerequisite contract
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/independent-starts-marginal-v1/README.md)" = "780aaf0376f8cbf53b295940c78b74ddfdc0312b"
+          test "$(git hash-object experiments/independent-starts-marginal-v1/run_marginal.py)" = "e0b2884d3c4d35681ef11b4d0dbb121d7b0148d3"
+          test "$(git hash-object experiments/independent-starts-marginal-v1/aggregate.py)" = "98badf0d5291db5adc3aedc0be4b770436de304a"
+          test "$(git hash-object experiments/operator-novelty-allocation-v1/run_allocation.py)" = "a018790a1bb50fdfb5eedd0da71310c17d8dcd72"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object research-results/operator-novelty-allocation-v1/results.json)" = "1846267c3b332ef534d09ca5738e3e188f2db173"
+          test "$(git hash-object research-results/delivery-dispersion-shortlist-v1/results.json)" = "276ea942d8b7bed71ad6659b43e3d8b497579ae3"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.consumed != 'true'
+        with:
+          python-version: '3.12'
+      - name: Compile frozen experiment
+        if: steps.guard.outputs.consumed != 'true'
+        run: python -m py_compile experiments/independent-starts-marginal-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded baseline-equivalence smoke
+        run: |
+          python experiments/independent-starts-marginal-v1/run_marginal.py \
+            --seed 746999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 746999
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          assert x['smokeBaselineEquivalence'] == {
+              'recurrence': True, 'orbit': True, 'filament': True
+          }
+          assert x['settings']['sharedBaselineAttempts'] == 20
+          assert x['settings']['sharedBaselineNative'] == 10
+          assert x['settings']['sharedBaselineSpectral'] == 10
+          assert x['settings']['marginalEvaluationsPerArm'] == 4
+          assert x['settings']['deepLocalSchedule'] == ['native','spectral','native','spectral']
+          assert x['settings']['deepLocalScale'] == 0.55
+          assert x['settings']['deliveryNonInferiorityMargin'] == 0.003255297955511336
+          PY
+
+  seed:
+    needs: smoke
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed:
+          - 746003
+          - 746019
+          - 746037
+          - 746053
+          - 746071
+          - 746089
+          - 746107
+          - 746127
+          - 746149
+          - 746167
+          - 746181
+          - 746199
+          - 746223
+          - 746239
+          - 746257
+          - 746277
+          - 746293
+          - 746311
+          - 746331
+          - 746349
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        run: |
+          python experiments/independent-starts-marginal-v1/run_marginal.py \
+            --seed "${{ matrix.seed }}" --output "seed-${{ matrix.seed }}.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed'] == seed and x['smoke'] is False
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          assert x['settings']['marginalEvaluationsPerArm'] == 4
+          PY
+        env:
+          SEED: ${{ matrix.seed }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-marginal-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Download frozen seed artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: independent-starts-marginal-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/independent-starts-marginal-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 20
+          assert x['routeSeedCount'] == 60
+          assert x['cellCount'] == 900
+          assert x['artisticEvidence'] is False
+          assert x['marginalEvaluationsPerArm'] == 4
+          assert x['deliveryNonInferiorityMargin'] == 0.003255297955511336
+          PY
+      - name: Upload authoritative summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-starts-marginal-v1-summary
+          path: aggregate.json
