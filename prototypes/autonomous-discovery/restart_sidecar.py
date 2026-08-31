@@ -127,6 +127,8 @@ def generate_restart_sidecar(
         record = asdict(cand)
         record["phenotypeHash"] = _phenotype_hash(cand)
         candidate_records.append(record)
+    candidate_text = json.dumps(candidate_records, indent=2, sort_keys=True) + "\n"
+    candidate_digest = hashlib.sha256(candidate_text.encode("utf-8")).hexdigest()
 
     by_route = {}
     for route in eligible:
@@ -147,6 +149,7 @@ def generate_restart_sidecar(
         "attemptedCandidates": len(candidates),
         "validCandidates": len(valid),
         "byRoute": by_route,
+        "candidatesSha256": candidate_digest,
         "baselineContract": {
             "searchStateMutationAllowed": False,
             "selectorDecisionMutationAllowed": False,
@@ -159,8 +162,6 @@ def generate_restart_sidecar(
         "validCandidateIds": [c.id for c in valid],
     }
 
-    (out_dir / "candidates.json").write_text(
-        json.dumps(candidate_records, indent=2, sort_keys=True) + "\n"
-    )
+    (out_dir / "candidates.json").write_text(candidate_text)
     (out_dir / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     return report
