@@ -1,0 +1,131 @@
+name: delivery-dispersion-shortlist-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/delivery-dispersion-shortlist-v1/**'
+      - '.github/workflows/delivery-dispersion-shortlist-v1.yml'
+      - 'research-results/spectral-material-control-portfolio-artistic-v1/results.json'
+      - 'research-results/selector-frontier-allocation-v1/results.json'
+      - 'prototypes/autonomous-discovery/core.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - 'prototypes/autonomous-discovery/orbit_representation.py'
+      - 'prototypes/autonomous-discovery/pairwise_selector.py'
+      - 'prototypes/autonomous-discovery/rng_streams.py'
+      - 'experiments/spectral-material-control-v1/fast_grayscale_metric.py'
+      - 'experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze delivery shortlist contract
+        run: |
+          set -euo pipefail
+          test ! -f research-results/delivery-dispersion-shortlist-v1/results.json
+          test -f research-results/spectral-material-control-portfolio-artistic-v1/results.json
+          test -f research-results/selector-frontier-allocation-v1/results.json
+          python - <<'PY'
+          import json
+          artistic=json.load(open('research-results/spectral-material-control-portfolio-artistic-v1/results.json'))
+          frontier=json.load(open('research-results/selector-frontier-allocation-v1/results.json'))
+          assert artistic['decision'] == 'ARTISTIC_SUPPORT'
+          assert artistic['totalMixedVsNativeNetPreference'] == 12
+          assert artistic['diagnostic']['allTwelveHumanChoicesResolveToMixed'] is True
+          assert frontier['decision'] == 'FRONTIER_ALLOCATION_NOT_PROMISING'
+          assert frontier['frontierAllocationPassed'] is False
+          assert frontier['meanSeedEffect'] < 0
+          PY
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/README.md)" = "513cab061d49823dc425d79b1fd4c960c0360b91"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/aggregate.py)" = "0170f7914fe2e0b6eaedd6fc5bd932eec558c5e4"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/pairwise_selector.py)" = "0f17d6174d471bfbd2953544cc6425468212a2fc"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile experiments/delivery-dispersion-shortlist-v1/*.py
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded delivery-shortlist smoke
+        run: |
+          python experiments/delivery-dispersion-shortlist-v1/run_shortlist.py \
+            --seed 742999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 742999
+          assert x['artisticEvidence'] is False
+          assert len(x['cells']) == 45
+          assert all(x['hardInvariants'].values())
+          assert all(x['routes'][r]['validGeneratedCount'] >= 12 for r in ('recurrence','orbit','filament'))
+          assert all(x['routes'][r]['minimumPairwiseDistanceLift'] >= -1e-15 for r in ('recurrence','orbit','filament'))
+          PY
+
+  authoritative:
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen 16-seed delivery-shortlist experiment
+        run: |
+          set -euo pipefail
+          mkdir -p seed-results
+          for seed in \
+            742003 742021 742039 742057 \
+            742073 742091 742109 742127 \
+            742147 742163 742181 742199 \
+            742217 742237 742253 742271
+          do
+            python experiments/delivery-dispersion-shortlist-v1/run_shortlist.py \
+              --seed "$seed" --output "seed-results/seed-$seed.json"
+          done
+          python experiments/delivery-dispersion-shortlist-v1/aggregate.py \
+            --input-dir seed-results --output aggregate.json
+          python - <<'PY'
+          import json
+          x=json.load(open('aggregate.json'))
+          assert x['seedCount'] == 16
+          assert x['cellCount'] == 720
+          assert x['artisticEvidence'] is False
+          assert x['minimumPairwiseDistanceLiftMin'] >= -1e-15
+          assert set(x['gates']) == {
+            'meanSeedEffectPositive',
+            'oneSided95BootstrapLowerPositive',
+            'everyRouteMeanPositive',
+          }
+          PY
+      - name: Upload authoritative delivery-shortlist result
+        uses: actions/upload-artifact@v4
+        with:
+          name: delivery-dispersion-shortlist-v1-result
+          path: |
+            aggregate.json
+            seed-results/
