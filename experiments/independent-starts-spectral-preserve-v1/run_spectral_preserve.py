@@ -194,7 +194,7 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
     routes = {}
     frozen = {}
     smoke_equivalence = {}
-    smoke_r9_r12_exact = {}
+    smoke_r10_r12_exact = {}
 
     with tempfile.TemporaryDirectory(prefix=f"spectral-preserve-restart-{master_seed}-") as td:
         root = Path(td)
@@ -220,12 +220,12 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
             if not shared_exact or not start_exact:
                 raise AssertionError(f"shared prefix/start drift for {route}")
 
-            r9_r12_exact = (
-                _fingerprint(baseline_attempts[16:20])
-                == _fingerprint(treatment["spectralTail"][2:6])
+            r10_r12_exact = (
+                _fingerprint(baseline_attempts[17:20])
+                == _fingerprint(treatment["spectralTail"][3:6])
             )
-            if not r9_r12_exact:
-                raise AssertionError(f"baseline R9-R12 spectral replay drift for {route}")
+            if not r10_r12_exact:
+                raise AssertionError(f"baseline R10-R12 spectral replay drift for {route}")
 
             bdiag = baseline["record"]["operatorDiagnostics"]
             if not (
@@ -254,7 +254,7 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
                 if not reference_exact:
                     raise AssertionError(f"baseline runtime replay mismatch for {route}")
                 smoke_equivalence[route] = True
-                smoke_r9_r12_exact[route] = r9_r12_exact
+                smoke_r10_r12_exact[route] = r10_r12_exact
 
             routes[route] = {
                 "searchSeed": search_seed,
@@ -266,7 +266,7 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
                 "spectralPreserve20": treatment["record"],
                 "sharedFirst10Exact": shared_exact,
                 "sharedStartExact": start_exact,
-                "baselineR9R12SpectralExact": r9_r12_exact,
+                "baselineR10R12SpectralExact": r10_r12_exact,
                 "smokeBaselineRuntimeReplayExact": reference_exact,
             }
             frozen[route] = {
@@ -315,13 +315,13 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
         ),
         "sharedFirst10Exact": all(routes[r]["sharedFirst10Exact"] for r in ROUTES),
         "sharedStartExact": all(routes[r]["sharedStartExact"] for r in ROUTES),
-        "baselineR9R12SpectralExact": all(routes[r]["baselineR9R12SpectralExact"] for r in ROUTES),
+        "baselineR10R12SpectralExact": all(routes[r]["baselineR10R12SpectralExact"] for r in ROUTES),
         "cellCountExact": len(cells) == 45,
         "smokeBaselineRuntimeReplayExact": (
             all(smoke_equivalence.get(r, False) for r in ROUTES) if smoke else True
         ),
-        "smokeR9R12SpectralReplayExact": (
-            all(smoke_r9_r12_exact.get(r, False) for r in ROUTES) if smoke else True
+        "smokeR10R12SpectralReplayExact": (
+            all(smoke_r10_r12_exact.get(r, False) for r in ROUTES) if smoke else True
         ),
     }
     if not all(hard.values()):
@@ -340,7 +340,7 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
             "treatmentPortfolio": {"native": 6, "spectral": 10, "restart": 4},
             "replacedBaselineAttempts": ["R3", "R4", "R5", "R6"],
             "preservedSpectralAttemptCount": 10,
-            "exactlyReplayedBaselineSpectralAttempts": ["R9", "R10", "R11", "R12"],
+            "exactlyReplayedBaselineSpectralAttempts": ["R10", "R11", "R12"],
             "restartDefinition": "independent one-shot route-prior draw; invalid consumes budget; no retry; never parent",
             "meaningfulEffectMargin": MEANINGFUL_MARGIN,
             "deliveryRule": "target-blind three-item max-dispersion",
@@ -348,7 +348,7 @@ def run_seed(master_seed: int, smoke: bool = False) -> dict:
         },
         "hardInvariants": hard,
         "smokeBaselineEquivalence": smoke_equivalence,
-        "smokeR9R12SpectralReplayExact": smoke_r9_r12_exact,
+        "smokeR10R12SpectralReplayExact": smoke_r10_r12_exact,
         "routes": routes,
         "cells": cells,
     }
