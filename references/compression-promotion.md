@@ -16,6 +16,8 @@ expanded discovery
 
 Do not filter the full creative population by character count or a compressibility score.
 
+The discovery/preservation boundary and preservation grades are defined in `references/preservation-contract.md`.
+
 ## Why this gate exists
 
 A candidate can fit under 280 characters and still fail deployment because the compression removed the relationships that made the expanded phenotype good.
@@ -36,6 +38,8 @@ Use visual + temporal judgment to order the strongest brief-adherent candidates.
 
 Keep the artistic winner even if it later fails deployment. A non-deployable phenotype can still be an important discovery and should remain in the archive / lineage.
 
+Discovery is intentionally plural: several mathematically different candidates can all be legitimate answers to one brief. Preservation becomes stricter only after one elite has been selected for deployment.
+
 ## 2. Choose the meaningful temporal horizon before preflight
 
 Compression survival is temporal, not merely a static-frame property.
@@ -55,13 +59,18 @@ The production invariant is:
 
 ```text
 choose meaningful horizon H
+-> freeze observation contract over H
 -> compression preflight over H
 -> exact final verification over the same H
 ```
 
+The observation contract records `H`, the sampled verification frames, the selected elite's brief invariants, and the named defining mathematical relationships.
+
 Preflight and final verification may sample different frame density within `H`, but the final check must not rely on a materially longer behavioral horizon than the promotion decision.
 
 If a longer final horizon reveals a failure that preflight could not see, treat that as a **preflight false pass** and strengthen the horizon before promoting another candidate.
+
+Never shorten `H` after ranking or weaken the named relationships to rescue a compact artifact.
 
 ## 3. Preflight candidates adaptively in visual-rank order
 
@@ -73,7 +82,8 @@ For each candidate:
 2. sketch the cheapest plausible semantic compression that preserves those relationships;
 3. estimate whether the resulting cause can plausibly fit the practical code budget;
 4. if plausible, render the compressed form across the chosen temporal horizon;
-5. decide pass/fail on phenotype survival across that horizon.
+5. decide pass/fail on phenotype survival across that horizon;
+6. require Grade 1 cause preservation before deployment promotion.
 
 If it passes, stop and promote that candidate to **deployment finalist**.
 
@@ -100,6 +110,24 @@ Which candidate has the best compressibility score?
 
 Do not introduce a scalar `compressibility`, `tweetability`, or `descriptionLengthFitness` objective into creative search.
 
+### Preservation grades
+
+Use the two grades from `references/preservation-contract.md`:
+
+```text
+Grade 0
+= observable agreement over the frozen observation contract
+
+Grade 1
+= Grade 0 + every named defining relationship remains causal / recoverably defined
+```
+
+Grade 0 is necessary but **not** sufficient for promotion. A compact artifact that matches sampled frames, occupancy, a qualified shape metric, prototype F1 or another observation while dropping a named cause fails deployment.
+
+Only Grade 1 may be promoted.
+
+Mechanical verification remains a **veto rather than an intention certificate**: a failure blocks deployment; a pass preserves the prior artistic decision but does not establish that the artwork itself was intended or good.
+
 ## 5. What counts as a defining relationship
 
 Examples:
@@ -121,13 +149,14 @@ Temporal persistence can itself be part of the relationship. A recurrent knot th
 Once a candidate passes preflight:
 
 1. preserve the named high-leverage relationships;
-2. preserve the chosen temporal horizon as part of the deployment contract;
+2. preserve the chosen temporal horizon and observation contract as part of the deployment contract;
 3. compress semantically;
 4. golf JavaScript representation;
 5. verify the complete X-weighted post;
 6. execute the exact tweet code;
 7. render the exact code across the same meaningful temporal horizon;
-8. confirm the defining phenotype still survives.
+8. confirm Grade 0 observation preservation;
+9. confirm Grade 1 cause preservation.
 
 Preflight reduces the risk of wasting a full golf pass on the wrong candidate. It does not replace exact final verification.
 
@@ -142,7 +171,7 @@ visual elite
 = best artistic discovery under the brief
 
 deployment finalist
-= highest visually ranked candidate that passes compression-survival preflight
+= highest visually ranked candidate that passes Grade 1 compression-survival preflight
 ```
 
 Often they are the same candidate.
@@ -167,4 +196,4 @@ The fresh v0.14 cold test added a temporal result. On a new recurrence brief, a 
 
 The strongest current policy is therefore:
 
-> **discover and rank freely; apply description length only as an adaptive promotion gate into deployment, and evaluate preflight and exact verification over the same meaningful behavioral horizon.**
+> **discover and rank freely; apply description length only as an adaptive promotion gate into deployment, freeze the observation/cause contract before compression, require Grade 1 cause preservation, and evaluate preflight and exact verification over the same meaningful behavioral horizon.**
