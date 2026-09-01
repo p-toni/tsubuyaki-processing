@@ -1,61 +1,61 @@
 {
-  "boundary": "retrospective consumed-human-label audit only; positive authorizes fresh prospective exact-pipeline scorer test; negative closes generic frozen ImageNet embedding line without backbone/hyperparameter cycling",
+  "version": 1,
   "decision": "RESNET18_ARTISTIC_SIGNAL_NOT_PROMISING",
-  "externalNeutral79": {
-    "meanAbsolutePrediction": 0.1599397026916552,
-    "predictions": [
-      {"label":"R01","prediction":-0.31290810015354253},{"label":"R02","prediction":-0.07836279805264468},{"label":"R03","prediction":-0.48784989342042806},{"label":"R04","prediction":0.1258253423550979},{"label":"R05","prediction":-0.0686135029871906},{"label":"R06","prediction":-0.19745733401680798},{"label":"R07","prediction":-0.21649248219661565},{"label":"R08","prediction":-0.004898117345424309},{"label":"R09","prediction":-0.13558957218444976},{"label":"R10","prediction":-0.046817168587298444},{"label":"R11","prediction":-0.1454112323760662},{"label":"R12","prediction":-0.10772102393573725},{"label":"R13","prediction":-0.026311517330732802},{"label":"R14","prediction":0.1889217159007702},{"label":"R15","prediction":-0.07612308198216296},{"label":"R16","prediction":0.07594358106533485},{"label":"R17","prediction":-0.3294688986460786},{"label":"R18","prediction":-0.21528612612970796},{"label":"R19","prediction":0.3294363570189808},{"label":"R20","prediction":-0.01996475406900846}
-    ],
-    "weightL2Norm": 0.04756063179216786
-  },
-  "folds": [
-    {"accuracy":0.9166666666666666,"decisiveCount":12,"holdout":"104","meanSignedMargin":0.6744775127329183,"weightL2Norm":0.04783844852913125},
-    {"accuracy":0.75,"decisiveCount":12,"holdout":"107","meanSignedMargin":0.22749009660343988,"weightL2Norm":0.04747706406947857},
-    {"accuracy":0.5,"decisiveCount":10,"holdout":"112","meanSignedMargin":0.10410669169652706,"weightL2Norm":0.04645765743663391},
-    {"accuracy":0.4,"decisiveCount":10,"holdout":"114","meanSignedMargin":-0.05258565005367129,"weightL2Norm":0.04761317974750207}
-  ],
-  "gates": {
-    "everyHoldoutAccuracyAtLeastPoint50": false,
-    "everyHoldoutMeanSignedMarginPositive": false,
-    "externalAllEquivalentMeanAbsPredictionAtMostPoint25": true,
-    "invariantsFinite": true,
-    "oneSidedBinomialPAtMostPoint10": true,
-    "pooledAccuracyAbovePoint60": true
-  },
-  "model": "zero-intercept dual ridge alpha=1.0; train-fold standardization",
-  "pooledDecisive": {
-    "accuracy": 0.6590909090909091,
-    "correct": 29,
-    "count": 44,
-    "oneSidedExactBinomialP": 0.024383382952237298
-  },
+  "boundary": "retrospective consumed-human-label audit only; positive authorizes fresh prospective exact-pipeline scorer test; negative closes generic frozen ImageNet embedding line without backbone/hyperparameter cycling",
   "population": {
-    "externalNeutralBlocks": 20,
     "modelBlocks": 48,
     "modelDecisive": 44,
-    "modelEquivalent": 4
+    "modelEquivalent": 4,
+    "externalNeutralBlocks": 20
+  },
+  "pooledDecisive": {
+    "correct": 29,
+    "count": 44,
+    "accuracy": 0.6590909090909091,
+    "oneSidedExactBinomialP": 0.024383382952237298
+  },
+  "folds": [
+    {"holdout":"104","decisiveCount":12,"accuracy":0.9166666666666666,"meanSignedMargin":0.6744775127329183,"weightL2Norm":0.19762651374732237},
+    {"holdout":"107","decisiveCount":12,"accuracy":0.75,"meanSignedMargin":0.22749009660343988,"weightL2Norm":0.18101937214472152},
+    {"holdout":"112","decisiveCount":10,"accuracy":0.5,"meanSignedMargin":0.10410669169652706,"weightL2Norm":0.16764352568461321},
+    {"holdout":"114","decisiveCount":10,"accuracy":0.4,"meanSignedMargin":-0.05258565005367129,"weightL2Norm":0.16212040927288052}
+  ],
+  "externalNeutral79": {
+    "meanAbsolutePrediction": 0.1599397026916552,
+    "weightL2Norm": 0.21512026292157477
+  },
+  "gates": {
+    "invariantsFinite": true,
+    "pooledAccuracyAbovePoint60": true,
+    "oneSidedBinomialPAtMostPoint10": true,
+    "everyHoldoutAccuracyAtLeastPoint50": false,
+    "everyHoldoutMeanSignedMarginPositive": false,
+    "externalAllEquivalentMeanAbsPredictionAtMostPoint25": true
+  },
+  "model": "zero-intercept dual ridge alpha=1.0; train-fold standardization",
+  "representation": {
+    "name": "torchvision-resnet18-imagenet1k-v1-post-avgpool",
+    "torch": "2.10.0+cpu",
+    "torchvision": "0.25.0+cpu",
+    "weightEnum": "ResNet18_Weights.IMAGENET1K_V1",
+    "weightUrl": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+    "checkpointFilename": "resnet18-f37072fd.pth",
+    "checkpointSha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+    "dimension": 1024,
+    "sidePooling": "concat(population mean 512d, population sd 512d)",
+    "blockOperation": "sideA - sideB",
+    "frozenExtractorBlob": "2b57c5748c9aed1c522c9b2003623f62406f94cc",
+    "tileTransform": "ResNet18_Weights.IMAGENET1K_V1.transforms(): resize 256, center crop 224, bilinear, ImageNet mean/std"
   },
   "provenance": {
     "authoritativeRunId": 33455754134,
     "artifactId": 9781395941,
     "artifactDigest": "sha256:aa77365e2fbdae5b934ee3b1256da49b2dd5caa7d340247ad75ec5a4d6bf6bbf",
+    "authoritativeArtifactContainsFullBlockPredictions": true,
     "frozenHead": "3fe8d167e500a11b59d8f3bc6304de238bcfb907",
     "readmeBlob": "da8953b3abbfd835ae1eba5f834e299b96a0799d",
     "analyzerBlob": "68f48230059e6fcea51f5981c46208c1ee29f7f4",
     "frozenExtractorBlob": "2b57c5748c9aed1c522c9b2003623f62406f94cc"
-  },
-  "representation": {
-    "blockOperation": "sideA - sideB",
-    "checkpointFilename": "resnet18-f37072fd.pth",
-    "checkpointSha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
-    "dimension": 1024,
-    "frozenExtractorBlob": "2b57c5748c9aed1c522c9b2003623f62406f94cc",
-    "name": "torchvision-resnet18-imagenet1k-v1-post-avgpool",
-    "sidePooling": "concat(population mean 512d, population sd 512d)",
-    "torch": "2.10.0+cpu",
-    "torchvision": "0.25.0+cpu",
-    "weightEnum": "ResNet18_Weights.IMAGENET1K_V1",
-    "weightUrl": "https://download.pytorch.org/models/resnet18-f37072fd.pth"
   },
   "sourceReviewArtifacts": {
     "104": 9756540975,
@@ -63,6 +63,5 @@
     "112": 9766571236,
     "114": 9772194591,
     "79": 9719175928
-  },
-  "version": 1
+  }
 }
