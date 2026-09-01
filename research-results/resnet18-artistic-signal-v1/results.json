@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "decision": "RESNET18_ARTISTIC_SIGNAL_NOT_PROMISING",
+  "boundary": "retrospective consumed-human-label audit only; positive authorizes fresh prospective exact-pipeline scorer test; negative closes generic frozen ImageNet embedding line without backbone/hyperparameter cycling",
+  "population": {
+    "modelBlocks": 48,
+    "modelDecisive": 44,
+    "modelEquivalent": 4,
+    "externalNeutralBlocks": 20
+  },
+  "pooledDecisive": {
+    "correct": 29,
+    "count": 44,
+    "accuracy": 0.6590909090909091,
+    "oneSidedExactBinomialP": 0.024383382952237298
+  },
+  "folds": [
+    {"holdout":"104","decisiveCount":12,"accuracy":0.9166666666666666,"meanSignedMargin":0.6744775127329183,"weightL2Norm":0.19762651374732237},
+    {"holdout":"107","decisiveCount":12,"accuracy":0.75,"meanSignedMargin":0.22749009660343988,"weightL2Norm":0.18101937214472152},
+    {"holdout":"112","decisiveCount":10,"accuracy":0.5,"meanSignedMargin":0.10410669169652706,"weightL2Norm":0.16764352568461321},
+    {"holdout":"114","decisiveCount":10,"accuracy":0.4,"meanSignedMargin":-0.05258565005367129,"weightL2Norm":0.16212040927288052}
+  ],
+  "externalNeutral79": {
+    "meanAbsolutePrediction": 0.1599397026916552,
+    "weightL2Norm": 0.21512026292157477
+  },
+  "gates": {
+    "invariantsFinite": true,
+    "pooledAccuracyAbovePoint60": true,
+    "oneSidedBinomialPAtMostPoint10": true,
+    "everyHoldoutAccuracyAtLeastPoint50": false,
+    "everyHoldoutMeanSignedMarginPositive": false,
+    "externalAllEquivalentMeanAbsPredictionAtMostPoint25": true
+  },
+  "model": "zero-intercept dual ridge alpha=1.0; train-fold standardization",
+  "representation": {
+    "name": "torchvision-resnet18-imagenet1k-v1-post-avgpool",
+    "torch": "2.10.0+cpu",
+    "torchvision": "0.25.0+cpu",
+    "weightEnum": "ResNet18_Weights.IMAGENET1K_V1",
+    "weightUrl": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+    "checkpointFilename": "resnet18-f37072fd.pth",
+    "checkpointSha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+    "dimension": 1024,
+    "sidePooling": "concat(population mean 512d, population sd 512d)",
+    "blockOperation": "sideA - sideB",
+    "frozenExtractorBlob": "2b57c5748c9aed1c522c9b2003623f62406f94cc",
+    "tileTransform": "ResNet18_Weights.IMAGENET1K_V1.transforms(): resize 256, center crop 224, bilinear, ImageNet mean/std"
+  },
+  "provenance": {
+    "authoritativeRunId": 33455754134,
+    "artifactId": 9781395941,
+    "artifactDigest": "sha256:aa77365e2fbdae5b934ee3b1256da49b2dd5caa7d340247ad75ec5a4d6bf6bbf",
+    "authoritativeArtifactContainsFullBlockPredictions": true,
+    "frozenHead": "3fe8d167e500a11b59d8f3bc6304de238bcfb907",
+    "readmeBlob": "da8953b3abbfd835ae1eba5f834e299b96a0799d",
+    "analyzerBlob": "68f48230059e6fcea51f5981c46208c1ee29f7f4",
+    "frozenExtractorBlob": "2b57c5748c9aed1c522c9b2003623f62406f94cc"
+  },
+  "sourceReviewArtifacts": {
+    "104": 9756540975,
+    "107": 9759391278,
+    "112": 9766571236,
+    "114": 9772194591,
+    "79": 9719175928
+  }
+}

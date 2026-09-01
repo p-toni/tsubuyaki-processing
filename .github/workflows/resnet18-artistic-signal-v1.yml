@@ -1,0 +1,118 @@
+name: resnet18-artistic-signal-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/resnet18-artistic-signal-v1/**'
+      - 'experiments/artistic-signal-retrospective-v1/analyze.py'
+      - 'research-results/resnet18-artistic-signal-v1/**'
+      - '.github/workflows/resnet18-artistic-signal-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      result_persisted: ${{ steps.guard.outputs.result_persisted }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard terminal result
+        id: guard
+        run: |
+          if test -f research-results/resnet18-artistic-signal-v1/results.json; then
+            echo 'result_persisted=true' >> "$GITHUB_OUTPUT"
+            python - <<'PY'
+          import json
+          x=json.load(open('research-results/resnet18-artistic-signal-v1/results.json'))
+          assert x['decision'] in {'RESNET18_ARTISTIC_SIGNAL_PROMISING','RESNET18_ARTISTIC_SIGNAL_NOT_PROMISING'}
+          print('terminal result present:', x['decision'])
+          PY
+          else
+            echo 'result_persisted=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze source contract
+        if: steps.guard.outputs.result_persisted != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/resnet18-artistic-signal-v1/README.md)" = "da8953b3abbfd835ae1eba5f834e299b96a0799d"
+          test "$(git hash-object experiments/resnet18-artistic-signal-v1/analyze.py)" = "68f48230059e6fcea51f5981c46208c1ee29f7f4"
+          test "$(git hash-object experiments/artistic-signal-retrospective-v1/analyze.py)" = "2b57c5748c9aed1c522c9b2003623f62406f94cc"
+          python -m py_compile experiments/resnet18-artistic-signal-v1/analyze.py
+
+  analyze:
+    needs: preflight
+    if: needs.preflight.outputs.result_persisted != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install Pillow numpy
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.10.0 torchvision==0.25.0
+      - name: Download immutable reviewer artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p inputs
+          download () {
+            exp="$1"; id="$2"; expected="$3"
+            mkdir -p "raw-$exp" "inputs/$exp"
+            curl --retry 3 --retry-all-errors -fsSL \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$id/zip" \
+              -o "/tmp/review-$exp.zip"
+            unzip -q "/tmp/review-$exp.zip" -d "raw-$exp"
+            find "raw-$exp" -type f -name 'R*.png' -exec cp {} "inputs/$exp/" \;
+            test "$(find "inputs/$exp" -maxdepth 1 -type f -name 'R*.png' | wc -l)" -eq "$expected"
+          }
+          download 104 9756540975 12
+          download 107 9759391278 12
+          download 112 9766571236 12
+          download 114 9772194591 12
+          download 79 9719175928 20
+      - name: Run frozen ResNet-18 retrospective once
+        run: |
+          python experiments/resnet18-artistic-signal-v1/analyze.py \
+            --repo-root . \
+            --root104 inputs/104 \
+            --root107 inputs/107 \
+            --root112 inputs/112 \
+            --root114 inputs/114 \
+            --root79 inputs/79 \
+            --output result.json \
+            | tee summary.json
+      - name: Validate result rectangle
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('result.json'))
+          assert x['decision'] in {'RESNET18_ARTISTIC_SIGNAL_PROMISING','RESNET18_ARTISTIC_SIGNAL_NOT_PROMISING'}
+          assert x['population'] == {'modelBlocks':48,'modelDecisive':44,'modelEquivalent':4,'externalNeutralBlocks':20}
+          assert x['representation']['weightEnum'] == 'ResNet18_Weights.IMAGENET1K_V1'
+          assert x['representation']['weightUrl'] == 'https://download.pytorch.org/models/resnet18-f37072fd.pth'
+          assert len(x['representation']['checkpointSha256']) == 64
+          assert len(x['folds']) == 4
+          assert x['pooledDecisive']['count'] == 44
+          assert len(x['externalNeutral79']['predictions']) == 20
+          assert all(len(v) == n for v,n in [(x['sourceImageSha256']['104'],12),(x['sourceImageSha256']['107'],12),(x['sourceImageSha256']['112'],12),(x['sourceImageSha256']['114'],12),(x['sourceImageSha256']['79'],20)])
+          print('validated decision:', x['decision'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: resnet18-artistic-signal-result
+          path: |
+            result.json
+            summary.json
+          if-no-files-found: error
