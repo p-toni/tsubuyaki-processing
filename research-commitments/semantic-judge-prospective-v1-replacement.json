@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "experiment": "semantic-judge-prospective-v1-replacement",
+  "model": "GPT-5.6 Sol",
+  "predictionFileSha256": "745154276e44c621e52421e73141992731d963a6869b10d8f5137142d8e6561d",
+  "predictionGitBlobSha": "c5d838df235f24796700a79e33fcf15ed21c1bc9",
+  "predictionCustody": "unreferenced Git blob; do not fetch before all 24 human ratings are fixed",
+  "reviewArtifactId": 9819976860,
+  "reviewArtifactDigest": "sha256:7860355a6e2b1d81d6b81e895a7fd804db4ec5cd57588fbfe3eae8f566024ac2",
+  "identityKeyArtifactId": 9819977422,
+  "identityKeyArtifactDigest": "sha256:dacc7ee864635b1a1863ec2df22be82c25c077eebffff4122eb7a281d24c486e",
+  "generationHead": "50366ad66f369149ee6030cec0b4eba16eb66ba7",
+  "identityKeyOpenedBeforeCommitment": false,
+  "predictionBlobReopenedBeforeCommitment": false,
+  "humanRatingsCollectedBeforeCommitment": false,
+  "boundary": "prediction blob and identity key remain unopened until all 24 human ratings are fixed"
+}
