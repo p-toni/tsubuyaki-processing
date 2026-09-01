@@ -1,0 +1,129 @@
+{
+  "analyzerGitBlobSha": "2b57c5748c9aed1c522c9b2003623f62406f94cc",
+  "boundary": "retrospective consumed-human-label audit only; positive authorizes fresh prospective scorer test, not production; negative closes exact handcrafted descriptor family without tuning",
+  "decision": "SIMPLE_ARTISTIC_SIGNAL_NOT_PROMISING",
+  "externalNeutral79": {
+    "meanAbsolutePrediction": 1.2924213387887447,
+    "weights": {
+      "bbox_span_mean": 0.11277370083928027,
+      "candidate_dispersion_mean": 0.48700875221826184,
+      "candidate_dispersion_min": 0.005795182555374017,
+      "candidate_dispersion_sd": -0.21932017547163482,
+      "center_offset_mean": 0.3124957859817373,
+      "ink_mean": 0.40817741735504687,
+      "ink_sd": 0.032952388277456925,
+      "temporal_change_mean": -0.425347206457138,
+      "temporal_change_sd": -0.02103175700153335
+    }
+  },
+  "features": [
+    "ink_mean",
+    "ink_sd",
+    "bbox_span_mean",
+    "center_offset_mean",
+    "temporal_change_mean",
+    "temporal_change_sd",
+    "candidate_dispersion_mean",
+    "candidate_dispersion_min",
+    "candidate_dispersion_sd"
+  ],
+  "folds": [
+    {
+      "accuracy": 0.9166666666666666,
+      "decisiveCount": 12,
+      "holdout": "104",
+      "meanSignedMargin": 1.2623358937144658,
+      "weights": {
+        "bbox_span_mean": 0.07035016518996479,
+        "candidate_dispersion_mean": 0.2936597759064,
+        "candidate_dispersion_min": 0.09873674316166033,
+        "candidate_dispersion_sd": -0.40107318187915547,
+        "center_offset_mean": 0.4001621374399565,
+        "ink_mean": 0.46791540312746965,
+        "ink_sd": 0.039375637812837185,
+        "temporal_change_mean": -0.3795498499341217,
+        "temporal_change_sd": 0.02274679316160551
+      }
+    },
+    {
+      "accuracy": 0.75,
+      "decisiveCount": 12,
+      "holdout": "107",
+      "meanSignedMargin": 0.24578545257694998,
+      "weights": {
+        "bbox_span_mean": 0.14549971789353522,
+        "candidate_dispersion_mean": 0.4065182871403212,
+        "candidate_dispersion_min": 0.08863409919146625,
+        "candidate_dispersion_sd": -0.14196480229843766,
+        "center_offset_mean": 0.1328288032935393,
+        "ink_mean": 0.37189571538217725,
+        "ink_sd": 0.0822388328006225,
+        "temporal_change_mean": -0.622514127525024,
+        "temporal_change_sd": -0.20653977779668362
+      }
+    },
+    {
+      "accuracy": 0.5,
+      "decisiveCount": 10,
+      "holdout": "112",
+      "meanSignedMargin": 0.2034430739770654,
+      "weights": {
+        "bbox_span_mean": 0.08754195179873109,
+        "candidate_dispersion_mean": 0.5289566409727398,
+        "candidate_dispersion_min": 0.02480222371568997,
+        "candidate_dispersion_sd": -0.18527237267164187,
+        "center_offset_mean": 0.23346769877427853,
+        "ink_mean": 0.19703644304989343,
+        "ink_sd": -0.036484954429221506,
+        "temporal_change_mean": -0.12434077955727027,
+        "temporal_change_sd": -0.006232510759988443
+      }
+    },
+    {
+      "accuracy": 0.4,
+      "decisiveCount": 10,
+      "holdout": "114",
+      "meanSignedMargin": 0.045532729190708235,
+      "weights": {
+        "bbox_span_mean": 0.05509711951606696,
+        "candidate_dispersion_mean": 0.3778030591165183,
+        "candidate_dispersion_min": 0.19983736798180585,
+        "candidate_dispersion_sd": -0.13453869849208377,
+        "center_offset_mean": 0.4508547498822029,
+        "ink_mean": 0.2742128121003573,
+        "ink_sd": 0.053052991764742666,
+        "temporal_change_mean": -0.35057327591776105,
+        "temporal_change_sd": 0.097227416717954
+      }
+    }
+  ],
+  "gates": {
+    "everyHoldoutAccuracyAtLeastPoint50": false,
+    "everyHoldoutMeanSignedMarginPositive": true,
+    "externalAllEquivalentMeanAbsPredictionAtMostPoint25": false,
+    "invariantsFinite": true,
+    "oneSidedBinomialPAtMostPoint10": true,
+    "pooledAccuracyAbovePoint60": true
+  },
+  "model": "zero-intercept ridge alpha=1.0; train-fold standardization",
+  "pooledDecisive": {
+    "accuracy": 0.6590909090909091,
+    "correct": 29,
+    "count": 44,
+    "oneSidedExactBinomialP": 0.024383382952237298
+  },
+  "population": {
+    "externalNeutralBlocks": 20,
+    "modelBlocks": 48,
+    "modelDecisive": 44,
+    "modelEquivalent": 4
+  },
+  "sourceReviewArtifacts": {
+    "104": {"reviewArtifactId": 9756540975, "sourceResultPath": "research-results/spectral-material-control-portfolio-artistic-v1/results.json"},
+    "107": {"reviewArtifactId": 9759391278, "sourceResultPath": "research-results/delivery-dispersion-artistic-v1/results.json"},
+    "112": {"reviewArtifactId": 9766571236, "sourceResultPath": "research-results/independent-starts-artistic-v1/results.json"},
+    "114": {"reviewArtifactId": 9772194591, "sourceResultPath": "research-results/spectral-preserve-restart-artistic-v1/results.json"},
+    "79": {"reviewArtifactId": 9719175928, "sourceResultPath": "research-results/artistic-repertoire-evaluation-v1/results.json"}
+  },
+  "version": 1
+}
