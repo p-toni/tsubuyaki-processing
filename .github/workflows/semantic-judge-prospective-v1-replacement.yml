@@ -1,0 +1,128 @@
+name: semantic-judge-prospective-v1-replacement
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/semantic-judge-prospective-v1-replacement/**'
+      - '.github/workflows/semantic-judge-prospective-v1-replacement.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PRE_EXPERIMENT_BASE: 7dcf123ca871580b3942618ffa17de82764484ec
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze source, runtime, and fresh namespace
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/semantic-judge-prospective-v1-replacement/README.md)" = "22c0390acb5c66af726c82be613409107bb36b7d"
+          test "$(git hash-object experiments/semantic-judge-prospective-v1-replacement/generate_review.py)" = "3228a261ff18b095ebbd5b87d24c8a95078e7f01"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          if git grep -n '756' "$PRE_EXPERIMENT_BASE" -- . ':!research-results/**'; then
+            echo '756 namespace existed in pre-experiment repository code' >&2
+            exit 1
+          fi
+          if git log "$PRE_EXPERIMENT_BASE" --format='%s %b' | grep -E '(^|[^0-9])756([0-9]{3})?([^0-9]|$)'; then
+            echo '756 namespace existed in pre-experiment commit messages' >&2
+            exit 1
+          fi
+          python -m py_compile experiments/semantic-judge-prospective-v1-replacement/generate_review.py
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded-seed exact smoke
+        run: |
+          python experiments/semantic-judge-prospective-v1-replacement/generate_review.py \
+            --smoke --output-root smoke > smoke-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('smoke-summary.json'))
+          assert x['smoke'] is True
+          assert x['blockCount'] == 3
+          assert x['allBudgetsExact'] is True
+          assert x['allPairsTwoCandidates'] is True
+          assert x['allMinimumValidMet'] is True
+          contract=json.load(open('smoke/review/review-contract.json'))
+          key=json.load(open('smoke/key/key.json'))
+          assert contract['experiment'] == 'semantic-judge-prospective-v1-replacement'
+          assert contract['smoke'] is True and contract['blockCount'] == 3
+          assert key['smoke'] is True and len(key['blocks']) == 3
+          assert sorted(p.name for p in Path('smoke/review').glob('S*.png')) == ['S01.png','S02.png','S03.png']
+          assert Path('smoke/review/contact-sheet.png').is_file()
+          print('excluded smoke passed; identical-display blocks:', x['identicalDisplayBlocks'])
+          PY
+
+  review-package:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen prospective replacement package
+        run: |
+          python experiments/semantic-judge-prospective-v1-replacement/generate_review.py \
+            --output-root package > package-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('package-summary.json'))
+          assert x['smoke'] is False
+          assert x['blockCount'] == 24
+          assert x['allBudgetsExact'] is True
+          assert x['allPairsTwoCandidates'] is True
+          assert x['allMinimumValidMet'] is True
+          contract=json.load(open('package/review/review-contract.json'))
+          key=json.load(open('package/key/key.json'))
+          assert contract['experiment'] == 'semantic-judge-prospective-v1-replacement'
+          assert contract['smoke'] is False and contract['blockCount'] == 24
+          assert contract['pairSampling']['quantiles'] == [0.35,0.75]
+          assert contract['pairSampling']['resampleIdentical'] is False
+          assert len(key['blocks']) == 24
+          assert sorted({b['route'] for b in key['blocks']}) == ['filament','orbit','recurrence']
+          assert sorted({int(b['seed']) for b in key['blocks']}) == [756003,756019,756037,756053,756071,756089,756107,756127]
+          assert all(b['runtime']['total']==20 and b['runtime']['native']==10 and b['runtime']['spectral']==10 for b in key['blocks'])
+          assert sorted(p.name for p in Path('package/review').glob('R*.png')) == [f'R{i:02d}.png' for i in range(1,25)]
+          assert Path('package/review/contact-sheet.png').is_file()
+          print('authoritative replacement package generated; identical-display blocks:', x['identicalDisplayBlocks'])
+          PY
+      - name: Upload reviewer-facing package
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-judge-prospective-v1-replacement-review
+          path: package/review/
+          if-no-files-found: error
+      - name: Upload sealed identity key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-judge-prospective-v1-replacement-key
+          path: package/key/key.json
+          if-no-files-found: error
+      - name: Upload generation summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-judge-prospective-v1-replacement-generation-summary
+          path: package-summary.json
+          if-no-files-found: error
