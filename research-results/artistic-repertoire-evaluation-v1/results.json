@@ -1,0 +1,45 @@
+{
+  "decision": "ARTISTIC_NOT_SUPPORTED",
+  "decodedJudgments": [
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R01","reviewable":true,"route":"filament","score":0,"seed":41011},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R02","reviewable":true,"route":"filament","score":0,"seed":41017},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R03","reviewable":true,"route":"orbit","score":0,"seed":41017},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R04","reviewable":true,"route":"family","score":0,"seed":41017},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R05","reviewable":true,"route":"sheet","score":0,"seed":41017},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R06","reviewable":true,"route":"sheet","score":0,"seed":41011},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R07","reviewable":true,"route":"recurrence","score":0,"seed":41017},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R08","reviewable":true,"route":"sheet","score":0,"seed":41047},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R09","reviewable":true,"route":"recurrence","score":0,"seed":41047},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R10","reviewable":true,"route":"family","score":0,"seed":41047},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R11","reviewable":true,"route":"filament","score":0,"seed":41023},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R12","reviewable":true,"route":"orbit","score":0,"seed":41023},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R13","reviewable":true,"route":"family","score":0,"seed":41023},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R14","reviewable":true,"route":"orbit","score":0,"seed":41047},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R15","reviewable":true,"route":"recurrence","score":0,"seed":41011},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R16","reviewable":true,"route":"orbit","score":0,"seed":41011},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R17","reviewable":true,"route":"family","score":0,"seed":41011},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R18","reviewable":true,"route":"recurrence","score":0,"seed":41023},
+    {"candidateSide":"A","decisive":false,"judgment":"equivalent","label":"R19","reviewable":true,"route":"sheet","score":0,"seed":41023},
+    {"candidateSide":"B","decisive":false,"judgment":"equivalent","label":"R20","reviewable":true,"route":"filament","score":0,"seed":41047}
+  ],
+  "diagnostics": {"note":"sign test and route-specific nets are diagnostics only; they cannot override the frozen artistic-support gate","oneSidedExactSignTestP":1.0},
+  "gates": {"candidateNetPreferencePositive":false,"everyLeaveOneRouteOutNetPositive":false,"minimumReviewable":true},
+  "interpretationBoundary": "single independent human reviewer; supports or fails artistic utility of the frozen confirmed allocator for the current repertoire, not universal aesthetic quality or route authority",
+  "population": {"decisive":0,"equivalent":20,"reviewBlocks":20,"reviewable":20,"unreviewable":0},
+  "preference": {
+    "baselineWins":0,
+    "candidateWins":0,
+    "leaveOneRouteOut":[
+      {"netPreference":0,"omittedRoute":"recurrence"},
+      {"netPreference":0,"omittedRoute":"orbit"},
+      {"netPreference":0,"omittedRoute":"family"},
+      {"netPreference":0,"omittedRoute":"sheet"},
+      {"netPreference":0,"omittedRoute":"filament"}
+    ],
+    "leaveOneRouteOutRange":[0,0],
+    "net":0,
+    "routeNets":{"family":0,"filament":0,"orbit":0,"recurrence":0,"sheet":0}
+  },
+  "reviewerCount":1,
+  "version":1
+}
