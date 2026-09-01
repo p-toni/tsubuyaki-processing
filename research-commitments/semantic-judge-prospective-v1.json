@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "experiment": "semantic-judge-prospective-v1",
+  "model": "GPT-5.6 Sol",
+  "predictionFileSha256": "3255d18f7f2827427a0647b1f7162d5e8d84c0a362fe17d25d7f004721ba54e0",
+  "reviewArtifactId": 9812890804,
+  "reviewArtifactDigest": "sha256:322e0d41969ea5bde6867eccfaaa6bb60a080d767f2398467e377540f9ef3ffe",
+  "generationHead": "ef82e66eb602baedd7a58dd4048343ca4e0a24e1",
+  "identityKeyOpenedBeforeCommitment": false,
+  "humanRatingsCollectedBeforeCommitment": false,
+  "boundary": "prediction contents remain sealed until all 24 human ratings are fixed"
+}
