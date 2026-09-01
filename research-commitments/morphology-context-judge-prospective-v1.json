@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "experiment": "morphology-context-judge-prospective-v1",
+  "model": "GPT-5.6 Sol",
+  "predictionFileSha256": "13a137bce8682ba22e65341ad6e76baf2c2d0174c44bb067fa41b59f2f3f4b19",
+  "predictionGitBlobSha": "0ba7143cdb72b4a39b159f81e3b80b70228c32a5",
+  "reviewArtifactId": 9821650866,
+  "reviewArtifactDigest": "sha256:41df97d6466a009b55d1508cfb1107b49dfbf39dabe827555f444581946eb032",
+  "modelContextArtifactId": 9821651224,
+  "modelContextArtifactDigest": "sha256:9f0fbd6f3768e500cae58fbd383aa0f3a6d15644667624f66c7b025dff023af3",
+  "identityKeyArtifactId": 9821651631,
+  "identityKeyArtifactDigest": "sha256:3351d10048ac1ece38f1c2e38ae0e7f913726cc88cbee4f05eb29bc5cb56b28e",
+  "generationHead": "1faaf79734ae6688ae3ee8b6edfeb42fac53a56b",
+  "identityKeyOpenedBeforeCommitment": false,
+  "humanRatingsCollectedBeforeCommitment": false,
+  "boundary": "exact prediction blob and identity key remain sealed until all 24 human ratings are fixed"
+}
