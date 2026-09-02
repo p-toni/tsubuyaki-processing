@@ -6,34 +6,43 @@ from typing import Dict, Iterable, Iterator, List
 import core
 import representations
 
-# This is an evidence-authority boundary, not a generic inference from the
-# representation registry. The spectral/restart line was confirmed only on
-# recurrence, orbit, and filament. Keep this list explicit until new evidence
-# authorizes another route class.
-EVIDENCE_AUTHORIZED_RESTART_ROUTES = ("recurrence", "orbit", "filament")
+# Scientific authority is explicit rather than inferred from the mutable route
+# registry. #128 mechanically authorized family/sheet for exploratory sidecar
+# generation only; it did not grant artistic reviewed-lineage authority.
+REVIEWED_START_EVIDENCE_AUTHORIZED_ROUTES = ("recurrence", "orbit", "filament")
+SIDECAR_EVIDENCE_AUTHORIZED_ROUTES = (
+    "recurrence",
+    "orbit",
+    "filament",
+    "family",
+    "sheet",
+)
+
+# Backward-compatible name for callers that mean restart-sidecar generation.
+EVIDENCE_AUTHORIZED_RESTART_ROUTES = SIDECAR_EVIDENCE_AUTHORIZED_ROUTES
 
 
 def eligible_restart_routes(brief: Dict[str, object]) -> List[str]:
     active = list(brief.get("routes") or [])
-    return [r for r in active if r in EVIDENCE_AUTHORIZED_RESTART_ROUTES]
+    return [r for r in active if r in SIDECAR_EVIDENCE_AUTHORIZED_ROUTES]
 
 
 @contextmanager
 def restart_route_registry(routes: Iterable[str]) -> Iterator[None]:
-    """Temporarily expose evidence-authorized experimental route adapters.
+    """Temporarily expose evidence-authorized restart route adapters.
 
     `orbit` intentionally remains outside the baseline representation registry.
-    Sidecar generation and reviewed-lineage execution may opt into it, but the
-    process-global baseline registry is restored exactly on exit.
+    This registry helper covers exploratory sidecar generation; callers with a
+    narrower authority surface (for example reviewed-start handoff) must enforce
+    that boundary before entering it. Process-global baseline state is restored
+    exactly on exit.
     """
     requested = set(routes)
-    unsupported = sorted(requested - set(EVIDENCE_AUTHORIZED_RESTART_ROUTES))
+    unsupported = sorted(requested - set(SIDECAR_EVIDENCE_AUTHORIZED_ROUTES))
     if unsupported:
-        raise ValueError(f"route(s) lack restart evidence authority: {unsupported}")
+        raise ValueError(f"route(s) lack restart sidecar evidence authority: {unsupported}")
 
     if "orbit" not in requested:
-        # recurrence and filament are baseline registry members. Still fail
-        # closed if that assumption drifts.
         missing = sorted(r for r in requested if r not in core.ROUTES)
         if missing:
             raise ValueError(f"authorized restart route(s) missing from runtime registry: {missing}")
