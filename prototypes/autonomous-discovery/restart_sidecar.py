@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw
 
 from core import Candidate, ROUTES, TIMES, evaluate_candidate, render_candidate_frame
 from restart_route_authority import (
-    EVIDENCE_AUTHORIZED_RESTART_ROUTES,
+    SIDECAR_EVIDENCE_AUTHORIZED_ROUTES,
     eligible_restart_routes,
     restart_route_registry,
 )
@@ -25,8 +25,8 @@ DEFAULT_ATTEMPTS_PER_ROUTE = 8
 
 def _eligible_routes(brief: Dict[str, object]) -> List[str]:
     # Do not infer scientific authority from whichever representations happen to
-    # be registered in the current process. The restart line was confirmed on a
-    # frozen route class and must expand only through new evidence.
+    # be registered in the current process. The restart line expands only through
+    # explicit evidence-authority changes.
     return eligible_restart_routes(brief)
 
 
@@ -154,7 +154,7 @@ def generate_restart_sidecar(
         "mode": SIDECAR_NAMESPACE,
         "masterSeed": int(master_seed),
         "attemptsPerEligibleRoute": attempts_per_route,
-        "evidenceAuthorizedRoutes": list(EVIDENCE_AUTHORIZED_RESTART_ROUTES),
+        "evidenceAuthorizedRoutes": list(SIDECAR_EVIDENCE_AUTHORIZED_ROUTES),
         "eligibleRoutes": eligible,
         "attemptedCandidates": len(candidates),
         "validCandidates": len(valid),
