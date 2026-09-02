@@ -20,7 +20,7 @@ from rng_streams import derived_seed
 
 SIDECAR_VERSION = 1
 SIDECAR_NAMESPACE = "restart-sidecar-v1"
-DEFAULT_ATTEMPTS_PER_ROUTE = 4
+DEFAULT_ATTEMPTS_PER_ROUTE = 8
 
 
 def _eligible_routes(brief: Dict[str, object]) -> List[str]:
