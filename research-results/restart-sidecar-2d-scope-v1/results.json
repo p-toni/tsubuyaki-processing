@@ -1,0 +1,48 @@
+{
+  "archiveDeltaMean": 0.04534157801619837,
+  "archiveDeltaOneSided95BootstrapLower": 0.03834106332806734,
+  "artisticEvidence": false,
+  "authority": "mechanical-route-scope-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 760555001,
+    "unit": "master-seed equal-route mean"
+  },
+  "decision": "SIDECAR_2D_SCOPE_MECHANICALLY_SUPPORTED",
+  "deliveryDeltaMean": 0.023866248119866006,
+  "deliveryDeltaOneSided95BootstrapLower": 0.015219428023330733,
+  "distinctValidPhenotypesAddedMeanPerRouteSeed": 8.0,
+  "experiment": "restart-sidecar-2d-scope-v1",
+  "gates": {
+    "archiveMeanAboveHistoricalMeaningfulEffectBar": true,
+    "archiveOneSided95BootstrapLowerPositive": true,
+    "deliveryMeanAboveHistoricalMeaningfulEffectBar": true,
+    "deliveryOneSided95BootstrapLowerPositive": true,
+    "everyRouteArchiveMeanPositive": true,
+    "everyRouteDeliveryMeanPositive": true,
+    "minimumPairwiseDispersionMeanPositive": true,
+    "sidecarValidityAtLeast95Pct": true
+  },
+  "historicalMeaningfulEffectBar": 0.003255297955511336,
+  "interpretation": "A positive decision supports expanding only the opt-in exploratory restart-sidecar route authority to family and sheet. It does not provide artistic authority, enable the sidecar by default, permit baseline parenting, or permit automatic delivery replacement. A negative decision leaves the existing route authority unchanged and stops this exact scope hypothesis.",
+  "minimumPairwiseDispersionDeltaMean": 0.003650732026143791,
+  "routeArchiveDeltaMeans": {
+    "family": 0.03697222362383814,
+    "sheet": 0.0537109324085586
+  },
+  "routeDeliveryDeltaMeans": {
+    "family": 0.0049049625732608,
+    "sheet": 0.04282753366647121
+  },
+  "routeMinimumPairwiseDispersionDeltaMeans": {
+    "family": 0.005331522875816994,
+    "sheet": 0.001969941176470588
+  },
+  "routeSeedCount": 40,
+  "seedCount": 20,
+  "sidecarAttemptCount": 320,
+  "sidecarAttemptsPerRoute": 8,
+  "sidecarValidCount": 320,
+  "sidecarValidRate": 1.0,
+  "version": 1
+}
