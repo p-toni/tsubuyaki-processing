@@ -1,0 +1,118 @@
+name: late-refinement-artistic-prospective-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/late-refinement-artistic-prospective-v1/**'
+      - '.github/workflows/late-refinement-artistic-prospective-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PRE_EXPERIMENT_BASE: 283e8c9a84a328b76dd9da8526e9c7cf2dea80f2
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Freeze source, runtime, and fresh namespace
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/late-refinement-artistic-prospective-v1/README.md)" = "b2a472d80b31dc2b1d69f6fabf7816b2abe4ef7e"
+          test "$(git hash-object experiments/late-refinement-artistic-prospective-v1/generate_review.py)" = "b22f72e7cdb77093c575797fb9bbbd7db0c7f855"
+          test "$(git hash-object experiments/semantic-judge-prospective-v1-replacement/generate_review.py)" = "3228a261ff18b095ebbd5b87d24c8a95078e7f01"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          if git grep -n '758' "$PRE_EXPERIMENT_BASE" -- . ':!research-results/**'; then
+            echo '758 namespace existed in pre-experiment repository code' >&2
+            exit 1
+          fi
+          if git log "$PRE_EXPERIMENT_BASE" --format='%s %b' | grep -E '(^|[^0-9])758([0-9]{3})?([^0-9]|$)'; then
+            echo '758 namespace existed in pre-experiment commit messages' >&2
+            exit 1
+          fi
+          python -m py_compile experiments/late-refinement-artistic-prospective-v1/generate_review.py
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded-seed exact smoke
+        run: |
+          python experiments/late-refinement-artistic-prospective-v1/generate_review.py --smoke --output-root smoke > smoke-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('smoke-summary.json'))
+          assert x['experiment']=='late-refinement-artistic-prospective-v1'
+          assert x['smoke'] is True and x['blockCount']==3
+          assert x['allBudgetsExact'] and x['allPairsTwoCandidates'] and x['allMinimumValidMet']
+          contract=json.load(open('smoke/review/review-contract.json'))
+          key=json.load(open('smoke/key/key.json'))
+          assert contract['experiment']=='late-refinement-artistic-prospective-v1'
+          assert key['experiment']=='late-refinement-artistic-prospective-v1'
+          assert sorted(p.name for p in Path('smoke/review').glob('S*.png')) == ['S01.png','S02.png','S03.png']
+          PY
+
+  review-package:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen late-refinement package
+        run: |
+          python experiments/late-refinement-artistic-prospective-v1/generate_review.py --output-root package > package-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('package-summary.json'))
+          assert x['experiment']=='late-refinement-artistic-prospective-v1'
+          assert x['smoke'] is False and x['blockCount']==24
+          assert x['allBudgetsExact'] and x['allPairsTwoCandidates'] and x['allMinimumValidMet']
+          contract=json.load(open('package/review/review-contract.json'))
+          key=json.load(open('package/key/key.json'))
+          assert contract['experiment']=='late-refinement-artistic-prospective-v1'
+          assert contract['pairSampling']['quantiles']==[0.35,0.75]
+          assert contract['pairSampling']['resampleIdentical'] is False
+          assert len(key['blocks'])==24
+          assert sorted({b['route'] for b in key['blocks']})==['filament','orbit','recurrence']
+          assert sorted({int(b['seed']) for b in key['blocks']})==[758003,758019,758037,758053,758071,758089,758107,758127]
+          assert all(b['runtime']['total']==20 and b['runtime']['native']==10 and b['runtime']['spectral']==10 for b in key['blocks'])
+          assert sorted(p.name for p in Path('package/review').glob('R*.png')) == [f'R{i:02d}.png' for i in range(1,25)]
+          assert Path('package/review/contact-sheet.png').is_file()
+          PY
+      - name: Upload reviewer-facing package
+        uses: actions/upload-artifact@v4
+        with:
+          name: late-refinement-artistic-prospective-v1-review
+          path: package/review/
+          if-no-files-found: error
+      - name: Upload sealed identity key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: late-refinement-artistic-prospective-v1-key
+          path: package/key/key.json
+          if-no-files-found: error
+      - name: Upload generation summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: late-refinement-artistic-prospective-v1-generation-summary
+          path: package-summary.json
+          if-no-files-found: error
