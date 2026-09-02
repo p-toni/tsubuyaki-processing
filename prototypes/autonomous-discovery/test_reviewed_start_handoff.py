@@ -37,7 +37,7 @@ def _make_sidecar(tmp_path: Path, routes=("recurrence",), seed=881039, attempts=
         brief, seed, root, attempts_per_route=attempts
     )
     for route in routes:
-        if route in {"recurrence", "orbit", "filament"}:
+        if route in {"recurrence", "orbit", "filament", "family", "sheet"}:
             assert route in report["byRoute"], (route, report)
     return brief, root, report
 
@@ -72,6 +72,8 @@ def test_reviewed_sidecar_start_creates_new_lineage_with_persistent_provenance(t
     assert receipt["newIsolatedLineage"] is True
     assert receipt["routeExposurePreserved"] is True
     assert receipt["sourceCandidatesSha256"] == report["candidatesSha256"]
+    assert receipt["sourceSidecarEvidenceAuthorizedRoutes"] == report["evidenceAuthorizedRoutes"]
+    assert receipt["evidenceAuthorizedRoutes"] == ["recurrence", "orbit", "filament"]
 
     persisted = json.loads((out / "search_state.json").read_text())
     source = persisted["candidates"][cid]
@@ -178,6 +180,19 @@ def test_handoff_rejects_active_route_outside_frozen_restart_authority(tmp_path)
     bad_brief["routes"] = ["recurrence", "family"]
     with pytest.raises(ValueError, match="unauthorized active route"):
         load_reviewed_starts(manifest, bad_brief)
+
+
+def test_family_sidecar_cannot_enter_reviewed_lineage_without_artistic_scope_evidence(tmp_path):
+    brief, root, report = _make_sidecar(
+        tmp_path, routes=("family",), seed=881071, attempts=8
+    )
+    valid = report["byRoute"]["family"]["validCandidateIds"]
+    assert valid, report
+    manifest = _manifest(tmp_path, root, [valid[0]])
+    with pytest.raises(ValueError, match="unauthorized active route"):
+        load_reviewed_starts(manifest, brief)
+    with pytest.raises(ValueError, match="unauthorized active route"):
+        run_reviewed_start_lineage(manifest, brief, 991031, tmp_path / "family-lineage")
 
 
 def test_handoff_rejects_source_candidate_not_marked_valid(tmp_path):

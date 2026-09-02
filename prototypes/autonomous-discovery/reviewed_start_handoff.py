@@ -7,7 +7,8 @@ from typing import Dict, List, Tuple
 
 from core import Candidate, TIMES, evaluate_candidate, render_candidate_frame
 from restart_route_authority import (
-    EVIDENCE_AUTHORIZED_RESTART_ROUTES,
+    REVIEWED_START_EVIDENCE_AUTHORIZED_ROUTES,
+    SIDECAR_EVIDENCE_AUTHORIZED_ROUTES,
     restart_route_registry,
 )
 
@@ -27,6 +28,32 @@ def phenotype_hash(cand: Candidate) -> str:
 def _resolved(manifest_path: Path, value: str) -> Path:
     p = Path(value)
     return p if p.is_absolute() else manifest_path.parent / p
+
+
+def _require_reviewed_route_authority(routes) -> None:
+    unauthorized = [
+        r for r in routes if r not in REVIEWED_START_EVIDENCE_AUTHORIZED_ROUTES
+    ]
+    if unauthorized:
+        raise ValueError(
+            "reviewed restart lineage is limited to the frozen reviewed-start "
+            "evidence-authorized route class; "
+            f"unauthorized active route(s): {unauthorized}"
+        )
+
+
+def _known_sidecar_authority_snapshot(value) -> bool:
+    """Accept exact historical or current sidecar authority snapshots.
+
+    Sidecar artifacts produced before #128 recorded the original intrinsic-1D
+    route set. Current sidecars record the expanded exploratory generation set.
+    Neither snapshot broadens reviewed-lineage authority.
+    """
+    snapshot = tuple(value or ())
+    return snapshot in {
+        tuple(REVIEWED_START_EVIDENCE_AUTHORIZED_ROUTES),
+        tuple(SIDECAR_EVIDENCE_AUTHORIZED_ROUTES),
+    }
 
 
 def load_reviewed_starts(
@@ -60,7 +87,7 @@ def load_reviewed_starts(
         raise ValueError("reviewed starts must originate from restart-sidecar-v1")
     if source_report.get("authority") != "exploratory-sidecar-only; no automatic artistic promotion":
         raise ValueError("source sidecar authority contract drift")
-    if source_report.get("evidenceAuthorizedRoutes") != list(EVIDENCE_AUTHORIZED_RESTART_ROUTES):
+    if not _known_sidecar_authority_snapshot(source_report.get("evidenceAuthorizedRoutes")):
         raise ValueError("source sidecar evidence-authority route contract drift")
     expected_contract = {
         "searchStateMutationAllowed": False,
@@ -93,12 +120,7 @@ def load_reviewed_starts(
     active_routes = tuple(brief.get("routes") or ())
     if not active_routes:
         raise ValueError("brief must define active routes")
-    unauthorized = [r for r in active_routes if r not in EVIDENCE_AUTHORIZED_RESTART_ROUTES]
-    if unauthorized:
-        raise ValueError(
-            "reviewed restart lineage is limited to the frozen evidence-authorized route class; "
-            f"unauthorized active route(s): {unauthorized}"
-        )
+    _require_reviewed_route_authority(active_routes)
 
     starts: List[Candidate] = []
     provenance = []
@@ -160,7 +182,8 @@ def load_reviewed_starts(
         "sourceMode": SIDECAR_MODE,
         "sourceSidecarMasterSeed": source_report.get("masterSeed"),
         "sourceCandidatesSha256": observed_candidate_digest,
-        "evidenceAuthorizedRoutes": list(EVIDENCE_AUTHORIZED_RESTART_ROUTES),
+        "sourceSidecarEvidenceAuthorizedRoutes": source_report.get("evidenceAuthorizedRoutes"),
+        "evidenceAuthorizedRoutes": list(REVIEWED_START_EVIDENCE_AUTHORIZED_ROUTES),
         "selectedCandidateIds": selected_ids,
         "selected": provenance,
         "activeRoutes": list(active_routes),
@@ -190,6 +213,7 @@ def run_reviewed_start_lineage(
     active_routes = tuple(brief.get("routes") or ())
     if not active_routes:
         raise ValueError("brief must define active routes")
+    _require_reviewed_route_authority(active_routes)
 
     from search_engine import run_search_from_starts
 

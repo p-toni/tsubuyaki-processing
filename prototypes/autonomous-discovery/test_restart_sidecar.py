@@ -6,7 +6,7 @@ from pathlib import Path
 import core
 import representations
 import restart_sidecar as sidecar
-from restart_route_authority import EVIDENCE_AUTHORIZED_RESTART_ROUTES
+from restart_route_authority import SIDECAR_EVIDENCE_AUTHORIZED_ROUTES
 from search_engine import run_search
 
 
@@ -62,7 +62,7 @@ def test_sidecar_is_post_search_and_baseline_artifacts_are_byte_identical(tmp_pa
         "baselineDeliveryReplacementAllowed": False,
         "defaultEnabled": False,
     }
-    assert report["evidenceAuthorizedRoutes"] == list(EVIDENCE_AUTHORIZED_RESTART_ROUTES)
+    assert report["evidenceAuthorizedRoutes"] == list(SIDECAR_EVIDENCE_AUTHORIZED_ROUTES)
     assert report["attemptedCandidates"] == 4
     assert report["eligibleRoutes"] == ["recurrence"]
 
@@ -92,10 +92,29 @@ def test_sidecar_generation_is_deterministic_and_candidates_never_parent(tmp_pat
         assert cand["checks"]["mayReplaceBaselineDelivery"] is False
 
 
+def test_family_and_sheet_sidecars_are_exploratory_authorized(tmp_path):
+    for i, route in enumerate(("family", "sheet")):
+        root = tmp_path / route
+        report = sidecar.generate_restart_sidecar(
+            _brief(route),
+            880057 + i,
+            root,
+            attempts_per_route=2,
+        )
+        assert report["eligibleRoutes"] == [route]
+        assert report["attemptedCandidates"] == 2
+        records = json.loads((root / "candidates.json").read_text())
+        assert len(records) == 2
+        assert {r["route"] for r in records} == {route}
+        assert all(r["checks"]["mayEnterBaselineSearch"] is False for r in records)
+        assert all(r["checks"]["mayParentBaselineSearch"] is False for r in records)
+        assert all(r["checks"]["mayReplaceBaselineDelivery"] is False for r in records)
+
+
 def test_sidecar_excludes_routes_without_restart_evidence_authority(tmp_path):
     report = sidecar.generate_restart_sidecar(
-        _brief("family"),
-        880057,
+        _brief("not-a-route"),
+        880059,
         tmp_path / "sidecar",
         attempts_per_route=4,
     )
