@@ -1,0 +1,160 @@
+name: morphology-context-judge-prospective-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/morphology-context-judge-prospective-v1/**'
+      - '.github/workflows/morphology-context-judge-prospective-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze source, runtime, and fresh namespace
+        run: |
+          set -euo pipefail
+          BASE=d4f5fc9b2f2de3635c81580f8387142b1ec65a91
+          test "$(git hash-object experiments/morphology-context-judge-prospective-v1/README.md)" = "e36cef03206b95c16cc8aadcc295b1464be0256e"
+          test "$(git hash-object experiments/morphology-context-judge-prospective-v1/generate_review.py)" = "6f4935fe6ecb97cb382db75a069294e6859c566f"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "33e0462ad27f841a4369da306ecb64a15d2e0c13"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          if git grep -nE '757003|757019|757037|757053|757071|757089|757107|757127|757999' "$BASE" -- .; then
+            echo '757xxx namespace was already present at frozen pre-experiment base' >&2
+            exit 1
+          fi
+          python -m py_compile experiments/morphology-context-judge-prospective-v1/generate_review.py
+
+  smoke:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded-seed exact smoke
+        run: |
+          python experiments/morphology-context-judge-prospective-v1/generate_review.py \
+            --smoke --output-root smoke > smoke-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('smoke-summary.json'))
+          assert x['smoke'] is True
+          assert x['blockCount'] == 3
+          assert x['contextBlockCount'] == 3
+          assert x['allBudgetsExact'] is True
+          assert x['allPairsTwoCandidates'] is True
+          assert x['allMinimumValidMet'] is True
+          contract=json.load(open('smoke/review/review-contract.json'))
+          context=json.load(open('smoke/model-context/model-context.json'))
+          key=json.load(open('smoke/key/key.json'))
+          assert contract['experiment'] == 'morphology-context-judge-prospective-v1'
+          assert contract['smoke'] is True and contract['blockCount'] == 3
+          assert contract['humanSeesMorphologyContext'] is False
+          assert context['smoke'] is True and len(context['blocks']) == 3
+          assert context['descriptorContract']['resolution'] == [100,100]
+          assert context['descriptorContract']['threshold'] == 20
+          assert context['descriptorContract']['grid'] == [4,4]
+          assert context['descriptorContract']['descriptorsAreScores'] is False
+          for b in context['blocks']:
+            assert set(b) == {'blockId','A','B'}
+            for side in ('A','B'):
+              assert len(b[side]['frames']) == 3
+              assert set(b[side]['temporal']) == {'mask_iou_mean','occupancy_change_mean','centroid_drift_mean','bbox_area_change_mean','component_change_mean'}
+          assert key['smoke'] is True and len(key['blocks']) == 3
+          assert sorted(p.name for p in Path('smoke/review').glob('S*.png')) == ['S01.png','S02.png','S03.png']
+          assert Path('smoke/review/contact-sheet.png').is_file()
+          print('excluded smoke passed; identical-display blocks:', x['identicalDisplayBlocks'])
+          PY
+
+  review-package:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen morphology-context prospective package
+        run: |
+          python experiments/morphology-context-judge-prospective-v1/generate_review.py \
+            --output-root package > package-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('package-summary.json'))
+          assert x['smoke'] is False
+          assert x['blockCount'] == 24
+          assert x['contextBlockCount'] == 24
+          assert x['allBudgetsExact'] is True
+          assert x['allPairsTwoCandidates'] is True
+          assert x['allMinimumValidMet'] is True
+          contract=json.load(open('package/review/review-contract.json'))
+          context=json.load(open('package/model-context/model-context.json'))
+          key=json.load(open('package/key/key.json'))
+          assert contract['experiment'] == 'morphology-context-judge-prospective-v1'
+          assert contract['smoke'] is False and contract['blockCount'] == 24
+          assert contract['pairSampling']['quantiles'] == [0.35,0.75]
+          assert contract['pairSampling']['resampleIdentical'] is False
+          assert contract['humanSeesMorphologyContext'] is False
+          assert context['experiment'] == 'morphology-context-judge-prospective-v1'
+          assert context['smoke'] is False and len(context['blocks']) == 24
+          assert context['descriptorContract']['resolution'] == [100,100]
+          assert context['descriptorContract']['threshold'] == 20
+          assert context['descriptorContract']['grid'] == [4,4]
+          assert context['descriptorContract']['descriptorsAreScores'] is False
+          expected_frame={'t','occupancy','bbox_w','bbox_h','bbox_fill','components','largest_component_share','grid_entropy','anisotropy','edge_fraction','mirror_x_iou','mirror_y_iou','centroid_x','centroid_y'}
+          expected_temporal={'mask_iou_mean','occupancy_change_mean','centroid_drift_mean','bbox_area_change_mean','component_change_mean'}
+          for b in context['blocks']:
+            assert set(b) == {'blockId','A','B'}
+            for side in ('A','B'):
+              assert len(b[side]['frames']) == 3
+              assert all(set(f) == expected_frame for f in b[side]['frames'])
+              assert set(b[side]['temporal']) == expected_temporal
+          assert len(key['blocks']) == 24
+          assert sorted({b['route'] for b in key['blocks']}) == ['filament','orbit','recurrence']
+          assert sorted({int(b['seed']) for b in key['blocks']}) == [757003,757019,757037,757053,757071,757089,757107,757127]
+          assert all(b['runtime']['total']==20 and b['runtime']['native']==10 and b['runtime']['spectral']==10 for b in key['blocks'])
+          assert sorted(p.name for p in Path('package/review').glob('R*.png')) == [f'R{i:02d}.png' for i in range(1,25)]
+          assert Path('package/review/contact-sheet.png').is_file()
+          print('authoritative package generated; identical-display blocks:', x['identicalDisplayBlocks'])
+          PY
+      - name: Upload reviewer-facing package
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphology-context-judge-prospective-review
+          path: package/review/
+          if-no-files-found: error
+      - name: Upload model morphology context separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphology-context-judge-prospective-model-context
+          path: package/model-context/model-context.json
+          if-no-files-found: error
+      - name: Upload sealed identity key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphology-context-judge-prospective-key
+          path: package/key/key.json
+          if-no-files-found: error
+      - name: Upload generation summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphology-context-judge-prospective-generation-summary
+          path: package-summary.json
+          if-no-files-found: error
