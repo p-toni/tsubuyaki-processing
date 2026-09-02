@@ -1,0 +1,121 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-compute-coverage-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 759555001,
+    "unit": "master-seed mean across 45 route-target cells; dispersion mean across three routes"
+  },
+  "budgets": {
+    "1": {
+      "archiveDeltaMean": 0.013270488996950592,
+      "archiveDeltaOneSided95BootstrapLower": 0.007837951222558986,
+      "deliveryDeltaMean": 0.012393628302398714,
+      "deliveryDeltaOneSided95BootstrapLower": 0.0060289717677553785,
+      "distinctPhenotypesAddedMeanPerRoute": 1.0,
+      "minimumDispersionDeltaMean": 0.00011801307189542484,
+      "routeArchiveDeltaMeans": {
+        "filament": 0.019152466810340642,
+        "orbit": 0.01409191679473514,
+        "recurrence": 0.006567083385775991
+      },
+      "routeDeliveryDeltaMeans": {
+        "filament": 0.02004071799882093,
+        "orbit": 0.013521456000315008,
+        "recurrence": 0.003618710908060209
+      },
+      "sidecarValidRateMeanAcrossRouteSeeds": 1.0
+    },
+    "2": {
+      "archiveDeltaMean": 0.016426565538004295,
+      "archiveDeltaOneSided95BootstrapLower": 0.011060003101566039,
+      "deliveryDeltaMean": 0.015505718572865881,
+      "deliveryDeltaOneSided95BootstrapLower": 0.009088893686726907,
+      "distinctPhenotypesAddedMeanPerRoute": 2.0,
+      "minimumDispersionDeltaMean": 0.00031101525054466237,
+      "routeArchiveDeltaMeans": {
+        "filament": 0.023163151872801175,
+        "orbit": 0.01739073171847163,
+        "recurrence": 0.00872581302274008
+      },
+      "routeDeliveryDeltaMeans": {
+        "filament": 0.026443931472165543,
+        "orbit": 0.013691895267460475,
+        "recurrence": 0.0063813289789716255
+      },
+      "sidecarValidRateMeanAcrossRouteSeeds": 1.0
+    },
+    "4": {
+      "archiveDeltaMean": 0.02444563483343168,
+      "archiveDeltaOneSided95BootstrapLower": 0.018925397352346947,
+      "deliveryDeltaMean": 0.019822679547882305,
+      "deliveryDeltaOneSided95BootstrapLower": 0.013719951755546186,
+      "distinctPhenotypesAddedMeanPerRoute": 3.9833333333333334,
+      "minimumDispersionDeltaMean": 0.0006108061002178649,
+      "routeArchiveDeltaMeans": {
+        "filament": 0.03476845350331021,
+        "orbit": 0.022883983485136736,
+        "recurrence": 0.015684467511848096
+      },
+      "routeDeliveryDeltaMeans": {
+        "filament": 0.03498197008743593,
+        "orbit": 0.020319925186969706,
+        "recurrence": 0.004166143369241277
+      },
+      "sidecarValidRateMeanAcrossRouteSeeds": 0.9958333333333333
+    },
+    "8": {
+      "archiveDeltaMean": 0.0374654525005547,
+      "archiveDeltaOneSided95BootstrapLower": 0.03194700443860575,
+      "deliveryDeltaMean": 0.03622009088267984,
+      "deliveryDeltaOneSided95BootstrapLower": 0.028951723222875137,
+      "distinctPhenotypesAddedMeanPerRoute": 7.9833333333333325,
+      "minimumDispersionDeltaMean": 0.0009690958605664488,
+      "routeArchiveDeltaMeans": {
+        "filament": 0.04679368986088343,
+        "orbit": 0.03816751324011426,
+        "recurrence": 0.02743515440066639
+      },
+      "routeDeliveryDeltaMeans": {
+        "filament": 0.049429942990909366,
+        "orbit": 0.038799651411834606,
+        "recurrence": 0.020430678245295562
+      },
+      "sidecarValidRateMeanAcrossRouteSeeds": 0.9979166666666666
+    }
+  },
+  "budgetsPerRoute": [1, 2, 4, 8],
+  "coverageSufficiencyRatio": 0.9,
+  "coverageSufficient": {
+    "1": false,
+    "2": false,
+    "4": false,
+    "8": true
+  },
+  "decision": "SIDECAR_EIGHT_REQUIRED_FOR_COVERAGE",
+  "experiment": "restart-sidecar-budget-v1",
+  "gainRatiosVsEight": {
+    "1": {"archive": 0.35420602478387564, "delivery": 0.34217551641553856, "dispersion": 0.1217764688690804},
+    "2": {"archive": 0.43844567305736104, "delivery": 0.4280971746617177, "dispersion": 0.320933421759608},
+    "4": {"archive": 0.6524847079604803, "delivery": 0.5472840919171009, "dispersion": 0.6302845002978766},
+    "8": {"archive": 1.0, "delivery": 1.0, "dispersion": 1.0}
+  },
+  "interpretation": "Select the smallest sidecar budget that captures at least 90% of the k=8 pooled gain on archive structural recovery, max-dispersion delivery recovery, and minimum pairwise dispersion, after the maximum budget first demonstrates a positive valid mechanical coverage effect. This does not confer artistic authority or change baseline search.",
+  "maxBudgetSidecarAttemptCount": 480,
+  "maxBudgetSidecarValidCount": 479,
+  "maxBudgetSidecarValidRate": 0.9979166666666667,
+  "prerequisiteGates": {
+    "maxBudgetArchiveLowerPositive": true,
+    "maxBudgetArchiveMeanPositive": true,
+    "maxBudgetDeliveryLowerPositive": true,
+    "maxBudgetDeliveryMeanPositive": true,
+    "maxBudgetEveryRouteArchiveNonNegative": true,
+    "maxBudgetEveryRouteDeliveryNonNegative": true,
+    "maxBudgetMinimumDispersionMeanPositive": true,
+    "maxBudgetValidityAtLeast95Pct": true
+  },
+  "routeSeedCount": 60,
+  "seedCount": 20,
+  "selectedAttemptsPerRoute": 8,
+  "version": 1
+}

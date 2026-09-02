@@ -1,0 +1,159 @@
+name: restart-sidecar-budget-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/restart-sidecar-budget-v1/**'
+      - '.github/workflows/restart-sidecar-budget-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+  PRE_EXPERIMENT_BASE: 8dda107faa72e126cca7210e4357faa476db1c28
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/restart-sidecar-budget-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; scientific regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze scientific source and fresh namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/restart-sidecar-budget-v1/README.md)" = "d9e458865903e573b6e446b220f14a780c44a205"
+          test "$(git hash-object experiments/restart-sidecar-budget-v1/run_budget.py)" = "3554f5b3d694c1d0e0c39029954f40a316719fb8"
+          test "$(git hash-object experiments/restart-sidecar-budget-v1/entry.py)" = "eb1b0cbe331ec598bf6118a453d748c9d4e22c54"
+          test "$(git hash-object experiments/restart-sidecar-budget-v1/aggregate.py)" = "961c0081e35a84716d5154fc1509d6470b14d8c4"
+          test "$(git hash-object prototypes/autonomous-discovery/restart_sidecar.py)" = "0eb288a75fa1ac95d659b4ef2350d605dd035767"
+          test "$(git hash-object prototypes/autonomous-discovery/restart_route_authority.py)" = "3061739781a83de74031465825bead2c86da7025"
+          test "$(git hash-object experiments/delivery-dispersion-shortlist-v1/run_shortlist.py)" = "b3a6a9ebefb2221944404a63f7fdcfc7a65f51d5"
+          test "$(git hash-object experiments/spectral-material-control-v1/fast_grayscale_metric.py)" = "5acf47a96807a0027cdf4d66e03ce158638d9389"
+          test "$(git hash-object experiments/spectral-material-control-runtime-replay-v1/targets_runtime.py)" = "d70da5ca546d4bbf402b6b2e8b15920d01ba6b47"
+          test "$(git hash-object prototypes/autonomous-discovery/core.py)" = "c06b5c2d6440663becb6761981ab4cc033fe052a"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "24492a967fcccbe01be773bf723dd9df0f501249"
+          test "$(git hash-object prototypes/autonomous-discovery/orbit_representation.py)" = "ec2aea2f0e889cea25e442dae7b5849bf8549cd1"
+          test "$(git hash-object prototypes/autonomous-discovery/rng_streams.py)" = "58b2dcea6dc692c34b2ed176c42ec85af82e30c1"
+          seeds='759999 759003 759019 759037 759053 759071 759089 759107 759127 759149 759167 759181 759199 759223 759239 759257 759277 759293 759311 759331 759349'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" "$PRE_EXPERIMENT_BASE" -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log "$PRE_EXPERIMENT_BASE" --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
+          python -m py_compile experiments/restart-sidecar-budget-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded exact smoke
+        run: |
+          python experiments/restart-sidecar-budget-v1/entry.py \
+            --seed 759999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 759999
+          assert x['settings']['budgetsPerRoute'] == [1,2,4,8]
+          assert x['settings']['sidecarNamespace'] == 'restart-sidecar-v1'
+          assert all(x['hardInvariants'].values())
+          assert x['hardInvariants']['productionApiFirstFourReplayExact']
+          assert len(x['cells']) == 180
+          PY
+
+  seed:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [759003,759019,759037,759053,759071,759089,759107,759127,759149,759167,759181,759199,759223,759239,759257,759277,759293,759311,759331,759349]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        env:
+          SEED: ${{ matrix.seed }}
+        run: |
+          python experiments/restart-sidecar-budget-v1/entry.py \
+            --seed "$SEED" --output "seed-$SEED.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed']==seed and x['smoke'] is False
+          assert all(x['hardInvariants'].values())
+          assert len(x['cells']) == 180
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: restart-sidecar-budget-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: restart-sidecar-budget-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/restart-sidecar-budget-v1/aggregate.py \
+            --input-dir seed-results --output results.json
+          python - <<'PY'
+          import json
+          x=json.load(open('results.json'))
+          assert x['seedCount']==20
+          assert x['routeSeedCount']==60
+          assert x['budgetsPerRoute']==[1,2,4,8]
+          assert x['selectedAttemptsPerRoute'] in [1,2,4,8]
+          assert x['decision'] in {
+            'SIDECAR_BUDGET_EFFECT_NOT_DEMONSTRATED',
+            'SIDECAR_DEFAULT_FOUR_MECHANICALLY_EFFICIENT',
+            'SIDECAR_SMALLER_BUDGET_SUFFICIENT',
+            'SIDECAR_EIGHT_REQUIRED_FOR_COVERAGE',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: restart-sidecar-budget-v1-summary
+          path: results.json
