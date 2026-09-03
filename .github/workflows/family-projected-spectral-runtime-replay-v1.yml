@@ -1,0 +1,218 @@
+name: family-projected-spectral-runtime-replay-v1
+
+on:
+  pull_request:
+    paths:
+      - 'prototypes/autonomous-discovery/material_control.py'
+      - 'prototypes/autonomous-discovery/search_engine.py'
+      - 'prototypes/autonomous-discovery/test_material_control_runtime.py'
+      - 'experiments/family-projected-spectral-runtime-replay-v1/**'
+      - '.github/workflows/family-projected-spectral-runtime-replay-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+  PRE_EXPERIMENT_BASE: 7498791e31be3b6bfc16e772f7a64220ce35d46b
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/family-projected-spectral-runtime-replay-v1/results.json; then
+            python - <<'PY'
+          import json
+          d=json.load(open('research-results/family-projected-spectral-runtime-replay-v1/results.json'))
+          assert d['decision'] in {
+              'FAMILY_PROJECTED_SPECTRAL_RUNTIME_PROMISING',
+              'FAMILY_PROJECTED_SPECTRAL_RUNTIME_NOT_PROMISING',
+          }
+          PY
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze implementation, protocol, dependency, and namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object prototypes/autonomous-discovery/material_control.py)" = "b453bd250206248ddd46a5f9066ec4bfb55c5541"
+          test "$(git hash-object prototypes/autonomous-discovery/search_engine.py)" = "7448c9e182f59b03e93000a69985bef66790bba5"
+          test "$(git hash-object prototypes/autonomous-discovery/test_material_control_runtime.py)" = "99b0726cbe6daa553dbc95e8e4c4e4eec85e077e"
+          test "$(git hash-object experiments/family-projected-spectral-runtime-replay-v1/README.md)" = "81d34613e841522af065033e457be4d61830a15e"
+          test "$(git hash-object experiments/family-projected-spectral-runtime-replay-v1/targets_runtime.py)" = "d5692a22231893d2c3fbdaa4dcc8a62b763497f8"
+          test "$(git hash-object experiments/family-projected-spectral-runtime-replay-v1/run_runtime.py)" = "91b0ba4e42965b714240fd04ee6f3445a962e7b9"
+          test "$(git hash-object experiments/family-projected-spectral-runtime-replay-v1/aggregate_runtime.py)" = "3a519d1d1e93f07c7d664d1efc7bbec0a1c5f491"
+          test "$(git hash-object experiments/family-spectral-projection-v1/family_projection.py)" = "bea08209f8ae9cd1114e82a281b87655c7edc47b"
+          python - <<'PY'
+          import json
+          d=json.load(open('research-results/family-projected-spectral-portfolio-v1/results.json'))
+          assert d['decision']=='FAMILY_PROJECTED_SPECTRAL_PORTFOLIO_PROMISING'
+          PY
+          test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
+          actual="$(git diff --name-only "$PRE_EXPERIMENT_BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' \
+            '.github/workflows/family-projected-spectral-runtime-replay-v1.yml' \
+            'experiments/family-projected-spectral-runtime-replay-v1/README.md' \
+            'experiments/family-projected-spectral-runtime-replay-v1/aggregate_runtime.py' \
+            'experiments/family-projected-spectral-runtime-replay-v1/run_runtime.py' \
+            'experiments/family-projected-spectral-runtime-replay-v1/targets_runtime.py' \
+            'prototypes/autonomous-discovery/material_control.py' \
+            'prototypes/autonomous-discovery/search_engine.py' \
+            'prototypes/autonomous-discovery/test_material_control_runtime.py' | sort)"
+          test "$actual" = "$expected"
+          seeds='764999 764003 764019 764037 764053 764071 764089 764107 764127 764149 764167 764181 764199 764223 764239 764257 764277 764293 764311 764331 764349'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" "$PRE_EXPERIMENT_BASE" -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log "$PRE_EXPERIMENT_BASE" --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
+          python -m py_compile \
+            prototypes/autonomous-discovery/material_control.py \
+            prototypes/autonomous-discovery/search_engine.py \
+            prototypes/autonomous-discovery/test_material_control_runtime.py \
+            experiments/family-projected-spectral-runtime-replay-v1/*.py
+
+  target-contract:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Verify fresh target contract
+        run: |
+          python experiments/family-projected-spectral-runtime-replay-v1/targets_runtime.py > target-contract.json
+          cat target-contract.json
+          python - <<'PY'
+          import json
+          d=json.load(open('target-contract.json'))
+          assert d['valid'] is True
+          assert d['disjointFromAllPriorSamplingMaterialTargetsThroughFamilyPortfolio'] is True
+          assert not d['priorOverlap']
+          PY
+
+  smoke:
+    needs: [preflight, target-contract]
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt pytest
+      - name: Run targeted runtime equivalence/authority tests
+        working-directory: prototypes/autonomous-discovery
+        run: pytest -q test_material_control_runtime.py
+      - name: Run excluded replay smoke
+        run: |
+          python experiments/family-projected-spectral-runtime-replay-v1/run_runtime.py \
+            --seed 764999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          d=json.load(open('smoke.json'))
+          assert d['smoke'] is True and d['seed']==764999
+          assert all(d['hardInvariants'].values())
+          md=d['family']['mixedDiagnostics']
+          assert md['totalChallengers']==20
+          assert md['nativeChallengers']==10
+          assert md['projectedSpectralChallengers']==10
+          assert md['projectedSiblingScaleLawFailures']==0
+          PY
+
+  seed:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [764003,764019,764037,764053,764071,764089,764107,764127,764149,764167,764181,764199,764223,764239,764257,764277,764293,764311,764331,764349]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen runtime seed
+        env:
+          SEED: ${{ matrix.seed }}
+        run: |
+          python experiments/family-projected-spectral-runtime-replay-v1/run_runtime.py \
+            --seed "$SEED" --output "seed-$SEED.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          d=json.load(open(f'seed-{seed}.json'))
+          assert d['masterSeed']==seed and d['smoke'] is False
+          assert all(d['hardInvariants'].values())
+          assert len(d['cells'])==15
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-runtime-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: family-projected-runtime-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/family-projected-spectral-runtime-replay-v1/aggregate_runtime.py \
+            --input-dir seed-results --output results.json
+          python - <<'PY'
+          import json
+          d=json.load(open('results.json'))
+          assert d['seedCount']==20
+          assert d['cellCount']==300
+          assert d['decision'] in {
+            'FAMILY_PROJECTED_SPECTRAL_RUNTIME_PROMISING',
+            'FAMILY_PROJECTED_SPECTRAL_RUNTIME_NOT_PROMISING',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-spectral-runtime-replay-v1-summary
+          path: results.json

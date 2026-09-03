@@ -6,12 +6,13 @@ from typing import Dict, List, Optional, Sequence
 from PIL import Image, ImageDraw
 
 from core import Candidate, SearchState, ROUTES, TIMES, evaluate_candidate, render_candidate_frame
-from material_control import mutate_native, with_spectral_control
+from material_control import mutate_native, with_spectral_control, with_family_projected_spectral_control
 from rng_streams import derived_seed
 from pairwise_selector import PairwiseSelector, DeterministicTemporalSelector, incumbent_challenge, route_aware_frontier
 
 NATIVE_ONLY = 'native-only'
 MIXED_1D_V1 = 'native-spectral-50-50-v1'
+FAMILY_PROJECTED_V1 = 'native-family-projected-spectral-50-50-v1'
 
 
 def _record(state,stage,decisions):
@@ -26,19 +27,31 @@ def _select_local(selector,incumbent,challengers,brief,state,stage):
 
 def _portfolio_mode(brief):
     mode=str(brief.get('mutation_portfolio',NATIVE_ONLY))
-    if mode not in {NATIVE_ONLY,MIXED_1D_V1}:
+    if mode not in {NATIVE_ONLY,MIXED_1D_V1,FAMILY_PROJECTED_V1}:
         raise ValueError(f'unsupported mutation_portfolio {mode!r}')
     return mode
 
+def _eligible_routes_for_portfolio(brief):
+    mode=_portfolio_mode(brief)
+    routes=list(brief.get('routes') or [])
+    if mode==MIXED_1D_V1:
+        return [r for r in routes if int(ROUTES[r].get('intrinsic_dimension',-1))==1]
+    if mode==FAMILY_PROJECTED_V1:
+        return [r for r in routes if r=='family']
+    return []
 def _operator_for(brief,route,index,count):
     mode=_portfolio_mode(brief)
-    if mode==NATIVE_ONLY or int(ROUTES[route].get('intrinsic_dimension',-1))!=1:
+    if mode==NATIVE_ONLY:
+        return 'native'
+    eligible=(mode==MIXED_1D_V1 and int(ROUTES[route].get('intrinsic_dimension',-1))==1) or (mode==FAMILY_PROJECTED_V1 and route=='family')
+    if not eligible:
         return 'native'
     # Preserve the native prefix, then spend the remaining half on the confirmed
     # spectral operator. Odd batches conservatively keep the extra attempt native.
     native_n=(int(count)+1)//2
-    return 'native' if int(index)<native_n else 'spectral'
-
+    if int(index)<native_n:
+        return 'native'
+    return 'spectral' if mode==MIXED_1D_V1 else 'projected-spectral'
 def _spawn(brief,seed,parent,cid,stage,index,count,rng,scale):
     op=_operator_for(brief,parent.route,index,count)
     if op=='native':
@@ -46,9 +59,14 @@ def _spawn(brief,seed,parent,cid,stage,index,count,rng,scale):
             genome=ROUTES[parent.route]['mutate'](parent.genome,rng,scale)
         else:
             genome=mutate_native(ROUTES[parent.route],parent.genome,rng,scale)
-    else:
+    elif op=='spectral':
         field_seed=derived_seed(seed,'runtime-spectral-material-control-v1',parent.route,parent.basin,stage,index,parent.id)
         genome=with_spectral_control(parent.genome,field_seed)
+    elif op=='projected-spectral':
+        field_seed=derived_seed(seed,'runtime-family-projected-spectral-control-v1',parent.route,parent.basin,stage,index,parent.id)
+        genome=with_family_projected_spectral_control(parent.genome,field_seed)
+    else:
+        raise AssertionError(f'unknown generation operator {op!r}')
     c=Candidate(cid,parent.route,parent.basin,genome,parent.id,stage); evaluate_candidate(c,brief)
     c.checks['generationOperator']=op
     return c
@@ -103,12 +121,14 @@ def _finish_search(brief,seed,out_dir,selector,state,basins,rng):
         if d.get('source'): sources[d['source']]=sources.get(d['source'],0)+1
     operator_counts={'native':0,'spectral':0}
     operator_valid={'native':0,'spectral':0}
+    if mode==FAMILY_PROJECTED_V1:
+        operator_counts['projected-spectral']=0; operator_valid['projected-spectral']=0
     for c in state.candidates.values():
         op=c.checks.get('generationOperator')
         if op in operator_counts:
             operator_counts[op]+=1
             if c.checks.get('valid',False): operator_valid[op]+=1
-    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'mutationPortfolio':mode,'mutationPortfolioEligibleRoutes':[r for r in brief['routes'] if int(ROUTES[r].get('intrinsic_dimension',-1))==1],'generationOperatorCounts':operator_counts,'generationOperatorValidCounts':operator_valid,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only; representation validity is topology/geometry-specific'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
+    report={'winner':winner.id if status=='clear' else None,'provisionalChampion':winner.id,'route':winner.route,'diagnosticScore':winner.score,'selectionStatus':status,'artisticFrontier':[c.id for c in frontier],'features':winner.features,'winnerChecks':winner.checks,'allocations':allocations,'selector':selector.name,'mutationPortfolio':mode,'mutationPortfolioEligibleRoutes':_eligible_routes_for_portfolio(brief),'generationOperatorCounts':operator_counts,'generationOperatorValidCounts':operator_valid,'selectorSummary':{'diagnosticScoreUsedForPromotion':False,'decisionCount':sum(counts.values()),'verdictCounts':counts,'sourceCounts':sources},'checkerSummary':{'totalCandidates':len(state.candidates),'invalidCandidates':len(invalid),'invalidByRoute':{r:sum(c.route==r for c in invalid) for r in brief['routes']},'occupancyPolicy':'diagnostic-only; representation validity is topology/geometry-specific'},'finalists':[{'id':c.id,'route':c.route,'diagnosticScore':c.score,'valid':c.checks.get('valid',False)} for c in frontier]}
     (out_dir/'report.json').write_text(json.dumps(report,indent=2)+'\n'); (out_dir/'search_state.json').write_text(json.dumps(state.to_json(),indent=2)+'\n'); return state,report
 
 def run_search_from_starts(brief,seed,out_dir:Path,starts:Sequence[Candidate],selector:Optional[PairwiseSelector]=None):
@@ -130,7 +150,6 @@ def run_search_from_starts(brief,seed,out_dir:Path,starts:Sequence[Candidate],se
     missing=[r for r,n in by_route.items() if n==0]
     if missing: raise ValueError(f'active route(s) have no reviewed start candidate: {missing}')
     return _finish_search(brief,seed,out_dir,selector,state,basins,rng)
-
 def run_search(brief,seed,out_dir:Path,selector:Optional[PairwiseSelector]=None):
     _portfolio_mode(brief)
     rng=random.Random(seed); state=SearchState(brief,seed); out_dir.mkdir(parents=True,exist_ok=True); selector=selector or DeterministicTemporalSelector(); basins={}

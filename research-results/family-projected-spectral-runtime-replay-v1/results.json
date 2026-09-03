@@ -1,0 +1,100 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-family-runtime-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 764555001,
+    "unit": "master-seed mean across 15 target cells"
+  },
+  "cellCount": 300,
+  "decision": "FAMILY_PROJECTED_SPECTRAL_RUNTIME_PROMISING",
+  "deltaMean": 0.02400655902356808,
+  "deltaOneSided95BootstrapLower": 0.018773265056589168,
+  "experiment": "family-projected-spectral-runtime-replay-v1",
+  "gates": {
+    "allSharedStartsExact": true,
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneTargetFamilyOutMeanPositive": true,
+    "everyTargetFamilyMeanPositive": true,
+    "exactProjectedAllocation": true,
+    "exactTwentyVsTwentyBudgets": true,
+    "masterSeedBootstrapLower95Positive": true,
+    "meanDeltaAtLeast005": true,
+    "meaningfulWinsExceedLosses": true,
+    "mixedValidityWithin5ppOfBaseline": true,
+    "positiveAdvantageNotFamilyConcentrated": true,
+    "projectedSiblingScaleLawFailuresZero": true,
+    "projectedSpectralValidityAtLeast95Pct": true
+  },
+  "interpretation": "Fresh adaptive-runtime replay of native-only versus the family-only 50/50 projected-spectral portfolio. A positive decision mechanically validates the opt-in family runtime mode but grants no artistic authority.",
+  "leaveOneTargetFamilyOutDeltaMeans": {
+    "concave-loops": 0.0251056398161279,
+    "dense-regions": 0.0226307530044622,
+    "disconnected-loops": 0.024144802954483912,
+    "nested-loops": 0.024196757678901,
+    "open-networks": 0.02395484166386537
+  },
+  "masterSeedDelta": {
+    "764003": 0.021552692924337324,
+    "764019": 0.022220376167899826,
+    "764037": 0.022471057006918878,
+    "764053": 0.0027092544272302455,
+    "764071": 0.005769657407645071,
+    "764089": 0.015266820480003088,
+    "764107": 0.02090894432800865,
+    "764127": 0.05064177869506245,
+    "764149": 0.03716490462717221,
+    "764167": 0.014429425279641313,
+    "764181": 0.05666086667653774,
+    "764199": 0.020432467228663476,
+    "764223": 0.003945177553419254,
+    "764239": 0.03187423606154716,
+    "764257": 0.04128544336547262,
+    "764277": 0.023193819978397267,
+    "764293": 0.0037697837086268617,
+    "764311": 0.029602225791150422,
+    "764331": 0.025290526341912332,
+    "764349": 0.030941722421715334
+  },
+  "meaningfulLosses": 14,
+  "meaningfulRecoveryBar": 0.005,
+  "meaningfulWins": 251,
+  "positiveAdvantageConcentration": {
+    "byFamily": {
+      "concave-loops": 1.2147683460416596,
+      "dense-regions": 1.78370259965776,
+      "disconnected-loops": 1.4173207230298175,
+      "nested-loops": 1.4212714871464494,
+      "open-networks": 1.4947556988025896
+    },
+    "maxFamilyShare": 0.2432824153203973,
+    "shareByFamily": {
+      "concave-loops": 0.16568444612710828,
+      "dense-regions": 0.2432824153203973,
+      "disconnected-loops": 0.19331093022374055,
+      "nested-loops": 0.1938497820686836,
+      "open-networks": 0.20387242626007027
+    }
+  },
+  "seedCount": 20,
+  "targetFamilyDeltaMeans": {
+    "concave-loops": 0.019610235853328783,
+    "dense-regions": 0.029509783099991575,
+    "disconnected-loops": 0.023453583299904737,
+    "nested-loops": 0.02324576440223639,
+    "open-networks": 0.024213428462378898
+  },
+  "validity": {
+    "mixedAttempts": 400,
+    "mixedRate": 1.0,
+    "mixedValid": 400,
+    "nativeAttempts": 400,
+    "nativeRate": 1.0,
+    "nativeValid": 400,
+    "projectedSiblingScaleLawFailures": 0,
+    "projectedSpectralAttempts": 200,
+    "projectedSpectralRate": 1.0,
+    "projectedSpectralValid": 200
+  },
+  "version": 1
+}

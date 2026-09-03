@@ -1,9 +1,14 @@
-"""Opt-in spectral material control for intrinsic-1D discovery routes.
+"""Opt-in spectral material control inside incumbent discovery representations.
 
 The runtime representation remains the incumbent route/genome. A material-control
 record is stored under a reserved genome key so spectral phenotypes are replayable
 without inventing a new route. Native genomes remain byte-for-byte structurally
 unchanged when the feature is not used.
+
+Two evidence-authorized control types exist:
+- `spectral-hamiltonian-k2-v1`: generic control on the supported intrinsic-1D class;
+- `spectral-hamiltonian-k2-family-projected-v1`: family-only control whose generic
+  warp is projected back onto the representation's sibling terminal-scale law.
 """
 from __future__ import annotations
 
@@ -16,6 +21,7 @@ import numpy as np
 
 CONTROL_KEY = "_material_control"
 CONTROL_TYPE = "spectral-hamiltonian-k2-v1"
+FAMILY_PROJECTED_CONTROL_TYPE = "spectral-hamiltonian-k2-family-projected-v1"
 BANDWIDTH = 2
 AMPLITUDE = 16.0
 _TWO_PI = 2.0 * math.pi
@@ -74,7 +80,9 @@ def _velocity_rms(coefficients: np.ndarray, grid: int = 65) -> float:
     return rms
 
 
-def _draw_control(seed: int) -> dict:
+def _draw_control(seed: int, control_type: str = CONTROL_TYPE) -> dict:
+    if control_type not in {CONTROL_TYPE, FAMILY_PROJECTED_CONTROL_TYPE}:
+        raise ValueError(f"unsupported material-control type {control_type!r}")
     rng = np.random.default_rng(int(seed))
     dimension = (2 * BANDWIDTH + 1) ** 2
     probe_axis = np.arange(24, dtype=float) / 24.0
@@ -87,7 +95,7 @@ def _draw_control(seed: int) -> dict:
         values, _, _ = _field_values(coefficients, probe_xy)
         if float(values.min()) < -0.05 and float(values.max()) > 0.05:
             return {
-                "type": CONTROL_TYPE,
+                "type": control_type,
                 "bandwidth": BANDWIDTH,
                 "amplitude": AMPLITUDE,
                 "fieldSeed": int(seed),
@@ -99,7 +107,13 @@ def _draw_control(seed: int) -> dict:
 
 def with_spectral_control(genome: dict, seed: int) -> dict:
     out = copy.deepcopy(_native_genome(genome))
-    out[CONTROL_KEY] = _draw_control(seed)
+    out[CONTROL_KEY] = _draw_control(seed, CONTROL_TYPE)
+    return out
+
+
+def with_family_projected_spectral_control(genome: dict, seed: int) -> dict:
+    out = copy.deepcopy(_native_genome(genome))
+    out[CONTROL_KEY] = _draw_control(seed, FAMILY_PROJECTED_CONTROL_TYPE)
     return out
 
 
@@ -133,12 +147,21 @@ def _replace(value: Any, it):
     return value
 
 
-def _warp_geometry(geometry: Any, record: dict, width: int, height: int):
-    if record.get("type") != CONTROL_TYPE or int(record.get("bandwidth", -1)) != BANDWIDTH:
+def _validate_record(record: dict) -> np.ndarray:
+    if record.get("type") not in {CONTROL_TYPE, FAMILY_PROJECTED_CONTROL_TYPE}:
         raise ValueError("unsupported material-control record")
+    if int(record.get("bandwidth", -1)) != BANDWIDTH:
+        raise ValueError("material-control bandwidth drift")
+    if float(record.get("amplitude", float("nan"))) != AMPLITUDE:
+        raise ValueError("material-control amplitude drift")
     coefficients = np.asarray(record["coefficients"], dtype=float)
     if coefficients.shape != ((2 * BANDWIDTH + 1) ** 2,):
         raise ValueError("spectral coefficient dimension drift")
+    return coefficients
+
+
+def _warp_geometry(geometry: Any, record: dict, width: int, height: int):
+    coefficients = _validate_record(record)
     points: list[tuple[float, float]] = []
     _leaves(geometry, points)
     if not points: return geometry
@@ -147,6 +170,8 @@ def _warp_geometry(geometry: Any, record: dict, width: int, height: int):
     value, dx, dy = _field_values(coefficients, normalized)
     velocity = np.column_stack((2.0 * value * dy, -2.0 * value * dx))
     rms = float(record["velocityRms"])
+    if not math.isfinite(rms) or rms <= 1e-12:
+        raise ValueError("invalid material-control velocity RMS")
     warped = xy + (float(record["amplitude"]) / rms) * velocity
     it = iter((float(x), float(y)) for x, y in warped)
     result = _replace(geometry, it)
@@ -155,15 +180,71 @@ def _warp_geometry(geometry: Any, record: dict, width: int, height: int):
     raise AssertionError("unused warped points")
 
 
+def _length(a, b) -> float:
+    return math.hypot(float(b[0]) - float(a[0]), float(b[1]) - float(a[1]))
+
+
+def _project_family_terminal_scale(native: dict, warped: dict) -> dict:
+    """Project generic spectral deformation onto the frozen family sibling-scale law."""
+    native_anchors = list(native.get("anchors", []))
+    native_organs = list(native.get("organs", []))
+    warped_anchors = list(warped.get("anchors", []))
+    warped_organs = list(warped.get("organs", []))
+    if not native_anchors or not (
+        len(native_anchors)
+        == len(native_organs)
+        == len(warped_anchors)
+        == len(warped_organs)
+    ):
+        raise ValueError("family-projected control requires family anchor/organ topology")
+
+    projected_organs = []
+    for native_anchor, native_organ, warped_anchor, warped_organ in zip(
+        native_anchors, native_organs, warped_anchors, warped_organs
+    ):
+        if not native_organ or not warped_organ:
+            raise ValueError("family projection requires non-empty sibling organs")
+        native_length = _length(native_anchor, native_organ[-1])
+        warped_length = _length(warped_anchor, warped_organ[-1])
+        if not math.isfinite(native_length) or native_length <= 1e-9:
+            raise ValueError("degenerate native family terminal length")
+        if not math.isfinite(warped_length) or warped_length <= 1e-9:
+            raise ValueError("degenerate warped family terminal length")
+        scale = native_length / warped_length
+        ax, ay = float(warped_anchor[0]), float(warped_anchor[1])
+        projected_organs.append([
+            (ax + scale * (float(x) - ax), ay + scale * (float(y) - ay))
+            for x, y in warped_organ
+        ])
+
+    out = dict(warped)
+    out["organs"] = projected_organs
+    out["all"] = list(out.get("root", [])) + [
+        point for organ in projected_organs for point in organ
+    ]
+    return out
+
+
 def candidate_geometry(route_spec: dict, genome: dict, t: float, width: int, height: int):
     base = _native_genome(genome)
     geometry = route_spec["geometry"](base, t)
     record = control_record(genome)
     if record is None:
         return geometry
-    if int(route_spec.get("intrinsic_dimension", -1)) != 1:
-        raise ValueError("spectral material control is restricted to intrinsic-1D routes")
-    return _warp_geometry(geometry, record, width, height)
+
+    control_type = record.get("type")
+    if control_type == CONTROL_TYPE:
+        if int(route_spec.get("intrinsic_dimension", -1)) != 1:
+            raise ValueError("generic spectral material control is restricted to intrinsic-1D routes")
+        return _warp_geometry(geometry, record, width, height)
+
+    if control_type == FAMILY_PROJECTED_CONTROL_TYPE:
+        if int(route_spec.get("intrinsic_dimension", -1)) != 2:
+            raise ValueError("family-projected spectral control requires the family representation")
+        warped = _warp_geometry(geometry, record, width, height)
+        return _project_family_terminal_scale(geometry, warped)
+
+    raise ValueError("unsupported material-control record")
 
 
 def candidate_points(route_spec: dict, genome: dict, t: float, width: int, height: int):
