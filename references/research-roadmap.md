@@ -1,6 +1,6 @@
 # Research roadmap
 
-This file records future research branches that are promising enough to preserve but are **not** allowed to interrupt the currently active preregistered sequence.
+This file records future research branches that are promising enough to preserve without allowing them to bypass active preregistered evidence chains.
 
 ## Active principle
 
@@ -10,12 +10,28 @@ Move one evidentiary layer at a time:
 operator primitive
 → equal-budget portfolio usefulness
 → isolated runtime replay
-→ only then consider broader integration / artistic authority
+→ artistic authority when relevant
+→ broader integration only after the required authority exists
 ```
 
 Do not let a new idea bypass a currently open causal chain.
 
-## Future branch — recurrent learned discovery operator
+## Completed chain — family projected-spectral material control
+
+The family-specific projected-spectral line has now reached its terminal boundary:
+
+```text
+#131  operator primitive                 mechanically positive
+#133  equal-budget portfolio             mechanically positive
+#134  integrated adaptive runtime        mechanically positive
+#135  blinded human artistic usefulness  not demonstrated
+```
+
+#135 produced 24/24 reviewable blocks but only 6 decisive judgments; projected-spectral won 2/6, native-only won 4/6, and the frozen artistic support gate failed. The family projected-spectral runtime therefore remains mechanically supported, opt-in, and default-off. Do not tune the consumed `765xxx` population.
+
+This terminal result releases the recurrent learned-operator branch below.
+
+## Active branch — recurrent learned discovery operator
 
 ### Motivation
 
@@ -86,7 +102,7 @@ The tied-vs-untied control is essential: it tests whether weight sharing itself 
 
 ### Advancement boundary
 
-Promising evidence would require a stable positive trajectory beyond the training horizon without validity collapse, plus a meaningful advantage over the untied/equivalent-compute control.
+Promising evidence requires a stable positive trajectory beyond the training horizon without validity collapse, plus a meaningful advantage over the untied/equivalent-compute control.
 
 A peak near the training horizon followed by degradation closes the first recurrent-operator hypothesis rather than triggering horizon/architecture tuning on the consumed population.
 
@@ -112,4 +128,4 @@ with the same operator repeatedly consuming its own outputs.
 
 ### Priority
 
-**Parked / high-interest.** Begin only after the currently active family projected-spectral chain reaches its preregistered stopping boundary or a critical result invalidates that sequence.
+**Active.** The family projected-spectral causal chain has reached its terminal artistic boundary, so this branch is now the next independent research direction.
