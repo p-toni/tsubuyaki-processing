@@ -1,0 +1,93 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-family-operator-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 762555001,
+    "unit": "master-seed mean across 15 fresh target cells"
+  },
+  "cellCount": 300,
+  "challengerAttemptsPerArmPerSeed": 12,
+  "decision": "FAMILY_SPECTRAL_PROJECTION_MECHANICALLY_SUPPORTED",
+  "experiment": "family-spectral-projection-v1",
+  "generic": {
+    "addedRecoveryMean": 0.02991162182056525,
+    "attempts": 240,
+    "deltaVsNativeMean": 0.021227504193665966,
+    "familyLawFailures": 43,
+    "gates": {
+      "deltaAtLeastMeaningfulBar": true,
+      "everyTargetFamilyMeanPositive": true,
+      "meaningfulWinsExceedLosses": true,
+      "oneSided95BootstrapLowerPositive": true,
+      "validityAtLeast95Pct": false
+    },
+    "maxPositiveAdvantageShare": 0.2530357446412204,
+    "meaningfulLosses": 23,
+    "meaningfulWins": 255,
+    "oneSided95BootstrapLower": 0.0172643438130112,
+    "positiveAdvantageShares": {
+      "concave-loops": 0.1880209053074878,
+      "dense-regions": 0.2530357446412204,
+      "disconnected-loops": 0.21378804351395003,
+      "nested-loops": 0.15986137087776084,
+      "open-networks": 0.18529393565958086
+    },
+    "supported": false,
+    "targetFamilyDeltaMeans": {
+      "concave-loops": 0.020729767283404792,
+      "dense-regions": 0.028086792175385254,
+      "disconnected-loops": 0.022420324425023435,
+      "nested-loops": 0.0165580121219403,
+      "open-networks": 0.018342624962576035
+    },
+    "valid": 197,
+    "validRate": 0.8208333333333333
+  },
+  "interpretation": "Fresh family-only causal test of the fixed K=2/amplitude-16 spectral operator. The projected treatment retains the generic pointwise warp but normalizes each warped sibling around its warped anchor to preserve its native terminal length. Mechanical support does not confer artistic or runtime-default authority.",
+  "leverageRetentionFloor": 0.9,
+  "maxLawFailureFraction": 0.25,
+  "meaningfulRecoveryBar": 0.005,
+  "nativeAddedRecoveryMean": 0.008684117626899286,
+  "projected": {
+    "addedRecoveryMean": 0.029564371000415802,
+    "addedRecoveryRatioVsGeneric": 0.9883907725822242,
+    "attempts": 240,
+    "deltaVsNativeMean": 0.020880253373516514,
+    "familyLawFailures": 0,
+    "gates": {
+      "deltaAtLeastMeaningfulBar": true,
+      "everyTargetFamilyMeanPositive": true,
+      "familyLawFailureReducedToQuarterOrZero": true,
+      "meaningfulWinsExceedLosses": true,
+      "noTargetFamilyOverHalfPositiveAdvantage": true,
+      "oneSided95BootstrapLowerPositive": true,
+      "retainsAtLeast90PctGenericAddedRecovery": true,
+      "validityAtLeast95Pct": true
+    },
+    "maxPositiveAdvantageShare": 0.24032061807682403,
+    "meaningfulLosses": 21,
+    "meaningfulWins": 250,
+    "oneSided95BootstrapLower": 0.015977372429661574,
+    "positiveAdvantageShares": {
+      "concave-loops": 0.20132179982656961,
+      "dense-regions": 0.24032061807682403,
+      "disconnected-loops": 0.20499281460497362,
+      "nested-loops": 0.1633805889641676,
+      "open-networks": 0.18998417852746516
+    },
+    "supported": true,
+    "targetFamilyDeltaMeans": {
+      "concave-loops": 0.021999790613190972,
+      "dense-regions": 0.026449636954495752,
+      "disconnected-loops": 0.02005247321028087,
+      "nested-loops": 0.016750432846838255,
+      "open-networks": 0.019148933242776722
+    },
+    "valid": 240,
+    "validRate": 1.0
+  },
+  "seedCount": 20,
+  "validityFloor": 0.95,
+  "version": 1
+}
