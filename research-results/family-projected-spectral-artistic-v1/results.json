@@ -1,0 +1,50 @@
+{
+  "artisticSupportPassed": false,
+  "authority": "independent-human-artistic-usefulness-only",
+  "blockCount": 24,
+  "decision": "FAMILY_PROJECTED_SPECTRAL_ARTISTIC_SUPPORT_NOT_DEMONSTRATED",
+  "decisiveCount": 6,
+  "gates": {
+    "atLeast12Decisive": false,
+    "atLeast18Reviewable": true,
+    "oneSidedExactBinomialPAtMost010": false,
+    "projectedDecisiveWinRateAbove065": false
+  },
+  "judgmentCounts": {
+    "A>B": 1,
+    "B>A": 5,
+    "equivalent": 18
+  },
+  "nativeWins": 4,
+  "oneSidedExactBinomialP": 0.890625,
+  "projectedDecisiveWinRate": 0.3333333333333333,
+  "projectedWins": 2,
+  "reviewableCount": 24,
+  "rows": [
+    {"A":"projected","B":"native","blockId":"R01","judgment":"equivalent","seed":765003,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R02","judgment":"equivalent","seed":765019,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R03","judgment":"equivalent","seed":765037,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R04","judgment":"equivalent","seed":765053,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R05","judgment":"equivalent","seed":765071,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R06","judgment":"equivalent","seed":765089,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R07","judgment":"B>A","seed":765107,"winnerMode":"native"},
+    {"A":"native","B":"projected","blockId":"R08","judgment":"B>A","seed":765127,"winnerMode":"projected"},
+    {"A":"projected","B":"native","blockId":"R09","judgment":"equivalent","seed":765149,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R10","judgment":"B>A","seed":765167,"winnerMode":"projected"},
+    {"A":"projected","B":"native","blockId":"R11","judgment":"B>A","seed":765181,"winnerMode":"native"},
+    {"A":"native","B":"projected","blockId":"R12","judgment":"equivalent","seed":765199,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R13","judgment":"A>B","seed":765223,"winnerMode":"native"},
+    {"A":"native","B":"projected","blockId":"R14","judgment":"equivalent","seed":765239,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R15","judgment":"equivalent","seed":765257,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R16","judgment":"equivalent","seed":765277,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R17","judgment":"equivalent","seed":765293,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R18","judgment":"equivalent","seed":765311,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R19","judgment":"equivalent","seed":765331,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R20","judgment":"B>A","seed":765349,"winnerMode":"native"},
+    {"A":"native","B":"projected","blockId":"R21","judgment":"equivalent","seed":765367,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R22","judgment":"equivalent","seed":765383,"winnerMode":null},
+    {"A":"native","B":"projected","blockId":"R23","judgment":"equivalent","seed":765401,"winnerMode":null},
+    {"A":"projected","B":"native","blockId":"R24","judgment":"equivalent","seed":765419,"winnerMode":null}
+  ],
+  "version": 1
+}
