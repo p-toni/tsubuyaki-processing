@@ -54,10 +54,17 @@ jobs:
             'experiments/recurrent-family-operator-v1/recurrent_model.py' \
             'experiments/recurrent-family-operator-v1/train.py' | sort)"
           test "$actual" = "$expected"
-          if git grep -n -E '(^|[^0-9])76[67][0-9]+([^0-9]|$)' "$PRE_EXPERIMENT_BASE" -- .; then
-            echo '766/767 namespace already existed at the frozen pre-experiment base' >&2
-            exit 1
-          fi
+          seeds='766001 766019 766037 766053 766071 766089 766998 766999 767999 767003 767019 767037 767053 767071 767089 767107 767127 767149 767167 767181 767199 767223 767239 767257 767277 767293 767311 767331 767349 767555001'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" "$PRE_EXPERIMENT_BASE" -- .; then
+              echo "seed ${s} already existed at the frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log "$PRE_EXPERIMENT_BASE" --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
           python -m py_compile experiments/recurrent-family-operator-v1/*.py
 
   smoke:
