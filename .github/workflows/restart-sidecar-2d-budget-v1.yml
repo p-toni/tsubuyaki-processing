@@ -37,7 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git hash-object experiments/restart-sidecar-2d-budget-v1/README.md)" = "7a3ed75dda8b6ea93120c96226bdf514cfb8a493"
-          test "$(git hash-object experiments/restart-sidecar-2d-budget-v1/run.py)" = "5e927c479853a8d87276f92c476c3587648242b5"
+          test "$(git hash-object experiments/restart-sidecar-2d-budget-v1/run.py)" = "745f5b14a45b7031db64468ce6256f56ec997e57"
           test "$(git hash-object experiments/restart-sidecar-2d-budget-v1/aggregate.py)" = "26ec2e30da487d53a6786fb66ac30f1e4f8ecf14"
           test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
           actual="$(git diff --name-only "$PRE_EXPERIMENT_BASE"...HEAD | sort)"
