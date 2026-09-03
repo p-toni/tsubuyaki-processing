@@ -1,0 +1,119 @@
+{
+  "addedRecovery": {
+    "mixedMean": 0.0251621426449446,
+    "nativeOnlyMean": 0.010233631599481012
+  },
+  "artisticEvidence": false,
+  "authority": "mechanical-family-portfolio-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 763555001,
+    "unit": "master-seed mean across 15 target cells"
+  },
+  "cellCount": 300,
+  "decision": "FAMILY_PROJECTED_SPECTRAL_PORTFOLIO_PROMISING",
+  "deltaMean": 0.014928511045463591,
+  "deltaOneSided95BootstrapLower": 0.010794093442912359,
+  "experiment": "family-projected-spectral-portfolio-v1",
+  "gates": {
+    "completeHardInvariantRectangle": true,
+    "everyLeaveOneTargetFamilyOutMeanPositive": true,
+    "everyTargetFamilyMeanPositive": true,
+    "masterSeedBootstrapLower95Positive": true,
+    "meanDeltaAtLeast005": true,
+    "meaningfulWinsExceedLosses": true,
+    "mixedValidityWithin5ppOfBaseline": true,
+    "positiveAdvantageNotFamilyConcentrated": true,
+    "projectedSiblingScaleLawFailuresZero": true,
+    "projectedSpectralValidityAtLeast95Pct": true
+  },
+  "interpretation": "Equal-budget family-only portfolio test: 12 native attempts versus an exact six-native-prefix plus six family-law projected spectral attempts. Mechanical support only authorizes an opt-in runtime implementation plus fresh replay; it does not confer artistic authority.",
+  "leaveOneTargetFamilyOutDeltaMeans": {
+    "concave-loops": 0.01468178657327528,
+    "dense-regions": 0.014863206399955907,
+    "disconnected-loops": 0.01486182841270939,
+    "nested-loops": 0.015645674296401745,
+    "open-networks": 0.014590059544975635
+  },
+  "masterSeedDelta": {
+    "763003": 0.0052820173793021695,
+    "763019": 0.03987561920535752,
+    "763037": 0.01958065955623134,
+    "763053": 0.03401413336892569,
+    "763071": 0.021849694183188953,
+    "763089": 0.023951454454460022,
+    "763107": 0.026042629138472145,
+    "763127": 0.01076023521029453,
+    "763149": 0.026543986682412268,
+    "763167": -0.0021092064278510477,
+    "763181": 0.006271714079955156,
+    "763199": 0.0010831821716392445,
+    "763223": 0.0022385260347242532,
+    "763239": -0.0009285191648711925,
+    "763257": 0.014218636483447641,
+    "763277": 0.02395373409198093,
+    "763293": 0.012314734433221116,
+    "763311": 0.01194243357102059,
+    "763331": 0.012619149443668523,
+    "763349": 0.009065407013691969
+  },
+  "meaningfulLosses": 18,
+  "meaningfulRecoveryBar": 0.005,
+  "meaningfulWins": 211,
+  "positiveAdvantageConcentration": {
+    "byFamily": {
+      "concave-loops": 0.9757869802403498,
+      "dense-regions": 0.9386625271364192,
+      "disconnected-loops": 0.988766341302186,
+      "nested-loops": 0.8158560210843394,
+      "open-networks": 1.0606927633975292
+    },
+    "maxFamilyShare": 0.22191317874497532,
+    "shareByFamily": {
+      "concave-loops": 0.20414958792543494,
+      "dense-regions": 0.19638258349045284,
+      "disconnected-loops": 0.20686506913800107,
+      "nested-loops": 0.17068958070113585,
+      "open-networks": 0.22191317874497532
+    }
+  },
+  "seedCount": 20,
+  "settings": {
+    "baselineNativePerStart": 6,
+    "canonicalTime": 90.0,
+    "fieldBandwidth": 2,
+    "lawFailure": "shared family law loses sibling-scale coherence",
+    "metric": "sparse-geometry-v1-exact-fast-grayscale",
+    "mixedNativePerStart": 3,
+    "mixedProjectedSpectralPerStart": 3,
+    "nativeMutationScale": 1.0,
+    "route": "family",
+    "spectralAmplitude": 16.0,
+    "startsPerSeed": 2,
+    "times": [30.0, 90.0, 150.0],
+    "totalChallengersPerArm": 12
+  },
+  "targetFamilyDeltaMeans": {
+    "concave-loops": 0.015915408934216838,
+    "dense-regions": 0.01518972962749433,
+    "disconnected-loops": 0.015195241576480396,
+    "nested-loops": 0.012059858041710971,
+    "open-networks": 0.01628231704741542
+  },
+  "validity": {
+    "baselineNativeAttempts": 240,
+    "baselineNativeRate": 0.9958333333333333,
+    "baselineNativeValid": 239,
+    "mixedNativeAttempts": 120,
+    "mixedNativeValid": 119,
+    "mixedTotalAttempts": 240,
+    "mixedTotalRate": 0.9958333333333333,
+    "mixedTotalValid": 239,
+    "projectedFailureModes": {},
+    "projectedSiblingScaleLawFailures": 0,
+    "projectedSpectralAttempts": 120,
+    "projectedSpectralRate": 1.0,
+    "projectedSpectralValid": 120
+  },
+  "version": 1
+}
