@@ -1,0 +1,42 @@
+{
+  "blindSalt": "c14a9950051ce6119ece59f498e08dc56a687565244d1d0e40b09740622c9dec",
+  "blocks": [
+    {"blockId":"R01","seed":765003,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R02","seed":765019,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R03","seed":765037,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R04","seed":765053,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R05","seed":765071,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R06","seed":765089,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R07","seed":765107,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R08","seed":765127,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R09","seed":765149,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R10","seed":765167,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R11","seed":765181,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R12","seed":765199,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R13","seed":765223,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R14","seed":765239,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R15","seed":765257,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R16","seed":765277,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R17","seed":765293,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R18","seed":765311,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R19","seed":765331,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R20","seed":765349,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R21","seed":765367,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R22","seed":765383,"route":"family","A":"projected","B":"native"},
+    {"blockId":"R23","seed":765401,"route":"family","A":"native","B":"projected"},
+    {"blockId":"R24","seed":765419,"route":"family","A":"projected","B":"native"}
+  ],
+  "smoke": false,
+  "version": 1,
+  "custody": {
+    "ratingsCommit": "bf04087d976d64eea40a991f40456032cdc4b10a",
+    "workflowRun": 33757449648,
+    "generationHead": "925088143c4dd23eebbd8f8c09ace49544dc757b",
+    "reviewArtifactId": 9894173721,
+    "reviewArtifactDigest": "sha256:55ffd3093af6c29f4875f71cdc86ac706b268767b871273569de5414d0ca9e1b",
+    "keyArtifactId": 9894174297,
+    "keyArtifactDigest": "sha256:920472aca27e8ac38fe5ec018bfd57bdfc3c3268bd0ce97b46d6fae8e39a9ef7",
+    "downloadedKeyArchiveSha256": "920472aca27e8ac38fe5ec018bfd57bdfc3c3268bd0ce97b46d6fae8e39a9ef7",
+    "keyOpenedOnlyAfterRatingsCommit": true
+  }
+}
