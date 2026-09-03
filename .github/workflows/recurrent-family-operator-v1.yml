@@ -1,0 +1,222 @@
+name: recurrent-family-operator-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/recurrent-family-operator-v1/**'
+      - '.github/workflows/recurrent-family-operator-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+  PRE_EXPERIMENT_BASE: 50692dbed0275e0f833b61841263777e609ea679
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/recurrent-family-operator-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative recurrent result already archived; regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze protocol, implementation, base, and namespaces
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/recurrent-family-operator-v1/README.md)" = "e8a72dc6f6b31de5208f8779da9f22ce4fc67ada"
+          test "$(git hash-object experiments/recurrent-family-operator-v1/recurrent_model.py)" = "35bc5eda8dad37b19bee4620935439dd18b85409"
+          test "$(git hash-object experiments/recurrent-family-operator-v1/family_problem.py)" = "3f832519b57395863bb71114d223fcaef10ca91b"
+          test "$(git hash-object experiments/recurrent-family-operator-v1/train.py)" = "3dbfae867cc4dff6456fe393f2296a5496a8f548"
+          test "$(git hash-object experiments/recurrent-family-operator-v1/evaluate.py)" = "0e55cbcb4669b120ee51ca83e276c302ad8e7b30"
+          test "$(git hash-object experiments/recurrent-family-operator-v1/aggregate.py)" = "2b5853e5091bb65b3427cfffd403b2c8aa39a20f"
+          test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
+          actual="$(git diff --name-only "$PRE_EXPERIMENT_BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' \
+            '.github/workflows/recurrent-family-operator-v1.yml' \
+            'experiments/recurrent-family-operator-v1/README.md' \
+            'experiments/recurrent-family-operator-v1/aggregate.py' \
+            'experiments/recurrent-family-operator-v1/evaluate.py' \
+            'experiments/recurrent-family-operator-v1/family_problem.py' \
+            'experiments/recurrent-family-operator-v1/recurrent_model.py' \
+            'experiments/recurrent-family-operator-v1/train.py' | sort)"
+          test "$actual" = "$expected"
+          if git grep -n -E '(^|[^0-9])76[67][0-9]+([^0-9]|$)' "$PRE_EXPERIMENT_BASE" -- .; then
+            echo '766/767 namespace already existed at the frozen pre-experiment base' >&2
+            exit 1
+          fi
+          python -m py_compile experiments/recurrent-family-operator-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Train excluded smoke twice
+        run: |
+          python experiments/recurrent-family-operator-v1/train.py \
+            --smoke --model-out smoke-a.npz --summary-out smoke-a.json > /dev/null
+          python experiments/recurrent-family-operator-v1/train.py \
+            --smoke --model-out smoke-b.npz --summary-out smoke-b.json > /dev/null
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          import numpy as np
+          sys.path.insert(0, 'experiments/recurrent-family-operator-v1')
+          from recurrent_model import load_models
+          a, ma = load_models(Path('smoke-a.npz'))
+          b, mb = load_models(Path('smoke-b.npz'))
+          assert ma == mb
+          assert tuple(a) == tuple(b)
+          for name in a:
+              assert a[name]['parameterCount'] == b[name]['parameterCount']
+              for am, bm in zip(a[name]['modules'], b[name]['modules']):
+                  for ap, bp in zip(am, bm):
+                      assert np.array_equal(ap, bp)
+          sa=json.load(open('smoke-a.json')); sb=json.load(open('smoke-b.json'))
+          assert sa['smoke'] is True and sb['smoke'] is True
+          assert all(sa['hardInvariants'].values()) and all(sb['hardInvariants'].values())
+          assert sa['corpusSha256'] == sb['corpusSha256']
+          for name in sa['models']:
+              assert sa['models'][name]['finalLoss'] == sb['models'][name]['finalLoss']
+              assert sa['models'][name]['meanLast100Loss'] == sb['models'][name]['meanLast100Loss']
+          PY
+      - name: Evaluate excluded smoke
+        run: |
+          python experiments/recurrent-family-operator-v1/evaluate.py \
+            --smoke --models smoke-a.npz --seed 767999 --output smoke-eval.json > /dev/null
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke-eval.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 767999
+          assert all(x['hardInvariants'].values())
+          assert tuple(x['models']) == ('tied-burnin','tied-shallow','untied-equal-param','untied-equal-compute')
+          assert all(tuple(int(h) for h in x['models'][m]['horizons']) == (0,1,2,4,8,16,32,64,128,256) for m in x['models'])
+          PY
+
+  train:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Train frozen authoritative models
+        run: |
+          python experiments/recurrent-family-operator-v1/train.py \
+            --model-out models.npz --summary-out training-summary.json > /dev/null
+          python - <<'PY'
+          import json
+          x=json.load(open('training-summary.json'))
+          assert x['smoke'] is False
+          assert x['corpusSeed'] == 766001
+          assert x['scheduleSeed'] == 766089
+          assert x['targetCount'] == 256
+          assert x['updatesPerModel'] == 1600
+          assert all(x['hardInvariants'].values())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recurrent-family-operator-v1-model
+          path: |
+            models.npz
+            training-summary.json
+
+  seed:
+    needs: train
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [767003,767019,767037,767053,767071,767089,767107,767127,767149,767167,767181,767199,767223,767239,767257,767277,767293,767311,767331,767349]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: recurrent-family-operator-v1-model
+          path: model
+      - name: Evaluate frozen seed
+        env:
+          SEED: ${{ matrix.seed }}
+        run: |
+          python experiments/recurrent-family-operator-v1/evaluate.py \
+            --models model/models.npz --seed "$SEED" --output "seed-$SEED.json" > /dev/null
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed'] == seed and x['smoke'] is False
+          assert all(x['hardInvariants'].values())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recurrent-family-operator-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: recurrent-family-operator-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/recurrent-family-operator-v1/aggregate.py \
+            --input-dir seed-results --output results.json > /dev/null
+          python - <<'PY'
+          import json
+          x=json.load(open('results.json'))
+          assert x['seedCount'] == 20
+          assert x['decision'] in {
+            'RECURRENT_FAMILY_OPERATOR_PROMISING',
+            'RECURRENT_FAMILY_ITERATION_PRESENT_TYING_EFFICIENCY_NOT_DEMONSTRATED',
+            'RECURRENT_FAMILY_OPERATOR_NOT_PROMISING',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recurrent-family-operator-v1-summary
+          path: results.json
