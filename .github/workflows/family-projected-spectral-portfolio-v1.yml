@@ -39,7 +39,7 @@ jobs:
           set -euo pipefail
           test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/README.md)" = "2d80d806a622658b99d48e7d4e4bdcfb33027aa1"
           test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/targets.py)" = "32b2813041c0a068a36f131caa90be3d41569709"
-          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/run.py)" = "85b11cebc905e276c8bcbc065baf4292f62b42e2"
+          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/run.py)" = "748e1819e952c5a9c60c87894ca1b6441aaa7181"
           test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/aggregate.py)" = "34e3ed5edaa58ae15f68bf6a3b390adbb8fc7501"
           test "$(git hash-object experiments/family-spectral-projection-v1/family_projection.py)" = "bea08209f8ae9cd1114e82a281b87655c7edc47b"
           test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
