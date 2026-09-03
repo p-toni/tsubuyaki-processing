@@ -14,6 +14,10 @@ CONTROL_DIR = ROOT / "experiments" / "spectral-material-control-v1"
 PROJECTION_DIR = ROOT / "experiments" / "family-spectral-projection-v1"
 for path in (HERE, PROTO, FIELD_DIR, CONTROL_DIR, PROJECTION_DIR):
     sys.path.insert(0, str(path))
+# The projection experiment also has a module named targets.py. Reassert the
+# current experiment directory so the local frozen target suite wins import
+# resolution without changing any operator or experimental semantics.
+sys.path.insert(0, str(HERE))
 
 import field as frozen_field
 import core
