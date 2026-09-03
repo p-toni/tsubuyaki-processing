@@ -1,0 +1,85 @@
+{
+  "artisticEvidence": false,
+  "authority": "mechanical-compute-coverage-only",
+  "bootstrap": {
+    "draws": 50000,
+    "seed": 761555001,
+    "unit": "master-seed equal-route mean"
+  },
+  "budgets": {
+    "1": {
+      "archiveDeltaMean": 0.018022986763220755,
+      "archiveDeltaOneSided95BootstrapLower": 0.011324103542299695,
+      "deliveryDeltaMean": 0.015721696772077458,
+      "deliveryDeltaOneSided95BootstrapLower": 0.009224777294356914,
+      "distinctPhenotypesAddedMeanPerRoute": 1.0,
+      "minimumDispersionDeltaMean": 0.0010210392156862747,
+      "routeArchiveDeltaMeans": {"family": 0.018335521542889737, "sheet": 0.017710451983551773},
+      "routeDeliveryDeltaMeans": {"family": 0.014081484871929468, "sheet": 0.017361908672225448},
+      "routeMinimumDispersionDeltaMeans": {"family": 0.0017266143790849679, "sheet": 0.00031546405228758176}
+    },
+    "2": {
+      "archiveDeltaMean": 0.029846957845240663,
+      "archiveDeltaOneSided95BootstrapLower": 0.022043247677955964,
+      "deliveryDeltaMean": 0.02640815282844892,
+      "deliveryDeltaOneSided95BootstrapLower": 0.01777402131147294,
+      "distinctPhenotypesAddedMeanPerRoute": 2.0,
+      "minimumDispersionDeltaMean": 0.0019564215686274514,
+      "routeArchiveDeltaMeans": {"family": 0.030121853573349452, "sheet": 0.029572062117131866},
+      "routeDeliveryDeltaMeans": {"family": 0.025347105601246044, "sheet": 0.027469200055651802},
+      "routeMinimumDispersionDeltaMeans": {"family": 0.003157366013071896, "sheet": 0.0007554771241830066}
+    },
+    "4": {
+      "archiveDeltaMean": 0.04231789614767589,
+      "archiveDeltaOneSided95BootstrapLower": 0.032307103106799476,
+      "deliveryDeltaMean": 0.029771285999045112,
+      "deliveryDeltaOneSided95BootstrapLower": 0.018739416800169724,
+      "distinctPhenotypesAddedMeanPerRoute": 4.0,
+      "minimumDispersionDeltaMean": 0.0026984771241830067,
+      "routeArchiveDeltaMeans": {"family": 0.048019410914078575, "sheet": 0.03661638138127322},
+      "routeDeliveryDeltaMeans": {"family": 0.028399953670963658, "sheet": 0.03114261832712656},
+      "routeMinimumDispersionDeltaMeans": {"family": 0.004225483660130719, "sheet": 0.0011714705882352942}
+    },
+    "8": {
+      "archiveDeltaMean": 0.05209285914929877,
+      "archiveDeltaOneSided95BootstrapLower": 0.04199582103086722,
+      "deliveryDeltaMean": 0.027807669123824662,
+      "deliveryDeltaOneSided95BootstrapLower": 0.019188254446381427,
+      "distinctPhenotypesAddedMeanPerRoute": 8.0,
+      "minimumDispersionDeltaMean": 0.0036310555555555553,
+      "routeArchiveDeltaMeans": {"family": 0.054744775401700294, "sheet": 0.049440942896897266},
+      "routeDeliveryDeltaMeans": {"family": 0.017433944715984064, "sheet": 0.03818139353166526},
+      "routeMinimumDispersionDeltaMeans": {"family": 0.005156156862745098, "sheet": 0.0021059542483660132}
+    }
+  },
+  "budgetsPerRoute": [1, 2, 4, 8],
+  "coverageSufficiencyRatio": 0.9,
+  "coverageSufficient": {"1": false, "2": false, "4": false, "8": true},
+  "decision": "SIDECAR_2D_EIGHT_REQUIRED_FOR_COVERAGE",
+  "experiment": "restart-sidecar-2d-budget-v1",
+  "gainRatiosVsEight": {
+    "1": {"byRoute": {"family": {"archive": 0.33492733157364024, "delivery": 0.8077050318405025}, "sheet": {"archive": 0.358214284474401, "delivery": 0.4547217130204157}}, "pooled": {"archive": 0.34597806796449115, "delivery": 0.5653726927658113, "dispersion": 0.28119625273264504}},
+    "2": {"byRoute": {"family": {"archive": 0.5502233473847425, "delivery": 1.4538938842685964}, "sheet": {"archive": 0.5981290077497228, "delivery": 0.7194394314830486}}, "pooled": {"archive": 0.5729567993129138, "delivery": 0.9496715712077902, "dispersion": 0.5388024332577629}},
+    "4": {"byRoute": {"family": {"archive": 0.8771505693781175, "delivery": 1.6290033112773132}, "sheet": {"archive": 0.740608476210334, "delivery": 0.8156490752831956}}, "pooled": {"archive": 0.8123550298207338, "delivery": 1.0706142203604576, "dispersion": 0.7431660251119834}},
+    "8": {"byRoute": {"family": {"archive": 1.0, "delivery": 1.0}, "sheet": {"archive": 1.0, "delivery": 1.0}}, "pooled": {"archive": 1.0, "delivery": 1.0, "dispersion": 1.0}}
+  },
+  "historicalMeaningfulEffectBar": 0.003255297955511336,
+  "interpretation": "Select the smallest nested 2-D sidecar prefix that retains at least 90% of the k=8 pooled archive, pooled delivery, pooled dispersion, and each route's own archive/delivery gain while keeping route-level archive, delivery, and dispersion non-negative. This is mechanical compute evidence only.",
+  "maxBudgetSidecarAttemptCount": 320,
+  "maxBudgetSidecarValidCount": 320,
+  "maxBudgetSidecarValidRate": 1.0,
+  "prerequisiteGates": {
+    "maxBudgetArchiveAboveMeaningfulEffectBar": true,
+    "maxBudgetArchiveLowerPositive": true,
+    "maxBudgetDeliveryAboveMeaningfulEffectBar": true,
+    "maxBudgetDeliveryLowerPositive": true,
+    "maxBudgetEveryRouteArchivePositive": true,
+    "maxBudgetEveryRouteDeliveryPositive": true,
+    "maxBudgetMinimumDispersionMeanPositive": true,
+    "maxBudgetValidityAtLeast95Pct": true
+  },
+  "routeSeedCount": 40,
+  "seedCount": 20,
+  "selectedAttemptsPer2DRoute": 8,
+  "version": 1
+}
