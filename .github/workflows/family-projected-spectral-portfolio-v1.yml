@@ -1,0 +1,163 @@
+name: family-projected-spectral-portfolio-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/family-projected-spectral-portfolio-v1/**'
+      - '.github/workflows/family-projected-spectral-portfolio-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+  PRE_EXPERIMENT_BASE: 254f770548c34c699d2c8d8492fcecf86783aeef
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard authoritative result
+        id: guard
+        run: |
+          if test -f research-results/family-projected-spectral-portfolio-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'authoritative result already archived; regeneration remains closed'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze protocol and fresh namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/README.md)" = "2d80d806a622658b99d48e7d4e4bdcfb33027aa1"
+          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/targets.py)" = "32b2813041c0a068a36f131caa90be3d41569709"
+          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/run.py)" = "85b11cebc905e276c8bcbc065baf4292f62b42e2"
+          test "$(git hash-object experiments/family-projected-spectral-portfolio-v1/aggregate.py)" = "34e3ed5edaa58ae15f68bf6a3b390adbb8fc7501"
+          test "$(git hash-object experiments/family-spectral-projection-v1/family_projection.py)" = "bea08209f8ae9cd1114e82a281b87655c7edc47b"
+          test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
+          actual="$(git diff --name-only "$PRE_EXPERIMENT_BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' \
+            '.github/workflows/family-projected-spectral-portfolio-v1.yml' \
+            'experiments/family-projected-spectral-portfolio-v1/README.md' \
+            'experiments/family-projected-spectral-portfolio-v1/aggregate.py' \
+            'experiments/family-projected-spectral-portfolio-v1/run.py' \
+            'experiments/family-projected-spectral-portfolio-v1/targets.py' | sort)"
+          test "$actual" = "$expected"
+          seeds='763999 763003 763019 763037 763053 763071 763089 763107 763127 763149 763167 763181 763199 763223 763239 763257 763277 763293 763311 763331 763349'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" "$PRE_EXPERIMENT_BASE" -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log "$PRE_EXPERIMENT_BASE" --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
+          python -m py_compile experiments/family-projected-spectral-portfolio-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run excluded smoke
+        run: |
+          python experiments/family-projected-spectral-portfolio-v1/run.py \
+            --seed 763999 --smoke --output smoke.json
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke.json'))
+          assert x['smoke'] is True and x['masterSeed'] == 763999
+          assert x['settings']['route'] == 'family'
+          assert x['settings']['spectralAmplitude'] == 16.0
+          assert x['settings']['fieldBandwidth'] == 2
+          assert x['settings']['totalChallengersPerArm'] == 12
+          assert x['settings']['baselineNativePerStart'] == 6
+          assert x['settings']['mixedNativePerStart'] == 3
+          assert x['settings']['mixedProjectedSpectralPerStart'] == 3
+          assert all(x['hardInvariants'].values())
+          assert x['hardInvariants']['freshTargetContractValid']
+          assert x['hardInvariants']['projectionTerminalLengthsExact']
+          assert x['targetContract']['disjointFromAllPriorSamplingMaterialTargetsIncludingFamilyProjection']
+          assert len(x['cells']) == 15
+          PY
+
+  seed:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        seed: [763003,763019,763037,763053,763071,763089,763107,763127,763149,763167,763181,763199,763223,763239,763257,763277,763293,763311,763331,763349]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Run frozen seed
+        env:
+          SEED: ${{ matrix.seed }}
+        run: |
+          python experiments/family-projected-spectral-portfolio-v1/run.py \
+            --seed "$SEED" --output "seed-$SEED.json"
+          python - <<'PY'
+          import json, os
+          seed=int(os.environ['SEED'])
+          x=json.load(open(f'seed-{seed}.json'))
+          assert x['masterSeed'] == seed and x['smoke'] is False
+          assert all(x['hardInvariants'].values())
+          assert len(x['cells']) == 15
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-spectral-portfolio-seed-${{ matrix.seed }}
+          path: seed-${{ matrix.seed }}.json
+
+  aggregate:
+    needs: seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: family-projected-spectral-portfolio-seed-*
+          path: seed-results
+          merge-multiple: true
+      - name: Reduce complete frozen rectangle
+        run: |
+          python experiments/family-projected-spectral-portfolio-v1/aggregate.py \
+            --input-dir seed-results --output results.json
+          python - <<'PY'
+          import json
+          x=json.load(open('results.json'))
+          assert x['seedCount'] == 20
+          assert x['cellCount'] == 300
+          assert x['decision'] in {
+            'FAMILY_PROJECTED_SPECTRAL_PORTFOLIO_PROMISING',
+            'FAMILY_PROJECTED_SPECTRAL_PORTFOLIO_NOT_PROMISING',
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-spectral-portfolio-v1-summary
+          path: results.json
