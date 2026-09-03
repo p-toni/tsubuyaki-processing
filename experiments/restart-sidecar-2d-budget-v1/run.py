@@ -68,7 +68,7 @@ def _production_replay_check(
     )
     records = json.loads((out / "candidates.json").read_text())
     got = [r["phenotypeHash"] for r in records]
-    want = [budget_base.shortlist._phenotype_hash(c) for c in expected[:4]]
+    want = [restart_sidecar._phenotype_hash(c) for c in expected[:4]]
     return got == want
 
 
