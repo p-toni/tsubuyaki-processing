@@ -1,0 +1,154 @@
+name: family-projected-spectral-artistic-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/family-projected-spectral-artistic-v1/**'
+      - 'research-results/family-projected-spectral-artistic-v1/**'
+      - '.github/workflows/family-projected-spectral-artistic-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
+  PRE_EXPERIMENT_BASE: 971dd736362b6db4598d8e6592d19d31fa20cb80
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      consumed: ${{ steps.guard.outputs.consumed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Guard consumed human review
+        id: guard
+        run: |
+          if test -f research-results/family-projected-spectral-artistic-v1/human-ratings.json || \
+             test -f research-results/family-projected-spectral-artistic-v1/results.json; then
+            echo 'consumed=true' >> "$GITHUB_OUTPUT"
+            echo 'Human review is already consumed; reviewer/key regeneration remains closed.'
+          else
+            echo 'consumed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze protocol, dependency, and fresh namespace
+        if: steps.guard.outputs.consumed != 'true'
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/family-projected-spectral-artistic-v1/README.md)" = "2e6cb904a3eb891baae6f5dc3909640923badeb1"
+          test "$(git hash-object experiments/family-projected-spectral-artistic-v1/generate_review.py)" = "bccb8e39567f486b011ee1bb92cc727cf8f09671"
+          test "$(git hash-object experiments/family-projected-spectral-artistic-v1/reduce_review.py)" = "4249a13f27fe08b24f0d494e44c33d132732859c"
+          test "$(git hash-object research-results/family-projected-spectral-runtime-replay-v1/results.json)" = "7ff368ccd4682066f6bbeb3406812240ccdb9de5"
+          python - <<'PY'
+          import json
+          x=json.load(open('research-results/family-projected-spectral-runtime-replay-v1/results.json'))
+          assert x['decision']=='FAMILY_PROJECTED_SPECTRAL_RUNTIME_PROMISING'
+          assert x['artisticEvidence'] is False
+          PY
+          test "$(git merge-base "$PRE_EXPERIMENT_BASE" HEAD)" = "$PRE_EXPERIMENT_BASE"
+          actual="$(git diff --name-only "$PRE_EXPERIMENT_BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' \
+            '.github/workflows/family-projected-spectral-artistic-v1.yml' \
+            'experiments/family-projected-spectral-artistic-v1/README.md' \
+            'experiments/family-projected-spectral-artistic-v1/generate_review.py' \
+            'experiments/family-projected-spectral-artistic-v1/reduce_review.py' | sort)"
+          test "$actual" = "$expected"
+          seeds='765999 765003 765019 765037 765053 765071 765089 765107 765127 765149 765167 765181 765199 765223 765239 765257 765277 765293 765311 765331 765349 765367 765383 765401 765419'
+          for s in $seeds; do
+            if git grep -n -E "(^|[^0-9])${s}([^0-9]|$)" "$PRE_EXPERIMENT_BASE" -- .; then
+              echo "seed ${s} already existed at frozen pre-experiment base" >&2
+              exit 1
+            fi
+            if git log "$PRE_EXPERIMENT_BASE" --format='%B' | grep -E "(^|[^0-9])${s}([^0-9]|$)"; then
+              echo "seed ${s} found in pre-experiment commit messages" >&2
+              exit 1
+            fi
+          done
+          python -m py_compile experiments/family-projected-spectral-artistic-v1/*.py
+
+  smoke:
+    needs: preflight
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate excluded blinded smoke
+        run: |
+          python experiments/family-projected-spectral-artistic-v1/generate_review.py \
+            --smoke --output-root smoke > smoke-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('smoke-summary.json'))
+          assert x['smoke'] is True and x['blockCount'] == 1
+          assert x['allNativeBudgetsExact'] and x['allProjectedBudgetsExact']
+          assert x['allStartsShared'] and x['allProjectedAttemptsValid']
+          contract=json.load(open('smoke/review/review-contract.json'))
+          key=json.load(open('smoke/key/key.json'))
+          assert contract['smoke'] is True and contract['blockCount'] == 1
+          assert key['smoke'] is True and key['blindSalt']=='excluded-smoke-only'
+          assert len(key['blocks']) == 1 and key['blocks'][0]['seed'] == 765999
+          assert {key['blocks'][0]['A'],key['blocks'][0]['B']} == {'native','projected'}
+          assert Path('smoke/review/S01.png').is_file()
+          assert Path('smoke/review/contact-sheet.png').is_file()
+          PY
+
+  review-package:
+    needs: smoke
+    if: needs.preflight.outputs.consumed != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r prototypes/autonomous-discovery/requirements.txt
+      - name: Generate frozen 24-block blinded review package
+        run: |
+          python experiments/family-projected-spectral-artistic-v1/generate_review.py \
+            --output-root package > package-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=[765003,765019,765037,765053,765071,765089,765107,765127,765149,765167,765181,765199,765223,765239,765257,765277,765293,765311,765331,765349,765367,765383,765401,765419]
+          x=json.load(open('package-summary.json'))
+          assert x['smoke'] is False and x['blockCount'] == 24
+          assert x['allNativeBudgetsExact'] and x['allProjectedBudgetsExact']
+          assert x['allStartsShared'] and x['allProjectedAttemptsValid']
+          contract=json.load(open('package/review/review-contract.json'))
+          key=json.load(open('package/key/key.json'))
+          assert contract['smoke'] is False and contract['blockCount'] == 24
+          assert contract['allowedJudgments'] == ['A>B','B>A','equivalent','unreviewable']
+          assert key['smoke'] is False and len(key['blindSalt']) == 64 and len(key['blocks']) == 24
+          assert [int(b['seed']) for b in key['blocks']] == expected
+          assert all(b['route']=='family' for b in key['blocks'])
+          assert all({b['A'],b['B']} == {'native','projected'} for b in key['blocks'])
+          assert sorted(p.name for p in Path('package/review').glob('R*.png')) == [f'R{i:02d}.png' for i in range(1,25)]
+          assert Path('package/review/contact-sheet.png').is_file()
+          PY
+      - name: Upload reviewer-facing artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-spectral-artistic-v1-review
+          path: |
+            package/review/
+            package-summary.json
+      - name: Upload sealed identity key separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: family-projected-spectral-artistic-v1-key
+          path: package/key/key.json
