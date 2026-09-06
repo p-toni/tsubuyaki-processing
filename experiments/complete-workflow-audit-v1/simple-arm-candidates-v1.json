@@ -24,7 +24,7 @@
       "candidateRender": 1,
       "concept": "Coupled recurrence with radial gap expansion to preserve a hollow center.",
       "horizonFrames": [1,75,150,225],
-      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,70);for(i=0,x=.3,y=.2;i<2800;i++){a=x;x=sin(y*2.6+frameCount/80)+.7*cos(x*3.1);y=sin(a*2.4-frameCount/150)-.8*cos(y*2.9);r=28/hypot(x,y);point(200+x*66+x*r,200+y*66+y*r)}}//#つぶやきProcessing"
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,70);for(i=0,x=.3,y=.2;i<2800;i++){a=x;x=sin(y*2.6+frameCount/80)+.7*cos(x*3.1);y=sin(a*2.4-frameCount/150)-.8*cos(y*2.9);r=28/mag(x,y);point(200+x*66+x*r,200+y*66+y*r)}}//#つぶやきProcessing"
     },
     {
       "briefId": "B04",
