@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "experiment": "compact-symplectic-material-v1",
+  "decision": "COMPACT_SYMPLECTIC_MATERIAL_ARTISTIC_NOT_SUPPORTED",
+  "base": "caddc6d36ebb064ffe45f4c866641b9dbf9c5226",
+  "authoritative": {
+    "workflowRun": 34009955120,
+    "reviewerArtifact": {
+      "id": 9982172888,
+      "digest": "sha256:b30c429813df7a2905e0a32f86b11704886a00e3c6d9ce06a6a60a146b3c5faf"
+    },
+    "sealedKeyArtifact": {
+      "id": 9982173080,
+      "digest": "sha256:f6d2e9586bae44a71cada11e7423dc39865ba3c93d50d6cb42e8952f4413ed3f"
+    },
+    "mechanicalArtifact": {
+      "id": 9982173302,
+      "digest": "sha256:c6bb9b0eb2550b4eea324287445e8394f81d4310f23ff41862bb4a683f7ae834"
+    }
+  },
+  "ratingsCommit": "4c69dc4eb705333354fb6aefc3842aa6e4c0e9b7",
+  "review": {
+    "reviewable": 12,
+    "decisive": 12,
+    "shear3Wins": 0,
+    "nativeWins": 12,
+    "shear3DecisiveWinRate": 0.0,
+    "oneSidedExactBinomialP": 1.0
+  },
+  "advancementGates": {
+    "allMechanicalPairs": true,
+    "reviewableAtLeast10": true,
+    "decisiveAtLeast8": true,
+    "shear3WinRateAbove0_65": false,
+    "oneSidedPAtMost0_10": false
+  },
+  "interpretation": "The deployment-native three-shear representation fit and executed cleanly but was artistically rejected in every decisive pair. Close this exact representation; do not tune amplitudes, frequencies, phases, or timing on the consumed 769xxx population."
+}
