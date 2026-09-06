@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "arm": "S",
+  "sourceArtifact": {
+    "workflowRun": 34005025580,
+    "artifactId": 9980663200,
+    "digest": "sha256:70d7714b002ab84021dbcd6da38e48a4f95c8a17843731b93cdbb050c45641a5"
+  },
+  "researchArmGeneratedOrInspectedBeforeDecision": false,
+  "decisions": {
+    "B01": {"decision": "revise", "reason": "candidate 2 still lacks a clearly persistent central void across the full horizon"},
+    "B02": {"decision": "revise", "reason": "candidate 2 collapses to a tiny attractor at every frozen observation time"},
+    "B05": {"decision": "stop", "reason": "three related unequal lobes are now structurally explicit and remain coherent through precession"},
+    "B06": {"decision": "stop", "reason": "breathing gap remains visible while asymmetric shear prevents a simple ring/oval identity"}
+  }
+}
