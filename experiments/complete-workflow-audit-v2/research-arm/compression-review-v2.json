@@ -1,0 +1,21 @@
+{
+  "version":1,
+  "stage":"compression-attempt-2-final-review",
+  "sourceArtifact":{"workflowRun":34009432345,"artifactId":9981999649,"digest":"sha256:5b579ee851c100c93eeb904aea61e946a9a4eb0b3978d64542282d8c7efaa123"},
+  "decision":"ATTEMPT_2_PRESERVATION_FAILED_FINAL",
+  "reviewBasis":"paired visual comparison of each frozen expanded R selection against exact compact attempt 2 over identical four-frame horizons, plus Grade-1 cause inspection",
+  "records":[
+    {"briefId":"F01","grade0":false,"grade1":false,"reason":"two-mode compact form remains materially smoother and loses the selected layered spectral identity"},
+    {"briefId":"F03","grade0":false,"grade1":false,"reason":"expanded localized irregular structure remains absent in compact form"},
+    {"briefId":"F04","grade0":false,"grade1":false,"reason":"some asymmetry returns, but the selected folded multi-mode material identity is not preserved"},
+    {"briefId":"F05","grade0":false,"grade1":false,"reason":"moving kink survives only weakly; selected multi-mode material complexity does not"},
+    {"briefId":"F08","grade0":false,"grade1":false,"reason":"compact form still collapses the selected redistributed layered material to a smooth spine"},
+    {"briefId":"F09","grade0":false,"grade1":false,"reason":"localized spectral packet/material structure remains lost"},
+    {"briefId":"F10","grade0":false,"grade1":false,"reason":"broad envelope remains but selected layered spectral material does not"},
+    {"briefId":"F11","grade0":false,"grade1":false,"reason":"selected irregular local-wavelength material is not observably retained"},
+    {"briefId":"F12","grade0":false,"grade1":false,"reason":"two-mode compact form does not retain the selected fine multi-mode corrugation identity"}
+  ],
+  "promotionEligibleCount":0,
+  "compressionAttemptCeilingExhausted":true,
+  "fallbackAttemptRemaining":false
+}

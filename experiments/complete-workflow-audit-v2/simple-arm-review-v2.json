@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "arm": "S",
+  "stage": "candidate-render-2-review",
+  "sourceArtifact": {
+    "workflowRun": 34007871043,
+    "artifactId": 9981531516,
+    "digest": "sha256:4e617715b1d0f574147bdeac61ad5c8e95ddf1078e1e1d3fbead933fc594a729"
+  },
+  "researchArmGeneratedOrInspectedBeforeDecision": false,
+  "decisions": {
+    "F05":{"decision":"revise","reason":"moving sign-change remains too visually subordinate to the smooth carrier"},
+    "F08":{"decision":"stop","reason":"left-right amplitude transfer is now clearly legible across the frozen horizon"},
+    "F10":{"decision":"stop","reason":"interference envelope is now visually distinct from a single traveling sine"}
+  }
+}

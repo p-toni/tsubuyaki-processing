@@ -1,0 +1,72 @@
+name: complete-workflow-audit-v2
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/complete-workflow-audit-v2/**'
+      - '.github/workflows/complete-workflow-audit-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BASE: b8cb5d26853f380f70746bdb9613512d47d55056
+
+jobs:
+  post-selection-compression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enforce consumed R custody and frozen selection
+        run: |
+          set -euo pipefail
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test "$(git hash-object experiments/complete-workflow-audit-v2/research-arm/run_shortlists.py)" = "e3f55d628d9245fabd8ff3e155a05c2f4b7da275"
+          python - <<'PY'
+          import json
+          s=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-frozen.json'))
+          assert s['status']=='FROZEN_BEFORE_RESEARCH_ARM'
+          assert s['authoritativeVerification']['digest']=='sha256:bff1d33ce8241ebc6896cd22d1479bdb4e127cd97f4d68a746c93f80ed9f1f1e'
+          r=json.load(open('experiments/complete-workflow-audit-v2/research-arm/shortlist-review-v1.json'))
+          assert r['sourceArtifact']=={'workflowRun':34008189951,'artifactId':9981657067,'digest':'sha256:85f6d1cea933ed30644f11d60f4b8e5e1b0aeac769221b5dcb1644afd2a151f7'}
+          assert r['operatorIdentityOrGenomeInspectedBeforeDecision'] is False
+          assert r['selectedCount']==9 and r['noBriefAdherentCandidateCount']==3
+          u=json.load(open('experiments/complete-workflow-audit-v2/research-arm/selected-expanded-v1.json'))
+          assert u['selectionCommit']=='33abda7a55288af391db9c8ff29b900c768dac87'
+          assert u['sourceArtifact']['digest']==r['sourceArtifact']['digest']
+          assert len(u['records'])==9 and all(x['generationOperator']=='spectral' for x in u['records'])
+          c1=json.load(open('experiments/complete-workflow-audit-v2/research-arm/compression-review-v1.json'))
+          assert c1['sourceArtifact']=={'workflowRun':34009147383,'artifactId':9981919444,'digest':'sha256:79583513ddb2dd4bde6661a74748b2417c0459fb8fa5ca99073c5bf2cfbd83fb'}
+          assert c1['decision']=='ATTEMPT_1_PRESERVATION_FAILED' and c1['promotionEligibleCount']==0
+          c2=json.load(open('experiments/complete-workflow-audit-v2/research-arm/compression-attempt-v2.json'))
+          assert c2['stage']=='compression-attempt-2-final-allowed-attempt'
+          assert len(c2['records'])==9
+          assert [x['briefId'] for x in c2['records']]==[x['briefId'] for x in u['records']]
+          assert all(x['removedOnly']==['longitudinal x-drift term'] and len(x['retainedModes'])==2 for x in c2['records'])
+          PY
+          python -m py_compile experiments/complete-workflow-audit-v2/research-arm/verify_compression.py
+          node --check experiments/complete-workflow-audit-v2/render_exact_post.mjs
+      - name: Install image dependency
+        run: python -m pip install Pillow
+      - name: Verify exact compression attempt two
+        run: |
+          python experiments/complete-workflow-audit-v2/research-arm/verify_compression.py \
+            --attempt experiments/complete-workflow-audit-v2/research-arm/compression-attempt-v2.json \
+            --out r-compression-v2 | tee r-compression-v2.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: complete-workflow-audit-v2-r-compression-v2
+          path: |
+            r-compression-v2/
+            r-compression-v2.log

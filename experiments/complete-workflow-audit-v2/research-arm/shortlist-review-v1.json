@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "arm": "R",
+  "stage": "blinded-max-dispersion-shortlist-review",
+  "sourceArtifact": {
+    "workflowRun": 34008189951,
+    "artifactId": 9981657067,
+    "digest": "sha256:85f6d1cea933ed30644f11d60f4b8e5e1b0aeac769221b5dcb1644afd2a151f7"
+  },
+  "operatorIdentityOrGenomeInspectedBeforeDecision": false,
+  "decisions": {
+    "F01":{"decision":"C","reason":"strongest persistent spatial asymmetry/off-center visual mass among the three"},
+    "F02":{"decision":"none","reason":"none exposes a migrating low-amplitude cancellation node while keeping both sides active"},
+    "F03":{"decision":"B","reason":"best separation of broad structure and localized finer structure with uneven axial strength"},
+    "F04":{"decision":"C","reason":"best persistent broad asymmetric backbone with smaller-scale internal modulation"},
+    "F05":{"decision":"C","reason":"only delivered candidate with a visually localized moving kink-like disturbance"},
+    "F06":{"decision":"none","reason":"none maintains clearly stronger motion at both outer regions than at the middle"},
+    "F07":{"decision":"none","reason":"none presents a stable quiet central waist with both ends remaining active"},
+    "F08":{"decision":"C","reason":"strongest visible redistribution of structure/energy across the axis over time"},
+    "F09":{"decision":"B","reason":"best broad spine plus localized finer packet-like structure"},
+    "F10":{"decision":"C","reason":"clearest changing amplitude envelope rather than a rigid single-wave impression"},
+    "F11":{"decision":"A","reason":"strongest visible local-wavelength variation along the axis while remaining animated"},
+    "F12":{"decision":"C","reason":"clearest coexistence of broad backbone scale and finer corrugation scale"}
+  },
+  "selectedCount": 9,
+  "noBriefAdherentCandidateCount": 3
+}

@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "route": "filament",
+  "freshAgainstV1": true,
+  "commonInvariants": [
+    "one open one-dimensional axial filament",
+    "no closed loop and no branch topology",
+    "meaningful left-to-right axial coverage",
+    "visible internal deformation changes over the frozen horizon"
+  ],
+  "briefs": [
+    {"id":"F01","intent":"An open filament with a strongly off-center amplitude envelope; the active mass should feel biased rather than mirror-symmetric.","horizonFrames":[1,50,100,150],"specificInvariants":["off-center envelope remains legible","traveling phase changes internal shape"]},
+    {"id":"F02","intent":"An open filament with a moving cancellation node: one quiet point should migrate while both sides remain active.","horizonFrames":[1,55,110,165],"specificInvariants":["moving low-amplitude node","end regions remain visibly active"]},
+    {"id":"F03","intent":"A two-scale filament: a coarse traveling wave carries a finer counter-moving corrugation with visibly uneven strength along the axis.","horizonFrames":[1,45,90,135],"specificInvariants":["coarse and fine scales both visible","fine scale is not spatially uniform"]},
+    {"id":"F04","intent":"A persistent asymmetric S-like backbone carrying a finer traveling ripple; the backbone must not flatten during the horizon.","horizonFrames":[1,50,100,150],"specificInvariants":["persistent low-frequency backbone","higher-frequency ripple travels"]},
+    {"id":"F05","intent":"A filament with a moving kink or sign-change region superimposed on a traveling wave, without breaking continuity.","horizonFrames":[1,60,120,180],"specificInvariants":["localized kink migrates","continuity survives the kink"]},
+    {"id":"F06","intent":"An end-weighted filament whose outer regions carry more transverse motion than the middle, plus a smaller global wave.","horizonFrames":[1,48,96,144],"specificInvariants":["end-weighted amplitude","secondary global motion remains visible"]},
+    {"id":"F07","intent":"A filament with a deliberately quiet waist and active ends; the center should remain calmer without splitting the line.","horizonFrames":[1,52,104,156],"specificInvariants":["quiet central waist","both ends remain animated"]},
+    {"id":"F08","intent":"A filament whose visual energy slowly transfers from one side to the other while the traveling wave continues.","horizonFrames":[1,60,120,180],"specificInvariants":["left-right amplitude balance changes over time","axial identity remains stable"]},
+    {"id":"F09","intent":"A broad curved spine carrying a localized packet of high-frequency motion that travels along it.","horizonFrames":[1,60,120,180],"specificInvariants":["localized high-frequency packet","persistent broad backbone"]},
+    {"id":"F10","intent":"A beating filament built from nearby spatial frequencies so a slow envelope appears without closing the topology.","horizonFrames":[1,65,130,195],"specificInvariants":["visible beat envelope","no single rigid traveling sine dominates"]},
+    {"id":"F11","intent":"A chirped filament whose local wavelength changes substantially from one end to the other while the phase travels.","horizonFrames":[1,50,100,150],"specificInvariants":["spatial frequency varies along axis","traveling phase remains visible"]},
+    {"id":"F12","intent":"A slowly bent backbone carrying a much finer traveling corrugation; both structural scales should remain legible.","horizonFrames":[1,45,90,135],"specificInvariants":["slow backbone survives","fine corrugation travels"]}
+  ]
+}
