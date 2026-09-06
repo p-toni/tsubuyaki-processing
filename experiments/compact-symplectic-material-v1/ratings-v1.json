@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "stage": "blinded-human-review",
+  "sourceReviewerArtifact": {
+    "workflowRun": 34009955120,
+    "artifactId": 9982172888,
+    "digest": "sha256:b30c429813df7a2905e0a32f86b11704886a00e3c6d9ce06a6a60a146b3c5faf"
+  },
+  "sealedKeyInspectedBeforeCommit": false,
+  "ratings": {
+    "R01": "B>A",
+    "R02": "A>B",
+    "R03": "B>A",
+    "R04": "A>B",
+    "R05": "A>B",
+    "R06": "A>B",
+    "R07": "A>B",
+    "R08": "A>B",
+    "R09": "A>B",
+    "R10": "A>B",
+    "R11": "B>A",
+    "R12": "A>B"
+  },
+  "reviewableCount": 12,
+  "decisiveCount": 12
+}

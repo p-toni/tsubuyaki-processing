@@ -23,6 +23,7 @@ The current evidence supports a few narrow claims:
 - target-blind max-dispersion improved the tested three-item delivery shortlist;
 - the complete-workflow filament audit selected spectral candidates in all nine research shortlists that had a brief-adherent choice, but none of those expanded gains survived the frozen two-attempt compact deployment boundary;
 - the simplified filament workflow completed 12/12 verified posts with 16 exploratory renders total, while the research arm produced 0/12 Grade-1 deployable finals after 240 generated attempts plus compression;
+- a deployment-native three-shear symplectic material map was mechanically clean but lost artistically to the same native compact filament in all 12/12 fresh decisive pairs;
 - compression must be checked across the same meaningful temporal horizon used for final verification;
 - several mechanically positive interventions did not improve artistic preference;
 - the tested generic visual and morphology-context judges were not reliable enough to make artistic decisions.
@@ -47,21 +48,29 @@ See `research-results/complete-workflow-audit-v2/`.
 
 ## Active priority — compact representation and compression
 
-The dominant supported bottleneck is now `COMPRESSION_REPRESENTATION`.
+The dominant supported bottleneck remains `COMPRESSION_REPRESENTATION`.
 
-The next research should ask whether a reusable compact mathematical representation can carry the material qualities found by expanded spectral search across the <=280-character boundary without weakening the preservation contract.
+The first deployment-native answer on this surface, `compact-symplectic-material-v1`, is closed:
 
-Prefer representation changes over a universal automatic golfer. A useful compact primitive should:
+```text
+COMPACT_SYMPLECTIC_MATERIAL_ARTISTIC_NOT_SUPPORTED
+```
+
+Its three alternating sinusoidal coordinate shears were exactly compact, invertible and mechanically valid, but SHEAR3 won 0/12 fresh decisive human comparisons against the byte-matched native compact filament base. Do not tune that shear family on the consumed `769xxx` population.
+
+This negative result narrows the next representation question. Added compact richness should preserve the native filament's visual coherence, smoothness and temporal consistency rather than impose an external spatial warp.
+
+The next research should therefore test a **phase-native compact material basis**: extra expressivity embedded inside the filament's own traveling phase/amplitude law, not applied afterward as a coordinate transformation and not reconstructed from a high-dimensional spectral field.
+
+A useful compact primitive should:
 
 - preserve an explicit mathematical cause rather than reconstruct a few frames;
 - encode materially richer deformation than the one- and two-mode reductions that failed the audit;
-- remain compatible with an open axial filament and its traveling phase relationships;
+- remain inside the open axial filament's smooth traveling phase relationships;
 - have a readable expanded account and a compact executable form;
 - be tested against fresh finished artifacts, not only pixel or recovery metrics.
 
-A promising direction is to search for a **compact spectral/material basis designed for deployment**, rather than discover a high-dimensional field first and discard most of it later. The representation should be compact by construction while remaining expressive enough to produce the layered material that made the expanded spectral candidates useful.
-
-Do not make character count an artistic fitness score. The question is whether a compact causal vocabulary can express the same class of worthwhile material.
+Prefer materially different representation hypotheses over nearby parameter tuning. Character count remains a hard deployment boundary, not an artistic fitness score.
 
 ## Bottleneck discipline
 
@@ -106,9 +115,9 @@ The Sotaku-inspired recurrent learned-operator idea remains parked. Reopen it on
 
 Its first experiment remains isolated: compare native mutation, native plus applicable spectral machinery, a weight-tied recurrent operator and an equal-compute untied control. Require stable validity and defining-law preservation beyond the training horizon. Advancement also requires evidence that the behavior can improve final artifacts at comparable total cost.
 
-The current filament audit is specifically **not** that evidence: it points downstream to compact representation rather than transition quality.
+The current filament evidence is specifically **not** that evidence: it points downstream to compact representation rather than transition quality.
 
-Do not tune the prior learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, or family projected-spectral populations. Their closed results remain evidence, not optimizer input.
+Do not tune the prior learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral, or compact-symplectic populations. Their closed results remain evidence, not optimizer input.
 
 ## Research discipline
 
@@ -122,4 +131,4 @@ For a decision-changing experiment:
 
 The workflow audit also exposed an evidence-handling requirement: when later bottleneck diagnosis may depend on whether delivery missed good work, preserve the complete valid archive at generation time. Do not regenerate a consumed population to repair missing retrospective evidence.
 
-The next concrete study is therefore a **compact material representation experiment** aimed at preserving spectral-like filament richness by construction through the final tweet boundary.
+The next concrete study is therefore a **phase-native compact material representation** experiment: add richer smooth internal phase structure while keeping the compact filament causal vocabulary and final tweet boundary native from the start.
