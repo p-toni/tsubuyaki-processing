@@ -20,12 +20,12 @@ y0 = cy + sy*(primary traveling wave + secondary traveling wave)
 
 Control `NATIVE` renders `(x0,y0)` directly.
 
-Treatment `SHEAR3` applies three alternating sinusoidal shears at each frame:
+Treatment `SHEAR3` applies three alternating sinusoidal shears at each frame with one shared temporal phase speed:
 
 ```text
-x1 = x0 + A sin(y0/q + t/t1 + phi1)
-y1 = y0 + B sin(x1/r + t/t2 + phi2)
-x2 = x1 + C sin(y1/s + t/t3 + phi3)
+x1 = x0 + A sin(y0/q + t/tau)
+y1 = y0 + B sin(x1/r - t/tau)
+x2 = x1 + C sin(y1/s + t/tau)
 ```
 
 Each fixed-time shear is globally invertible by subtraction of the same sine term; its Jacobian determinant is exactly 1. Their composition is therefore invertible and area-preserving. Applied to one continuous open filament, it cannot create a branch or closed-loop topology by identification.
@@ -63,8 +63,9 @@ Treatment-only shear parameters:
 
 - amplitudes `A,B,C`: 7..14 px
 - spatial denominators `q,r,s`: 24..44 px
-- time denominators: 38..64 frames
-- phases: 0..2pi
+- one shared shear time denominator `tau`: 38..64 frames
+- alternating temporal sign: `+,-,+`
+- no static shear phase offsets.
 
 All numeric literals are deterministically quantized for the final post. No parameter is tuned after rendering.
 
