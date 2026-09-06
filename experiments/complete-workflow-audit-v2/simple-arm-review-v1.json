@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "arm": "S",
+  "stage": "candidate-render-1-review",
+  "sourceArtifact": {
+    "workflowRun": 34007753367,
+    "artifactId": 9981501955,
+    "digest": "sha256:c62da22c49d99a1c3c449e6245c2878112813909272e37fde23d8bb848b37e05"
+  },
+  "researchArmGeneratedOrInspectedBeforeDecision": false,
+  "decisions": {
+    "F01":{"decision":"stop","reason":"off-center envelope and traveling phase are clearly legible"},
+    "F02":{"decision":"stop","reason":"quiet node migrates while both sides remain active"},
+    "F03":{"decision":"stop","reason":"coarse/fine counter-moving scales and uneven fine amplitude are legible"},
+    "F04":{"decision":"stop","reason":"persistent broad backbone and finer traveling modulation remain legible"},
+    "F05":{"decision":"revise","reason":"localized moving kink is visually swallowed by the smooth carrier"},
+    "F06":{"decision":"stop","reason":"outer regions carry visibly greater motion and secondary global motion survives"},
+    "F07":{"decision":"stop","reason":"quiet waist and active ends are stable across the horizon"},
+    "F08":{"decision":"revise","reason":"left-right amplitude transfer is too weak across the frozen horizon"},
+    "F09":{"decision":"stop","reason":"localized fine packet visibly migrates on a persistent broad backbone"},
+    "F10":{"decision":"revise","reason":"beating is not legible; result reads close to an ordinary single sine"},
+    "F11":{"decision":"stop","reason":"strong spatial chirp and phase evolution are both legible"},
+    "F12":{"decision":"stop","reason":"slow backbone and fine traveling corrugation remain visibly distinct"}
+  }
+}
