@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "arm": "S",
+  "status": "candidate-render-3-final-targeted",
+  "revisions": [
+    {"briefId":"F05","candidateRender":3,"concept":"A reduced carrier exposes a stronger continuous sign-change step whose center migrates visibly along the open filament.","horizonFrames":[1,60,120,180],"post":"setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,110);for(i=0;i<900;i++){u=i/450-1;v=u-.5*sin(frameCount/70);y=200+18*sin(7*u-frameCount/40)+42*v/(.02+abs(v));point(200+165*u,y)}}//#つぶやきProcessing"}
+  ]
+}
