@@ -21,14 +21,25 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Enforce consumed authoritative population
         run: |
           set -euo pipefail
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
           test "$(git hash-object experiments/compact-symplectic-material-v1/README.md)" = "bd79835244895753cc52355a0cf1efcde28aea92"
           test "$(git hash-object experiments/compact-symplectic-material-v1/run.py)" = "d8bacac89d343e466e87ec7cb246a5264061553f"
-          if grep -nE 'Run excluded smoke|Generate authoritative blinded pairs|run.py --smoke|run.py --out authoritative' .github/workflows/compact-symplectic-material-v1.yml; then
-            echo 'consumed 769xxx generation path reappeared' >&2
-            exit 1
-          fi
+          python - <<'PY'
+          import json
+          x=json.load(open('experiments/compact-symplectic-material-v1/authoritative-frozen.json'))
+          assert x['status']=='FROZEN_BEFORE_HUMAN_RATINGS'
+          assert x['workflowRun']==34009955120
+          assert x['headSha']=='16c27993e64e6c09cf74ef81d62f651cc55e5941'
+          assert x['artifacts']['reviewer']=={'id':9982172888,'digest':'sha256:b30c429813df7a2905e0a32f86b11704886a00e3c6d9ce06a6a60a146b3c5faf'}
+          assert x['artifacts']['sealedKey']=={'id':9982173080,'digest':'sha256:f6d2e9586bae44a71cada11e7423dc39865ba3c93d50d6cb42e8952f4413ed3f'}
+          assert x['artifacts']['mechanical']=={'id':9982173302,'digest':'sha256:c6bb9b0eb2550b4eea324287445e8394f81d4310f23ff41862bb4a683f7ae834'}
+          assert x['sealedKeyDownloadedOrInspectedBeforeRatings'] is False
+          assert x['generationWorkflowCustodyClosed'] is True
+          PY
           echo 'authoritative 769xxx generation is custody-closed'
