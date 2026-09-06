@@ -14,9 +14,9 @@ env:
   BASE: b8cb5d26853f380f70746bdb9613512d47d55056
 
 jobs:
-  simple-arm-first-pass:
+  simple-arm-revisions:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Enforce frozen protocol and arm ordering
+      - name: Enforce frozen first-pass review and arm ordering
         run: |
           set -euo pipefail
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
@@ -36,29 +36,34 @@ jobs:
           test -f experiments/complete-workflow-audit-v2/briefs.json
           test -f experiments/complete-workflow-audit-v2/simple-arm-candidates-v1.json
           test -f experiments/complete-workflow-audit-v2/simple-arm-readable-v1.md
+          test -f experiments/complete-workflow-audit-v2/simple-arm-review-v1.json
+          test -f experiments/complete-workflow-audit-v2/simple-arm-candidates-v2-revisions.json
+          python - <<'PY'
+          import json
+          x=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-review-v1.json'))
+          assert x['sourceArtifact']['workflowRun'] == 34007753367
+          assert x['sourceArtifact']['artifactId'] == 9981501955
+          assert x['sourceArtifact']['digest'] == 'sha256:c62da22c49d99a1c3c449e6245c2878112813909272e37fde23d8bb848b37e05'
+          assert x['researchArmGeneratedOrInspectedBeforeDecision'] is False
+          assert sorted(k for k,v in x['decisions'].items() if v['decision']=='revise') == ['F05','F08','F10']
+          PY
           if test -e experiments/complete-workflow-audit-v2/research-arm; then
             echo 'research arm cannot exist before simple arm freeze' >&2
             exit 1
           fi
           python -m py_compile experiments/complete-workflow-audit-v2/verify_simple_candidates.py
           node --check experiments/complete-workflow-audit-v2/render_exact_post.mjs
-          python - <<'PY'
-          import json
-          b=json.load(open('experiments/complete-workflow-audit-v2/briefs.json'))
-          c=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-candidates-v1.json'))
-          assert len(b['briefs']) == 12 and len(c['candidates']) == 12
-          assert [x['id'] for x in b['briefs']] == [x['briefId'] for x in c['candidates']]
-          assert all(x['id'].startswith('F') for x in b['briefs'])
-          PY
       - name: Install image dependency
         run: python -m pip install Pillow
-      - name: Verify simple-arm first incumbents
+      - name: Verify targeted second-pass revisions
         run: |
-          python experiments/complete-workflow-audit-v2/verify_simple_candidates.py --out simple-arm-first-pass > simple-arm-first-pass.log
-          cat simple-arm-first-pass/verification.json
+          python experiments/complete-workflow-audit-v2/verify_simple_candidates.py \
+            --candidates experiments/complete-workflow-audit-v2/simple-arm-candidates-v2-revisions.json \
+            --out simple-arm-revisions > simple-arm-revisions.log
+          cat simple-arm-revisions/verification.json
       - uses: actions/upload-artifact@v4
         with:
-          name: complete-workflow-audit-v2-simple-first-pass
+          name: complete-workflow-audit-v2-simple-revisions
           path: |
-            simple-arm-first-pass/
-            simple-arm-first-pass.log
+            simple-arm-revisions/
+            simple-arm-revisions.log
