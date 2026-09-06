@@ -18,11 +18,13 @@ if(!fs.existsSync(p5lite))throw new Error('templates/p5-lite.js missing');
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'tsubuyaki-audit-v2-'));
 try{
   for(const target of frames){
-    const html=`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style><script>requestAnimationFrame=f=>setTimeout(()=>f(performance.now()),0)</script><script src="${pathToFileURL(p5lite)}"></script><script>\n${post}\n</script><script>(()=>{let d=globalThis.draw;globalThis.draw=()=>{if(typeof d==='function')d();if(globalThis.frameCount>=${target})globalThis.noLoop()}})()</script>`;
+    const html=`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style><div id="audit-status" data-ready="0" data-error=""></div><script>requestAnimationFrame=f=>setTimeout(()=>f(performance.now()),0)</script><script src="${pathToFileURL(p5lite)}"></script><script>\n${post}\n</script><script>(()=>{const s=document.getElementById('audit-status'),d=globalThis.draw;addEventListener('error',e=>s.dataset.error=String(e.message||e.error||'error'));globalThis.draw=()=>{try{if(typeof d==='function')d();if(globalThis.frameCount>=${target}){globalThis.noLoop();s.dataset.ready='1'}}catch(e){s.dataset.error=String(e&&e.stack||e);throw e}}})()</script>`;
     const hp=path.join(tmp,`frame-${target}.html`);fs.writeFileSync(hp,html);const url=pathToFileURL(hp).href;
     const png=path.resolve(outDir,`frame-${String(target).padStart(3,'0')}.png`);
-    const r=spawnSync(browser,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--window-size=400,400','--virtual-time-budget=1200',`--screenshot=${png}`,url],{encoding:'utf8',maxBuffer:20*1024*1024});
+    const r=spawnSync(browser,['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--window-size=400,400','--virtual-time-budget=1200','--dump-dom',`--screenshot=${png}`,url],{encoding:'utf8',maxBuffer:20*1024*1024});
     if(r.status!==0||!fs.existsSync(png))throw new Error(`render failed at frame ${target}: ${r.stderr}`);
+    const ready=/id="audit-status"[^>]*data-ready="1"/.test(r.stdout),err=(r.stdout.match(/id="audit-status"[^>]*data-error="([^"]*)"/)||[])[1]||'';
+    if(!ready||err)throw new Error(`post failed at frame ${target}: ready=${ready} error=${err}`);
   }
-  fs.writeFileSync(path.join(outDir,'render.json'),JSON.stringify({post:path.basename(postPath),frames,browser,scheduler:'deterministic-timeout-zero'},null,2)+'\n');
+  fs.writeFileSync(path.join(outDir,'render.json'),JSON.stringify({post:path.basename(postPath),frames,browser,scheduler:'deterministic-timeout-zero',runtimeStatusVerified:true},null,2)+'\n');
 }finally{fs.rmSync(tmp,{recursive:true,force:true})}
