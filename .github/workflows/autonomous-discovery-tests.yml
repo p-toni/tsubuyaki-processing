@@ -3,6 +3,8 @@ name: autonomous-discovery-tests
 on:
   pull_request:
     paths:
+      - "scripts/**"
+      - "templates/**"
       - "prototypes/autonomous-discovery/**"
       - "experiments/**"
       - ".github/workflows/autonomous-discovery-tests.yml"
@@ -13,6 +15,8 @@ on:
       - "prototype-*"
       - "infra-*"
     paths:
+      - "scripts/**"
+      - "templates/**"
       - "prototypes/autonomous-discovery/**"
       - "experiments/**"
       - ".github/workflows/autonomous-discovery-tests.yml"
@@ -51,3 +55,5 @@ jobs:
           node-version: "22"
       - name: Run discovery-state regression
         run: node scripts/test-discovery-state.mjs
+      - name: Run PNG decoder regression
+        run: node --test scripts/test-png.mjs

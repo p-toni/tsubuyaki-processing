@@ -1,131 +1,107 @@
 # Research roadmap
 
-This file records future research branches that are promising enough to preserve without allowing them to bypass active preregistered evidence chains.
+The project exists to produce original, compact mathematical animations worth keeping. Research is justified only when it makes that finished result more reliable, more expressive, or materially easier to achieve.
 
-## Active principle
+## Current architecture
 
-Move one evidentiary layer at a time:
-
-```text
-operator primitive
-→ equal-budget portfolio usefulness
-→ isolated runtime replay
-→ artistic authority when relevant
-→ broader integration only after the required authority exists
-```
-
-Do not let a new idea bypass a currently open causal chain.
-
-## Completed chain — family projected-spectral material control
-
-The family-specific projected-spectral line has now reached its terminal boundary:
+The supported production baseline is deliberately small:
 
 ```text
-#131  operator primitive                 mechanically positive
-#133  equal-budget portfolio             mechanically positive
-#134  integrated adaptive runtime        mechanically positive
-#135  blinded human artistic usefulness  not demonstrated
+choose representation
+→ build and inspect a readable sketch
+→ explore only when a useful alternative is plausible
+→ select visually
+→ compress while preserving cause and motion
+→ verify the exact post
 ```
 
-#135 produced 24/24 reviewable blocks but only 6 decisive judgments; projected-spectral won 2/6, native-only won 4/6, and the frozen artistic support gate failed. The family projected-spectral runtime therefore remains mechanically supported, opt-in, and default-off. Do not tune the consumed `765xxx` population.
+Search state, archive tooling and the autonomous prototype remain available for work that needs them. They are not prerequisites for ordinary sketch-making.
 
-This terminal result releases the recurrent learned-operator branch below.
+The current evidence supports a few narrow claims:
 
-## Active branch — recurrent learned discovery operator
+- for intrinsic-1D routes, the frozen native/spectral mixed search produced artistically preferred portfolios on its tested surface;
+- target-blind max-dispersion improved the tested three-item delivery shortlist;
+- compression must be checked across the same meaningful temporal horizon used for final verification;
+- several mechanically positive interventions did not improve artistic preference;
+- the tested generic visual and morphology-context judges were not reliable enough to make artistic decisions.
 
-### Motivation
+Those claims do not establish a universal search policy, an automatic aesthetic scorer, or a reason to require research machinery for each sketch.
 
-Recent work on small weight-tied recurrent transformers such as Sotaku suggests a distinct compute regime from the one this project has explored most deeply.
+## First priority — audit the complete workflow
 
-Most current discovery work scales compute by evaluating more alternatives:
+Before adding a new search operator, establish whether the supported research runtime improves completed work over the simple baseline.
 
-```text
-state
-→ generate candidate set
-→ validate
-→ preserve archive / delivery
-→ allocate more search
-```
+Use fresh briefs and a fixed, comparable total budget. Compare:
 
-The recurrent alternative would learn one transition operator and apply it repeatedly to an evolving mathematical state:
+1. the ordinary workflow above; and
+2. the strongest route-supported research workflow, carried through the same compression and verification boundary.
 
-```text
-s0
-→ Fθ(s0)
-→ Fθ(s1)
-→ Fθ(s2)
-→ …
-```
+For each run, preserve the readable winner, final post, rendered temporal horizon, elapsed effort, computation used and reason for every fallback. Human review should compare the final verified artifacts, blinded wherever practical.
 
-The important hypothesis is **not** that more local iterations should beat breadth under the current mutation operators. Existing restart/breadth evidence remains valid. The new hypothesis is that an operator explicitly trained to remain useful on its own outputs may exhibit qualitatively different long-horizon behavior.
+The primary outcome is a final animation a reviewer would choose to keep. Time, compute, mechanical validity and archive coverage are secondary measurements that explain the outcome; none substitutes for it.
 
-### First isolated experiment
+### Decision boundary
 
-Question:
+- If the research workflow does not improve finished work enough to justify its cost, keep it experimental and improve the default baseline instead.
+- If it improves finished work, identify which stage caused the gain before generalizing it across routes.
 
-> Can a small weight-tied learned transition operator continue improving mechanically measurable mathematical structure beyond its training horizon while preserving hard validity and defining representation laws?
+Do not use an archive audit to infer that uninspected candidates are artistically poor. It can identify missed opportunities, not establish their absence.
 
-No artistic judge is required for the first test.
+## Second priority — locate the actual bottleneck
 
-Candidate design:
+Classify each comparison before proposing a remedy:
 
-- small shared neural transition `Fθ`;
-- persistent mathematical/morphology state plus a small latent working state if needed;
-- train through short recurrent windows;
-- expose training to later recurrent states using no-gradient burn-in followed by short gradient-tracked windows;
-- train horizon initially around 8–16 recurrent applications;
-- no semantic target or aesthetic scorer in the initial study.
+| Observation | Next research surface |
+| --- | --- |
+| No inspected candidate is compelling | Mathematical representation and generation |
+| Good candidates exist but do not reach the delivery set | Selection and delivery |
+| A good selected candidate loses its identity in compact form | Representation and compression |
+| Good results require disproportionate work | Stopping and workflow simplification |
 
-Evaluation horizon:
+This is a decision gate, not a new metric. Work on one diagnosed bottleneck at a time.
 
-```text
-1, 2, 4, 8, 16, 32, 64, 128, 256
-```
+## Third priority — representation-led discovery
 
-Primary measurements:
+When generation is the bottleneck, test a single new compact representation or operator against the current route baseline. The hypothesis must be expressive: it should produce a class of compelling animated behavior the baseline struggles to reach, rather than merely increase descriptor diversity or a mechanical recovery score.
 
-- hard-valid rate;
-- defining-law preservation;
-- structural-recovery trajectory;
-- phenotype displacement / novelty trajectory;
-- convergence, fixed points, cycles, and collapse;
-- performance beyond the training horizon.
+Every candidate representation needs:
 
-Critical controls:
+- a readable mathematical account of the defining relationships;
+- route validity and brief-adherence checks appropriate to its form;
+- a comparable search budget;
+- examples taken through compression when they are finalists; and
+- an advancement decision based on fresh final artifacts.
 
-1. current supported native mutation;
-2. current supported native + spectral machinery where applicable;
-3. weight-tied recurrent `Fθ`;
-4. equal-parameter/equal-compute untied or unrolled transition stack.
+Mechanical diagnostics are useful to characterize an operator. They do not authorize default production integration without a visible benefit.
 
-The tied-vs-untied control is essential: it tests whether weight sharing itself provides a useful optimization/algorithmic forcing function rather than merely reducing parameter count.
+## Conditional branches
 
-### Advancement boundary
+### Selection and delivery
 
-Promising evidence requires a stable positive trajectory beyond the training horizon without validity collapse, plus a meaningful advantage over the untied/equivalent-compute control.
+If the audit shows that good generated candidates are routinely missed, compare delivery reductions on the same completed archive. Retain the current route-safe archive and test only the reducer. Max-dispersion is supported on its tested three-item surface; it should not be silently promoted into search-parent or route-allocation authority.
 
-A peak near the training horizon followed by degradation closes the first recurrent-operator hypothesis rather than triggering horizon/architecture tuning on the consumed population.
+Any automatic preference learner needs labels that actually match its decision. Portfolio-level judgments cannot be assumed to supervise individual-candidate ranking. It must represent equivalence and uncertainty, be trained on a representation frozen before fresh labels, and earn prospective human evidence before influencing search or delivery.
 
-### Relationship to prior negative work
+### Compression
 
-This is not a revival of the failed learned-world-model / MPC line.
+If compression is the bottleneck, study recurring causal losses: shared family law, phase relations, recurrence stability and 2D sampling topology. Prefer reusable semantic transformations over a universal automatic golfer. A compactness pass is insufficient when the selected animated identity or named cause does not survive.
 
-Prior learned-dynamics work approximated:
+### Recurrent learned discovery operator
 
-```text
-state + action → predicted consequence
-```
+The recurrent learned-operator idea remains a parked mechanical branch, not the active default. Reopen it only if the workflow audit shows that promising representations repeatedly stall because supported transitions cannot make useful changes.
 
-and then used an external controller to navigate.
+Its first experiment remains isolated: compare native mutation, native plus applicable spectral machinery, a weight-tied recurrent operator and an equal-compute untied control. Require stable validity and defining-law preservation beyond the training horizon. Advancement also requires evidence that the behavior can improve final artifacts at comparable total cost.
 
-The recurrent branch instead learns the transition/computation itself:
+Do not tune the prior learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, or family projected-spectral populations. Their closed results remain evidence, not optimizer input.
 
-```text
-state → next state
-```
+## Research discipline
 
-with the same operator repeatedly consuming its own outputs.
+For a decision-changing experiment:
 
-### Priority
+1. state the decision it could change;
+2. freeze the hypothesis, population, comparison, budget and advancement rule before results;
+3. preserve the full valid archive and exact final artifacts;
+4. use fresh evidence for a claim of artistic improvement;
+5. close negative branches rather than retuning them against consumed ratings.
 
-**Active.** The family projected-spectral causal chain has reached its terminal artistic boundary, so this branch is now the next independent research direction.
+The next concrete study is therefore the complete-workflow comparison and bottleneck audit. Its most useful possible result may be confirmation that the simplified workflow already achieves the objective and that the research runtime should remain optional.

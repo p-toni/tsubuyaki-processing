@@ -1,228 +1,56 @@
 # tsubuyaki-processing
 
-A production-oriented Agent Skill for authentic, tweet-sized **#つぶやきProcessing**: compact mathematical systems whose animated phenotype is disproportionately richer than the source.
+An Agent Skill for original **#つぶやきProcessing**: compact mathematical systems whose animations are richer than their source.
 
-## Current direction — discovery first, deployment pressure later
+The deliverable is a compelling, runnable p5.js sketch that retains its defining behavior in a complete post of at most 280 characters.
 
-The project treats generation as an **elite-preserving mathematical discovery process with adaptive deployment promotion**:
+## Use the skill
 
-```text
-intent
-→ compact representation
-→ viable incumbent
-→ brief invariants
-→ progressive route-aware search
-→ faithful causal lineage
-→ visual + temporal ranking
-→ adaptive compression-survival preflight
-→ deployment finalist
-→ golf
-→ exact verification
-```
-
-v0.10 established progressive route-aware search. v0.11 made elite/lineage state executable. v0.12–v0.13 made causal/search provenance faithful. The description-length experiments then showed that character pressure belongs **after artistic ranking but before deployment commitment**.
-
-## v0.14 adaptive compression-survival promotion
-
-Description length is now treated as a **deployment constraint on promotion**, not a creative-search objective.
-
-The production policy is:
+Start with [SKILL.md](SKILL.md). The ordinary workflow is:
 
 ```text
-visual / temporal ranking
-→ preflight current best
-   ├─ survives compression → deployment finalist
-   └─ fails → preserve artistic discovery and try next-ranked candidate
-→ full golf
-→ exact survival verification
+choose a suitable mathematical representation
+→ build and inspect a readable sketch
+→ explore alternatives if they would help
+→ compress while preserving its cause and animation
+→ verify the exact post
 ```
 
-The key distinction is:
+Keep a good incumbent. More search, a larger archive or a higher diagnostic score does not by itself improve the art.
 
-```text
-fits <=280 != defining phenotype survived
-```
-
-A candidate can fit the character limit and still fail because the compact form removed the relationships that made the expanded phenotype good.
-
-### No fixed shortlist size
-
-The adaptive follow-up found that rank 2 was enough in the tested archive, but the production rule is **not** `top 2`.
-
-Preflight candidates sequentially in visual-rank order and stop at the first one whose defining mathematical relationships survive plausible compact representation.
-
-Continue only while remaining candidates are still artistically worth deployment.
-
-### No compression fitness
-
-Do not add character count, compressibility, tweetability or description length to creative fitness.
-
-Keep the roles separate:
-
-```text
-hard validity → reject broken work
-brief invariants → reject off-task work
-novelty → diversify review candidates
-visual + temporal judgment → rank the art
-discovery state → preserve what actually happened
-compression survival → gate deployment promotion
-```
-
-See `references/compression-promotion.md`.
-
-## v0.13 discovery-state evidence fidelity
-
-### Paired causal changes
-
-A candidate records each mutation class together with its concrete operator:
-
-```sh
-node scripts/discovery-state.mjs add _local/search-state.json E7 \
-  --change=fold-frequency::ribFreq:0->0.85 \
-  --change=latent-scale::sx:8.4->7.2
-```
-
-Stored form:
-
-```json
-"mutation": {
-  "changes": [
-    {"class": "fold-frequency", "operator": "ribFreq:0->0.85"},
-    {"class": "latent-scale", "operator": "sx:8.4->7.2"}
-  ]
-}
-```
-
-This replaces ambiguous parallel `classes[]` / `operators[]` arrays.
-
-Equal-count legacy `--class` / `--operator` CLI arguments are still accepted and converted immediately into paired changes; new work should use `--change=CLASS::OPERATOR`.
-
-### Review-bound stage unlocks
-
-Broadening search still requires reviewed evidence:
-
-```sh
-node scripts/discovery-state.mjs unlock _local/search-state.json 2 \
-  --reason="stage 1 produced only near-neighbors" \
-  --evidence=E8 \
-  --evidence=E9
-```
-
-The state records the exact historical review event for each cited candidate:
-
-```json
-"evidence": [
-  {"candidateId": "E8", "reviewSeq": 12},
-  {"candidateId": "E9", "reviewSeq": 15}
-]
-```
-
-Validation verifies that each review belongs to that candidate, came from the exhausted stage, was complete, and occurred before the unlock.
-
-### Historical-stage legality + grammar provenance
-
-Candidate changes are validated against the mutation permissions available at the candidate's historical stage.
-
-Initialization pins the grammar version and exact SHA-256, so later grammar changes cannot silently reinterpret an old search record.
-
-v0.13 uses discovery-state `version: 3`.
-
-## Progressive route-aware search
-
-The production unlock schedules remain:
-
-### Repeated math family
-1. local family/deformation/harmonic parameters;
-2. family count, discrete harmonics, distance power, deformation operator;
-3. selected projection changes while preserving the multi-instance niche.
-
-### Recurrence / living knot
-1. recurrence-role parameters + residue/family structure;
-2. projection/deformation/time structure;
-3. broader recurrence variant only when useful.
-
-### Dense 2D sheet
-1. projection/deformation family;
-2. sampling geometry, latent x/y scale, fold-frequency structure;
-3. broader sheet-compatible projection only while preserving sheetness.
-
-### Intentional 1D filament / ribbon
-1. local numeric tuning;
-2. axial-preserving family/harmonic/fold structure;
-3. projection/topology only when the brief changes.
-
-### Morphology-first explicit anatomy
-Use local validated controls first, then limited morphology-contract-preserving family/attachment exploration. Broad body-plan mutation remains experimental.
-
-See:
-
-```text
-references/discovery-search.md
-references/discovery-state.md
-references/compression-promotion.md
-templates/mutation-grammar.json
-scripts/discovery-state.mjs
-```
-
-## Math-first representation
-
-The strongest compact representation path remains:
-
-```text
-kernel → latent fields → family operator → nonlinear deformation → projection
-```
-
-Use explicit morphology only when the user actually needs named anatomy, attachment hierarchy or local editing.
-
-## Evidence
-
-Search and deployment experiments are preserved under:
-
-```text
-experiments/search-lab/
-experiments/paired-route-search/
-experiments/description-length-pressure/
-```
-
-The description-length timing experiment found:
-
-- late-only pressure: 3 / 4 deployable winners;
-- shortlist preflight: 4 / 4;
-- early compactness filtering: 4 / 4 while removing 17 / 48 candidates before artistic review.
-
-The adaptive follow-up found the same deployment outcome with sequential fallback and no universal shortlist K.
-
-These experiments justify production policy; their candidate counts, diagnostic budgets and critic proxies are not production constants.
-
-## Still unresolved
-
-The project does not yet establish:
-
-- exact unlock thresholds or candidate budgets;
-- optimal mutation probabilities;
-- independent LLM starts vs deeper search around one start;
-- broad morphology-first structural search;
-- morphology-first compression-preflight behavior;
-- an automatic aesthetic scorer;
-- a universal cross-route genotype;
-- fully autonomous candidate mutation.
-
-The readable mathematical system remains the semantic source of truth.
-
-## Tweet constraint
-
-The recommended executable form `CODE//#つぶやきProcessing` leaves **259 X-weighted characters for code**.
-
-Always verify the complete post:
+The executable suffix `//#つぶやきProcessing` leaves **259 X-weighted characters for code**. Check the complete post:
 
 ```sh
 node scripts/check-length.mjs post.txt
 ```
 
-280 is a ceiling, not a target.
+A length pass is only one requirement. Render the exact code across a meaningful temporal horizon and verify that compression preserved the relationships that made the selected sketch work.
 
-## Current thesis
+## Where to look
 
-> **good mathematical representation + progressive route-aware search + faithful causal provenance + brief-aware visual ranking + adaptive compression-survival deployment promotion.**
+- [Examples](examples/) and [templates](templates/) provide starting points.
+- [Discovery search](references/discovery-search.md) offers route-specific heuristics when iteration is useful.
+- [Discovery state](references/discovery-state.md) provides optional reproducible bookkeeping for resumable searches and experiments. Create state with the CLI's `init` command.
+- [Compression promotion](references/compression-promotion.md) explains visual selection, compression survival and fallback.
+- [Autonomous discovery prototype](prototypes/autonomous-discovery/README.md) is a separate research runtime. It does not implement the final golf boundary and is not required to use the skill.
 
-The goal is to reliably discover a **large phenotype from a small mathematical cause** without making description length suppress the creative search that discovers it.
+## Evidence and limits
+
+The [paired route-search study](experiments/paired-route-search/results.md) suggests useful route-specific starting points. Its aesthetic audit used the same model that produced the experiment, after proxy-based candidate reduction. It supports working heuristics, not a universally optimal stage schedule.
+
+The [description-length study](experiments/description-length-pressure/results.md) found 3/4 deployable winners with late-only compression and 4/4 with preflight. Early filtering also achieved 4/4 but removed 17/48 candidates before visual review. This small study motivates checking compression before committing to a deployment candidate; it does not require every sketch to run a search experiment.
+
+Mechanical gains do not establish artistic gains. The [family projected-spectral review](research-results/family-projected-spectral-artistic-v1/results.md) found 18 equivalent pairs and only six decisive judgments, with two favoring projected-spectral. Artistic support was not demonstrated; that runtime remains opt-in and default-off.
+
+Research protocols, code and results remain in [experiments](experiments/), [research-results](research-results/) and [research-commitments](research-commitments/). The [research roadmap](references/research-roadmap.md) tracks further hypotheses. These records support evaluation and reproduction; they are not prerequisites for making a sketch.
+
+## Local checks
+
+The skill's JavaScript tools use Node.js built-ins:
+
+```sh
+node scripts/test-discovery-state.mjs
+node --test scripts/test-png.mjs
+```
+
+Python prototype setup and tests are documented in its own README.

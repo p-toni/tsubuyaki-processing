@@ -1,6 +1,8 @@
 # Progressive Route-Aware Discovery Search
 
-The skill's job is to **discover a strong mathematical cause**, preserve it as an incumbent, and search outward in an order appropriate to the representation.
+Use this guide when a sketch would benefit from further exploration. If the incumbent already meets the brief and is visually strong, proceed to compression.
+
+The route schedules below are working heuristics derived from limited experiments, not mandatory stages for every sketch. When using the executable state tool, its chosen grammar remains binding so recorded history stays reproducible.
 
 The paired route-search experiment updated the previous policy. The strongest interpretation is no longer:
 
@@ -364,15 +366,15 @@ Once a candidate passes deployment preflight:
 4. verify runtime + length;
 5. confirm the exact golfed phenotype still has the selected identity.
 
-Preflight prevents premature commitment. It does not replace final exact verification.
+Preflight prevents premature commitment. The final exact code still needs verification; reuse completed checks only when the code and observation contract are unchanged.
 
-## 11. Evidence hierarchy after route + description-length experiments
+## 11. Evidence and limits
 
-Strongly supported:
+The paired route-search aesthetic audit was performed by the same model that produced the experiment, after critic-based reduction. The description-length study covered four routes and its adaptive follow-up reused the same archive. These results motivate the following working choices; they do not establish universal superiority:
 
 - elitism;
 - route-aware early search;
-- progressive unlocking is better than permanent route restrictions;
+- broaden within the brief when an initial restriction stops helping;
 - structural search is high leverage for recurrence and sheets;
 - repeated families need niche preservation;
 - filaments benefit from local search first and axial-preserving structural search second;
@@ -396,7 +398,7 @@ Do not hard-code unresolved items as universal rules.
 
 ## 12. Executable search state
 
-For a search that spans multiple rounds, use the lightweight executable state layer rather than relying on conversational memory alone:
+Use the executable state layer when resumability, branching lineage or experimental reproducibility warrants it. Multiple rounds alone do not require a ledger:
 
 ```text
 templates/mutation-grammar.json
@@ -429,7 +431,7 @@ intent
 -> choose compact representation
 -> create viable incumbent
 -> freeze brief invariants
--> initialize discovery state when search becomes multi-round
+-> initialize discovery state when reproducibility or resumption warrants it
 -> stage 1: route-aware high-confidence search
 -> retain/promote artistic elite
 -> if saturated: unlock stage 2 brief-preserving structure

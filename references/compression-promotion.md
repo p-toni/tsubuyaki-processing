@@ -158,7 +158,7 @@ Once a candidate passes preflight:
 8. confirm Grade 0 observation preservation;
 9. confirm Grade 1 cause preservation.
 
-Preflight reduces the risk of wasting a full golf pass on the wrong candidate. It does not replace exact final verification.
+Preflight reduces the risk of wasting a full golf pass on the wrong candidate. If it already used the exact final post and covered runtime, length, the chosen horizon and both preservation grades, reuse those results. Otherwise verify the final artifact after golfing; any code change invalidates the earlier exact-code verification.
 
 A final failure inside the already-chosen horizon means the semantic preflight was too optimistic. Return to deployment fallback; do not quietly weaken the phenotype criterion.
 

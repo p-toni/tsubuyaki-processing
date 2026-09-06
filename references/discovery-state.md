@@ -1,6 +1,6 @@
 # Executable Discovery State
 
-Use this layer when discovery lasts more than one small round and the agent needs a reproducible record of **which mathematical changes produced which phenotype, under which search rules, and why search depth changed**.
+Use this optional layer for resumable searches, branching lineages or experiments needing a reproducible record of **which mathematical changes produced which phenotype, under which search rules, and why search depth changed**.
 
 It is scientific bookkeeping and guardrails, not an aesthetic optimizer.
 
@@ -37,7 +37,7 @@ node scripts/discovery-state.mjs init _local/search-state.json \
   --invariant="legible negative space"
 ```
 
-Initialization pins the grammar path, version and SHA-256. Every later command verifies the exact pin. Grammar drift invalidates the old state rather than silently changing its search rules.
+Create state with `init`; do not hand-copy a state template. Initialization pins the grammar path, version and SHA-256. Every later command verifies the exact pin. Grammar drift invalidates the old state rather than silently changing its search rules.
 
 Routes currently encoded:
 
