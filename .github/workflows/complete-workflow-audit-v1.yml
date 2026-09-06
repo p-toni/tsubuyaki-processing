@@ -14,7 +14,7 @@ env:
   BASE: b8cb5d26853f380f70746bdb9613512d47d55056
 
 jobs:
-  simple-arm-first-pass:
+  simple-arm:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -36,6 +36,8 @@ jobs:
           test -f experiments/complete-workflow-audit-v1/briefs.json
           test -f experiments/complete-workflow-audit-v1/simple-arm-candidates-v1.json
           test -f experiments/complete-workflow-audit-v1/simple-arm-readable-v1.md
+          test -f experiments/complete-workflow-audit-v1/simple-arm-review-v1.json
+          test -f experiments/complete-workflow-audit-v1/simple-arm-candidates-v2-revisions.json
           if test -e experiments/complete-workflow-audit-v1/research-arm; then
             echo 'research arm cannot exist before the simple arm is frozen' >&2
             exit 1
@@ -49,9 +51,17 @@ jobs:
           python experiments/complete-workflow-audit-v1/verify_simple_candidates.py \
             --out simple-arm-render > simple-arm-render.log
           cat simple-arm-render/verification.json
+      - name: Verify targeted second-pass revisions
+        run: |
+          python experiments/complete-workflow-audit-v1/verify_simple_candidates.py \
+            --candidates experiments/complete-workflow-audit-v1/simple-arm-candidates-v2-revisions.json \
+            --out simple-arm-revisions > simple-arm-revisions.log
+          cat simple-arm-revisions/verification.json
       - uses: actions/upload-artifact@v4
         with:
-          name: complete-workflow-audit-v1-simple-first-pass
+          name: complete-workflow-audit-v1-simple
           path: |
             simple-arm-render/
             simple-arm-render.log
+            simple-arm-revisions/
+            simple-arm-revisions.log
