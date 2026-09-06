@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "arm": "S",
+  "status": "candidate-render-3-targeted-revisions",
+  "selectionBasis": "visual inspection of exact candidate-render-2 temporal artifact before any research-arm generation",
+  "revisions": [
+    {
+      "briefId": "B01",
+      "candidateRender": 3,
+      "diagnosedShortcoming": "Candidate 2 still failed to keep the requested central void clearly legible at every sampled time.",
+      "concept": "Use a stable coupled attractor as the recurrent kernel, then impose a stronger breathing radial exclusion and a small time-varying linear shear; the void is projection-causal while the recurrent mass remains non-circular.",
+      "horizonFrames": [1,60,120,180],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,85);for(i=0,x=.2,y=.1,f=frameCount;i<2600;i++){a=x;x=sin(-1.4*y)+cos(-1.4*x);y=sin(1.6*a)+.7*cos(1.6*y);r=45/mag(x,y)+6*sin(f/70);point(200+x*(55+r)+9*y*sin(f/200),200+y*(45+r)+9*x*cos(f/200))}}//#つぶやきProcessing"
+    },
+    {
+      "briefId": "B02",
+      "candidateRender": 3,
+      "diagnosedShortcoming": "Candidate 2's chosen recurrence coefficients converged to a tiny attractor and therefore could not sustain the braid.",
+      "concept": "Switch to a known broad coupled attractor coefficient regime, keeping time outside the kernel as iteration-dependent non-rigid projection drift so the braid stays spatially broad and temporally stable.",
+      "horizonFrames": [1,70,140,210],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,75);for(i=0,x=.2,y=.1;i<3000;i++){a=x;x=sin(-1.4*y)+cos(-1.4*x);y=sin(1.6*a)+.7*cos(1.6*y);q=frameCount/140;point(200+70*x+16*sin(i/95+q),200+55*y+8*sin(i/130-q))}}//#つぶやきProcessing"
+    }
+  ]
+}
