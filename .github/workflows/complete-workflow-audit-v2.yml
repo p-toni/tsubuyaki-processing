@@ -1,0 +1,64 @@
+name: complete-workflow-audit-v2
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/complete-workflow-audit-v2/**'
+      - '.github/workflows/complete-workflow-audit-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BASE: b8cb5d26853f380f70746bdb9613512d47d55056
+
+jobs:
+  simple-arm-first-pass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enforce frozen protocol and arm ordering
+        run: |
+          set -euo pipefail
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test -f experiments/complete-workflow-audit-v2/README.md
+          test -f experiments/complete-workflow-audit-v2/briefs.json
+          test -f experiments/complete-workflow-audit-v2/simple-arm-candidates-v1.json
+          test -f experiments/complete-workflow-audit-v2/simple-arm-readable-v1.md
+          if test -e experiments/complete-workflow-audit-v2/research-arm; then
+            echo 'research arm cannot exist before simple arm freeze' >&2
+            exit 1
+          fi
+          python -m py_compile experiments/complete-workflow-audit-v2/verify_simple_candidates.py
+          node --check experiments/complete-workflow-audit-v2/render_exact_post.mjs
+          python - <<'PY'
+          import json
+          b=json.load(open('experiments/complete-workflow-audit-v2/briefs.json'))
+          c=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-candidates-v1.json'))
+          assert len(b['briefs']) == 12 and len(c['candidates']) == 12
+          assert [x['id'] for x in b['briefs']] == [x['briefId'] for x in c['candidates']]
+          assert all(x['id'].startswith('F') for x in b['briefs'])
+          PY
+      - name: Install image dependency
+        run: python -m pip install Pillow
+      - name: Verify simple-arm first incumbents
+        run: |
+          python experiments/complete-workflow-audit-v2/verify_simple_candidates.py --out simple-arm-first-pass > simple-arm-first-pass.log
+          cat simple-arm-first-pass/verification.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: complete-workflow-audit-v2-simple-first-pass
+          path: |
+            simple-arm-first-pass/
+            simple-arm-first-pass.log
