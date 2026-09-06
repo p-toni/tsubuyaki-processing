@@ -14,9 +14,9 @@ env:
   BASE: b8cb5d26853f380f70746bdb9613512d47d55056
 
 jobs:
-  simple-arm-final-revision:
+  simple-arm-final-set:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,41 +28,43 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Enforce frozen prior reviews and arm ordering
+      - name: Enforce complete S provenance and block R
         run: |
           set -euo pipefail
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
-          test -f experiments/complete-workflow-audit-v2/simple-arm-review-v1.json
-          test -f experiments/complete-workflow-audit-v2/simple-arm-review-v2.json
-          test -f experiments/complete-workflow-audit-v2/simple-arm-candidates-v3-final-revision.json
-          python - <<'PY'
-          import json
-          a=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-review-v1.json'))
-          b=json.load(open('experiments/complete-workflow-audit-v2/simple-arm-review-v2.json'))
-          assert a['sourceArtifact']['digest'] == 'sha256:c62da22c49d99a1c3c449e6245c2878112813909272e37fde23d8bb848b37e05'
-          assert b['sourceArtifact']['workflowRun'] == 34007871043
-          assert b['sourceArtifact']['artifactId'] == 9981531516
-          assert b['sourceArtifact']['digest'] == 'sha256:4e617715b1d0f574147bdeac61ad5c8e95ddf1078e1e1d3fbead933fc594a729'
-          assert b['researchArmGeneratedOrInspectedBeforeDecision'] is False
-          assert [k for k,v in b['decisions'].items() if v['decision']=='revise'] == ['F05']
-          PY
+          for f in README.md briefs.json simple-arm-candidates-v1.json simple-arm-readable-v1.md simple-arm-review-v1.json simple-arm-candidates-v2-revisions.json simple-arm-review-v2.json simple-arm-candidates-v3-final-revision.json simple-arm-final-candidates.json; do
+            test -f "experiments/complete-workflow-audit-v2/$f"
+          done
           if test -e experiments/complete-workflow-audit-v2/research-arm; then
-            echo 'research arm cannot exist before simple arm freeze' >&2
+            echo 'research arm cannot exist before authoritative simple-arm final freeze' >&2
             exit 1
           fi
+          python - <<'PY'
+          import json
+          root='experiments/complete-workflow-audit-v2/'
+          r1=json.load(open(root+'simple-arm-review-v1.json'))
+          r2=json.load(open(root+'simple-arm-review-v2.json'))
+          finals=json.load(open(root+'simple-arm-final-candidates.json'))
+          assert r1['sourceArtifact']['digest']=='sha256:c62da22c49d99a1c3c449e6245c2878112813909272e37fde23d8bb848b37e05'
+          assert r2['sourceArtifact']['digest']=='sha256:4e617715b1d0f574147bdeac61ad5c8e95ddf1078e1e1d3fbead933fc594a729'
+          assert len(finals['candidates'])==12
+          chosen={x['briefId']:x['candidateRender'] for x in finals['candidates']}
+          assert chosen=={'F01':1,'F02':1,'F03':1,'F04':1,'F05':3,'F06':1,'F07':1,'F08':2,'F09':1,'F10':2,'F11':1,'F12':1}
+          assert finals['totalExploratoryCandidateRenders']==16
+          PY
           python -m py_compile experiments/complete-workflow-audit-v2/verify_simple_candidates.py
           node --check experiments/complete-workflow-audit-v2/render_exact_post.mjs
       - name: Install image dependency
         run: python -m pip install Pillow
-      - name: Verify final F05 revision
+      - name: Verify exact selected S final set
         run: |
           python experiments/complete-workflow-audit-v2/verify_simple_candidates.py \
-            --candidates experiments/complete-workflow-audit-v2/simple-arm-candidates-v3-final-revision.json \
-            --out simple-arm-final-revision > simple-arm-final-revision.log
-          cat simple-arm-final-revision/verification.json
+            --candidates experiments/complete-workflow-audit-v2/simple-arm-final-candidates.json \
+            --out simple-arm-final-set > simple-arm-final-set.log
+          cat simple-arm-final-set/verification.json
       - uses: actions/upload-artifact@v4
         with:
-          name: complete-workflow-audit-v2-simple-final-revision
+          name: complete-workflow-audit-v2-simple-final-set
           path: |
-            simple-arm-final-revision/
-            simple-arm-final-revision.log
+            simple-arm-final-set/
+            simple-arm-final-set.log
