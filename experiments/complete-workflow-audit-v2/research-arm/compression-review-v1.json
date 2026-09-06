@@ -1,0 +1,20 @@
+{
+  "version":1,
+  "stage":"compression-attempt-1-review",
+  "sourceArtifact":{"workflowRun":34009147383,"artifactId":9981919444,"digest":"sha256:79583513ddb2dd4bde6661a74748b2417c0459fb8fa5ca99073c5bf2cfbd83fb"},
+  "reviewBasis":"paired visual comparison of each frozen expanded R selection against the exact compact post over the same four-frame horizon, plus cause-preservation inspection",
+  "decision":"ATTEMPT_1_PRESERVATION_FAILED",
+  "records":[
+    {"briefId":"F01","grade0":false,"grade1":false,"reason":"compact form collapses the selected layered spectral material into a smooth generic spine"},
+    {"briefId":"F03","grade0":false,"grade1":false,"reason":"localized irregular spectral structure disappears; compact form becomes a generic two-scale wave"},
+    {"briefId":"F04","grade0":false,"grade1":false,"reason":"expanded asymmetric folded material is not observably retained"},
+    {"briefId":"F05","grade0":false,"grade1":false,"reason":"selected localized multi-mode kink/material complexity is substantially lost"},
+    {"briefId":"F08","grade0":false,"grade1":false,"reason":"expanded redistribution/material structure collapses to a smooth traveling wave"},
+    {"briefId":"F09","grade0":false,"grade1":false,"reason":"localized packet-like spectral material is not preserved"},
+    {"briefId":"F10","grade0":false,"grade1":false,"reason":"selected layered beating/material structure is substantially simplified"},
+    {"briefId":"F11","grade0":false,"grade1":false,"reason":"expanded wavelength/material irregularity is not retained"},
+    {"briefId":"F12","grade0":false,"grade1":false,"reason":"expanded fine multi-mode corrugation is not observably retained"}
+  ],
+  "promotionEligibleCount":0,
+  "next":"use the second and final allowed compression attempt with two Hamiltonian spectral displacement modes; do not weaken the frozen named relationships"
+}
