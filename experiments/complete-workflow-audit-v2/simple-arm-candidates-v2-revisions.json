@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "arm": "S",
+  "status": "candidate-render-2-targeted",
+  "revisions": [
+    {"briefId":"F05","candidateRender":2,"concept":"The moving sign-change becomes a sharper but still continuous kink riding on a smaller traveling carrier.","horizonFrames":[1,60,120,180],"post":"setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,110);for(i=0;i<900;i++){u=i/450-1;v=u-.5*sin(frameCount/70);y=200+30*sin(6*u-frameCount/38)+24*v/(.03+abs(v));point(200+165*u,y)}}//#つぶやきProcessing"},
+    {"briefId":"F08","candidateRender":2,"concept":"A stronger time-varying linear amplitude tilt makes energy transfer visibly between the two sides while the carrier travels.","horizonFrames":[1,60,120,180],"post":"setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,110);for(i=0;i<900;i++){u=i/450-1;a=.65+.55*u*sin(frameCount/35);y=200+52*a*sin(8*u-frameCount/28);point(200+165*u,y)}}//#つぶやきProcessing"},
+    {"briefId":"F10","candidateRender":2,"concept":"Two more separated but still coupled spatial frequencies create a clearly visible interference envelope that evolves because their temporal rates differ.","horizonFrames":[1,65,130,195],"post":"setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,105);for(i=0;i<900;i++){u=i/450-1;y=200+28*sin(7*u-frameCount/31)+28*sin(11*u-frameCount/37);point(200+165*u,y)}}//#つぶやきProcessing"}
+  ]
+}
