@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "arm": "S",
+  "status": "candidate-render-2-targeted-revisions",
+  "selectionBasis": "visual inspection of exact candidate-render-1 temporal contact sheet before any research-arm generation",
+  "revisions": [
+    {
+      "briefId": "B01",
+      "candidateRender": 2,
+      "diagnosedShortcoming": "The recurrent mass was coherent but the required persistent internal void was not legible enough across the horizon.",
+      "concept": "Retain coupled recurrence, then use a radial-gap projection plus asymmetric cross-shear so the central void is causal without reducing the form to a ring.",
+      "horizonFrames": [1,60,120,180],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,80);for(i=0,x=y=.2;i<2600;i++){a=x;x=sin(y*2.3+frameCount/110)+.7*cos(x*3.1);y=sin(a*2.1)-.8*cos(y*2.7-frameCount/150);r=30/mag(x,y);point(200+x*(68+r)+10*y,200+y*(60+r)+6*x)}}//#つぶやきProcessing"
+    },
+    {
+      "briefId": "B02",
+      "candidateRender": 2,
+      "diagnosedShortcoming": "Candidate 1 collapsed to a tiny mark at the second sampled time, violating stable braid behavior.",
+      "concept": "Use a time-stable coupled attractor kernel and put the temporal drift in two non-rigid iteration-dependent projection terms instead of destabilizing the recurrence coefficients.",
+      "horizonFrames": [1,70,140,210],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,75);for(i=0,x=.2,y=.1;i<3000;i++){a=x;x=sin(1.7*y)+.7*cos(1.9*x);y=sin(1.6*a)-.8*cos(1.3*y);q=frameCount/140;point(200+82*x+16*sin(i/95+q),200+58*y+8*sin(i/130-q))}}//#つぶやきProcessing"
+    },
+    {
+      "briefId": "B05",
+      "candidateRender": 2,
+      "diagnosedShortcoming": "Candidate 1 remained an amorphous recurrent mass; the requested three related but unequal lobes were not structurally explicit.",
+      "concept": "Project one shared recurrent kernel into exactly three slowly precessing copies with unequal scales, making the lobe relationship explicit while preserving one recurrent mathematical cause.",
+      "horizonFrames": [1,80,160,240],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,75);for(i=0,x=y=.2;i<1900;i++){a=x;x=sin(y*2.4)+.7*cos(x*2.9);y=sin(a*2)-.7*cos(y*2.6);for(j=0;j<3;j++){q=j*2.1+frameCount/500;s=36+8*j;point(200+x*s+52*cos(q),200+y*s+38*sin(q))}}}//#つぶやきProcessing"
+    },
+    {
+      "briefId": "B06",
+      "candidateRender": 2,
+      "diagnosedShortcoming": "The breathing gap was visible, but the projection approached a simple oval/ring at several times, contrary to the brief.",
+      "concept": "Keep the causal breathing radial gap but add anisotropic scale and cross-shear so recurrent interior structure persists instead of becoming a simple circle.",
+      "horizonFrames": [1,65,130,195],
+      "post": "setup=_=>createCanvas(400,400);draw=_=>{background(9);stroke(255,85);for(i=0,x=y=.2;i<1900;i++){a=x;x=sin(y*2.5)+.6*cos(x*3);y=sin(a*2.2)-.7*cos(y*2.4);r=(20+9*sin(frameCount/70))/mag(x,y);point(200+x*(68+r)+14*y,200+y*(52+r)-8*x)}}//#つぶやきProcessing"
+    }
+  ]
+}
