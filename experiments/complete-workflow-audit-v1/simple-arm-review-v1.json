@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "arm": "S",
+  "sourceArtifact": {
+    "workflowRun": 34004769915,
+    "artifactId": 9980593943,
+    "digest": "sha256:845a19c3b3941ba325cbe7d756d5030d95e42018b514bd244cd3717bf03adc7d"
+  },
+  "researchArmGeneratedOrInspectedBeforeDecision": false,
+  "decisions": {
+    "B01": {"decision": "revise", "reason": "persistent internal void not legible enough across the frozen horizon"},
+    "B02": {"decision": "revise", "reason": "clear temporal collapse at the second sampled time"},
+    "B03": {"decision": "stop", "reason": "coherent hollow recurrent skein with meaningful temporal change"},
+    "B04": {"decision": "stop", "reason": "stable elongated recurrent form with visible interior structure and temporal deformation"},
+    "B05": {"decision": "revise", "reason": "requested three related unequal lobes not structurally explicit"},
+    "B06": {"decision": "revise", "reason": "breathing gap present but projection approaches a simple oval/ring"},
+    "B07": {"decision": "stop", "reason": "clear open axial ribbon, bilateral taper and traveling internal phase"},
+    "B08": {"decision": "stop", "reason": "open filament with visible changing two-wave interference"},
+    "B09": {"decision": "stop", "reason": "quiet-center/active-end relationship remains visible through the horizon"},
+    "B10": {"decision": "stop", "reason": "open axial filament with changing coarse/fine counter-phase structure"},
+    "B11": {"decision": "stop", "reason": "continuous sharp-bend axial identity with a traveling finer disturbance"},
+    "B12": {"decision": "stop", "reason": "persistent S-shaped axial identity with a moving local waist"}
+  }
+}
