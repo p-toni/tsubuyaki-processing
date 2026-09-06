@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "arm": "S",
+  "status": "FROZEN_BEFORE_RESEARCH_ARM",
+  "frozenBase": "b8cb5d26853f380f70746bdb9613512d47d55056",
+  "finalSetSource": "simple-arm-final-candidates.json",
+  "authoritativeVerification": {
+    "workflowRun": 34008025839,
+    "artifactId": 9981580636,
+    "digest": "sha256:bff1d33ce8241ebc6896cd22d1479bdb4e127cd97f4d68a746c93f80ed9f1f1e",
+    "allLengthPass": true,
+    "allRuntimePass": true,
+    "reviewableFinals": 12
+  },
+  "effort": {
+    "totalExploratoryCandidateRenders": 16,
+    "meanPerBrief": 1.3333333333333333,
+    "candidateRenderByBrief": {"F01":1,"F02":1,"F03":1,"F04":1,"F05":3,"F06":1,"F07":1,"F08":2,"F09":1,"F10":2,"F11":1,"F12":1}
+  },
+  "grade1CausePreservation": {
+    "F01":true,"F02":true,"F03":true,"F04":true,"F05":true,"F06":true,
+    "F07":true,"F08":true,"F09":true,"F10":true,"F11":true,"F12":true
+  },
+  "reviewCustody": {
+    "firstPass":{"workflowRun":34007753367,"artifactId":9981501955,"digest":"sha256:c62da22c49d99a1c3c449e6245c2878112813909272e37fde23d8bb848b37e05"},
+    "secondPass":{"workflowRun":34007871043,"artifactId":9981531516,"digest":"sha256:4e617715b1d0f574147bdeac61ad5c8e95ddf1078e1e1d3fbead933fc594a729"},
+    "finalF05":{"workflowRun":34007962427,"artifactId":9981553067,"digest":"sha256:98c2344dfce8ba15070e9a153d0fbfae527b1a815369034174ad41cefc8e1eb4"}
+  },
+  "researchArmGeneratedOrInspectedBeforeFreeze": false
+}
