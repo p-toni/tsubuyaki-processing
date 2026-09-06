@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
-import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -27,11 +26,17 @@ def main() -> None:
     args = ap.parse_args()
 
     data = json.loads(Path(args.candidates).read_text())
+    items = data.get('candidates')
+    if items is None:
+        items = data.get('revisions')
+    if not isinstance(items, list) or not items:
+        raise ValueError('candidate file must contain a non-empty candidates or revisions list')
+
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     records = []
 
-    for item in data['candidates']:
+    for item in items:
         bid = item['briefId']
         root = out / bid
         root.mkdir(parents=True, exist_ok=True)
@@ -80,7 +85,7 @@ def main() -> None:
     result = {
         'version': 1,
         'arm': 'S',
-        'status': 'candidate-render-1-verified',
+        'sourceStatus': data.get('status'),
         'count': len(records),
         'allLengthPass': all(x['length']['pass'] for x in records),
         'allRuntimePass': all(x['runtimePass'] for x in records),
