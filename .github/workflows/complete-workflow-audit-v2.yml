@@ -46,20 +46,27 @@ jobs:
           assert u['selectionCommit']=='33abda7a55288af391db9c8ff29b900c768dac87'
           assert u['sourceArtifact']['digest']==r['sourceArtifact']['digest']
           assert len(u['records'])==9 and all(x['generationOperator']=='spectral' for x in u['records'])
-          c=json.load(open('experiments/complete-workflow-audit-v2/research-arm/compression-attempt-v1.json'))
-          assert len(c['records'])==9
-          assert [x['briefId'] for x in c['records']]==[x['briefId'] for x in u['records']]
+          c1=json.load(open('experiments/complete-workflow-audit-v2/research-arm/compression-review-v1.json'))
+          assert c1['sourceArtifact']=={'workflowRun':34009147383,'artifactId':9981919444,'digest':'sha256:79583513ddb2dd4bde6661a74748b2417c0459fb8fa5ca99073c5bf2cfbd83fb'}
+          assert c1['decision']=='ATTEMPT_1_PRESERVATION_FAILED' and c1['promotionEligibleCount']==0
+          c2=json.load(open('experiments/complete-workflow-audit-v2/research-arm/compression-attempt-v2.json'))
+          assert c2['stage']=='compression-attempt-2-final-allowed-attempt'
+          assert len(c2['records'])==9
+          assert [x['briefId'] for x in c2['records']]==[x['briefId'] for x in u['records']]
+          assert all(x['removedOnly']==['longitudinal x-drift term'] and len(x['retainedModes'])==2 for x in c2['records'])
           PY
           python -m py_compile experiments/complete-workflow-audit-v2/research-arm/verify_compression.py
           node --check experiments/complete-workflow-audit-v2/render_exact_post.mjs
       - name: Install image dependency
         run: python -m pip install Pillow
-      - name: Verify exact compression attempt one
+      - name: Verify exact compression attempt two
         run: |
-          python experiments/complete-workflow-audit-v2/research-arm/verify_compression.py --out r-compression-v1 | tee r-compression-v1.log
+          python experiments/complete-workflow-audit-v2/research-arm/verify_compression.py \
+            --attempt experiments/complete-workflow-audit-v2/research-arm/compression-attempt-v2.json \
+            --out r-compression-v2 | tee r-compression-v2.log
       - uses: actions/upload-artifact@v4
         with:
-          name: complete-workflow-audit-v2-r-compression-v1
+          name: complete-workflow-audit-v2-r-compression-v2
           path: |
-            r-compression-v1/
-            r-compression-v1.log
+            r-compression-v2/
+            r-compression-v2.log
