@@ -14,81 +14,21 @@ env:
   BASE: caddc6d36ebb064ffe45f4c866641b9dbf9c5226
 
 jobs:
-  smoke:
+  post-generation-custody:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Enforce frozen sources and fresh population
+      - name: Enforce consumed authoritative population
         run: |
           set -euo pipefail
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
           test "$(git hash-object experiments/compact-symplectic-material-v1/README.md)" = "bd79835244895753cc52355a0cf1efcde28aea92"
           test "$(git hash-object experiments/compact-symplectic-material-v1/run.py)" = "d8bacac89d343e466e87ec7cb246a5264061553f"
-          test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
-          test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
-          if git grep -n -E '769003|769019|769037|769053|769071|769089|769107|769127|769149|769167|769181|769199|769999' "$BASE" -- . >/tmp/base-769.txt; then
-            echo 'reserved compact-symplectic population already appears in frozen base:' >&2
-            cat /tmp/base-769.txt >&2
+          if grep -nE 'Run excluded smoke|Generate authoritative blinded pairs|run.py --smoke|run.py --out authoritative' .github/workflows/compact-symplectic-material-v1.yml; then
+            echo 'consumed 769xxx generation path reappeared' >&2
             exit 1
           fi
-          python -m py_compile experiments/compact-symplectic-material-v1/run.py
-      - name: Install image dependency
-        run: python -m pip install Pillow
-      - name: Run excluded smoke
-        run: python experiments/compact-symplectic-material-v1/run.py --smoke --out smoke | tee smoke.log
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compact-symplectic-material-v1-smoke
-          path: |
-            smoke/
-            smoke.log
-
-  authoritative:
-    needs: smoke
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Recheck frozen implementation
-        run: |
-          set -euo pipefail
-          test "$(git hash-object experiments/compact-symplectic-material-v1/README.md)" = "bd79835244895753cc52355a0cf1efcde28aea92"
-          test "$(git hash-object experiments/compact-symplectic-material-v1/run.py)" = "d8bacac89d343e466e87ec7cb246a5264061553f"
-          python -m py_compile experiments/compact-symplectic-material-v1/run.py
-      - name: Install image dependency
-        run: python -m pip install Pillow
-      - name: Generate authoritative blinded pairs
-        run: python experiments/compact-symplectic-material-v1/run.py --out authoritative | tee authoritative.log
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compact-symplectic-material-v1-reviewer
-          path: authoritative/reviewer/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compact-symplectic-material-v1-sealed-key
-          path: authoritative/sealed-key/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compact-symplectic-material-v1-mechanical
-          path: |
-            authoritative/mechanical.json
-            authoritative.log
+          echo 'authoritative 769xxx generation is custody-closed'
