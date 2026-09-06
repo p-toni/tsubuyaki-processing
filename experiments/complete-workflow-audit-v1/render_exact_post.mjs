@@ -35,15 +35,14 @@ try{
     const hp=path.join(tmp,`frame-${target}.html`);
     fs.writeFileSync(hp,html);
     const url=pathToFileURL(hp).href;
-    const common=['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--window-size=400,400','--virtual-time-budget=7000',url];
-    const dom=spawnSync(browser,[...common.slice(0,-1),'--dump-dom',url],{encoding:'utf8',maxBuffer:20*1024*1024});
+    const png=path.resolve(outDir,`frame-${String(target).padStart(3,'0')}.png`);
+    const args=['--headless=new','--no-sandbox','--disable-gpu','--hide-scrollbars','--window-size=400,400','--virtual-time-budget=1000','--dump-dom',`--screenshot=${png}`,url];
+    const dom=spawnSync(browser,args,{encoding:'utf8',maxBuffer:20*1024*1024});
     if(dom.status!==0)throw new Error(`browser runtime failed at frame ${target}: ${dom.stderr}`);
     const ready=/id="audit-status"[^>]*data-ready="1"/.test(dom.stdout);
     const err=(dom.stdout.match(/id="audit-status"[^>]*data-error="([^"]*)"/)||[])[1]||'';
     if(!ready||err)throw new Error(`post failed at frame ${target}: ready=${ready} error=${err}`);
-    const png=path.resolve(outDir,`frame-${String(target).padStart(3,'0')}.png`);
-    const shot=spawnSync(browser,[...common.slice(0,-1),`--screenshot=${png}`,url],{encoding:'utf8',maxBuffer:20*1024*1024});
-    if(shot.status!==0||!fs.existsSync(png))throw new Error(`screenshot failed at frame ${target}: ${shot.stderr}`);
+    if(!fs.existsSync(png))throw new Error(`screenshot missing at frame ${target}`);
   }
   fs.writeFileSync(path.join(outDir,'render.json'),JSON.stringify({post:path.basename(postPath),frames,browser,scheduler:'deterministic-timeout-zero'},null,2)+'\n');
 }finally{
