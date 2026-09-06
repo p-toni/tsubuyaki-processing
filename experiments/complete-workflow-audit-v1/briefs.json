@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "baseCommit": "b8cb5d26853f380f70746bdb9613512d47d55056",
+  "briefs": [
+    {
+      "id": "B01",
+      "route": "recurrence",
+      "prompt": "A living knot with one persistent internal void. It should slowly inhale and twist without collapsing into a ring or flower.",
+      "definingRelationships": ["stateful recurrent kernel", "projection materially transforms latent state", "persistent internal void/crossing structure"],
+      "horizonFrames": [1, 60, 120, 180]
+    },
+    {
+      "id": "B02",
+      "route": "recurrence",
+      "prompt": "A dense asymmetric braid that drifts rather than spins as one rigid body. Preserve several visible crossings and uneven lobe sizes over time.",
+      "definingRelationships": ["stateful recurrent kernel", "multiple persistent crossings", "non-rigid temporal drift"],
+      "horizonFrames": [1, 70, 140, 210]
+    },
+    {
+      "id": "B03",
+      "route": "recurrence",
+      "prompt": "A compact turbulent skein with a clear hollow center and a slow phase reversal. It should feel unstable locally but stable as a whole.",
+      "definingRelationships": ["stateful recurrence", "hollow-center global structure", "slow phase reversal without global collapse"],
+      "horizonFrames": [1, 75, 150, 225]
+    },
+    {
+      "id": "B04",
+      "route": "recurrence",
+      "prompt": "A stretched recurrent loop whose two ends appear to exchange mass over time. Keep an elongated silhouette and at least one durable interior crossing.",
+      "definingRelationships": ["recurrent latent state", "elongated transformed projection", "durable interior crossing", "counter-changing end masses"],
+      "horizonFrames": [1, 60, 120, 180]
+    },
+    {
+      "id": "B05",
+      "route": "recurrence",
+      "prompt": "A three-lobed recurrent tangle with uneven lobes and a subtle precession. Avoid radial symmetry and preserve the lobe relationships through motion.",
+      "definingRelationships": ["recurrent kernel", "three related but unequal lobes", "slow precession", "non-radial projection"],
+      "horizonFrames": [1, 80, 160, 240]
+    },
+    {
+      "id": "B06",
+      "route": "recurrence",
+      "prompt": "A sparse looping recurrence that repeatedly opens and nearly closes a central gap without ever becoming a simple circle.",
+      "definingRelationships": ["stateful recurrence", "central gap breathing", "persistent non-circular loop complexity"],
+      "horizonFrames": [1, 65, 130, 195]
+    },
+    {
+      "id": "B07",
+      "route": "filament",
+      "prompt": "A long axial ribbon carrying a traveling fold from left to right. It should remain unmistakably one-dimensional and taper toward both ends.",
+      "definingRelationships": ["intentional axial identity", "traveling internal fold", "bilateral taper"],
+      "horizonFrames": [1, 45, 90, 135]
+    },
+    {
+      "id": "B08",
+      "route": "filament",
+      "prompt": "A thin filament with two coupled waves moving at different rates, producing knots of interference that migrate along the axis.",
+      "definingRelationships": ["axial filament topology", "two coupled traveling phases", "migrating interference nodes"],
+      "horizonFrames": [1, 50, 100, 150]
+    },
+    {
+      "id": "B09",
+      "route": "filament",
+      "prompt": "A folded ribbon with a quiet center and active ends: the terminal regions should oscillate more strongly while the middle remains comparatively restrained.",
+      "definingRelationships": ["axial ribbon identity", "center/end amplitude relationship", "continuous traveling deformation"],
+      "horizonFrames": [1, 45, 90, 135]
+    },
+    {
+      "id": "B10",
+      "route": "filament",
+      "prompt": "A serpentine filament whose main wave travels forward while a finer ripple travels backward, producing a changing woven edge without becoming a closed loop.",
+      "definingRelationships": ["open axial topology", "counter-propagating phase components", "persistent filament identity"],
+      "horizonFrames": [1, 55, 110, 165]
+    },
+    {
+      "id": "B11",
+      "route": "filament",
+      "prompt": "A sparse lightning-like ribbon that bends sharply but continuously. A slow pulse should move through the bends without creating discontinuities.",
+      "definingRelationships": ["continuous axial path", "sharp-but-smooth bending law", "traveling pulse"],
+      "horizonFrames": [1, 50, 100, 150]
+    },
+    {
+      "id": "B12",
+      "route": "filament",
+      "prompt": "A broad S-shaped filament with a narrow waist that moves along the body. Keep the overall S identity while the local constriction travels.",
+      "definingRelationships": ["axial S-shaped topology", "traveling local waist", "global silhouette persists while local width changes"],
+      "horizonFrames": [1, 60, 120, 180]
+    }
+  ]
+}
