@@ -1,0 +1,18 @@
+{
+  "runId": 34078156001,
+  "generationHead": "2d80014bf736724224ad474023c7785747a6b8aa",
+  "reviewer": {
+    "artifactId": 10003171330,
+    "digest": "sha256:827577d5789fee0101814811c51131c18ee9e41488ff8ebbc49935b79666483f"
+  },
+  "sealedArchive": {
+    "artifactId": 10003171986,
+    "digest": "sha256:3420d19a0b5c40788136b2e04f281628df1165c7ec9fb3105a68c29bc0e0643c"
+  },
+  "mechanical": {
+    "artifactId": 10003172213,
+    "digest": "sha256:8b0ff5d20d9e60bdbea9614fd2c23e753c4ba5e438caffa15fcace228aad45a1"
+  },
+  "sealedArchiveOpened": false,
+  "ratingsCommitted": false
+}
