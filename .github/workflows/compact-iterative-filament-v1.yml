@@ -36,11 +36,13 @@ jobs:
           test "$(git hash-object experiments/compact-iterative-filament-v1/run.py)" = "1aacb6ea2db0bfe7cc1b6f0f29511e2198b76559"
           test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
           test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
-          if git grep -n -E '772003|772019|772037|772053|772071|772089|772107|772127|772149|772167|772181|772199|772999' "$BASE" -- . >/tmp/base-772.txt; then
-            echo 'reserved 772xxx population already appears in frozen base:' >&2
-            cat /tmp/base-772.txt >&2
-            exit 1
-          fi
+          for seed in 772003 772019 772037 772053 772071 772089 772107 772127 772149 772167 772181 772199 772999; do
+            if git grep -n -E "(^|[^0-9])${seed}([^0-9]|$)" "$BASE" -- . >/tmp/base-772.txt; then
+              echo "reserved seed $seed already appears in frozen base:" >&2
+              cat /tmp/base-772.txt >&2
+              exit 1
+            fi
+          done
           python -m py_compile experiments/compact-iterative-filament-v1/run.py
       - name: Install image dependency
         run: python -m pip install Pillow
