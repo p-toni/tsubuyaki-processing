@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "experiment": "phase-native-material-v1",
+  "terminalDecision": "PHASE_NATIVE_MATERIAL_ARTISTIC_NOT_SUPPORTED",
+  "frozenBase": "94138c60179e15a5e0d70bf7494bbcadf7ec6726",
+  "ratingsCommit": "853122ee2516afb202ba56b91f76550dc1577e65",
+  "authoritativeRunId": 34034168501,
+  "artifacts": {
+    "reviewer": {"id": 9989638261, "digest": "sha256:b0335c063614ebe002aca9839a6e01d59fd324dac31a0a2ee2b7a85dad06f409"},
+    "sealedKey": {"id": 9989638459, "digest": "sha256:48c87c32ad209620e72116df4f7344ddb5d3399631ca00f6f7362b1b7b98e696"},
+    "mechanical": {"id": 9989638652, "digest": "sha256:841259970e3332694041a04a51659eb9a69710521c17e1f1b26cb66f55ddb679"}
+  },
+  "mechanical": {
+    "pairCount": 12,
+    "allHardPreconditionsPassed": true
+  },
+  "artistic": {
+    "reviewable": 12,
+    "decisive": 10,
+    "equivalent": 2,
+    "phasepackWins": 2,
+    "nativeWins": 8,
+    "phasepackDecisiveWinRate": 0.2,
+    "oneSidedExactBinomialP": 0.9892578125
+  },
+  "pairOutcomes": {
+    "R01": "native",
+    "R02": "equivalent",
+    "R03": "native",
+    "R04": "equivalent",
+    "R05": "native",
+    "R06": "phasepack",
+    "R07": "phasepack",
+    "R08": "native",
+    "R09": "native",
+    "R10": "native",
+    "R11": "native",
+    "R12": "native"
+  },
+  "consequence": "Close the exact shared-latent phase/amplitude representation. Do not tune on consumed 770xxx."
+}
