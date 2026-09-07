@@ -1,0 +1,32 @@
+name: phase-native-material-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/phase-native-material-v1/**'
+      - '.github/workflows/phase-native-material-v1.yml'
+      - 'research-results/phase-native-material-v1/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BASE: 94138c60179e15a5e0d70bf7494bbcadf7ec6726
+
+jobs:
+  post-generation-custody:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Enforce consumed authoritative population
+        run: |
+          set -euo pipefail
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test "$(git hash-object experiments/phase-native-material-v1/README.md)" = "0669308a78b27b0e2c7c0f8a48fe7fd24bf2ae5f"
+          test "$(git hash-object experiments/phase-native-material-v1/run.py)" = "dcf15f528cc12c8c11b2e361f9767354bce263c4"
+          python -m py_compile experiments/phase-native-material-v1/run.py
+          echo 'authoritative 770xxx generation is custody-closed'

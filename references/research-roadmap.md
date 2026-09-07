@@ -2,9 +2,9 @@
 
 The project exists to produce original, compact mathematical animations worth keeping. Research is justified only when it makes that finished result more reliable, more expressive, or materially easier to achieve.
 
-## Current architecture
+## Production baseline
 
-The supported production baseline is deliberately small:
+The supported ordinary workflow stays deliberately small:
 
 ```text
 choose representation
@@ -15,120 +15,113 @@ choose representation
 → verify the exact post
 ```
 
-Search state, archive tooling and the autonomous prototype remain available for work that needs them. They are not prerequisites for ordinary sketch-making.
+The autonomous search runtime remains optional research machinery, not a prerequisite for making a sketch.
 
-The current evidence supports a few narrow claims:
+## What the evidence currently says
 
-- for intrinsic-1D routes, the frozen native/spectral mixed search produced artistically preferred portfolios on its tested surface;
+Narrow supported claims:
+
+- intrinsic-1D native/spectral mixed search produced artistically preferred portfolios on its tested surface;
 - target-blind max-dispersion improved the tested three-item delivery shortlist;
-- the complete-workflow filament audit selected spectral candidates in all nine research shortlists that had a brief-adherent choice, but none of those expanded gains survived the frozen two-attempt compact deployment boundary;
-- the simplified filament workflow completed 12/12 verified posts with 16 exploratory renders total, while the research arm produced 0/12 Grade-1 deployable finals after 240 generated attempts plus compression;
-- a deployment-native three-shear symplectic material map was mechanically clean but lost artistically to the same native compact filament in all 12/12 fresh decisive pairs;
-- compression must be checked across the same meaningful temporal horizon used for final verification;
-- several mechanically positive interventions did not improve artistic preference;
-- the tested generic visual and morphology-context judges were not reliable enough to make artistic decisions.
+- in the complete filament workflow audit, all nine research candidates selected from brief-adherent shortlists were spectral, but none survived the frozen two-attempt <=280-character compression boundary with Grade-0/1 identity intact;
+- the simplified filament workflow completed 12/12 verified posts with only 16 exploratory renders, while the research workflow produced 0/12 deployable finals after 240 generated attempts plus compression;
+- two deployment-native **mandatory compact treatments** were artistically negative against the same compact native filament:
+  - `compact-symplectic-material-v1`: SHEAR3 0/12 vs NATIVE 12/12;
+  - `phase-native-material-v1`: PHASEPACK 2/10 decisive vs NATIVE 8/10, with two equivalents;
+- mechanically positive interventions do not automatically create artistic value;
+- the tested generic visual and morphology-context judges are not reliable artistic authorities.
 
-Those claims do not establish a universal search policy, an automatic aesthetic scorer, or a reason to require research machinery for each sketch.
+These results do not establish a universal search policy or automatic aesthetic scorer.
 
-## Completed workflow audit
+## Active priority — deployment-native representation-led search
 
-`complete-workflow-audit-v2` compared the ordinary skill workflow against the strongest currently supported filament research stack through final compression and exact verification.
+The workflow audit still identifies a real downstream problem: expanded search can expose material worth selecting, but high-dimensional material is difficult to carry through the tweet boundary.
 
-Terminal decision:
-
-```text
-RESEARCH_WORKFLOW_FINISHED_ARTIFACT_NOT_SUPPORTED_FILAMENT
-```
-
-The important result is not that spectral search failed to produce interesting work. After blinded shortlist selection, all nine selected research candidates were spectral. The failure happened downstream: both allowed compact encodings fit and executed, but they did not preserve the selected multi-mode spectral material strongly enough for Grade 0/Grade 1 deployment.
-
-For ordinary filament work, keep the autonomous research runtime optional and the simple workflow as the production baseline.
-
-See `research-results/complete-workflow-audit-v2/`.
-
-## Active priority — compact representation and compression
-
-The dominant supported bottleneck remains `COMPRESSION_REPRESENTATION`.
-
-The first deployment-native answer on this surface, `compact-symplectic-material-v1`, is closed:
+The two subsequent failures sharpen the hypothesis. The wrong experimental unit is:
 
 ```text
-COMPACT_SYMPLECTIC_MATERIAL_ARTISTIC_NOT_SUPPORTED
+good compact incumbent
++ mandatory generic material transform
 ```
 
-Its three alternating sinusoidal coordinate shears were exactly compact, invertible and mechanically valid, but SHEAR3 won 0/12 fresh decisive human comparisons against the byte-matched native compact filament base. Do not tune that shear family on the consumed `769xxx` population.
+Both tested versions made the final artifact worse. The earlier spectral success behaved differently: material operators supplied **alternatives inside a portfolio**, and selection determined when those alternatives were useful.
 
-This negative result narrows the next representation question. Added compact richness should preserve the native filament's visual coherence, smoothness and temporal consistency rather than impose an external spatial warp.
+The next experiment therefore moves compactness upstream into discovery itself.
 
-The next research should therefore test a **phase-native compact material basis**: extra expressivity embedded inside the filament's own traveling phase/amplitude law, not applied afterward as a coordinate transformation and not reconstructed from a high-dimensional spectral field.
+### Next concrete study — compact material grammar portfolio
 
-A useful compact primitive should:
+Build a small deployment-native material grammar whose candidates are already complete executable <=280-character posts at generation time.
 
-- preserve an explicit mathematical cause rather than reconstruct a few frames;
-- encode materially richer deformation than the one- and two-mode reductions that failed the audit;
-- remain inside the open axial filament's smooth traveling phase relationships;
-- have a readable expanded account and a compact executable form;
-- be tested against fresh finished artifacts, not only pixel or recovery metrics.
+Compare, at equal total candidate budget:
 
-Prefer materially different representation hypotheses over nearby parameter tuning. Character count remains a hard deployment boundary, not an artistic fitness score.
+```text
+NATIVE PORTFOLIO
+compact native filament candidates only
+
+vs
+
+MIXED COMPACT-MATERIAL PORTFOLIO
+same native allocation + optional candidates from a frozen compact material grammar
+```
+
+Requirements:
+
+- all candidates satisfy the final deployment boundary **before selection**;
+- the mixed arm does not force a material transform onto every base;
+- candidate-budget equality is exact;
+- preserve the complete valid archive for later bottleneck diagnosis;
+- delivery is target-blind and frozen before human review;
+- final advancement depends on fresh artistic comparison, not novelty or descriptor gain;
+- if a compact material primitive is selected, its readable mathematical cause must still match the exact post.
+
+The first grammar should be materially broader than either closed fixed treatment while remaining compact by construction. It may contain a small frozen vocabulary of smooth phase/envelope/beat mechanisms, but no parameter or mechanism may be tuned against consumed `769xxx` or `770xxx` ratings.
+
+This experiment asks whether compact material is useful **when search can choose it**, not whether one formula improves every incumbent.
 
 ## Bottleneck discipline
 
-Classify each comparison before proposing a remedy:
+Classify evidence before proposing a remedy:
 
 | Observation | Next research surface |
 | --- | --- |
 | No inspected candidate is compelling | Mathematical representation and generation |
-| Good candidates exist but do not reach the delivery set | Selection and delivery |
-| A good selected candidate loses its identity in compact form | Representation and compression |
+| Good candidates exist but do not reach delivery | Selection and delivery |
+| Good selected candidate loses identity in final form | Representation and compression |
 | Good results require disproportionate work | Stopping and workflow simplification |
 
-The filament audit classified nine briefs as `COMPRESSION_REPRESENTATION`. F02/F06/F07 remain `NO_SINGLE_BOTTLENECK`: their delivered shortlists had no brief-adherent candidate, and the complete archive was not retained for lawful post-hoc artistic inspection, so generation versus delivery cannot be separated without regenerating consumed evidence.
+The workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. Three briefs remain `NO_SINGLE_BOTTLENECK` because their complete generated archives were not lawfully retained for retrospective artistic inspection.
 
-This is a decision gate, not a new metric. Work on one diagnosed bottleneck at a time.
-
-## Representation-led discovery
-
-When generation is actually the bottleneck, test a single new compact representation or operator against the current route baseline. The hypothesis must be expressive: it should produce a class of compelling animated behavior the baseline struggles to reach, rather than merely increase descriptor diversity or a mechanical recovery score.
-
-Every candidate representation needs:
-
-- a readable mathematical account of the defining relationships;
-- route validity and brief-adherence checks appropriate to its form;
-- a comparable search budget;
-- examples taken through compression when they are finalists; and
-- an advancement decision based on fresh final artifacts.
-
-Mechanical diagnostics are useful to characterize an operator. They do not authorize default production integration without a visible benefit.
+The compact-grammar study should preserve its complete archive so generation, delivery, and deployment can be separated afterward without regenerating consumed evidence.
 
 ## Conditional branches
 
 ### Selection and delivery
 
-Reopen this surface only when preserved evidence shows that good generated candidates are routinely missed. Compare delivery reductions on the same completed archive. Retain the current route-safe archive and test only the reducer. Max-dispersion is supported on its tested three-item surface; it should not be silently promoted into search-parent or route-allocation authority.
+Reopen only when preserved evidence shows good generated candidates are routinely missed. Compare reducers on the same completed archive. Max-dispersion is supported only on its tested shortlist surface and does not become search-parent or route-allocation authority by implication.
 
-Any automatic preference learner needs labels that actually match its decision. Portfolio-level judgments cannot be assumed to supervise individual-candidate ranking. It must represent equivalence and uncertainty, be trained on a representation frozen before fresh labels, and earn prospective human evidence before influencing search or delivery.
+Any future automatic preference learner must be trained on labels matching its actual decision, represent equivalence/uncertainty, and earn fresh prospective human support before influencing search or delivery.
 
 ### Recurrent learned discovery operator
 
-The Sotaku-inspired recurrent learned-operator idea remains parked. Reopen it only if a later complete-workflow audit shows that promising compact representations repeatedly stall because supported transitions cannot make useful changes.
+The Sotaku-inspired recurrent operator remains parked.
 
-Its first experiment remains isolated: compare native mutation, native plus applicable spectral machinery, a weight-tied recurrent operator and an equal-compute untied control. Require stable validity and defining-law preservation beyond the training horizon. Advancement also requires evidence that the behavior can improve final artifacts at comparable total cost.
+Reopen it only if a complete-workflow study using promising **compact** representations shows that useful final-post representations exist but current transitions repeatedly fail to reach them. Its first valid test remains isolated: weight-tied recurrent transition vs current mutation and equal-compute untied controls, with stability beyond training horizon and final-artifact evidence.
 
-The current filament evidence is specifically **not** that evidence: it points downstream to compact representation rather than transition quality.
+Current evidence does not support reopening it: the strongest demonstrated problem remains representation/deployment, not transition depth.
 
-Do not tune the prior learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral, or compact-symplectic populations. Their closed results remain evidence, not optimizer input.
+## Closed populations
+
+Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, or phase-native populations. Their negative results remain evidence, not optimizer input.
 
 ## Research discipline
 
-For a decision-changing experiment:
+For any decision-changing experiment:
 
 1. state the decision it could change;
-2. freeze the hypothesis, population, comparison, budget and advancement rule before results;
+2. freeze hypothesis, population, comparison, budget, and advancement rule before results;
 3. preserve the full valid archive and exact final artifacts;
-4. use fresh evidence for a claim of artistic improvement;
-5. close negative branches rather than retuning them against consumed ratings.
+4. use fresh evidence for artistic claims;
+5. commit human ratings before unblinding;
+6. close negative branches rather than tuning them against consumed ratings.
 
-The workflow audit also exposed an evidence-handling requirement: when later bottleneck diagnosis may depend on whether delivery missed good work, preserve the complete valid archive at generation time. Do not regenerate a consumed population to repair missing retrospective evidence.
-
-The next concrete study is therefore a **phase-native compact material representation** experiment: add richer smooth internal phase structure while keeping the compact filament causal vocabulary and final tweet boundary native from the start.
+The immediate next step is the **compact material grammar portfolio** experiment described above.

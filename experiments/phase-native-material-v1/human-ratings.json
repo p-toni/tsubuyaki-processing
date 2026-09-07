@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "status": "ratings-fixed-before-unblinding",
+  "ratings": {
+    "R01": "B>A",
+    "R02": "equivalent",
+    "R03": "A>B",
+    "R04": "equivalent",
+    "R05": "A>B",
+    "R06": "B>A",
+    "R07": "B>A",
+    "R08": "B>A",
+    "R09": "B>A",
+    "R10": "A>B",
+    "R11": "A>B",
+    "R12": "B>A"
+  }
+}
