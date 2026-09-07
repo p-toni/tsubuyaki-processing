@@ -1,0 +1,24 @@
+{
+  "artifactRunId": 34078156001,
+  "reviewerArtifactId": 10003171330,
+  "reviewerArtifactDigest": "sha256:827577d5789fee0101814811c51131c18ee9e41488ff8ebbc49935b79666483f",
+  "ratings": {
+    "R01": "A>B",
+    "R02": "B>A",
+    "R03": "A>B",
+    "R04": "A>B",
+    "R05": "A>B",
+    "R06": "A>B",
+    "R07": "A>B",
+    "R08": "A>B",
+    "R09": "A>B",
+    "R10": "B>A",
+    "R11": "B>A",
+    "R12": "A>B"
+  },
+  "reviewable": 12,
+  "decisive": 12,
+  "equivalent": 0,
+  "unreviewable": 0,
+  "note": "Ratings committed before opening sealed archive/key."
+}
