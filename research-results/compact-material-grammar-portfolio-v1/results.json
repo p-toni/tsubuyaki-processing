@@ -1,0 +1,44 @@
+{
+  "decision": "COMPACT_MATERIAL_GRAMMAR_PORTFOLIO_ARTISTIC_NOT_SUPPORTED",
+  "version": "compact-material-grammar-portfolio-v1",
+  "authoritativeRunId": 34078156001,
+  "generationHead": "2d80014bf736724224ad474023c7785747a6b8aa",
+  "ratingsCommit": "5ceef5ec3c03a23c26ebc21eea3ba0d0e9c997fc",
+  "artifacts": {
+    "reviewer": {"id": 10003171330, "digest": "sha256:827577d5789fee0101814811c51131c18ee9e41488ff8ebbc49935b79666483f"},
+    "sealedArchive": {"id": 10003171986, "digest": "sha256:3420d19a0b5c40788136b2e04f281628df1165c7ec9fb3105a68c29bc0e0643c"},
+    "mechanical": {"id": 10003172213, "digest": "sha256:8b0ff5d20d9e60bdbea9614fd2c23e753c4ba5e438caffa15fcace228aad45a1"}
+  },
+  "review": {
+    "reviewable": 12,
+    "decisive": 12,
+    "equivalent": 0,
+    "mixedWins": 4,
+    "nativeWins": 8,
+    "mixedDecisiveWinRate": 0.3333333333333333,
+    "oneSidedExactBinomialP": 0.927001953125
+  },
+  "mechanical": {
+    "authoritativePairs": 12,
+    "uniqueFinalPosts": 216,
+    "nativeSlotsPerArm": 12,
+    "mixedSlotsPerArm": 12,
+    "commonNativePrefix": 6,
+    "mixedAllocation": {"native": 6, "chirp": 2, "epicycle": 2, "counter": 2},
+    "allHardPreconditionsPassed": true,
+    "allCandidatesDeploymentValidBeforeDelivery": true
+  },
+  "postHocDiagnostic": {
+    "mixedShortlistsContainingMaterial": 10,
+    "mixedShortlistsAllNative": 2,
+    "deliveredMixedSlots": {"native": 18, "epicycle": 8, "chirp": 5, "counter": 5},
+    "mixedWinsWithMaterialPresent": 4,
+    "interpretation": "Material reached the frozen delivery surface; the negative result is not explained by delivery excluding all material candidates. Portfolio-level labels do not authorize mechanism-level ranking or tuning."
+  },
+  "boundary": {
+    "closeExactGrammarAllocation": true,
+    "noTuningOnConsumed771Population": true,
+    "mechanismLevelArtisticClaims": false,
+    "maxDispersionReopened": false
+  }
+}
