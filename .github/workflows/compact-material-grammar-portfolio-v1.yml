@@ -29,8 +29,8 @@ jobs:
           test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/run.py)" = "d4a10e530918c591137b657b233042a631e70d16"
           test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
           test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
-          if test -f experiments/compact-material-grammar-portfolio-v1/authoritative-artifacts.json; then
-            python - <<'PY'
+          test -f experiments/compact-material-grammar-portfolio-v1/authoritative-artifacts.json
+          python - <<'PY'
           import json
           p='experiments/compact-material-grammar-portfolio-v1/authoritative-artifacts.json'
           x=json.load(open(p))
@@ -40,5 +40,4 @@ jobs:
           assert x['sealedArchive']=={'artifactId':10003171986,'digest':'sha256:3420d19a0b5c40788136b2e04f281628df1165c7ec9fb3105a68c29bc0e0643c'}
           assert x['mechanical']=={'artifactId':10003172213,'digest':'sha256:8b0ff5d20d9e60bdbea9614fd2c23e753c4ba5e438caffa15fcace228aad45a1'}
           PY
-          fi
           echo 'Consumed 771xxx generation is disabled; custody-only workflow.'
