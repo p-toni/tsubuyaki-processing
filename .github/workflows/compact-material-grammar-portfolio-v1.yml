@@ -1,0 +1,125 @@
+name: compact-material-grammar-portfolio-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/compact-material-grammar-portfolio-v1/**'
+      - '.github/workflows/compact-material-grammar-portfolio-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BASE: 3aa01609c6812db5ab3d68f0c256809a17df9850
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze sources and verify fresh population
+        run: |
+          set -euo pipefail
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/README.md)" = "328fe6ecf9365c26e59f5490b28f2461cb14009b"
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/run.py)" = "d4a10e530918c591137b657b233042a631e70d16"
+          test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
+          test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
+          if git grep -n -E '771003|771019|771037|771053|771071|771089|771107|771127|771149|771167|771181|771199|771999' "$BASE" -- . >/tmp/base-771.txt; then
+            echo 'reserved 771xxx population already appears in frozen base:' >&2
+            cat /tmp/base-771.txt >&2
+            exit 1
+          fi
+          python -m py_compile experiments/compact-material-grammar-portfolio-v1/run.py
+      - name: Install image dependency
+        run: python -m pip install Pillow
+      - name: Run excluded smoke
+        run: python experiments/compact-material-grammar-portfolio-v1/run.py --smoke --out smoke | tee smoke.log
+      - name: Assert smoke contract
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('smoke/mechanical.json'))
+          assert x['status']=='excluded-smoke'
+          assert len(x['pairs'])==1
+          p=x['pairs'][0]
+          assert p['masterSeed']==771999
+          assert p['uniqueCandidateCount']==18
+          assert p['nativeSlots']==12 and p['mixedSlots']==12
+          assert p['commonNativePrefix']==6
+          assert p['mixedMechanismCounts']=={'native':6,'chirp':2,'epicycle':2,'counter':2}
+          assert p['allLengthsPass'] and p['allGeometryHardPass']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-material-grammar-portfolio-v1-smoke
+          path: |
+            smoke/reviewer/
+            smoke/mechanical.json
+            smoke.log
+
+  authoritative:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recheck frozen implementation
+        run: |
+          set -euo pipefail
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/README.md)" = "328fe6ecf9365c26e59f5490b28f2461cb14009b"
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/run.py)" = "d4a10e530918c591137b657b233042a631e70d16"
+          test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
+          test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
+          python -m py_compile experiments/compact-material-grammar-portfolio-v1/run.py
+      - name: Install image dependency
+        run: python -m pip install Pillow
+      - name: Generate authoritative blinded portfolios
+        run: python experiments/compact-material-grammar-portfolio-v1/run.py --out authoritative | tee authoritative.log
+      - name: Assert authoritative rectangle
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('authoritative/mechanical.json'))
+          assert x['status']=='authoritative' and len(x['pairs'])==12
+          expected=[771003,771019,771037,771053,771071,771089,771107,771127,771149,771167,771181,771199]
+          assert [p['masterSeed'] for p in x['pairs']]==expected
+          assert all(p['uniqueCandidateCount']==18 for p in x['pairs'])
+          assert all(p['nativeSlots']==12 and p['mixedSlots']==12 and p['commonNativePrefix']==6 for p in x['pairs'])
+          assert all(p['mixedMechanismCounts']=={'native':6,'chirp':2,'epicycle':2,'counter':2} for p in x['pairs'])
+          assert all(p['allLengthsPass'] and p['allGeometryHardPass'] for p in x['pairs'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-material-grammar-portfolio-v1-reviewer
+          path: authoritative/reviewer/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-material-grammar-portfolio-v1-sealed-archive
+          path: authoritative/sealed-archive/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-material-grammar-portfolio-v1-mechanical
+          path: |
+            authoritative/mechanical.json
+            authoritative.log
