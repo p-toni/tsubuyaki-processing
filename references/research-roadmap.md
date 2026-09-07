@@ -25,58 +25,57 @@ Narrow supported claims:
 - target-blind max-dispersion improved the tested three-item delivery shortlist;
 - in the complete filament workflow audit, all nine research candidates selected from brief-adherent shortlists were spectral, but none survived the frozen two-attempt <=280-character compression boundary with Grade-0/1 identity intact;
 - the simplified filament workflow completed 12/12 verified posts with only 16 exploratory renders, while the research workflow produced 0/12 deployable finals after 240 generated attempts plus compression;
-- two deployment-native **mandatory compact treatments** were artistically negative against the same compact native filament:
+- three deployment-native compact enrichment strategies are now artistically negative on fresh evidence:
   - `compact-symplectic-material-v1`: SHEAR3 0/12 vs NATIVE 12/12;
   - `phase-native-material-v1`: PHASEPACK 2/10 decisive vs NATIVE 8/10, with two equivalents;
+  - `compact-material-grammar-portfolio-v1`: MIXED12 4/12 vs NATIVE12 8/12 under equal candidate budget and the supported max-dispersion reducer;
+- in the compact-grammar portfolio, material reached delivery in 10/12 mixed shortlists, so its negative result is not explained by the reducer hiding every material candidate;
 - mechanically positive interventions do not automatically create artistic value;
 - the tested generic visual and morphology-context judges are not reliable artistic authorities.
 
 These results do not establish a universal search policy or automatic aesthetic scorer.
 
-## Active priority — deployment-native representation-led search
+## Active priority — algorithmic compact representation
 
-The workflow audit still identifies a real downstream problem: expanded search can expose material worth selecting, but high-dimensional material is difficult to carry through the tweet boundary.
+The workflow audit still identifies the central tension: expanded search can expose material worth selecting, but high-dimensional material is difficult to carry through the tweet boundary.
 
-The two subsequent failures sharpen the hypothesis. The wrong experimental unit is:
-
-```text
-good compact incumbent
-+ mandatory generic material transform
-```
-
-Both tested versions made the final artifact worse. The earlier spectral success behaved differently: material operators supplied **alternatives inside a portfolio**, and selection determined when those alternatives were useful.
-
-The next experiment therefore moves compactness upstream into discovery itself.
-
-### Next concrete study — compact material grammar portfolio
-
-Build a small deployment-native material grammar whose candidates are already complete executable <=280-character posts at generation time.
-
-Compare, at equal total candidate budget:
+Three subsequent studies now reject the most direct low-order answers:
 
 ```text
-NATIVE PORTFOLIO
-compact native filament candidates only
-
-vs
-
-MIXED COMPACT-MATERIAL PORTFOLIO
-same native allocation + optional candidates from a frozen compact material grammar
+compact incumbent + spatial warp          → negative
+compact incumbent + shared phase pack     → negative
+native portfolio + shallow material mix   → negative
 ```
 
-Requirements:
+The next representation hypothesis should therefore seek **more structure per character**, not another additive modifier.
 
-- all candidates satisfy the final deployment boundary **before selection**;
-- the mixed arm does not force a material transform onto every base;
-- candidate-budget equality is exact;
-- preserve the complete valid archive for later bottleneck diagnosis;
-- delivery is target-blind and frozen before human review;
-- final advancement depends on fresh artistic comparison, not novelty or descriptor gain;
-- if a compact material primitive is selected, its readable mathematical cause must still match the exact post.
+### Next concrete study — compact iterative filament law
 
-The first grammar should be materially broader than either closed fixed treatment while remaining compact by construction. It may contain a small frozen vocabulary of smooth phase/envelope/beat mechanisms, but no parameter or mechanism may be tuned against consumed `769xxx` or `770xxx` ratings.
+Test a deployment-native filament representation built from a small **stateful recurrence along the sampled open curve**.
 
-This experiment asks whether compact material is useful **when search can choose it**, not whether one formula improves every incumbent.
+Conceptually:
+
+```text
+state_0 = simple seed
+for each x sample:
+    state_{i+1} = F(state_i, u_i, t)
+    y_i = G(state_{i+1})
+```
+
+A short repeated nonlinear law can create effective multi-scale structure without explicitly storing a large Fourier/material field. This is **algorithmic depth as representation**.
+
+The first experiment should compare a frozen recurrent compact family against the current strong compact native filament at equal portfolio budget. Requirements:
+
+- every generated candidate is already a complete executable <=280-character post;
+- recurrence parameters are frozen before rendering and chosen from analytically stable/contractive ranges;
+- x remains strictly monotone so topology stays one open filament by construction;
+- temporal motion must arise from an explicit smooth forcing term, not per-frame randomness;
+- both arms use the same target-blind delivery rule and equal candidate count;
+- preserve the complete generated archive before human review;
+- advancement depends on fresh blinded artistic portfolio comparison;
+- if the recurrent family wins, follow with a fresh causal ablation of the recurrence rather than tuning against the winning population.
+
+This experiment is materially different from the parked Sotaku-inspired **learned search operator**. Here recurrence is part of the mathematical artwork representation itself; no model is trained and no search transition learns from outcomes.
 
 ## Bottleneck discipline
 
@@ -86,12 +85,10 @@ Classify evidence before proposing a remedy:
 | --- | --- |
 | No inspected candidate is compelling | Mathematical representation and generation |
 | Good candidates exist but do not reach delivery | Selection and delivery |
-| Good selected candidate loses identity in final form | Representation and compression |
+| A good selected candidate loses identity in final form | Representation and compression |
 | Good results require disproportionate work | Stopping and workflow simplification |
 
-The workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. Three briefs remain `NO_SINGLE_BOTTLENECK` because their complete generated archives were not lawfully retained for retrospective artistic inspection.
-
-The compact-grammar study should preserve its complete archive so generation, delivery, and deployment can be separated afterward without regenerating consumed evidence.
+The workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. The compact-grammar study preserved its complete archive and showed the new shallow material did reach the delivery set, so delivery is not the active explanation for that negative result.
 
 ## Conditional branches
 
@@ -103,15 +100,15 @@ Any future automatic preference learner must be trained on labels matching its a
 
 ### Recurrent learned discovery operator
 
-The Sotaku-inspired recurrent operator remains parked.
+The Sotaku-inspired recurrent **learned search operator** remains parked.
 
-Reopen it only if a complete-workflow study using promising **compact** representations shows that useful final-post representations exist but current transitions repeatedly fail to reach them. Its first valid test remains isolated: weight-tied recurrent transition vs current mutation and equal-compute untied controls, with stability beyond training horizon and final-artifact evidence.
+Reopen it only if a complete-workflow study using promising compact representations shows that useful final-post representations exist but current transitions repeatedly fail to reach them. Its first valid test remains isolated: weight-tied recurrent transition vs current mutation and equal-compute untied controls, with stability beyond training horizon and final-artifact evidence.
 
-Current evidence does not support reopening it: the strongest demonstrated problem remains representation/deployment, not transition depth.
+The planned compact iterative filament experiment does not satisfy that reopening condition. It tests recurrence as an artwork representation, not as a learned search transition.
 
 ## Closed populations
 
-Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, or phase-native populations. Their negative results remain evidence, not optimizer input.
+Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, or compact-material-grammar populations. Their negative results remain evidence, not optimizer input.
 
 ## Research discipline
 
@@ -124,4 +121,4 @@ For any decision-changing experiment:
 5. commit human ratings before unblinding;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is the **compact material grammar portfolio** experiment described above.
+The immediate next step is the **compact iterative filament law** experiment described above.

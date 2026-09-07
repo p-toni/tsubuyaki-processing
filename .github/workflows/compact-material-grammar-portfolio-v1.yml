@@ -1,0 +1,43 @@
+name: compact-material-grammar-portfolio-v1
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/compact-material-grammar-portfolio-v1/**'
+      - '.github/workflows/compact-material-grammar-portfolio-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BASE: 3aa01609c6812db5ab3d68f0c256809a17df9850
+
+jobs:
+  custody:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify consumed-population custody
+        run: |
+          set -euo pipefail
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/README.md)" = "328fe6ecf9365c26e59f5490b28f2461cb14009b"
+          test "$(git hash-object experiments/compact-material-grammar-portfolio-v1/run.py)" = "d4a10e530918c591137b657b233042a631e70d16"
+          test "$(git hash-object experiments/complete-workflow-audit-v2/render_exact_post.mjs)" = "4a6a2c18259dd316911aefc92d928347f2a26826"
+          test "$(git hash-object scripts/check-length.mjs)" = "319681179e53cbb761135313332cfc83ea5b3f48"
+          test -f experiments/compact-material-grammar-portfolio-v1/authoritative-artifacts.json
+          python - <<'PY'
+          import json
+          p='experiments/compact-material-grammar-portfolio-v1/authoritative-artifacts.json'
+          x=json.load(open(p))
+          assert x['runId']==34078156001
+          assert x['generationHead']=='2d80014bf736724224ad474023c7785747a6b8aa'
+          assert x['reviewer']=={'artifactId':10003171330,'digest':'sha256:827577d5789fee0101814811c51131c18ee9e41488ff8ebbc49935b79666483f'}
+          assert x['sealedArchive']=={'artifactId':10003171986,'digest':'sha256:3420d19a0b5c40788136b2e04f281628df1165c7ec9fb3105a68c29bc0e0643c'}
+          assert x['mechanical']=={'artifactId':10003172213,'digest':'sha256:8b0ff5d20d9e60bdbea9614fd2c23e753c4ba5e438caffa15fcace228aad45a1'}
+          PY
+          echo 'Consumed 771xxx generation is disabled; custody-only workflow.'
