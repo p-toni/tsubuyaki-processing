@@ -1,5 +1,7 @@
 # Experiment roadmap
 
+**Historical prototype plan.** The [current project roadmap](../references/research-roadmap.md) governs research priorities. The phases, active dependencies, and reviewer requirements below record an earlier prototype research program; they are not the current project backlog or prerequisites for ordinary skill use.
+
 This roadmap is a research dependency graph, not a backlog ordered by convenience.
 
 The project should advance only when the evidence required by the next layer is strong enough. A failed or unresolved prerequisite blocks downstream optimization rather than becoming another hyperparameter to tune around.

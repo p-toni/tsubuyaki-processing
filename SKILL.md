@@ -1,17 +1,19 @@
 ---
 name: tsubuyaki-processing
-description: "Create original tweet-sized #つぶやきProcessing p5.js sketches: discover a compact mathematical system, inspect its animation, and produce a verified post within 280 characters."
+description: "Autonomously discover and refine original #つぶやきProcessing p5.js animations: choose mathematical representations, inspect motion, and deliver verified executable posts within 280 characters."
 ---
 
 # Tsubuyaki Processing
 
-Create a small mathematical cause producing a surprising, coherent animation.
+Autonomously discover a small mathematical cause producing a surprising, coherent animation. Given the brief and a bounded exploration budget, choose a representation, inspect rendered behavior, and use the evidence to revise, change direction, or stop. Resolve routine creative choices without requiring the user to select candidates. If no budget is supplied, choose one proportional to the task.
+
+The capability being developed is discovery across fresh briefs. A finished sketch is evidence of that capability; a single attractive result does not establish reliability. For research priorities and evaluation, see the [research roadmap](references/research-roadmap.md).
 
 ## Essential constraints
 
 - Use p5.js global mode unless asked otherwise. Final code must execute.
 - The complete post must fit both 280 X-weighted characters and 280 raw Unicode code points. The limit is a ceiling, not a target.
-- Work in readable mathematical roles before golfing. Prefer shared latent variables, recurrence and reusable generators over independent decoration.
+- Work in readable mathematical roles before golfing; exploratory source may exceed the final length limit. Prefer shared latent variables and reusable generators over independent decoration; recurrence is one possible representation.
 - Preserve the defining mathematical relationships and animated identity when compressing. Matching a few frames is insufficient if the cause was removed.
 - Create original work; do not reconstruct or lightly mutate a published artist's formula.
 
@@ -42,7 +44,7 @@ When searching:
 - use [discovery-search.md](references/discovery-search.md) for route-specific starting points, broadening within the brief when local changes stop helping;
 - treat stage schedules as working heuristics, not proven universal optima;
 - use novelty to select alternatives for inspection, never as an aesthetic score;
-- stop when new candidates cease to offer meaningful improvement. Keeping the incumbent is a valid result.
+- stop when the budget is exhausted or new candidates cease to offer meaningful improvement. Keeping a good incumbent is a valid result; report failure if none meets the brief.
 
 For resumable searches, branching lineages or experiments requiring reproducibility, use [discovery-state.md](references/discovery-state.md) and `scripts/discovery-state.mjs`. Initialize with the CLI so the grammar is pinned correctly. Once using that state, preserve paired causal changes, exact review evidence and historical stage legality. Ordinary sketch iteration does not require an event ledger.
 
@@ -81,4 +83,4 @@ Diagnostics can reveal failures; they cannot establish artistic quality. Low occ
 
 Provide the concept, readable p5.js, executable tweet line, and verification results: raw and weighted length, runtime, temporal horizon and compression survival. Include a few useful variation controls when relevant.
 
-Explain search lineage, anatomical structure or deployment fallback only when used. Distinguish the readable artistic winner from the deployment candidate if they differ. Report anything not actually verified.
+Explain consequential observation-led decisions when they help assess the discovery process. Distinguish the readable artistic winner from the deployment candidate if they differ. Report failed attempts and any human intervention when evaluating autonomy; an honest failure is still an unsuccessful discovery. Label model aesthetic judgments as provisional and report anything not actually verified.

@@ -1,6 +1,8 @@
 # Autonomous Discovery Prototype
 
-Executable prototype of the mathematical-discovery loop developed in the tsubuyaki-processing research.
+Optional executable prototype of the mathematical-discovery loop developed in the tsubuyaki-processing research. The project aims to develop autonomous discovery capability across fresh briefs; this runtime is one experimental implementation, and its architecture is not a requirement for using the skill.
+
+See the [project purpose](../../README.md) and [current research roadmap](../../references/research-roadmap.md) for the complete discovery and compact-delivery objective. The prototype's checks and selectors do not by themselves establish artistic quality or general discovery capability.
 
 ## Current architecture
 

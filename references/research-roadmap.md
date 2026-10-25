@@ -1,21 +1,25 @@
 # Research roadmap
 
-The project exists to produce original, compact mathematical animations worth keeping. Research is justified only when it makes that finished result more reliable, more expressive, or materially easier to achieve.
+The primary research goal is **autonomous discovery capability**: given a fresh visual intent and a bounded budget, an agent chooses mathematical representations, constructs and inspects animated programs, learns from rendered observations, and delivers a verified compact result without requiring human rescue.
 
-## Production baseline
+Finished animations are concrete evidence of this capability. A successful discovery must produce worthwhile behavior; reliable unattended execution alone is insufficient. One attractive result does not establish transfer across briefs. An honest failure is an appropriate way to stop, but still counts as an unsuccessful discovery attempt.
 
-The supported ordinary workflow stays deliberately small:
+Discovery means finding useful original programs and behaviors for the task, not a claim of globally novel mathematics. The current medium remains p5.js and a complete post within 280 raw and X-weighted characters. Readable exploration may exceed that limit before compression.
+
+## Simplest autonomous baseline
+
+Start with the existing agent's coding, rendering, and inspection tools:
 
 ```text
 choose representation
 → build and inspect a readable sketch
-→ explore only when a useful alternative is plausible
-→ select visually
+→ use observations to revise or change representation when useful
+→ select a worthwhile result or stop with a documented failure
 → compress while preserving cause and motion
 → verify the exact post
 ```
 
-The autonomous search runtime remains optional research machinery, not a prerequisite for making a sketch.
+The separate autonomous search runtime remains optional research machinery. Neither a learned search operator nor new automation is required to test the capability. Organic form and apparent life are the documented starting aesthetic; a filament is one possible representation rather than the destination for every brief.
 
 ## What the evidence currently says
 
@@ -33,49 +37,30 @@ Narrow supported claims:
 - mechanically positive interventions do not automatically create artistic value;
 - the tested generic visual and morphology-context judges are not reliable artistic authorities.
 
-These results do not establish a universal search policy or automatic aesthetic scorer.
+These results apply to their tested representations and budgets. They do not establish a universal search policy, automatic aesthetic scorer, or general autonomous discovery capability.
 
-## Active priority — algorithmic compact representation
+## Active priority — exercise the complete discovery loop
 
-The workflow audit still identifies the central tension: expanded search can expose material worth selecting, but high-dimensional material is difficult to carry through the tweet boundary.
+Run a small pilot on three fresh descriptive briefs with different structural or motion demands. Freeze the briefs, per-run budget, success criteria, and observation-horizon rules before generation. Let the agent choose the mathematical approach without a task-specific seed formula. Use existing tools and add machinery only for a demonstrated blocking gap.
 
-Three subsequent studies now reject the most direct low-order answers:
+The agent should construct, render, diagnose, revise, and select within the budget. It may preserve an incumbent, change representation, or stop when further work is unproductive. No mid-run human selection or rescue is needed. Preserve the initial candidate, material revisions, final selection or failure, and the rendered observations behind consequential decisions.
 
-```text
-compact incumbent + spatial warp          → negative
-compact incumbent + shared phase pack     → negative
-native portfolio + shallow material mix   → negative
-```
+For a successful candidate, compress and verify the exact post over the same meaningful behavioral horizon. Include failed attempts and compression failures in the total cost. Ordinary agent-written code is compatible with autonomy; the pilot tests the decisions and outcomes of the complete process.
 
-The next representation hypothesis should therefore seek **more structure per character**, not another additive modifier.
+Assess completed runs separately from their in-run selection decisions:
 
-### Next concrete study — compact iterative filament law
+| Capability | Evidence |
+| --- | --- |
+| Autonomous operation | Completion or explicit failure, plus any human interventions |
+| Useful observation-led decisions | Rendered before/after behavior and reasons for consequential changes |
+| Expressive success | Full-motion inspection against the brief, with uncertainty recorded |
+| Compact delivery | Exact-post length, execution, and preservation of defining behavior |
+| Transfer | Results across all fresh briefs, including failures |
+| Budget discipline | Elapsed effort, candidate/render counts, and available model/tool costs |
 
-Test a deployment-native filament representation built from a small **stateful recurrence along the sampled open curve**.
+This pilot locates bottlenecks and tests feasibility. Three runs cannot establish general reliability. Model self-assessment can support unattended exploration and provisional selection, but is not independent human validation. A separate review prompt does not itself create independent evidence. Human calibration can strengthen later artistic claims without being a dependency for operating the discovery loop.
 
-Conceptually:
-
-```text
-state_0 = simple seed
-for each x sample:
-    state_{i+1} = F(state_i, u_i, t)
-    y_i = G(state_{i+1})
-```
-
-A short repeated nonlinear law can create effective multi-scale structure without explicitly storing a large Fourier/material field. This is **algorithmic depth as representation**.
-
-The first experiment should compare a frozen recurrent compact family against the current strong compact native filament at equal portfolio budget. Requirements:
-
-- every generated candidate is already a complete executable <=280-character post;
-- recurrence parameters are frozen before rendering and chosen from analytically stable/contractive ranges;
-- x remains strictly monotone so topology stays one open filament by construction;
-- temporal motion must arise from an explicit smooth forcing term, not per-frame randomness;
-- both arms use the same target-blind delivery rule and equal candidate count;
-- preserve the complete generated archive before human review;
-- advancement depends on fresh blinded artistic portfolio comparison;
-- if the recurrent family wins, follow with a fresh causal ablation of the recurrence rather than tuning against the winning population.
-
-This experiment is materially different from the parked Sotaku-inspired **learned search operator**. Here recurrence is part of the mathematical artwork representation itself; no model is trained and no search transition learns from outcomes.
+Further filament experiments are no longer the immediate milestone. A compact iterative law remains a representation hypothesis; it does not define the scope of autonomous discovery.
 
 ## Bottleneck discipline
 
@@ -85,10 +70,11 @@ Classify evidence before proposing a remedy:
 | --- | --- |
 | No inspected candidate is compelling | Mathematical representation and generation |
 | Good candidates exist but do not reach delivery | Selection and delivery |
+| Rendered feedback leads to repeated ineffective edits | Causal diagnosis and revision strategy |
 | A good selected candidate loses identity in final form | Representation and compression |
 | Good results require disproportionate work | Stopping and workflow simplification |
 
-The workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. The compact-grammar study preserved its complete archive and showed the new shallow material did reach the delivery set, so delivery is not the active explanation for that negative result.
+The earlier filament workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. The compact-grammar study showed the new shallow material did reach delivery. Those are findings about the tested families, not a diagnosis for every fresh brief. Compare a proposed remedy with the simple autonomous baseline on fresh tasks at comparable total cost before adopting it.
 
 ## Conditional branches
 
@@ -96,7 +82,7 @@ The workflow audit classified nine briefs as `COMPRESSION_REPRESENTATION`. The c
 
 Reopen only when preserved evidence shows good generated candidates are routinely missed. Compare reducers on the same completed archive. Max-dispersion is supported only on its tested shortlist surface and does not become search-parent or route-allocation authority by implication.
 
-Any future automatic preference learner must be trained on labels matching its actual decision, represent equivalence/uncertainty, and earn fresh prospective human support before influencing search or delivery.
+Any future automatic preference learner must be trained on labels matching its actual decision, represent equivalence/uncertainty, and be evaluated prospectively on fresh evidence independently of fitting. Label model-only evidence accordingly; do not present subjective self-grades as a validated scalar reward.
 
 ### Recurrent learned discovery operator
 
@@ -104,7 +90,7 @@ The Sotaku-inspired recurrent **learned search operator** remains parked.
 
 Reopen it only if a complete-workflow study using promising compact representations shows that useful final-post representations exist but current transitions repeatedly fail to reach them. Its first valid test remains isolated: weight-tied recurrent transition vs current mutation and equal-compute untied controls, with stability beyond training horizon and final-artifact evidence.
 
-The planned compact iterative filament experiment does not satisfy that reopening condition. It tests recurrence as an artwork representation, not as a learned search transition.
+An experiment using recurrence inside the artwork does not satisfy that reopening condition. It tests an artwork representation, not a learned search transition.
 
 ## Closed populations
 
@@ -118,7 +104,7 @@ For any decision-changing experiment:
 2. freeze hypothesis, population, comparison, budget, and advancement rule before results;
 3. preserve the full valid archive and exact final artifacts;
 4. use fresh evidence for artistic claims;
-5. commit human ratings before unblinding;
+5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is the **compact iterative filament law** experiment described above.
+The immediate next step is the **bounded autonomous discovery pilot** above. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

@@ -1,22 +1,28 @@
 # tsubuyaki-processing
 
-An Agent Skill for original **#つぶやきProcessing**: compact mathematical systems whose animations are richer than their source.
+An Agent Skill and research project for **autonomous discovery of compact mathematical animations**, expressed as original **#つぶやきProcessing**.
 
-The deliverable is a compelling, runnable p5.js sketch that retains its defining behavior in a complete post of at most 280 characters.
+Given a fresh visual intent and a bounded budget, the agent should choose a representation, construct and inspect animated programs, use rendered feedback to improve or change direction, and deliver a verified result without requiring human rescue.
+
+The research product is that discovery capability. Finished animations provide concrete evidence of its usefulness. Success requires worthwhile behavior, sound decisions, and transfer across different briefs; unattended execution or a large candidate archive alone does not establish it. This is the project's objective, not a claim that general autonomous discovery has already been demonstrated.
+
+A successful run delivers a compelling, runnable p5.js sketch that retains its defining behavior in a complete post of at most 280 characters. Readable exploration may exceed that limit before compression. An honest failure is a valid way to stop, but still counts as an unsuccessful discovery attempt.
+
+The [research roadmap](references/research-roadmap.md) defines the current milestone and evidence needed. The starting aesthetic is organic form and apparent life emerging from shared mathematical rules; no single formula family or search architecture defines the project.
 
 ## Use the skill
 
-Start with [SKILL.md](SKILL.md). The ordinary workflow is:
+Start with [SKILL.md](SKILL.md). The simplest autonomous baseline uses the agent's existing coding, rendering, and inspection tools:
 
 ```text
 choose a suitable mathematical representation
 → build and inspect a readable sketch
-→ explore alternatives if they would help
+→ use observations to revise or change representation when useful
 → compress while preserving its cause and animation
 → verify the exact post
 ```
 
-Keep a good incumbent. More search, a larger archive or a higher diagnostic score does not by itself improve the art.
+Keep a good incumbent and stop within the budget. More search, a larger archive or a higher diagnostic score does not by itself improve the art. The separate research runtime is optional; autonomy does not depend on adopting it.
 
 The executable suffix `//#つぶやきProcessing` leaves **259 X-weighted characters for code**. Check the complete post:
 
@@ -42,7 +48,7 @@ The [description-length study](experiments/description-length-pressure/results.m
 
 Mechanical gains do not establish artistic gains. The [family projected-spectral review](research-results/family-projected-spectral-artistic-v1/results.md) found 18 equivalent pairs and only six decisive judgments, with two favoring projected-spectral. Artistic support was not demonstrated; that runtime remains opt-in and default-off.
 
-Research protocols, code and results remain in [experiments](experiments/), [research-results](research-results/) and [research-commitments](research-commitments/). The [research roadmap](references/research-roadmap.md) tracks further hypotheses. These records support evaluation and reproduction; they are not prerequisites for making a sketch.
+Research protocols, code and results remain in [experiments](experiments/), [research-results](research-results/) and [research-commitments](research-commitments/). Their results apply to their tested surfaces. Model self-assessment is provisional evidence and must not be presented as independent human validation. These records support evaluation and reproduction; they are not prerequisites for running the skill.
 
 ## Local checks
 
