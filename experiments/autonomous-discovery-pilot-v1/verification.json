@@ -1,0 +1,79 @@
+{
+  "protocolSha256": "6ae07ed15a5658e3f20a345d977175badab4f6cff0bd533d98c104f618a1d6e5",
+  "independentExecution": "Node vm; exact readable and compact source; original point ordering",
+  "results": [
+    {
+      "brief": "B01",
+      "readable": "v1",
+      "readableSha256": "735af79d99a3beeaad3d78fa44a5f94b03a82e4455f8585b4429131bfe6173be",
+      "compact": "compact-1.txt",
+      "compactSha256": "6d89112c687664e1cb33cd45cdc7b130b323a1e0d954f4d123c9f104566a329a",
+      "frames": 600,
+      "pointsPerFrame": 18000,
+      "totalPointsPerSource": 10800000,
+      "length": {
+        "rawCodePoints": 229,
+        "xWeightedLength": 233,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "maxGeometryError": 0,
+      "maxMotion": 0.23333063208633575,
+      "minInFrame": 1,
+      "minCenterDistance": 18.588186452217656,
+      "minOuterRadius": 119.99375345898642,
+      "maxOuterRadius": 131.98224535297538,
+      "pass": true
+    },
+    {
+      "brief": "B02",
+      "readable": "v2",
+      "readableSha256": "dfe3c6e65113a487be75c4197fb23d0ba9399ea02e6c2148d0e90d7fccace845",
+      "compact": "compact-1.txt",
+      "compactSha256": "9ab74e9ed3a70d1a3a45c5156a5eb2892abd0b39817bdec51e60b70715a9c3c1",
+      "frames": 600,
+      "pointsPerFrame": 14000,
+      "totalPointsPerSource": 8400000,
+      "length": {
+        "rawCodePoints": 208,
+        "xWeightedLength": 212,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "maxGeometryError": 0,
+      "maxMotion": 2.3328797974104676,
+      "minInFrame": 1,
+      "minCenterDistance": 0.02208228352527244,
+      "minOuterRadius": 134.31484644948324,
+      "maxOuterRadius": 168.81585621387057,
+      "maxRootError": 0,
+      "pass": true
+    },
+    {
+      "brief": "B03",
+      "readable": "v2",
+      "readableSha256": "4964fc637428c5d57e18859da619b91de004a89e1d09ca8c4b3eb10e6c8e82fa",
+      "compact": "compact-1.txt",
+      "compactSha256": "0b7a47f3ff875758287ef023688e94bff76de7064b062882df9d3804e330629c",
+      "frames": 600,
+      "pointsPerFrame": 1800,
+      "totalPointsPerSource": 1080000,
+      "length": {
+        "rawCodePoints": 226,
+        "xWeightedLength": 230,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "maxGeometryError": 0,
+      "maxMotion": 1.2945577489345939,
+      "minInFrame": 1,
+      "minCenterDistance": 15.300046580729116,
+      "minOuterRadius": 32.21461893641272,
+      "maxOuterRadius": 157.73221256455545,
+      "pass": true
+    }
+  ]
+}

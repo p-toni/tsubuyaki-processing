@@ -1,0 +1,62 @@
+{
+  "auditedAtUTC": "2026-10-26T21:11:32.973241+00:00",
+  "frozenAtUTC": "2026-10-25T11:17:13.746707+00:00",
+  "wallElapsedSeconds": 122059.2,
+  "elapsedCaveat": "Spans session interruptions, verification, tooling and documentation. Active model time, tokens and monetary cost are unavailable.",
+  "protocolHashMatches": true,
+  "runtimeHashMatches": true,
+  "selectedArtifacts": [
+    {
+      "brief": "B01",
+      "selectedHashMatches": true,
+      "compactHashMatches": true,
+      "fullRenderHashMatches": true,
+      "identicalSamplePairs": 16
+    },
+    {
+      "brief": "B02",
+      "selectedHashMatches": true,
+      "compactHashMatches": true,
+      "fullRenderHashMatches": true,
+      "identicalSamplePairs": 16
+    },
+    {
+      "brief": "B03",
+      "selectedHashMatches": true,
+      "compactHashMatches": true,
+      "fullRenderHashMatches": true,
+      "identicalSamplePairs": 16
+    }
+  ],
+  "readableCandidates": 5,
+  "readableCandidateBudget": 12,
+  "compactAttempts": 3,
+  "compactAttemptBudget": 6,
+  "humanArtisticInterventions": 0,
+  "readablePreviewCapturedFrames": 80,
+  "finalClipRenderedFrames": 1800,
+  "numericPointCallsReadableAndCompact": 40560000,
+  "additionalDeliveryQA": {
+    "galleryControlRuns": 2,
+    "firstRun": "Failed: one scheduled frame after Pause; repaired the wrapper, exact posts unchanged.",
+    "finalRun": "Passed source identity, first-frame pixel parity, pause/restart/replay, full playback to frame 600, mobile bounds, no page errors.",
+    "sequentialSparseCaptureRegression": {
+      "brief": "B03",
+      "drawFrames": 600,
+      "capturedFrames": 16,
+      "identicalToArchivedFinalFrames": true
+    },
+    "nodeSyntaxChecks": "All four mjs scripts and five readable sketches passed.",
+    "ffprobe": "All three clips: H.264, 400x400, 60 fps, 600 frames, ten seconds."
+  },
+  "selfGrades": {
+    "B01": "B",
+    "B02": "B",
+    "B03": "B (lower confidence)"
+  },
+  "evidenceLimits": [
+    "Same model authored briefs, candidates and ratings.",
+    "Visual assessment used sampled stills, not every frame as perceived motion.",
+    "No no-feedback comparison, independent artistic ratings, or demonstrated general reliability."
+  ]
+}

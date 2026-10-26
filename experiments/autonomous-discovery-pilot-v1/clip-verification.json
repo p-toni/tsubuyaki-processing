@@ -1,0 +1,32 @@
+[
+  {
+    "brief": "B01",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "10.000000",
+    "nb_frames": "600"
+  },
+  {
+    "brief": "B02",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "10.000000",
+    "nb_frames": "600"
+  },
+  {
+    "brief": "B03",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "10.000000",
+    "nb_frames": "600"
+  }
+]

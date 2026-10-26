@@ -42,6 +42,8 @@ A length pass is only one requirement. Render the exact code across a meaningful
 
 ## Evidence and limits
 
+The [first complete discovery pilot](experiments/autonomous-discovery-pilot-v1/README.md) delivered three different compact studies from five readable candidates and two observation-led revisions. All final posts passed 600-frame execution and geometry checks; 48 sampled readable/compact image pairs matched exactly. The same agent authored the briefs and gave all three provisional B grades. This establishes feasibility on those tasks, not independent artistic validation, a reliable success rate, or the causal benefit of visual feedback. The next study compares adaptive revision with generation before rendered feedback on fresh briefs.
+
 The [paired route-search study](experiments/paired-route-search/results.md) suggests useful route-specific starting points. Its aesthetic audit used the same model that produced the experiment, after proxy-based candidate reduction. It supports working heuristics, not a universally optimal stage schedule.
 
 The [description-length study](experiments/description-length-pressure/results.md) found 3/4 deployable winners with late-only compression and 4/4 with preflight. Early filtering also achieved 4/4 but removed 17/48 candidates before visual review. This small study motivates checking compression before committing to a deployment candidate; it does not require every sketch to run a search experiment.

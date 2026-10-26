@@ -1,0 +1,32 @@
+{
+  "source": "B03/v2.js",
+  "sourceSha256": "4964fc637428c5d57e18859da619b91de004a89e1d09ca8c4b3eb10e6c8e82fa",
+  "runtime": "p5.js 1.11.3",
+  "runtimeSha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+  "browser": "153.0.8010.12",
+  "mode": "samples",
+  "frames": [
+    1,
+    41,
+    81,
+    121,
+    161,
+    201,
+    241,
+    281,
+    320,
+    360,
+    400,
+    440,
+    480,
+    520,
+    560,
+    600
+  ],
+  "errors": [],
+  "drawMs": {
+    "median": 0.800000011920929,
+    "max": 1.9000000357627869
+  },
+  "scheduler": "explicit frameCount; exact candidate draw; p5 noLoop wrapper"
+}

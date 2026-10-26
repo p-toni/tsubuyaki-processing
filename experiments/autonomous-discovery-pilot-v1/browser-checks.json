@@ -1,0 +1,68 @@
+{
+  "browser": "153.0.8010.12",
+  "gallery": {
+    "videos": [
+      {
+        "duration": 10,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      },
+      {
+        "duration": 10,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      },
+      {
+        "duration": 10,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      }
+    ],
+    "playbackTimes": [
+      0.214884,
+      0.214916,
+      0.214319
+    ],
+    "mobileWidth": 390,
+    "mobileOverflow": false,
+    "errors": []
+  },
+  "sketches": [
+    {
+      "brief": "B01",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseRestartReplay": true,
+      "stoppedAt": 600,
+      "wallPlaybackSeconds": 10.004,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "B02",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseRestartReplay": true,
+      "stoppedAt": 600,
+      "wallPlaybackSeconds": 10.006,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "B03",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseRestartReplay": true,
+      "stoppedAt": 600,
+      "wallPlaybackSeconds": 9.995,
+      "mobileOverflow": false,
+      "errors": []
+    }
+  ]
+}

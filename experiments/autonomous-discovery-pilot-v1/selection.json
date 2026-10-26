@@ -1,0 +1,24 @@
+{
+  "selectedAtUTC": "2026-10-25T11:22:01.647017+00:00",
+  "reviewer": "same primary model; provisional visual selection",
+  "selected": [
+    {
+      "brief": "B01",
+      "version": "v1",
+      "sourceSha256": "735af79d99a3beeaad3d78fa44a5f94b03a82e4455f8585b4429131bfe6173be",
+      "provisionalArtisticGrade": "B"
+    },
+    {
+      "brief": "B02",
+      "version": "v2",
+      "sourceSha256": "dfe3c6e65113a487be75c4197fb23d0ba9399ea02e6c2148d0e90d7fccace845",
+      "provisionalArtisticGrade": "B"
+    },
+    {
+      "brief": "B03",
+      "version": "v2",
+      "sourceSha256": "4964fc637428c5d57e18859da619b91de004a89e1d09ca8c4b3eb10e6c8e82fa",
+      "provisionalArtisticGrade": "B"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ The separate autonomous search runtime remains optional research machinery. Neit
 
 Narrow supported claims:
 
+- the [first complete discovery pilot](../experiments/autonomous-discovery-pilot-v1/README.md) delivered three different compact studies from five readable candidates, two observation-led revisions, and one compact attempt per brief; all passed the frozen technical checks, with provisional B grades from the same agent that authored the briefs and candidates;
 - intrinsic-1D native/spectral mixed search produced artistically preferred portfolios on its tested surface;
 - target-blind max-dispersion improved the tested three-item delivery shortlist;
 - in the complete filament workflow audit, all nine research candidates selected from brief-adherent shortlists were spectral, but none survived the frozen two-attempt <=280-character compression boundary with Grade-0/1 identity intact;
@@ -39,28 +40,24 @@ Narrow supported claims:
 
 These results apply to their tested representations and budgets. They do not establish a universal search policy, automatic aesthetic scorer, or general autonomous discovery capability.
 
-## Active priority — exercise the complete discovery loop
+## Completed milestone — exercise the complete discovery loop
 
-Run a small pilot on three fresh descriptive briefs with different structural or motion demands. Freeze the briefs, per-run budget, success criteria, and observation-horizon rules before generation. Let the agent choose the mathematical approach without a task-specific seed formula. Use existing tools and add machinery only for a demonstrated blocking gap.
+The [pilot archive](../experiments/autonomous-discovery-pilot-v1/README.md) preserves Hollow, Fronds, and Gather, all initial candidates and revisions, the selection decisions, exact posts, and ten-second clips. No human selection or formula correction was needed. Compact lengths were 233, 212, and 230 X-weighted characters. Every frame matched its readable source geometrically, and all 48 sampled PNG pairs were byte-identical.
 
-The agent should construct, render, diagnose, revise, and select within the budget. It may preserve an incumbent, change representation, or stop when further work is unproductive. No mid-run human selection or rescue is needed. Preserve the initial candidate, material revisions, final selection or failure, and the rendered observations behind consequential decisions.
+The existing agent-plus-tools loop is a feasible baseline across these three representations. The pilot did not test representation switching, recovery from a failed brief, or the benefit of feedback against a comparison arm. The agent authored its own briefs and grades. Visual review used sampled stills; full-frame computation and playback checks do not substitute for perceptual assessment of every moment. Its three provisional successes are not a general reliability estimate.
 
-For a successful candidate, compress and verify the exact post over the same meaningful behavioral horizon. Include failed attempts and compression failures in the total cost. Ordinary agent-written code is compatible with autonomy; the pilot tests the decisions and outcomes of the complete process.
+## Active priority — test the value of rendered feedback
 
-Assess completed runs separately from their in-run selection decisions:
+Run a prospective paired comparison on six fresh descriptive briefs with harder structural or temporal demands. Commit the briefs, observation horizons, budget, review rubric, and advancement rule before creating candidates. Let the agent choose formulas; keep every failure in the result.
 
-| Capability | Evidence |
-| --- | --- |
-| Autonomous operation | Completion or explicit failure, plus any human interventions |
-| Useful observation-led decisions | Rendered before/after behavior and reasons for consequential changes |
-| Expressive success | Full-motion inspection against the brief, with uncertainty recorded |
-| Compact delivery | Exact-post length, execution, and preservation of defining behavior |
-| Transfer | Results across all fresh briefs, including failures |
-| Budget discipline | Elapsed effort, candidate/render counts, and available model/tool costs |
+- **Adaptive loop:** construct, render, inspect, and use observations to choose the next candidate or stop.
+- **Batch comparison:** write candidates before seeing any renders, then inspect the completed batch and select.
+- Give both arms the same maximum of four readable candidates and two compact attempts per brief, the same final visual-selection opportunity, and exact-post verification. Record actual generation, rendering, review, and compression effort; equal caps alone do not establish equal total cost.
+- Assess final brief adherence, expressive quality, compression survival, and cost separately. Include equivalence and uncertainty. Preserve before/after evidence for every claimed useful revision and report both all-run outcomes and delivered-only comparisons.
 
-This pilot locates bottlenecks and tests feasibility. Three runs cannot establish general reliability. Model self-assessment can support unattended exploration and provisional selection, but is not independent human validation. A separate review prompt does not itself create independent evidence. Human calibration can strengthen later artistic claims without being a dependency for operating the discovery loop.
+The question is whether feedback changes what the agent can discover, enough to justify its extra work. Do not assume that more revision is better or that this pilot's two useful-looking edits prove a causal benefit. If adaptive work adds no supported value, simplify the default process. If failures expose a specific representation or diagnosis gap, address that gap before expanding machinery.
 
-Further filament experiments are no longer the immediate milestone. A compact iterative law remains a representation hypothesis; it does not define the scope of autonomous discovery.
+Use outcome-based requirements frozen before formula choice, and label the source of briefs and artistic judgments. Model-only review remains provisional; a separate review prompt does not create independent evidence. Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. More filament experiments and learned search operators remain parked.
 
 ## Bottleneck discipline
 
@@ -107,4 +104,4 @@ For any decision-changing experiment:
 5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is the **bounded autonomous discovery pilot** above. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.
+The immediate next step is the **prospective feedback-value comparison** above. Do not tune the completed pilot's candidates to improve its recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

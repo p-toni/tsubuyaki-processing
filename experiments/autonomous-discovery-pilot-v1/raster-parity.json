@@ -1,0 +1,20 @@
+[
+  {
+    "brief": "B01",
+    "samples": 16,
+    "byteIdentical": true,
+    "differences": []
+  },
+  {
+    "brief": "B02",
+    "samples": 16,
+    "byteIdentical": true,
+    "differences": []
+  },
+  {
+    "brief": "B03",
+    "samples": 16,
+    "byteIdentical": true,
+    "differences": []
+  }
+]

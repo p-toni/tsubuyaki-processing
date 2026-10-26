@@ -1,0 +1,27 @@
+{
+  "frozenAtUTC": "2026-10-25T11:17:13.746707+00:00",
+  "protocolSha256": "6ae07ed15a5658e3f20a345d977175badab4f6cff0bd533d98c104f618a1d6e5",
+  "baseCommit": "490150a124ef232c718b7eb4974d563aa69d0373",
+  "maxReadableCandidatesPerBrief": 4,
+  "maxCompactAttemptsPerBrief": 2,
+  "fps": 60,
+  "horizon": 600,
+  "reviewFrames": [
+    1,
+    41,
+    81,
+    121,
+    161,
+    201,
+    241,
+    281,
+    320,
+    360,
+    400,
+    440,
+    480,
+    520,
+    560,
+    600
+  ]
+}
