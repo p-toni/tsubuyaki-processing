@@ -1,0 +1,27 @@
+{
+  "frozenAtUTC": "2026-10-26T21:23:45.420510+00:00",
+  "baseCommit": "d21754423629e4f346b86bf18a2688fd3191ca7a",
+  "protocolSha256": "4775662082040790ed0767a5fc4ee238d1714d93b3963ff4e8bbcf0537a58a3f",
+  "horizon": 720,
+  "fps": 60,
+  "reviewFrames": [
+    1,
+    49,
+    97,
+    145,
+    193,
+    241,
+    289,
+    337,
+    384,
+    432,
+    480,
+    528,
+    576,
+    624,
+    672,
+    720
+  ],
+  "maxReadablePerArm": 4,
+  "maxCompactPerArm": 2
+}
