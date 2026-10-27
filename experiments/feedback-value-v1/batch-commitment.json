@@ -1,0 +1,176 @@
+{
+  "committedAtUTC": "2026-10-27T10:15:17.007919+00:00",
+  "protocolSha256": "4775662082040790ed0767a5fc4ee238d1714d93b3963ff4e8bbcf0537a58a3f",
+  "batch": [
+    {
+      "brief": "F01",
+      "version": "v1",
+      "idea": "Two folded surfaces share a breathing separation variable.",
+      "source": "F01/batch/v1.js",
+      "sha256": "784ed52f8546bf44ceae11765a8d5abe3431c35fb03bfe4c95d4195b4071388d"
+    },
+    {
+      "brief": "F01",
+      "version": "v2",
+      "idea": "Filled lobes deform as their shared material separates.",
+      "source": "F01/batch/v2.js",
+      "sha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23"
+    },
+    {
+      "brief": "F01",
+      "version": "v3",
+      "idea": "A quartic contour changes from one necked body to two lobes.",
+      "source": "F01/batch/v3.js",
+      "sha256": "a3f90d955e41b1cba7e4d1d2960dff8183f776c925b8967e6926f60551c7f3d5"
+    },
+    {
+      "brief": "F01",
+      "version": "v4",
+      "idea": "A narrowing waist redistributes the lobes along a diagonal.",
+      "source": "F01/batch/v4.js",
+      "sha256": "65a8fc7ccec23fb80480f6655185c530502093f31ea4df4df7623be7fc810695"
+    },
+    {
+      "brief": "F02",
+      "version": "v1",
+      "idea": "Crossing ribbons carry a depth-colored traveling bend.",
+      "source": "F02/batch/v1.js",
+      "sha256": "66dfcc9e6148452b77807207bd7a105a86690372ee7a6d4a238fc9df801870f4"
+    },
+    {
+      "brief": "F02",
+      "version": "v2",
+      "idea": "Alternating underpass gaps share a traveling coordinate warp.",
+      "source": "F02/batch/v2.js",
+      "sha256": "d3aa947f2f5cddb4beadcb00a3f19aa3ef0d043b34bacf1221110421fc3eaaae"
+    },
+    {
+      "brief": "F02",
+      "version": "v3",
+      "idea": "Diagonal woven bands use explicit alternating gaps.",
+      "source": "F02/batch/v3.js",
+      "sha256": "7ef0ee8331113d24621edbf312944203afd6bbab31a6aa3fb8645f117e67cf16"
+    },
+    {
+      "brief": "F02",
+      "version": "v4",
+      "idea": "Broad woven bands deform together around their intersections.",
+      "source": "F02/batch/v4.js",
+      "sha256": "a10a992b32c02c64d9066f682057c0347d3b2ebf184e58fecb874d85b7496423"
+    },
+    {
+      "brief": "F03",
+      "version": "v1",
+      "idea": "A localized wave packet crosses and returns on an anchored sheet.",
+      "source": "F03/batch/v1.js",
+      "sha256": "7e68ebb6cd76cc9ab71ed3832931e4ce9a6337cf41e43d275b0acf3147452dbc"
+    },
+    {
+      "brief": "F03",
+      "version": "v2",
+      "idea": "A broad fold travels with the reflected packet center.",
+      "source": "F03/batch/v2.js",
+      "sha256": "872bb8ca40672519007419647d9a455819748a8261d4b8d6f243bf7f3b50376e"
+    },
+    {
+      "brief": "F03",
+      "version": "v3",
+      "idea": "A single rounded crest reflects while the lateral edges stay fixed.",
+      "source": "F03/batch/v3.js",
+      "sha256": "c578255bf8a86516924f6bec496ac80c02b458acfbe9e442a96a5e91adb59146"
+    },
+    {
+      "brief": "F03",
+      "version": "v4",
+      "idea": "Two surface coordinates reveal a localized traveling ridge in projection.",
+      "source": "F03/batch/v4.js",
+      "sha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331"
+    },
+    {
+      "brief": "F04",
+      "version": "v1",
+      "idea": "Two folded bodies and a bridge share the same delayed oscillation.",
+      "source": "F04/batch/v1.js",
+      "sha256": "2da3c4086bb98db2bba2616225c8f198879cf072bd811e478d781603938c7cea"
+    },
+    {
+      "brief": "F04",
+      "version": "v2",
+      "idea": "A localized pulse deforms the source, traverses the bridge, then arrives.",
+      "source": "F04/batch/v2.js",
+      "sha256": "37fa69463ebf76085e7ccca732e0269882d7826403eac676e76d4cfaf1309fcc"
+    },
+    {
+      "brief": "F04",
+      "version": "v3",
+      "idea": "One continuous dumbbell surface carries a phase-delayed deformation.",
+      "source": "F04/batch/v3.js",
+      "sha256": "6e22e0c83d593a37024b6fe446a238935aed606a1e484d0e48f5ecedb4be9e65"
+    },
+    {
+      "brief": "F04",
+      "version": "v4",
+      "idea": "A narrow neck and soft lobes share a traveling compression field.",
+      "source": "F04/batch/v4.js",
+      "sha256": "92324d8dc84eb1563e99928657cc4599b3d610cc20cafb0da7b9b56a608e6588"
+    },
+    {
+      "brief": "F05",
+      "version": "v1",
+      "idea": "A ruled sheet twists progressively away from a fixed top edge.",
+      "source": "F05/batch/v1.js",
+      "sha256": "778843c57e90582cc1ac8d7920c7b175f294b1475d073d5aa4aabca53d2a9df4"
+    },
+    {
+      "brief": "F05",
+      "version": "v2",
+      "idea": "Opaque material and depth shading expose overlap in the twisting sheet.",
+      "source": "F05/batch/v2.js",
+      "sha256": "be32c8ff09214debb19149c62a4ceb2181842db58e9d20653b0513c707544f3b"
+    },
+    {
+      "brief": "F05",
+      "version": "v3",
+      "idea": "A traveling fold turns a dense sheet while its upper corners remain anchored.",
+      "source": "F05/batch/v3.js",
+      "sha256": "e110e9a52cc418c7d30c05c0950ed25889487be11d0b49c8d0eb4d76f5aab0fa"
+    },
+    {
+      "brief": "F05",
+      "version": "v4",
+      "idea": "An asymmetric fold moves through an opaque sheet with fixed upper edge.",
+      "source": "F05/batch/v4.js",
+      "sha256": "b9505e5179de92506be5ace860689286ddc33b648971b74a345e051cda7aa50c"
+    },
+    {
+      "brief": "F06",
+      "version": "v1",
+      "idea": "Steady lanes bend around an empty obstacle and return downstream.",
+      "source": "F06/batch/v1.js",
+      "sha256": "9449c1aae1d38d474a2f62987e04a9a1916e4c61fc4f63f00dee5738b4b85c00"
+    },
+    {
+      "brief": "F06",
+      "version": "v2",
+      "idea": "A circular clearance shapes the paired paths around the obstacle.",
+      "source": "F06/batch/v2.js",
+      "sha256": "87889db22febe6dffd3972149b17155c5c9d00082a72b898f6691311c86cf6ac"
+    },
+    {
+      "brief": "F06",
+      "version": "v3",
+      "idea": "Longer approach and recovery distribute the bend around an empty center.",
+      "source": "F06/batch/v3.js",
+      "sha256": "bc0effd2d1dce1ad35d317e9ddf29ee0c7cd2d677677bc6792f94233ef8d3d72"
+    },
+    {
+      "brief": "F06",
+      "version": "v4",
+      "idea": "Lane-dependent speed makes material shear visible around the obstacle.",
+      "source": "F06/batch/v4.js",
+      "sha256": "90266b8d6f255b3c7921a24d287d366051cfbd7e2cb3d655fe0f8dca1b6ece9e"
+    }
+  ],
+  "sharedStarts": "adaptive/v1.js is byte-identical to batch/v1.js for every brief",
+  "renderedFeedbackSeen": false
+}
