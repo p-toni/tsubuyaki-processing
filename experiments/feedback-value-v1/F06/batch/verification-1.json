@@ -1,0 +1,27 @@
+{
+  "brief": "F06",
+  "readable": "F06/batch/v4.js",
+  "readableSha256": "90266b8d6f255b3c7921a24d287d366051cfbd7e2cb3d655fe0f8dca1b6ece9e",
+  "compact": "F06/batch/compact-1.txt",
+  "compactSha256": "64b483ab57b969fd29439773f85f659b7fff5bac63a8b1114ecbb9be53745e29",
+  "protocolSha256": "4775662082040790ed0767a5fc4ee238d1714d93b3963ff4e8bbcf0537a58a3f",
+  "frames": 720,
+  "pointsPerFrame": 2400,
+  "pointCalls": 3456000,
+  "minInFrame": 1,
+  "maxMotion": 1.3394641787929502,
+  "horizontalResets": 2744,
+  "minCenterDistance": 54.334930645731156,
+  "maxGeometryError": 5.684341886080802e-14,
+  "maxStyleError": 0,
+  "length": {
+    "rawCodePoints": 215,
+    "xWeightedLength": 219,
+    "rawLimit": 280,
+    "weightedLimit": 280,
+    "pass": true
+  },
+  "executionSeconds": 2.802222916,
+  "pass": true,
+  "claim": "Exact-source geometry and drawing-style check; not an artistic or brief-adherence judgment."
+}

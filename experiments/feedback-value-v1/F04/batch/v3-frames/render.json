@@ -1,0 +1,33 @@
+{
+  "source": "F04/adaptive/v3.js",
+  "sourceSha256": "6e22e0c83d593a37024b6fe446a238935aed606a1e484d0e48f5ecedb4be9e65",
+  "runtime": "p5.js 1.11.3",
+  "runtimeSha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+  "browser": "153.0.8010.12",
+  "mode": "samples",
+  "frames": [
+    1,
+    49,
+    97,
+    145,
+    193,
+    241,
+    289,
+    337,
+    384,
+    432,
+    480,
+    528,
+    576,
+    624,
+    672,
+    720
+  ],
+  "drawFrames": 720,
+  "errors": [],
+  "drawMs": {
+    "median": 3.399999976158142,
+    "max": 12.100000023841858
+  },
+  "scheduler": "sequential frameCount 1..horizon; exact candidate draw; p5 noLoop wrapper"
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "brief": "F01",
+    "arm": "adaptive",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F03",
+    "arm": "adaptive",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F05",
+    "arm": "adaptive",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F06",
+    "arm": "adaptive",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F01",
+    "arm": "batch",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F03",
+    "arm": "batch",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F05",
+    "arm": "batch",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "F06",
+    "arm": "batch",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  }
+]

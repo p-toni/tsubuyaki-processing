@@ -1,0 +1,186 @@
+{
+  "firstCountedAtUTC": "2026-10-27T21:03:56.739163+00:00",
+  "attempts": [
+    {
+      "brief": "F01",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v2",
+      "post": "F01/adaptive/compact-1.txt",
+      "postSha256": "b2452ac3d72cbf9ea191f7efcd5fb6b185b28930fda5c858c6bea29cca2a75b5",
+      "length": {
+        "rawCodePoints": 238,
+        "xWeightedLength": 242,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F02",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v4",
+      "post": "F02/adaptive/compact-1.txt",
+      "postSha256": "9bd322421b059ce01be83ba824b6e4792eaaa647387893cb6afcefa2ea14392d",
+      "length": {
+        "rawCodePoints": 305,
+        "xWeightedLength": 309,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      }
+    },
+    {
+      "brief": "F03",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v2",
+      "post": "F03/adaptive/compact-1.txt",
+      "postSha256": "9e7e41cc6b13131f8dcc63ceae6491e6ed0e5c1b646eadf5ab42e62b62d9b127",
+      "length": {
+        "rawCodePoints": 224,
+        "xWeightedLength": 228,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F04",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v4",
+      "post": "F04/adaptive/compact-1.txt",
+      "postSha256": "ff4b2a8eacfeae6b0c6c628a8ba90523474fb118f0e87253964c159592ad7396",
+      "length": {
+        "rawCodePoints": 314,
+        "xWeightedLength": 318,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      }
+    },
+    {
+      "brief": "F05",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v2",
+      "post": "F05/adaptive/compact-1.txt",
+      "postSha256": "ac356dc5635083defe6a58d4effbb6621e667d5b312481eda61ca940cfffda0f",
+      "length": {
+        "rawCodePoints": 250,
+        "xWeightedLength": 254,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F06",
+      "arm": "adaptive",
+      "attempt": 1,
+      "version": "v3",
+      "post": "F06/adaptive/compact-1.txt",
+      "postSha256": "6fe86b4a9179de953ad8edfa0fc23232241f74856fb768c18e172cd8f9ab3d4a",
+      "length": {
+        "rawCodePoints": 258,
+        "xWeightedLength": 262,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F01",
+      "arm": "batch",
+      "attempt": 1,
+      "version": "v2",
+      "post": "F01/batch/compact-1.txt",
+      "postSha256": "b2452ac3d72cbf9ea191f7efcd5fb6b185b28930fda5c858c6bea29cca2a75b5",
+      "length": {
+        "rawCodePoints": 238,
+        "xWeightedLength": 242,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F03",
+      "arm": "batch",
+      "attempt": 1,
+      "version": "v4",
+      "post": "F03/batch/compact-1.txt",
+      "postSha256": "9e7e41cc6b13131f8dcc63ceae6491e6ed0e5c1b646eadf5ab42e62b62d9b127",
+      "length": {
+        "rawCodePoints": 224,
+        "xWeightedLength": 228,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F05",
+      "arm": "batch",
+      "attempt": 1,
+      "version": "v4",
+      "post": "F05/batch/compact-1.txt",
+      "postSha256": "51b45ee2f4f6c26ffbc8e42a741333abc8577e86eb2c8f4297bb07b5e5dcedcb",
+      "length": {
+        "rawCodePoints": 234,
+        "xWeightedLength": 238,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F06",
+      "arm": "batch",
+      "attempt": 1,
+      "version": "v4",
+      "post": "F06/batch/compact-1.txt",
+      "postSha256": "64b483ab57b969fd29439773f85f659b7fff5bac63a8b1114ecbb9be53745e29",
+      "length": {
+        "rawCodePoints": 215,
+        "xWeightedLength": 219,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      }
+    },
+    {
+      "brief": "F02",
+      "arm": "adaptive",
+      "attempt": 2,
+      "version": "v4",
+      "post": "F02/adaptive/compact-2.txt",
+      "postSha256": "ffc68f8c21bfd2753e255ab479310a6c147ca4412515b0f921ea0df60910aed3",
+      "length": {
+        "rawCodePoints": 286,
+        "xWeightedLength": 290,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      }
+    },
+    {
+      "brief": "F04",
+      "arm": "adaptive",
+      "attempt": 2,
+      "version": "v4",
+      "post": "F04/adaptive/compact-2.txt",
+      "postSha256": "bb6768e850c35e2b4fac78e2c0f179c47fe8837fc1435443aa64a6aa97958fe7",
+      "length": {
+        "rawCodePoints": 299,
+        "xWeightedLength": 303,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      }
+    }
+  ],
+  "secondCountedAtUTC": "2026-10-27T21:06:16.730724+00:00"
+}

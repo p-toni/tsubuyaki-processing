@@ -1,0 +1,7 @@
+{
+  "candidate": "F03/adaptive/v2",
+  "wallSeconds": 7.593,
+  "exitCode": 0,
+  "stdout": "{\"source\":\"F03/adaptive/v2.js\",\"mode\":\"samples\",\"frames\":16,\"drawMs\":{\"median\":5.5,\"max\":22.19999998807907},\"errors\":[]}\n",
+  "stderr": ""
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "post": "F01/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F02/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F03/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F04/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F05/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F06/adaptive/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F01/batch/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F03/batch/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F05/batch/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F06/batch/compact-1.txt",
+    "pass": true
+  },
+  {
+    "post": "F02/adaptive/compact-2.txt",
+    "pass": false,
+    "error": "SyntaxError: Unary operator used immediately before exponentiation expression. Parenthesis must be used to disambiguate operator precedence"
+  },
+  {
+    "post": "F04/adaptive/compact-2.txt",
+    "pass": true
+  }
+]

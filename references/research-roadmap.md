@@ -25,6 +25,7 @@ The separate autonomous search runtime remains optional research machinery. Neit
 
 Narrow supported claims:
 
+- the [rendered-feedback comparison](../experiments/feedback-value-v1/README.md) delivered 4/6 briefs in both arms, with zero adaptive pair wins, one batch preference, three equivalents, and two both-fail pairs; its same-agent, shared-context design does not establish a clean causal effect or broad batch superiority;
 - the [first complete discovery pilot](../experiments/autonomous-discovery-pilot-v1/README.md) delivered three different compact studies from five readable candidates, two observation-led revisions, and one compact attempt per brief; all passed the frozen technical checks, with provisional B grades from the same agent that authored the briefs and candidates;
 - intrinsic-1D native/spectral mixed search produced artistically preferred portfolios on its tested surface;
 - target-blind max-dispersion improved the tested three-item delivery shortlist;
@@ -46,18 +47,25 @@ The [pilot archive](../experiments/autonomous-discovery-pilot-v1/README.md) pres
 
 The existing agent-plus-tools loop is a feasible baseline across these three representations. The pilot did not test representation switching, recovery from a failed brief, or the benefit of feedback against a comparison arm. The agent authored its own briefs and grades. Visual review used sampled stills; full-frame computation and playback checks do not substitute for perceptual assessment of every moment. Its three provisional successes are not a general reliability estimate.
 
-## Active priority — test the value of rendered feedback
+## Completed comparison — value of rendered feedback
 
-Run a prospective paired comparison on six fresh descriptive briefs with harder structural or temporal demands. Commit the briefs, observation horizons, budget, review rubric, and advancement rule before creating candidates. Let the agent choose formulas; keep every failure in the result.
+The [feedback-value-v1 archive](../experiments/feedback-value-v1/README.md) preserves six fresh briefs, all 41 charged candidates, selections made before character counting, and twelve compact attempts. Both arms had caps of four readable candidates and two compact attempts per brief. Batch sources were committed before rendering; adaptive generation closed before the remaining batch renders. Identical programs reused evidence, leaving 28 unique readable renders.
 
-- **Adaptive loop:** construct, render, inspect, and use observations to choose the next candidate or stop.
-- **Batch comparison:** write candidates before seeing any renders, then inspect the completed batch and select.
-- Give both arms the same maximum of four readable candidates and two compact attempts per brief, the same final visual-selection opportunity, and exact-post verification. Record actual generation, rendering, review, and compression effort; equal caps alone do not establish equal total cost.
-- Assess final brief adherence, expressive quality, compression survival, and cost separately. Include equivalence and uncertainty. Preserve before/after evidence for every claimed useful revision and report both all-run outcomes and delivered-only comparisons.
+Adaptive revision produced six provisional B selections from 17 candidates; batch produced four from 24. The two extra adaptive readable successes, Weave and Exchange, exceeded the character limit after both allowed attempts. One failed Weave attempt also had a syntax error. These remain failed compact runs, not proof of an impossible representation. Both arms delivered four verified posts. The batch Twist had the only clear final preference; three pairs were equivalent and two had no successful delivery. All eight posts passed 720-frame geometry/style checks and 128 sampled raster comparisons.
 
-The question is whether feedback changes what the agent can discover, enough to justify its extra work. Do not assume that more revision is better or that this pilot's two useful-looking edits prove a causal benefit. If adaptive work adds no supported value, simplify the default process. If failures expose a specific representation or diagnosis gap, address that gap before expanding machinery.
+The advancement rule required at least four adaptive wins, at most one batch win, and no fewer adaptive deliveries. It failed. Keep the small first-candidate loop and revise for concrete observed shortcomings. Do not require a fixed candidate count, expand revision machinery, or adopt a universal batch policy from this result. Fewer adaptive candidates do not establish lower total cost: active reasoning and review effort were not measured.
 
-Use outcome-based requirements frozen before formula choice, and label the source of briefs and artistic judgments. Model-only review remains provisional; a separate review prompt does not create independent evidence. Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. More filament experiments and learned search operators remain parked.
+The same agent authored both arms and remembered its planned alternatives. Source commitments prevented batch edits but could not remove shared-context effects. Briefs and grades were model-authored; visual review used sampled stills. Neither clean causal isolation nor independent artistic validation has been demonstrated.
+
+## Active priority — compact delivery of harder behavior
+
+The actionable gap is a worthwhile readable behavior failing to become a worthwhile compact post within budget. Test compact representation and preflight on fresh briefs involving occlusion or delayed transfer. Leave the completed Weave and Exchange candidates closed; repairing them would not provide fresh evidence.
+
+Use the existing [compression-promotion guidance](compression-promotion.md). Once a worthwhile incumbent exists, test a cheap exact compact version before spending the remaining budget on refinement. If it fails, diagnose whether syntax, representation, or the defining behavior consumes the budget. A simple representation change must preserve the brief's important relationships; reducing the task to fit the limit is a failure.
+
+Before the next comparison, freeze fresh briefs, meaningful horizons, equal candidate and compact-attempt caps, and a decision rule. Compare preflight after the first worthwhile incumbent with the current late-selection timing. Count all runs, retain failures, and measure actual effort where available. Advancement must mean more verified, brief-adherent A/B deliveries without an artistic loss, not merely shorter code or more attempted golf. This extends the small earlier description-length study to harder complete discovery tasks; it is not a new default or a reason to build another runtime.
+
+Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. A separate review prompt does not create independent evidence. More filament experiments, learned search operators, and automatic aesthetic judges remain parked.
 
 ## Bottleneck discipline
 
@@ -91,7 +99,7 @@ An experiment using recurrence inside the artwork does not satisfy that reopenin
 
 ## Closed populations
 
-Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, or compact-material-grammar populations. Their negative results remain evidence, not optimizer input.
+Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, compact-material-grammar, or feedback-value-v1 populations. Their negative results remain evidence, not optimizer input.
 
 ## Research discipline
 
@@ -104,4 +112,4 @@ For any decision-changing experiment:
 5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is the **prospective feedback-value comparison** above. Do not tune the completed pilot's candidates to improve its recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.
+The immediate next step is a **fresh comparison of compact preflight timing on harder briefs**. Do not tune the completed pilot or feedback-comparison candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

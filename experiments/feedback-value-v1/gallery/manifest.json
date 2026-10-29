@@ -1,0 +1,98 @@
+[
+  {
+    "brief": "F01",
+    "arm": "adaptive",
+    "delivered": true,
+    "page": "F01-adaptive.html",
+    "source": "F01/adaptive/compact-1.txt",
+    "firstFrame": "F01/adaptive/final-frames/0001.png"
+  },
+  {
+    "brief": "F01",
+    "arm": "batch",
+    "delivered": true,
+    "page": "F01-batch.html",
+    "source": "F01/batch/compact-1.txt",
+    "firstFrame": "F01/batch/final-frames/0001.png"
+  },
+  {
+    "brief": "F02",
+    "arm": "adaptive",
+    "delivered": false,
+    "page": "F02-adaptive.html",
+    "source": "F02/adaptive/v4.js",
+    "firstFrame": "F02/adaptive/v4-frames/0001.png"
+  },
+  {
+    "brief": "F02",
+    "arm": "batch",
+    "delivered": false,
+    "page": "F02-batch.html",
+    "source": "F02/batch/v3.js",
+    "firstFrame": "F02/batch/v3-frames/0001.png"
+  },
+  {
+    "brief": "F03",
+    "arm": "adaptive",
+    "delivered": true,
+    "page": "F03-adaptive.html",
+    "source": "F03/adaptive/compact-1.txt",
+    "firstFrame": "F03/adaptive/final-frames/0001.png"
+  },
+  {
+    "brief": "F03",
+    "arm": "batch",
+    "delivered": true,
+    "page": "F03-batch.html",
+    "source": "F03/batch/compact-1.txt",
+    "firstFrame": "F03/batch/final-frames/0001.png"
+  },
+  {
+    "brief": "F04",
+    "arm": "adaptive",
+    "delivered": false,
+    "page": "F04-adaptive.html",
+    "source": "F04/adaptive/v4.js",
+    "firstFrame": "F04/adaptive/v4-frames/0001.png"
+  },
+  {
+    "brief": "F04",
+    "arm": "batch",
+    "delivered": false,
+    "page": "F04-batch.html",
+    "source": "F04/batch/v2.js",
+    "firstFrame": "F04/batch/v2-frames/0001.png"
+  },
+  {
+    "brief": "F05",
+    "arm": "adaptive",
+    "delivered": true,
+    "page": "F05-adaptive.html",
+    "source": "F05/adaptive/compact-1.txt",
+    "firstFrame": "F05/adaptive/final-frames/0001.png"
+  },
+  {
+    "brief": "F05",
+    "arm": "batch",
+    "delivered": true,
+    "page": "F05-batch.html",
+    "source": "F05/batch/compact-1.txt",
+    "firstFrame": "F05/batch/final-frames/0001.png"
+  },
+  {
+    "brief": "F06",
+    "arm": "adaptive",
+    "delivered": true,
+    "page": "F06-adaptive.html",
+    "source": "F06/adaptive/compact-1.txt",
+    "firstFrame": "F06/adaptive/final-frames/0001.png"
+  },
+  {
+    "brief": "F06",
+    "arm": "batch",
+    "delivered": true,
+    "page": "F06-batch.html",
+    "source": "F06/batch/compact-1.txt",
+    "firstFrame": "F06/batch/final-frames/0001.png"
+  }
+]

@@ -1,0 +1,357 @@
+{
+  "completedAtUTC": "2026-10-28T16:57:03.165062+00:00",
+  "protocolSha256": "4775662082040790ed0767a5fc4ee238d1714d93b3963ff4e8bbcf0537a58a3f",
+  "selectionSha256": "f84af9eba39fcbd8522a2eb3a1283cbb7d9dcd53e49814e0576f1fc2cd37f326",
+  "scope": "Same-agent, shared-context, model-only prospective comparison on six authored briefs; not an independent causal test.",
+  "summary": {
+    "adaptive": {
+      "readableSuccesses": 6,
+      "compactSuccesses": 4,
+      "readableCandidates": 17,
+      "compactAttempts": 8
+    },
+    "batch": {
+      "readableSuccesses": 4,
+      "compactSuccesses": 4,
+      "readableCandidates": 24,
+      "compactAttempts": 4
+    }
+  },
+  "pairs": [
+    {
+      "brief": "F01",
+      "readablePreference": "equivalent",
+      "compactOutcome": "equivalent"
+    },
+    {
+      "brief": "F02",
+      "readablePreference": "adaptive",
+      "compactOutcome": "both-fail"
+    },
+    {
+      "brief": "F03",
+      "readablePreference": "equivalent",
+      "compactOutcome": "equivalent"
+    },
+    {
+      "brief": "F04",
+      "readablePreference": "adaptive",
+      "compactOutcome": "both-fail"
+    },
+    {
+      "brief": "F05",
+      "readablePreference": "batch",
+      "compactOutcome": "batch"
+    },
+    {
+      "brief": "F06",
+      "readablePreference": "equivalent",
+      "compactOutcome": "equivalent"
+    }
+  ],
+  "pairCounts": {
+    "adaptive": 0,
+    "batch": 1,
+    "equivalent": 3,
+    "both-fail": 2
+  },
+  "advancement": {
+    "requiresAdaptiveWins": 4,
+    "allowsBatchWins": 1,
+    "requiresNoFewerAdaptiveSuccesses": true,
+    "passed": false
+  },
+  "runs": [
+    {
+      "brief": "F01",
+      "arm": "adaptive",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 238,
+          "xWeightedLength": 242,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F02",
+      "arm": "adaptive",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": false,
+      "readableCandidates": 4,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 305,
+          "xWeightedLength": 309,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 286,
+          "xWeightedLength": 290,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Two compact attempts exceed the character limit; F02 attempt 2 also fails syntax."
+    },
+    {
+      "brief": "F03",
+      "arm": "adaptive",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 224,
+          "xWeightedLength": 228,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F04",
+      "arm": "adaptive",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": false,
+      "readableCandidates": 4,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 314,
+          "xWeightedLength": 318,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 299,
+          "xWeightedLength": 303,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Two compact attempts exceed the character limit."
+    },
+    {
+      "brief": "F05",
+      "arm": "adaptive",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 250,
+          "xWeightedLength": 254,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F06",
+      "arm": "adaptive",
+      "selectedVersion": "v3",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 3,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 258,
+          "xWeightedLength": 262,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F01",
+      "arm": "batch",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 4,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 238,
+          "xWeightedLength": 242,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F02",
+      "arm": "batch",
+      "selectedVersion": "v3",
+      "provisionalGrade": "C",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": false,
+      "compactSuccess": false,
+      "readableCandidates": 4,
+      "compactAttempts": 0,
+      "attemptLengths": [],
+      "failureReason": "No A/B candidate; best observed result remains a C-grade demonstration."
+    },
+    {
+      "brief": "F03",
+      "arm": "batch",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 4,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 224,
+          "xWeightedLength": 228,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F04",
+      "arm": "batch",
+      "selectedVersion": "v2",
+      "provisionalGrade": "C",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": false,
+      "compactSuccess": false,
+      "readableCandidates": 4,
+      "compactAttempts": 0,
+      "attemptLengths": [],
+      "failureReason": "No A/B candidate; best observed result remains a C-grade demonstration."
+    },
+    {
+      "brief": "F05",
+      "arm": "batch",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 4,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 234,
+          "xWeightedLength": 238,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "F06",
+      "arm": "batch",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "compactSuccess": true,
+      "readableCandidates": 4,
+      "compactAttempts": 1,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 215,
+          "xWeightedLength": 219,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    }
+  ],
+  "verification": {
+    "logicalDeliveries": 8,
+    "uniqueSourcePairs": 6,
+    "framesPerDelivery": 720,
+    "physicalNumericalPointCalls": 47520000,
+    "maxGeometryError": 2.2737367544323206e-13,
+    "maxStyleError": 0,
+    "minPointCentersInFrame": 1,
+    "maxMotion": 4.4023758216178015,
+    "horizontalRecycling": {
+      "adaptive": 1832,
+      "batch": 2744
+    },
+    "sampledRasterPairs": 128,
+    "allSampledRasterPairsByteIdentical": true,
+    "uniqueRasterPairs": 96,
+    "clipsVerified": 8,
+    "livePagesVerified": 12
+  },
+  "effort": {
+    "logicalReadableCandidates": 41,
+    "uniqueReadableProgramsRendered": 28,
+    "readableRenderReuses": 13,
+    "uniqueSampledReviewFrames": 448,
+    "chargedSampledReviewFrameUses": 656,
+    "previewDrawFrames": 20160,
+    "uniqueFinalClipsRendered": 6,
+    "finalClipReuses": 2,
+    "finalClipFramesRendered": 4320,
+    "compactAttempts": 12,
+    "fallbacksUsed": 0,
+    "humanCreativeInterventions": 0,
+    "previewSubprocessWallSecondsSum": 168.153,
+    "finalSubprocessWallSecondsSum": 44.46854620886734,
+    "numericalExecutionSecondsSum": 58.332075290999995,
+    "timingCaveat": "Subprocess sums include overlapping work and exclude authorship, reasoning, visual review, interruptions and browser QA. They are not elapsed study time or equal-cost evidence.",
+    "tokens": null,
+    "moneyCost": null,
+    "activeReasoningSeconds": null
+  },
+  "decision": "Keep the small observation-led loop. Do not expand revision machinery. Next investigate compact representations and incumbent preflight on fresh harder briefs; do not tune this closed population."
+}

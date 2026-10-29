@@ -1,0 +1,12 @@
+[
+  {
+    "post": "F01/batch/compact-1.txt",
+    "reusedFrom": "F01/adaptive/compact-1.txt",
+    "reason": "Byte-identical complete post and frozen runtime; no additional physical render."
+  },
+  {
+    "post": "F03/batch/compact-1.txt",
+    "reusedFrom": "F03/adaptive/compact-1.txt",
+    "reason": "Byte-identical complete post and frozen runtime; no additional physical render."
+  }
+]

@@ -1,0 +1,353 @@
+{
+  "selectedAtUTC": "2026-10-27T21:03:10.697738+00:00",
+  "reviewer": "same primary model; not blinded or independent",
+  "adaptiveSelectionSha256": "588232143792e6361ae43ab6d379b891fbcb8cfa4da52b81a73653555be60d2b",
+  "characterCountsSeen": false,
+  "selected": [
+    {
+      "brief": "F01",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "shared separation and aspect deformation",
+        "stable golden-angle material samples",
+        "continuous split/reunion motion"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "requirements": {
+        "separation_and_reunion": "met",
+        "material_deformation": "met",
+        "no_rigid_translation_or_fade": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F02",
+      "arm": "adaptive",
+      "version": "v4",
+      "sourceSha256": "9427d4ceab61cbc52e3a335a5dd0fa5ab8ce275a8f903b6ca30fdb094653b60e",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "two crossing families with alternating underpass masks",
+        "shared two-axis warp",
+        "dense bands with width-based shading"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "requirements": {
+        "crossing_bands": "met",
+        "alternating_over_under": "met",
+        "traveling_disturbance_without_flicker": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F03",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "triangular reflected packet center",
+        "localized height envelope with anchored lateral edges",
+        "two-coordinate projected sheet"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "requirements": {
+        "localized_event": "met",
+        "reflection_and_return": "met",
+        "anchored_lateral_edges": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F04",
+      "arm": "adaptive",
+      "version": "v4",
+      "sourceSha256": "5aecb767042636b414be103ace3424762d659bb0286e3ea0dd69c5dd5803d436",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "shared delayed pulse across bodies and bridge",
+        "fixed body centers",
+        "attachment at deforming inner surfaces"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "requirements": {
+        "fixed_body_centers": "met",
+        "visible_passage_of_influence": "met",
+        "delayed_receiving_deformation": "met",
+        "shared_cause_not_unrelated_bridge": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F05",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "be32c8ff09214debb19149c62a4ceb2181842db58e9d20653b0513c707544f3b",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "fixed upper edge",
+        "progressive twist through depth",
+        "opaque material and depth shading with readable overlap"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "requirements": {
+        "fixed_upper_corners": "met",
+        "twist_and_moving_fold": "met",
+        "readable_front_back_occlusion": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F06",
+      "arm": "adaptive",
+      "version": "v3",
+      "sourceSha256": "0ba6dd1be2e4fae1ed6e8d42e7c5cd0905d6aa42b886a35c2a982f383ec1eb3b",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "stable diverted trajectories and empty obstacle",
+        "lane-dependent speed",
+        "persistent identity brightness",
+        "declared horizontal recycling"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "requirements": {
+        "split_and_downstream_rejoin": "met",
+        "persistent_empty_obstacle": "met",
+        "coherent_transport": "met",
+        "only_declared_off_canvas_recycling": "met"
+      },
+      "deliveryEligible": true
+    },
+    {
+      "brief": "F01",
+      "arm": "batch",
+      "version": "v2",
+      "sourceSha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "separation_and_reunion": "met",
+        "material_deformation": "met",
+        "no_rigid_translation_or_fade": "met"
+      },
+      "definingRelationships": [
+        "shared separation and aspect deformation",
+        "stable golden-angle material samples",
+        "continuous split/reunion motion"
+      ],
+      "deliveryEligible": true,
+      "failureReason": null,
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F02",
+      "arm": "batch",
+      "version": "v3",
+      "sourceSha256": "7ef0ee8331113d24621edbf312944203afd6bbab31a6aa3fb8645f117e67cf16",
+      "provisionalGrade": "C",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "crossing_bands": "met",
+        "alternating_over_under": "met",
+        "traveling_disturbance_without_flicker": "met"
+      },
+      "definingRelationships": [
+        "diagonal crossing families",
+        "alternating underpass masks",
+        "common traveling warp"
+      ],
+      "deliveryEligible": false,
+      "failureReason": "No A/B candidate; best observed result remains a C-grade demonstration.",
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F03",
+      "arm": "batch",
+      "version": "v4",
+      "sourceSha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "localized_event": "met",
+        "reflection_and_return": "met",
+        "anchored_lateral_edges": "met"
+      },
+      "definingRelationships": [
+        "triangular reflected packet center",
+        "localized height envelope with anchored lateral edges",
+        "two-coordinate projected sheet"
+      ],
+      "deliveryEligible": true,
+      "failureReason": null,
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F04",
+      "arm": "batch",
+      "version": "v2",
+      "sourceSha256": "37fa69463ebf76085e7ccca732e0269882d7826403eac676e76d4cfaf1309fcc",
+      "provisionalGrade": "C",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "fixed_body_centers": "met",
+        "visible_passage_of_influence": "met",
+        "delayed_receiving_deformation": "met",
+        "shared_cause_not_unrelated_bridge": "met"
+      },
+      "definingRelationships": [
+        "fixed body centers",
+        "shared delayed pulse across bodies and bridge"
+      ],
+      "deliveryEligible": false,
+      "failureReason": "No A/B candidate; best observed result remains a C-grade demonstration.",
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F05",
+      "arm": "batch",
+      "version": "v4",
+      "sourceSha256": "b9505e5179de92506be5ace860689286ddc33b648971b74a345e051cda7aa50c",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "fixed_upper_corners": "met",
+        "twist_and_moving_fold": "met",
+        "readable_front_back_occlusion": "met"
+      },
+      "definingRelationships": [
+        "fixed upper edge",
+        "asymmetric twist varying across width",
+        "opaque shaded surface and overlap"
+      ],
+      "deliveryEligible": true,
+      "failureReason": null,
+      "fallbacks": [
+        {
+          "version": "v3",
+          "sourceSha256": "e110e9a52cc418c7d30c05c0950ed25889487be11d0b49c8d0eb4d76f5aab0fa",
+          "provisionalGrade": "B",
+          "requirements": {
+            "fixed_upper_corners": "met",
+            "twist_and_moving_fold": "met",
+            "readable_front_back_occlusion": "met"
+          },
+          "definingRelationships": [
+            "fixed upper edge",
+            "traveling twist increasing down sheet",
+            "opaque shaded overlap"
+          ]
+        }
+      ],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F06",
+      "arm": "batch",
+      "version": "v4",
+      "sourceSha256": "90266b8d6f255b3c7921a24d287d366051cfbd7e2cb3d655fe0f8dca1b6ece9e",
+      "provisionalGrade": "B",
+      "allBriefRequirementsMet": true,
+      "requirements": {
+        "split_and_downstream_rejoin": "met",
+        "persistent_empty_obstacle": "met",
+        "coherent_transport": "met",
+        "only_declared_off_canvas_recycling": "met"
+      },
+      "definingRelationships": [
+        "stable diverted trajectories and empty obstacle",
+        "lane-dependent speed",
+        "declared horizontal recycling"
+      ],
+      "deliveryEligible": true,
+      "failureReason": null,
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    }
+  ],
+  "readablePairPreferences": {
+    "F01": "equivalent",
+    "F02": "adaptive",
+    "F03": "equivalent",
+    "F04": "adaptive",
+    "F05": "batch",
+    "F06": "equivalent"
+  }
+}

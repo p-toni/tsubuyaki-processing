@@ -1,0 +1,1 @@
+t=0;p=x=>sin(t/120-x+PI/4)**16;draw=_=>{t++||createCanvas(400,400);background(9);stroke(240,100);for(i=9e3;i--;){f=i%3;u=i/9e3;a=u*TAU;q=p(f<2?f:u);r=36+8*cos(i)+18*q*cos(3*a);point(f<2?100+200*f+r*cos(a):136+128*u+18*(p(0)*(1-u)+p(1)*u),200+(f<2?r*sin(a):42*q*sin(a/2)+4*sin(i)))}}//#つぶやきProcessing

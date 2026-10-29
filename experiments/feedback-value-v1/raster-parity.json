@@ -1,0 +1,570 @@
+[
+  {
+    "brief": "F01",
+    "arm": "adaptive",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F03",
+    "arm": "adaptive",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F05",
+    "arm": "adaptive",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F06",
+    "arm": "adaptive",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F01",
+    "arm": "batch",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F03",
+    "arm": "batch",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F05",
+    "arm": "batch",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  },
+  {
+    "brief": "F06",
+    "arm": "batch",
+    "pairs": [
+      {
+        "frame": 1,
+        "equal": true
+      },
+      {
+        "frame": 49,
+        "equal": true
+      },
+      {
+        "frame": 97,
+        "equal": true
+      },
+      {
+        "frame": 145,
+        "equal": true
+      },
+      {
+        "frame": 193,
+        "equal": true
+      },
+      {
+        "frame": 241,
+        "equal": true
+      },
+      {
+        "frame": 289,
+        "equal": true
+      },
+      {
+        "frame": 337,
+        "equal": true
+      },
+      {
+        "frame": 384,
+        "equal": true
+      },
+      {
+        "frame": 432,
+        "equal": true
+      },
+      {
+        "frame": 480,
+        "equal": true
+      },
+      {
+        "frame": 528,
+        "equal": true
+      },
+      {
+        "frame": 576,
+        "equal": true
+      },
+      {
+        "frame": 624,
+        "equal": true
+      },
+      {
+        "frame": 672,
+        "equal": true
+      },
+      {
+        "frame": 720,
+        "equal": true
+      }
+    ],
+    "allByteIdentical": true
+  }
+]

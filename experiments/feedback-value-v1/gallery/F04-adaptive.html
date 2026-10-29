@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exchange · Adaptive</title><style>*{box-sizing:border-box}html{color-scheme:dark;background:#10100e;color:#efede5;font:16px system-ui}body{max-width:1220px;margin:auto;padding:48px 32px}header{max-width:850px;margin-bottom:42px}.eyebrow{font:11px ui-monospace,monospace;letter-spacing:.13em;color:#aaa69a}h1{font-size:clamp(32px,5vw,52px);font-weight:450;letter-spacing:-.045em;margin:14px 0 20px}h2{font-size:26px;font-weight:450;letter-spacing:-.025em;margin:0}h3{font-size:16px;font-weight:500;margin:0}p{line-height:1.6;color:#b7b3a8}.summary{display:flex;gap:32px;padding:20px 0;border-top:1px solid #3c3b33;border-bottom:1px solid #3c3b33}.summary strong{display:block;font-size:29px;font-weight:450;color:#f0ece0}.summary span{font-size:13px}section{margin-top:44px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}.brief{margin:9px 0 22px;max-width:740px}.label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:8px}.count{font:12px ui-monospace,monospace;color:#aaa69a}.status{font-size:13px;min-height:22px;margin:0 0 14px}.pass{color:#becb9b}.fail{color:#d3a58e}video,.poster{display:block;width:100%;aspect-ratio:1;background:#090909;object-fit:contain}.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:15px;font-size:13px}a{color:#d8ba88;text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible{outline:2px solid #ffcf87;outline-offset:4px}footer{border-top:1px solid #3c3b33;margin-top:44px;padding-top:24px;font-size:13px;line-height:1.7;color:#aaa69a}button{font:inherit;background:#25251f;border:1px solid #5c5a4c;color:#efede5;padding:9px 18px;border-radius:4px;cursor:pointer}nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}#stage{width:400px;max-width:100%;aspect-ratio:1;background:#090909;margin:24px 0}#stage canvas{display:block;width:100%!important;height:auto!important}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.6}details{margin-top:28px}@media(max-width:700px){body{padding:28px 18px}.pair{grid-template-columns:1fr;gap:30px}.summary{gap:22px}.summary strong{font-size:24px}}body{max-width:850px}header{margin-bottom:12px}</style><header><a href="index.html">← Comparison</a><h1>Exchange · Adaptive</h1><p>A pulse travels between fixed soft bodies before the receiving body deforms.</p><p class="status fail">B · readable study · compact delivery failed</p></header><div id="stage" aria-label="Exchange animation"></div><nav><button id="play">Play</button><button id="restart">Restart</button><output id="time">0.02 / 12.00 s</output></nav><p>Preserved readable study; this run did not deliver a qualifying compact post. Playback stops at frame 720; no seamless loop is claimed.</p><details><summary>Readable source</summary><pre>// F04/adaptive-v4: attach a visible delayed pulse to the deforming inner surfaces.
+setup = () =&gt; { createCanvas(400, 400); strokeWeight(1); };
+draw = () =&gt; {
+  const time = frameCount / 60;
+  const leftPulse = (.5 + .5 * sin(time)) ** 8;
+  const rightPulse = (.5 + .5 * sin(time - 2)) ** 8;
+  background(9);
+  stroke(240, 100);
+  for (let i = 9000; i--;) {
+    const family = i % 3;
+    const u = i / 9000;
+    const pulse = (.5 + .5 * sin(time - 2 * (family &lt; 2 ? family : u))) ** 8;
+    const angle = u * TAU;
+    const radius = 36 + 8 * cos(i) + 18 * pulse * cos(3 * angle);
+    if (family &lt; 2) point(100 + 200 * family + radius * cos(angle), 200 + radius * sin(angle));
+    else point((136 + 18 * leftPulse) * (1 - u) + (264 + 18 * rightPulse) * u,
+      200 + 42 * pulse * sin(PI * u) + 4 * sin(i));
+  }
+};</pre></details><script src="../../autonomous-discovery-pilot-v1/p5.min.js"></script><script>p5.disableFriendlyErrors=true;</script><script id="sketch-source">// F04/adaptive-v4: attach a visible delayed pulse to the deforming inner surfaces.
+setup = () => { createCanvas(400, 400); strokeWeight(1); };
+draw = () => {
+  const time = frameCount / 60;
+  const leftPulse = (.5 + .5 * sin(time)) ** 8;
+  const rightPulse = (.5 + .5 * sin(time - 2)) ** 8;
+  background(9);
+  stroke(240, 100);
+  for (let i = 9000; i--;) {
+    const family = i % 3;
+    const u = i / 9000;
+    const pulse = (.5 + .5 * sin(time - 2 * (family < 2 ? family : u))) ** 8;
+    const angle = u * TAU;
+    const radius = 36 + 8 * cos(i) + 18 * pulse * cos(3 * angle);
+    if (family < 2) point(100 + 200 * family + radius * cos(angle), 200 + radius * sin(angle));
+    else point((136 + 18 * leftPulse) * (1 - u) + (264 + 18 * rightPulse) * u,
+      200 + 42 * pulse * sin(PI * u) + 4 * sin(i));
+  }
+};
+</script><script>
+const candidateDraw=draw,candidateSetup=window.setup;let shownFrame=0,playing=false;
+window.studyState=()=>({frame:shownFrame,playing});
+setup=()=>{if(candidateSetup)candidateSetup();pixelDensity(1);noLoop();};
+draw=()=>{if(shownFrame>0&&!playing)return;frameCount=++shownFrame;candidateDraw();const canvas=document.querySelector('canvas');if(canvas.parentElement.id!=='stage')document.querySelector('#stage').append(canvas);document.querySelector('#time').textContent=(shownFrame/60).toFixed(2)+' / 12.00 s';if(shownFrame>=720){noLoop();playing=false;document.querySelector('#play').textContent='Play';}};
+function restart(){noLoop();playing=false;shownFrame=0;redraw();document.querySelector('#play').textContent='Play';}
+document.querySelector('#restart').onclick=restart;
+document.querySelector('#play').onclick=()=>{if(playing){noLoop();playing=false;}else{if(shownFrame>=720)restart();playing=true;loop();}document.querySelector('#play').textContent=playing?'Pause':'Play';};
+</script></html>

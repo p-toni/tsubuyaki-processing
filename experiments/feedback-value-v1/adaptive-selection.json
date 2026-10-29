@@ -1,0 +1,197 @@
+{
+  "selectedAtUTC": "2026-10-27T10:26:02.470126+00:00",
+  "reviewer": "same primary model; sampled visual evidence, not independent",
+  "characterCountsSeen": false,
+  "selected": [
+    {
+      "brief": "F01",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "shared separation and aspect deformation",
+        "stable golden-angle material samples",
+        "continuous split/reunion motion"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "brief": "F02",
+      "arm": "adaptive",
+      "version": "v4",
+      "sourceSha256": "9427d4ceab61cbc52e3a335a5dd0fa5ab8ce275a8f903b6ca30fdb094653b60e",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "two crossing families with alternating underpass masks",
+        "shared two-axis warp",
+        "dense bands with width-based shading"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F03",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "triangular reflected packet center",
+        "localized height envelope with anchored lateral edges",
+        "two-coordinate projected sheet"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "brief": "F04",
+      "arm": "adaptive",
+      "version": "v4",
+      "sourceSha256": "5aecb767042636b414be103ace3424762d659bb0286e3ea0dd69c5dd5803d436",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "shared delayed pulse across bodies and bridge",
+        "fixed body centers",
+        "attachment at deforming inner surfaces"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    {
+      "brief": "F05",
+      "arm": "adaptive",
+      "version": "v2",
+      "sourceSha256": "be32c8ff09214debb19149c62a4ceb2181842db58e9d20653b0513c707544f3b",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "fixed upper edge",
+        "progressive twist through depth",
+        "opaque material and depth shading with readable overlap"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "brief": "F06",
+      "arm": "adaptive",
+      "version": "v3",
+      "sourceSha256": "0ba6dd1be2e4fae1ed6e8d42e7c5cd0905d6aa42b886a35c2a982f383ec1eb3b",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "definingRelationships": [
+        "stable diverted trajectories and empty obstacle",
+        "lane-dependent speed",
+        "persistent identity brightness",
+        "declared horizontal recycling"
+      ],
+      "fallbacks": [],
+      "generatedVersions": [
+        "v1",
+        "v2",
+        "v3"
+      ]
+    }
+  ],
+  "sourceArchive": [
+    {
+      "source": "F01/adaptive/v1.js",
+      "sha256": "784ed52f8546bf44ceae11765a8d5abe3431c35fb03bfe4c95d4195b4071388d"
+    },
+    {
+      "source": "F01/adaptive/v2.js",
+      "sha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23"
+    },
+    {
+      "source": "F02/adaptive/v1.js",
+      "sha256": "66dfcc9e6148452b77807207bd7a105a86690372ee7a6d4a238fc9df801870f4"
+    },
+    {
+      "source": "F02/adaptive/v2.js",
+      "sha256": "d3aa947f2f5cddb4beadcb00a3f19aa3ef0d043b34bacf1221110421fc3eaaae"
+    },
+    {
+      "source": "F02/adaptive/v3.js",
+      "sha256": "a10a992b32c02c64d9066f682057c0347d3b2ebf184e58fecb874d85b7496423"
+    },
+    {
+      "source": "F02/adaptive/v4.js",
+      "sha256": "9427d4ceab61cbc52e3a335a5dd0fa5ab8ce275a8f903b6ca30fdb094653b60e"
+    },
+    {
+      "source": "F03/adaptive/v1.js",
+      "sha256": "7e68ebb6cd76cc9ab71ed3832931e4ce9a6337cf41e43d275b0acf3147452dbc"
+    },
+    {
+      "source": "F03/adaptive/v2.js",
+      "sha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331"
+    },
+    {
+      "source": "F04/adaptive/v1.js",
+      "sha256": "2da3c4086bb98db2bba2616225c8f198879cf072bd811e478d781603938c7cea"
+    },
+    {
+      "source": "F04/adaptive/v2.js",
+      "sha256": "37fa69463ebf76085e7ccca732e0269882d7826403eac676e76d4cfaf1309fcc"
+    },
+    {
+      "source": "F04/adaptive/v3.js",
+      "sha256": "6e22e0c83d593a37024b6fe446a238935aed606a1e484d0e48f5ecedb4be9e65"
+    },
+    {
+      "source": "F04/adaptive/v4.js",
+      "sha256": "5aecb767042636b414be103ace3424762d659bb0286e3ea0dd69c5dd5803d436"
+    },
+    {
+      "source": "F05/adaptive/v1.js",
+      "sha256": "778843c57e90582cc1ac8d7920c7b175f294b1475d073d5aa4aabca53d2a9df4"
+    },
+    {
+      "source": "F05/adaptive/v2.js",
+      "sha256": "be32c8ff09214debb19149c62a4ceb2181842db58e9d20653b0513c707544f3b"
+    },
+    {
+      "source": "F06/adaptive/v1.js",
+      "sha256": "9449c1aae1d38d474a2f62987e04a9a1916e4c61fc4f63f00dee5738b4b85c00"
+    },
+    {
+      "source": "F06/adaptive/v2.js",
+      "sha256": "cf08462761defff80c3b62fde87d0be72e37c875811a545ef5e3d589b5d13bab"
+    },
+    {
+      "source": "F06/adaptive/v3.js",
+      "sha256": "0ba6dd1be2e4fae1ed6e8d42e7c5cd0905d6aa42b886a35c2a982f383ec1eb3b"
+    }
+  ]
+}

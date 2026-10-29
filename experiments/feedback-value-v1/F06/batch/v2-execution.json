@@ -1,0 +1,7 @@
+{
+  "candidate": "F06/batch/v2",
+  "wallSeconds": 2.354,
+  "exitCode": 0,
+  "stdout": "{\"source\":\"F06/batch/v2.js\",\"mode\":\"samples\",\"frames\":16,\"drawMs\":{\"median\":1.5,\"max\":11.599999964237213},\"errors\":[]}\n",
+  "stderr": ""
+}

@@ -1,0 +1,11 @@
+{
+  "auditedAtUTC": "2026-10-28T16:57:03.165062+00:00",
+  "protocolHashMatches": true,
+  "committedBatchSources": 24,
+  "committedAdaptiveSources": 17,
+  "sharedStartsMatch": 6,
+  "selectedSourcesMatch": 12,
+  "compactPostHashesMatch": 12,
+  "sampledRasterPairsRechecked": 128,
+  "resultSummaryDerivedFromRecords": true
+}

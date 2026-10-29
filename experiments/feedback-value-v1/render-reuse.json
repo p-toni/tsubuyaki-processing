@@ -1,0 +1,80 @@
+[
+  {
+    "candidate": "F01/batch/v1",
+    "reusedFrom": "F01/adaptive/v1.js",
+    "sourceSha256": "784ed52f8546bf44ceae11765a8d5abe3431c35fb03bfe4c95d4195b4071388d",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F01/batch/v2",
+    "reusedFrom": "F01/adaptive/v2.js",
+    "sourceSha256": "212914ecab2a9caf802f078894f915cb610a1fa9a1ef88a82b9f713c8d10fc23",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F02/batch/v1",
+    "reusedFrom": "F02/adaptive/v1.js",
+    "sourceSha256": "66dfcc9e6148452b77807207bd7a105a86690372ee7a6d4a238fc9df801870f4",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F02/batch/v2",
+    "reusedFrom": "F02/adaptive/v2.js",
+    "sourceSha256": "d3aa947f2f5cddb4beadcb00a3f19aa3ef0d043b34bacf1221110421fc3eaaae",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F02/batch/v4",
+    "reusedFrom": "F02/adaptive/v3.js",
+    "sourceSha256": "a10a992b32c02c64d9066f682057c0347d3b2ebf184e58fecb874d85b7496423",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F03/batch/v1",
+    "reusedFrom": "F03/adaptive/v1.js",
+    "sourceSha256": "7e68ebb6cd76cc9ab71ed3832931e4ce9a6337cf41e43d275b0acf3147452dbc",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F03/batch/v4",
+    "reusedFrom": "F03/adaptive/v2.js",
+    "sourceSha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F04/batch/v1",
+    "reusedFrom": "F04/adaptive/v1.js",
+    "sourceSha256": "2da3c4086bb98db2bba2616225c8f198879cf072bd811e478d781603938c7cea",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F04/batch/v2",
+    "reusedFrom": "F04/adaptive/v2.js",
+    "sourceSha256": "37fa69463ebf76085e7ccca732e0269882d7826403eac676e76d4cfaf1309fcc",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F04/batch/v3",
+    "reusedFrom": "F04/adaptive/v3.js",
+    "sourceSha256": "6e22e0c83d593a37024b6fe446a238935aed606a1e484d0e48f5ecedb4be9e65",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F05/batch/v1",
+    "reusedFrom": "F05/adaptive/v1.js",
+    "sourceSha256": "778843c57e90582cc1ac8d7920c7b175f294b1475d073d5aa4aabca53d2a9df4",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F05/batch/v2",
+    "reusedFrom": "F05/adaptive/v2.js",
+    "sourceSha256": "be32c8ff09214debb19149c62a4ceb2181842db58e9d20653b0513c707544f3b",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  },
+  {
+    "candidate": "F06/batch/v1",
+    "reusedFrom": "F06/adaptive/v1.js",
+    "sourceSha256": "9449c1aae1d38d474a2f62987e04a9a1916e4c61fc4f63f00dee5738b4b85c00",
+    "reason": "Byte-identical source; same frozen renderer, frames and runtime; no second physical render."
+  }
+]

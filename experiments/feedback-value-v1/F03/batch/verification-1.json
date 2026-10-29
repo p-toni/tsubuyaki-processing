@@ -1,0 +1,29 @@
+{
+  "brief": "F03",
+  "readable": "F03/batch/v4.js",
+  "readableSha256": "e1810a03eb99afb928a51bc3e470d3bde2b65b6b0a0ebed3d97c0af9d2749331",
+  "compact": "F03/batch/compact-1.txt",
+  "compactSha256": "9e7e41cc6b13131f8dcc63ceae6491e6ed0e5c1b646eadf5ab42e62b62d9b127",
+  "protocolSha256": "4775662082040790ed0767a5fc4ee238d1714d93b3963ff4e8bbcf0537a58a3f",
+  "frames": 720,
+  "pointsPerFrame": 8000,
+  "pointCalls": 11520000,
+  "minInFrame": 1,
+  "maxMotion": 2.6512717370301044,
+  "horizontalResets": 0,
+  "minCenterDistance": 0.022216430584311313,
+  "maxGeometryError": 2.2737367544323206e-13,
+  "maxStyleError": 0,
+  "length": {
+    "rawCodePoints": 224,
+    "xWeightedLength": 228,
+    "rawLimit": 280,
+    "weightedLimit": 280,
+    "pass": true
+  },
+  "executionSeconds": 15.955228124999998,
+  "pass": true,
+  "claim": "Exact-source geometry and drawing-style check; not an artistic or brief-adherence judgment.",
+  "reusedFrom": "F03/adaptive/verification-1.json",
+  "reuseReason": "Both source hashes match; no additional numerical execution."
+}
