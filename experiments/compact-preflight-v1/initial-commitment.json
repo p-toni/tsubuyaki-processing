@@ -1,0 +1,32 @@
+{
+  "createdAtUTC": "2026-10-29T12:16:11.884171+00:00",
+  "protocolSha256": "ec2731d3c66e1fe74645f3d44d95245548bf7b37f4cb404e45e1b1c943b83fbe",
+  "renderedFeedbackSeen": false,
+  "compactCountsSeen": false,
+  "sharedStarts": [
+    {
+      "brief": "P01",
+      "late": "P01/late/v1.js",
+      "early": "P01/early/v1.js",
+      "sha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432"
+    },
+    {
+      "brief": "P02",
+      "late": "P02/late/v1.js",
+      "early": "P02/early/v1.js",
+      "sha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14"
+    },
+    {
+      "brief": "P03",
+      "late": "P03/late/v1.js",
+      "early": "P03/early/v1.js",
+      "sha256": "fb4e3093861e3496088d33a22cdcf82d6dbe70e120203fa6547b107a7dca21fe"
+    },
+    {
+      "brief": "P04",
+      "late": "P04/late/v1.js",
+      "early": "P04/early/v1.js",
+      "sha256": "d0a08c25caf787d475b99bca4d6abe3e30f814135f14384a7cf2f1996ce4bedd"
+    }
+  ]
+}
