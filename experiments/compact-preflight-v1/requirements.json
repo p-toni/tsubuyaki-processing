@@ -1,0 +1,27 @@
+{
+  "P01": [
+    "deforming_folded_annulus",
+    "changing_irregular_aperture",
+    "moving_rear_layer",
+    "opaque_occlusion",
+    "aperture_closure"
+  ],
+  "P02": [
+    "broad_ribbon",
+    "closed_solid_loop",
+    "near_over_far_order",
+    "traveling_ribbon_motion"
+  ],
+  "P03": [
+    "at_least_five_units",
+    "fixed_bases",
+    "local_deformation",
+    "sequential_response"
+  ],
+  "P04": [
+    "finite_membrane",
+    "visible_exciter",
+    "shared_cause",
+    "delayed_local_response_and_relaxation"
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "selectedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+  "protocolSha256": "ec2731d3c66e1fe74645f3d44d95245548bf7b37f4cb404e45e1b1c943b83fbe",
+  "lateReviewsSha256": "f01600121e736ad69f3e4d535b0983d723b9218edbdb95aaab8480874c0a9b6d",
+  "compactCountsSeen": false,
+  "reviewer": "same model, shared context, not independent or blinded",
+  "selected": [
+    {
+      "brief": "P01",
+      "arm": "late",
+      "version": "v2",
+      "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "requirements": {
+        "deforming_folded_annulus": "met",
+        "changing_irregular_aperture": "met",
+        "moving_rear_layer": "met",
+        "opaque_occlusion": "met",
+        "aperture_closure": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": true,
+      "definingRelationships": [
+        "opaque rear-before-foreground layering",
+        "moving rear spiral from golden-angle radial samples",
+        "two-coordinate annulus with a clamped irregular opening",
+        "coupled fold projection and shading"
+      ],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    },
+    {
+      "brief": "P02",
+      "arm": "late",
+      "version": "v2",
+      "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "requirements": {
+        "broad_ribbon": "met",
+        "closed_solid_loop": "met",
+        "near_over_far_order": "met",
+        "traveling_ribbon_motion": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": true,
+      "definingRelationships": [
+        "back loop then ribbon then front loop painter order",
+        "closed deforming loop",
+        "two-coordinate ribbon with traveling width and center deformation",
+        "shared oblique projection"
+      ],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "version": "v2",
+      "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "requirements": {
+        "at_least_five_units": "met",
+        "fixed_bases": "met",
+        "local_deformation": "met",
+        "sequential_response": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": true,
+      "definingRelationships": [
+        "common localized pulse delayed by unit identity",
+        "fixed roots and height-dependent bending",
+        "shared height envelope and material expansion",
+        "curved two-coordinate unit material"
+      ],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    },
+    {
+      "brief": "P04",
+      "arm": "late",
+      "version": "v2",
+      "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "requirements": {
+        "finite_membrane": "met",
+        "visible_exciter": "met",
+        "shared_cause": "met",
+        "delayed_local_response_and_relaxation": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": true,
+      "definingRelationships": [
+        "current and delayed center share one sinusoidal drive with 0.9 second lag",
+        "localized Gaussian deformation relaxes after passage",
+        "rounded two-coordinate membrane projection",
+        "visible shaded exciter"
+      ],
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    }
+  ],
+  "sourceArchive": [
+    {
+      "source": "P01/late/v1.js",
+      "sha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432"
+    },
+    {
+      "source": "P01/late/v2.js",
+      "sha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58"
+    },
+    {
+      "source": "P02/late/v1.js",
+      "sha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14"
+    },
+    {
+      "source": "P02/late/v2.js",
+      "sha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30"
+    },
+    {
+      "source": "P03/late/v1.js",
+      "sha256": "fb4e3093861e3496088d33a22cdcf82d6dbe70e120203fa6547b107a7dca21fe"
+    },
+    {
+      "source": "P03/late/v2.js",
+      "sha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3"
+    },
+    {
+      "source": "P04/late/v1.js",
+      "sha256": "d0a08c25caf787d475b99bca4d6abe3e30f814135f14384a7cf2f1996ce4bedd"
+    },
+    {
+      "source": "P04/late/v2.js",
+      "sha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83"
+    }
+  ]
+}
