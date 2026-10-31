@@ -1,0 +1,1 @@
+setup=()=>{createCanvas(400,400);strokeWeight(1)};draw=()=>{b=frameCount/60;f=(.5+.5*sin(b))**8;g=(.5+.5*sin(b-2))**8;background(9);stroke(240,100);for(i=9e3;i--;){a=i%3;u=i/9e3;d=(.5+.5*sin(b-2*(a<2?a:u)))**8;c=u*TAU;e=36+8*cos(i)+18*d*cos(3*c);if(a<2)point(100+200*a+e*cos(c),200+e*sin(c));else point((136+18*f)*(1-u)+(264+18*g)*u,200+42*d*sin(PI*u)+4*sin(i))}};//#つぶやきProcessing

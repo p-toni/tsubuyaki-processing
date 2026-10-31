@@ -1,0 +1,27 @@
+{
+  "brief": "..",
+  "readable": "../feedback-value-v1/F06/adaptive/v3.js",
+  "readableSha256": "0ba6dd1be2e4fae1ed6e8d42e7c5cd0905d6aa42b886a35c2a982f383ec1eb3b",
+  "compact": "../compressibility-forecast-retrospective-v1/mechanical-posts/feedback-value-v1__F06__adaptive__v3.txt",
+  "compactSha256": "37bb79ff8b764251c279a048f6245051f38ddd874269d5c65648b4495f57b3f0",
+  "protocolSha256": "ec2731d3c66e1fe74645f3d44d95245548bf7b37f4cb404e45e1b1c943b83fbe",
+  "frames": 720,
+  "pointsPerFrame": 1600,
+  "pointCalls": 2304000,
+  "minInFrame": 1,
+  "maxMotion": 399.535864978903,
+  "horizontalResets": 0,
+  "minCenterDistance": 54.334917258446985,
+  "maxGeometryError": 0,
+  "maxStyleError": 0,
+  "length": {
+    "rawCodePoints": 280,
+    "xWeightedLength": 284,
+    "rawLimit": 280,
+    "weightedLimit": 280,
+    "pass": false
+  },
+  "executionSeconds": 10.396436219000002,
+  "pass": false,
+  "claim": "Exact-source geometry and drawing-style check; not an artistic or brief-adherence judgment."
+}

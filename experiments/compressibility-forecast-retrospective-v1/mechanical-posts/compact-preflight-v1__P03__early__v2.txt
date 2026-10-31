@@ -1,0 +1,1 @@
+setup=()=>{createCanvas(400,400);strokeWeight(2)};draw=()=>{d=frameCount/60;background(9);for(i=12e3;i--;){b=floor(i/2e3);a=i%2e3/2e3;c=(.5+.5*cos(1.2*d-.75*b))**8;e=150+80*sin(PI*(b+.5)/6);f=12*sin(i)*sin(PI*a)*(1+.9*c);stroke(160+80*cos(5*a-.75*b),150);point(45+54*b+40*c*a*a+12*sin(PI*a)*sin(1.7*b)+f,330-e*a)}};//#つぶやきProcessing

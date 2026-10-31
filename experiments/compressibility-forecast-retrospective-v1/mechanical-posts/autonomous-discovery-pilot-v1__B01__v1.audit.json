@@ -1,0 +1,27 @@
+{
+  "brief": "..",
+  "readable": "../autonomous-discovery-pilot-v1/B01/v1.js",
+  "readableSha256": "735af79d99a3beeaad3d78fa44a5f94b03a82e4455f8585b4429131bfe6173be",
+  "compact": "../compressibility-forecast-retrospective-v1/mechanical-posts/autonomous-discovery-pilot-v1__B01__v1.txt",
+  "compactSha256": "4ab8a2f78e7a0b35257a0ee08aa288184700de417b6c5f099f80866bc26412b2",
+  "protocolSha256": "ec2731d3c66e1fe74645f3d44d95245548bf7b37f4cb404e45e1b1c943b83fbe",
+  "frames": 720,
+  "pointsPerFrame": 18000,
+  "pointCalls": 25920000,
+  "minInFrame": 1,
+  "maxMotion": 0.23333063208633575,
+  "horizontalResets": 0,
+  "minCenterDistance": 18.588186452217656,
+  "maxGeometryError": 0,
+  "maxStyleError": 0,
+  "length": {
+    "rawCodePoints": 242,
+    "xWeightedLength": 246,
+    "rawLimit": 280,
+    "weightedLimit": 280,
+    "pass": true
+  },
+  "executionSeconds": 124.435878678,
+  "pass": true,
+  "claim": "Exact-source geometry and drawing-style check; not an artistic or brief-adherence judgment."
+}
