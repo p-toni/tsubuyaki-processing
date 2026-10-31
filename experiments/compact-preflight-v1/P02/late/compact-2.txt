@@ -1,0 +1,1 @@
+t=0;draw=_=>{t++||createCanvas(400,400);background(9);strokeWeight(3);for(S=sin,q=t/60,i=18e3;i--;point(x+.25*y,240+y-.2*x))l=i/6e3|0,u=i%6e3/5999,s=S(i),l==1?(a=8*u-q,w=20*s,x=45+310*u-.4*w*S(a),y=40*S(a)*S(PI*u)+w*cos(a),stroke(160+65*cos(s)+15*S(a))):(a=PI*(u+(l==2)),r=80+10*s+8*cos(3*a-q/2),x=200+r*cos(a),y=.6*r*S(a),stroke(165-30*l+45*cos(s)))}//#つぶやきProcessing

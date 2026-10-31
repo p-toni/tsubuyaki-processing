@@ -1,0 +1,423 @@
+[
+  {
+    "brief": "P01",
+    "arm": "late",
+    "version": "v1",
+    "sourceSha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Folded annulus and irregular opening are legible; the rear spiral moves behind an opaque foreground. Keep as a coherent material study.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:43:37.939748+00:00"
+  },
+  {
+    "brief": "P02",
+    "arm": "late",
+    "version": "v1",
+    "sourceSha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14",
+    "provisionalGrade": "C",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "met",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Depth order and travel are legible, but the thin strip and regular oval read as a buckle diagram. Broaden and deform the material and improve the composition.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:43:37.940154+00:00"
+  },
+  {
+    "brief": "P03",
+    "arm": "late",
+    "version": "v1",
+    "sourceSha256": "fb4e3093861e3496088d33a22cdcf82d6dbe70e120203fa6547b107a7dca21fe",
+    "provisionalGrade": "C",
+    "requirements": {
+      "at_least_five_units": "met",
+      "fixed_bases": "met",
+      "local_deformation": "met",
+      "sequential_response": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Sequential response is legible, but uniform isolated spindles read as a demonstration. Introduce a coherent size envelope and broader curved material.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:43:37.940263+00:00"
+  },
+  {
+    "brief": "P04",
+    "arm": "late",
+    "version": "v1",
+    "sourceSha256": "d0a08c25caf787d475b99bca4d6abe3e30f814135f14384a7cf2f1996ce4bedd",
+    "provisionalGrade": "C",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "met",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Delayed deformation is visible, but the rectangular plot and flat dot are schematic. Use a rounded material boundary and a shaded exciter.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:43:37.940370+00:00"
+  },
+  {
+    "brief": "P02",
+    "arm": "late",
+    "version": "v2",
+    "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+    "provisionalGrade": "B",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "met",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Broader twisting material and the oblique loop form a coherent linked study; near/far occlusion remains legible. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 145,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:45:16.690961+00:00"
+  },
+  {
+    "brief": "P03",
+    "arm": "late",
+    "version": "v2",
+    "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+    "provisionalGrade": "B",
+    "requirements": {
+      "at_least_five_units": "met",
+      "fixed_bases": "met",
+      "local_deformation": "met",
+      "sequential_response": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The common height arch, curved leaves and sequential expansion create a coherent group gesture. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 241,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:45:16.691091+00:00"
+  },
+  {
+    "brief": "P04",
+    "arm": "late",
+    "version": "v2",
+    "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+    "provisionalGrade": "B",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "met",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The rounded material and visible delayed ridge read as a membrane responding to a passing exciter. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 241,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:45:16.691136+00:00"
+  },
+  {
+    "brief": "P01",
+    "arm": "late",
+    "version": "v1",
+    "correctionOfEarlierReview": true,
+    "sourceSha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met",
+      "aperture_closure": "unmet"
+    },
+    "allBriefRequirementsMet": false,
+    "note": "The earlier positive adherence assessment was too lenient: the aperture narrows but never closes. Retain the initial assessment in history, but v1 is ineligible. Correct before any compact feedback.",
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:45:16.691250+00:00"
+  },
+  {
+    "brief": "P01",
+    "arm": "late",
+    "version": "v2",
+    "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met",
+      "aperture_closure": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The rear spiral is revealed in the open phase and hidden during closure; local folds continue. Full-size frame 289 confirms closure. Keep v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 289,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00"
+  },
+  {
+    "brief": "P01",
+    "arm": "early",
+    "version": "v1",
+    "correctionOfEarlierReview": true,
+    "sourceSha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met",
+      "aperture_closure": "unmet"
+    },
+    "allBriefRequirementsMet": false,
+    "note": "The earlier positive adherence assessment was too lenient: the aperture narrows but never closes. Retain the initial assessment in history, but v1 is ineligible. Correct before any compact feedback.",
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P01/late/v1"
+  },
+  {
+    "brief": "P01",
+    "arm": "early",
+    "version": "v2",
+    "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met",
+      "aperture_closure": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The rear spiral is revealed in the open phase and hidden during closure; local folds continue. Full-size frame 289 confirms closure. Keep v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 289,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P01/late/v2"
+  },
+  {
+    "brief": "P02",
+    "arm": "early",
+    "version": "v1",
+    "sourceSha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14",
+    "provisionalGrade": "C",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "met",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Depth order and travel are legible, but the thin strip and regular oval read as a buckle diagram. Broaden and deform the material and improve the composition.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P02/late/v1"
+  },
+  {
+    "brief": "P02",
+    "arm": "early",
+    "version": "v2",
+    "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+    "provisionalGrade": "B",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "met",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Broader twisting material and the oblique loop form a coherent linked study; near/far occlusion remains legible. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 145,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P02/late/v2"
+  },
+  {
+    "brief": "P03",
+    "arm": "early",
+    "version": "v1",
+    "sourceSha256": "fb4e3093861e3496088d33a22cdcf82d6dbe70e120203fa6547b107a7dca21fe",
+    "provisionalGrade": "C",
+    "requirements": {
+      "at_least_five_units": "met",
+      "fixed_bases": "met",
+      "local_deformation": "met",
+      "sequential_response": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Sequential response is legible, but uniform isolated spindles read as a demonstration. Introduce a coherent size envelope and broader curved material.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P03/late/v1"
+  },
+  {
+    "brief": "P03",
+    "arm": "early",
+    "version": "v2",
+    "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+    "provisionalGrade": "B",
+    "requirements": {
+      "at_least_five_units": "met",
+      "fixed_bases": "met",
+      "local_deformation": "met",
+      "sequential_response": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The common height arch, curved leaves and sequential expansion create a coherent group gesture. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 241,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P03/late/v2"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "version": "v1",
+    "sourceSha256": "d0a08c25caf787d475b99bca4d6abe3e30f814135f14384a7cf2f1996ce4bedd",
+    "provisionalGrade": "C",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "met",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Delayed deformation is visible, but the rectangular plot and flat dot are schematic. Use a rounded material boundary and a shaded exciter.",
+    "reviewFrames": 16,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P04/late/v1"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "version": "v2",
+    "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+    "provisionalGrade": "B",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "met",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The rounded material and visible delayed ridge read as a membrane responding to a passing exciter. Stop with v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 241,
+    "compactCountsSeen": false,
+    "reviewedAtUTC": "2026-10-30T00:46:19.971259+00:00",
+    "reusedReviewFrom": "P04/late/v2"
+  },
+  {
+    "brief": "P01",
+    "arm": "early",
+    "version": "v3",
+    "sourceSha256": "e213cf4b330ebcf27651437c51a3b7bc1d01c394a0312e916236dbfc9a155507",
+    "provisionalGrade": "B",
+    "requirements": {
+      "deforming_folded_annulus": "met",
+      "changing_irregular_aperture": "met",
+      "moving_rear_layer": "met",
+      "opaque_occlusion": "met",
+      "aperture_closure": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The single-sampler visibility rule retains a changing irregular aperture, complete closure, rear motion and locally deforming folds. Its moving outer contour and fine material are worthwhile; no clear overall preference over late v2.",
+    "reviewFrames": 16,
+    "compactCountsForThisCandidateSeen": false,
+    "reviewedAtUTC": "2026-10-30T09:22:30.889567+00:00"
+  },
+  {
+    "brief": "P02",
+    "arm": "early",
+    "version": "v3",
+    "sourceSha256": "74942134f136dab099886800ddd9abbcee14ce64f600e27bc01330fffd089207",
+    "provisionalGrade": "C",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "uncertain",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": false,
+    "note": "The simpler ribbon and loop have become flat and visibly porous at crossings. Readable depth order is uncertain. Restore opaque coverage and material shading in v4.",
+    "reviewFrames": 16,
+    "compactCountsForThisCandidateSeen": false,
+    "reviewedAtUTC": "2026-10-30T09:22:30.890196+00:00"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "version": "v3",
+    "sourceSha256": "f16ab30cbdf4a78b5e239ee054b18f4de914042c1066deb3c68f95dc17a4752c",
+    "provisionalGrade": "C",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "uncertain",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": false,
+    "note": "The forcing spot and membrane are too faint at this sample density. Increase material coverage and ridge amplitude in v4; the delayed shared drive remains.",
+    "reviewFrames": 16,
+    "compactCountsForThisCandidateSeen": false,
+    "reviewedAtUTC": "2026-10-30T09:22:30.890276+00:00"
+  },
+  {
+    "brief": "P02",
+    "arm": "early",
+    "version": "v4",
+    "sourceSha256": "dbc2250e01704d0438fb0aa5e47b56eb289c71d0fdecc8b276c21f3d399d8ef8",
+    "provisionalGrade": "B",
+    "gradeConfidence": "lower",
+    "requirements": {
+      "broad_ribbon": "met",
+      "closed_solid_loop": "met",
+      "near_over_far_order": "met",
+      "traveling_ribbon_motion": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "Opaque coverage and shading restore a coherent threaded material study. Lower-confidence B; the late v2 ribbon has richer folds and a more expressive changing loop. Clear artistic regression versus late v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 145,
+    "compactCountsForThisCandidateSeen": false,
+    "reviewedAtUTC": "2026-10-30T09:27:00.612332+00:00"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "version": "v4",
+    "sourceSha256": "cd25972cec02beb5b390ff6da5f7b93806b2d2d034d006e156ab27c89c0c5578",
+    "provisionalGrade": "B",
+    "gradeConfidence": "lower",
+    "requirements": {
+      "finite_membrane": "met",
+      "visible_exciter": "met",
+      "shared_cause": "met",
+      "delayed_local_response_and_relaxation": "met"
+    },
+    "allBriefRequirementsMet": true,
+    "note": "The denser surface and higher ridge make the forcing spot and delayed relaxation legible. Lower-confidence B; late v2 has more expressive material and a clearer distinct exciter. Clear artistic regression versus late v2.",
+    "reviewFrames": 16,
+    "additionalFullSizeFrame": 97,
+    "compactCountsForThisCandidateSeen": false,
+    "reviewedAtUTC": "2026-10-30T09:27:00.612332+00:00"
+  }
+]

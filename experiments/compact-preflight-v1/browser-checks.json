@@ -1,0 +1,168 @@
+{
+  "browser": "153.0.8010.12",
+  "gallery": {
+    "videos": [
+      {
+        "duration": 12,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      },
+      {
+        "duration": 12,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      },
+      {
+        "duration": 12,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      },
+      {
+        "duration": 12,
+        "width": 400,
+        "height": 400,
+        "loop": false,
+        "autoplay": false
+      }
+    ],
+    "playbackTimes": [
+      0.208237,
+      0.208671,
+      0.208704,
+      0.208688
+    ],
+    "cards": 8,
+    "readableOnlyPosters": 4,
+    "mobileWidth": 390,
+    "mobileOverflow": false,
+    "errors": []
+  },
+  "sketches": [
+    {
+      "brief": "P01",
+      "arm": "early",
+      "delivered": true,
+      "page": "P01-early.html",
+      "source": "P01/early/compact-2.txt",
+      "firstFrame": "P01/early/final-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 22.567,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P01",
+      "arm": "late",
+      "delivered": false,
+      "page": "P01-late.html",
+      "source": "P01/late/v2.js",
+      "firstFrame": "P01/late/v2-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 12.009,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P02",
+      "arm": "early",
+      "delivered": false,
+      "page": "P02-early.html",
+      "source": "P02/early/v4.js",
+      "firstFrame": "P02/early/v4-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 21.509,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P02",
+      "arm": "late",
+      "delivered": false,
+      "page": "P02-late.html",
+      "source": "P02/late/v2.js",
+      "firstFrame": "P02/late/v2-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 13.173,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P03",
+      "arm": "early",
+      "delivered": true,
+      "page": "P03-early.html",
+      "source": "P03/early/compact-2.txt",
+      "firstFrame": "P03/early/final-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 11.995,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "delivered": true,
+      "page": "P03-late.html",
+      "source": "P03/late/compact-2.txt",
+      "firstFrame": "P03/late/final-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 11.994,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P04",
+      "arm": "early",
+      "delivered": true,
+      "page": "P04-early.html",
+      "source": "P04/early/compact-2.txt",
+      "firstFrame": "P04/early/final-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 20.769,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "brief": "P04",
+      "arm": "late",
+      "delivered": false,
+      "page": "P04-late.html",
+      "source": "P04/late/v2.js",
+      "firstFrame": "P04/late/v2-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 11.994,
+      "mobileOverflow": false,
+      "errors": []
+    }
+  ]
+}

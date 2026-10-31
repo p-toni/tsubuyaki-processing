@@ -25,6 +25,7 @@ The separate autonomous search runtime remains optional research machinery. Neit
 
 Narrow supported claims:
 
+- the [compact-preflight comparison](../experiments/compact-preflight-v1/README.md) delivered 3/4 briefs with early checking and 1/4 with late checking, but the delivered Wake lost artistic quality; its no-regression gate failed, and its late-first, shared-context design does not isolate a causal effect;
 - the [rendered-feedback comparison](../experiments/feedback-value-v1/README.md) delivered 4/6 briefs in both arms, with zero adaptive pair wins, one batch preference, three equivalents, and two both-fail pairs; its same-agent, shared-context design does not establish a clean causal effect or broad batch superiority;
 - the [first complete discovery pilot](../experiments/autonomous-discovery-pilot-v1/README.md) delivered three different compact studies from five readable candidates, two observation-led revisions, and one compact attempt per brief; all passed the frozen technical checks, with provisional B grades from the same agent that authored the briefs and candidates;
 - intrinsic-1D native/spectral mixed search produced artistically preferred portfolios on its tested surface;
@@ -57,13 +58,23 @@ The advancement rule required at least four adaptive wins, at most one batch win
 
 The same agent authored both arms and remembered its planned alternatives. Source commitments prevented batch edits but could not remove shared-context effects. Briefs and grades were model-authored; visual review used sampled stills. Neither clean causal isolation nor independent artistic validation has been demonstrated.
 
-## Active priority — compact delivery of harder behavior
+## Completed comparison — compact preflight timing
 
-The actionable gap is a worthwhile readable behavior failing to become a worthwhile compact post within budget. Test compact representation and preflight on fresh briefs involving occlusion or delayed transfer. Leave the completed Weave and Exchange candidates closed; repairing them would not provide fresh evidence.
+The [compact-preflight-v1 archive](../experiments/compact-preflight-v1/README.md) preserves four fresh briefs involving occlusion or delayed response. Both arms had caps of four readable candidates and two compact attempts per brief. The late arm froze all readable selections before either arm wrote compact code. The early arm then reused that exploration, charging each use, and could change representation after failed preflight. This gave the early arm knowledge of the late trajectory; source commitments cannot eliminate that limitation.
 
-Use the existing [compression-promotion guidance](compression-promotion.md). Once a worthwhile incumbent exists, test a cheap exact compact version before spending the remaining budget on refinement. If it fails, diagnose whether syntax, representation, or the defining behavior consumes the budget. A simple representation change must preserve the brief's important relationships; reducing the task to fit the limit is a failure.
+Early delivered 3/4 and late 1/4: two early pair wins, one equivalent pair, and one both-fail pair. Aperture recovered through a shared representation without a clear artistic loss. Relay fit through algebra and syntax changes available to both arms. Thread remained overlength. Wake fit early, but its material and exciter were less expressive than the late readable selection. All selected studies received provisional B grades, none A. All four deliveries passed 720-frame checks and 64 logical sampled image comparisons, with 48 unique pairs.
 
-Before the next comparison, freeze fresh briefs, meaningful horizons, equal candidate and compact-attempt caps, and a decision rule. Compare preflight after the first worthwhile incumbent with the current late-selection timing. Count all runs, retain failures, and measure actual effort where available. Advancement must mean more verified, brief-adherent A/B deliveries without an artistic loss, not merely shorter code or more attempted golf. This extends the small earlier description-length study to harder complete discovery tasks; it is not a new default or a reason to build another runtime.
+The advancement gate required at least two early wins, zero late wins, no fewer early deliveries, and no clear artistic regressions. **It failed on Wake's artistic loss.** Both arms consumed eight compact attempts; early used thirteen readable candidates and late eight. Active reasoning and review costs were not measured, so equal attempt caps do not establish equal total cost. Keep the production policy unchanged and close this population.
+
+## Active priority — preserve artistic quality in compact representations
+
+The actionable gap is a worthwhile readable behavior becoming too expensive to express compactly, or losing artistic expression when its representation changes. The clean Aperture recovery is evidence that a better shared construction can help; Wake shows why brief adherence and length alone are insufficient. Another timing sweep would leave that gap unresolved.
+
+Start with one fresh difficult brief and two meaningfully different mathematical representations, using the existing agent and tools. Freeze the brief's defining relationships, horizon, a small candidate and compact-attempt budget, and the decision rule before rendering. Inspect and grade readable candidates before counting compact code. Preserve the more expressive readable incumbent for comparison even if it cannot be delivered. Do not reuse or repair the closed Thread or Wake candidates as fresh evidence.
+
+Use the existing [compression-promotion guidance](compression-promotion.md). Test whether a shared construction can retain the important causal relationships, material, and motion in a complete post. Keep the smallest representation that achieves the artistic objective; shorter code alone is not a win. Stop if the remaining budget cannot produce a verified A/B delivery without a clear artistic loss against the readable incumbent. Record a failure instead of weakening the brief or upgrading a grade after a length pass.
+
+A successful case would support a fresh replication across different briefs, not a universal policy. Count actual candidates and attempts, preserve failures and known effort, and distinguish artistic judgments from execution checks. No larger candidate quota, automatic aesthetic judge, or new runtime is needed for this next step.
 
 Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. A separate review prompt does not create independent evidence. More filament experiments, learned search operators, and automatic aesthetic judges remain parked.
 
@@ -99,7 +110,7 @@ An experiment using recurrence inside the artwork does not satisfy that reopenin
 
 ## Closed populations
 
-Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, compact-material-grammar, or feedback-value-v1 populations. Their negative results remain evidence, not optimizer input.
+Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, compact-material-grammar, feedback-value-v1, or compact-preflight-v1 populations. Their negative results remain evidence, not optimizer input.
 
 ## Research discipline
 
@@ -112,4 +123,4 @@ For any decision-changing experiment:
 5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is a **fresh comparison of compact preflight timing on harder briefs**. Do not tune the completed pilot or feedback-comparison candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.
+The immediate next step is a **small fresh test of quality-preserving compact representations**. Do not tune the completed pilot, feedback-comparison, or preflight-comparison candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

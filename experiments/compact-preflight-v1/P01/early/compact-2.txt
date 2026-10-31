@@ -1,0 +1,1 @@
+t=0;draw=_=>{t++||createCanvas(400,400);background(9);for(S=sin,i=3e4;i--;point(200+r*cos(a),200+.75*r*S(a)+8*q*S(max(0,r-b)/40)))a=i*2.399963,r=130*sqrt(i/3e4),b=max(0,50*S(t/60)+10*cos(3*a)),q=S(5*a+r/20-t/60),stroke(r<b?80+40*S(r/6-t/60):180+60*q)}//#つぶやきProcessing

@@ -1,0 +1,66 @@
+[
+  {
+    "brief": "P01",
+    "arm": "early",
+    "delivered": true,
+    "page": "P01-early.html",
+    "source": "P01/early/compact-2.txt",
+    "firstFrame": "P01/early/final-frames/0001.png"
+  },
+  {
+    "brief": "P01",
+    "arm": "late",
+    "delivered": false,
+    "page": "P01-late.html",
+    "source": "P01/late/v2.js",
+    "firstFrame": "P01/late/v2-frames/0001.png"
+  },
+  {
+    "brief": "P02",
+    "arm": "early",
+    "delivered": false,
+    "page": "P02-early.html",
+    "source": "P02/early/v4.js",
+    "firstFrame": "P02/early/v4-frames/0001.png"
+  },
+  {
+    "brief": "P02",
+    "arm": "late",
+    "delivered": false,
+    "page": "P02-late.html",
+    "source": "P02/late/v2.js",
+    "firstFrame": "P02/late/v2-frames/0001.png"
+  },
+  {
+    "brief": "P03",
+    "arm": "early",
+    "delivered": true,
+    "page": "P03-early.html",
+    "source": "P03/early/compact-2.txt",
+    "firstFrame": "P03/early/final-frames/0001.png"
+  },
+  {
+    "brief": "P03",
+    "arm": "late",
+    "delivered": true,
+    "page": "P03-late.html",
+    "source": "P03/late/compact-2.txt",
+    "firstFrame": "P03/late/final-frames/0001.png"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "delivered": true,
+    "page": "P04-early.html",
+    "source": "P04/early/compact-2.txt",
+    "firstFrame": "P04/early/final-frames/0001.png"
+  },
+  {
+    "brief": "P04",
+    "arm": "late",
+    "delivered": false,
+    "page": "P04-late.html",
+    "source": "P04/late/v2.js",
+    "firstFrame": "P04/late/v2-frames/0001.png"
+  }
+]

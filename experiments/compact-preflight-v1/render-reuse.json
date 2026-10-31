@@ -1,0 +1,50 @@
+[
+  {
+    "candidate": "P01/early/v1",
+    "reusedFrom": "P01/late/v1.js",
+    "sourceSha256": "1013ea7568f461315da575896691d853114ed3a973b3b5e9a993ee6714402432",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P01/early/v2",
+    "reusedFrom": "P01/late/v2.js",
+    "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P02/early/v1",
+    "reusedFrom": "P02/late/v1.js",
+    "sourceSha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P02/early/v2",
+    "reusedFrom": "P02/late/v2.js",
+    "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P03/early/v1",
+    "reusedFrom": "P03/late/v1.js",
+    "sourceSha256": "fb4e3093861e3496088d33a22cdcf82d6dbe70e120203fa6547b107a7dca21fe",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P03/early/v2",
+    "reusedFrom": "P03/late/v2.js",
+    "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P04/early/v1",
+    "reusedFrom": "P04/late/v1.js",
+    "sourceSha256": "d0a08c25caf787d475b99bca4d6abe3e30f814135f14384a7cf2f1996ce4bedd",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  },
+  {
+    "candidate": "P04/early/v2",
+    "reusedFrom": "P04/late/v2.js",
+    "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+    "reason": "Identical source and frozen runtime; prior sampled evidence reused, candidate still charged."
+  }
+]

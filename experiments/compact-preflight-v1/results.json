@@ -1,0 +1,334 @@
+{
+  "completedAtUTC": "2026-10-30T09:33:42.647270+00:00",
+  "protocolSha256": "ec2731d3c66e1fe74645f3d44d95245548bf7b37f4cb404e45e1b1c943b83fbe",
+  "selectionSha256": "3c08202e8a7f6c1fe81a8a2b7c08f3636cf131478158329b476945198ca141fc",
+  "scope": "Same-author, late-first, shared-context engineering comparison on four authored briefs; not independently held out or a clean causal estimate.",
+  "summary": {
+    "early": {
+      "readableSuccesses": 4,
+      "compactSuccesses": 3,
+      "readableCandidates": 13,
+      "compactAttempts": 8
+    },
+    "late": {
+      "readableSuccesses": 4,
+      "compactSuccesses": 1,
+      "readableCandidates": 8,
+      "compactAttempts": 8
+    }
+  },
+  "pairs": [
+    {
+      "brief": "P01",
+      "readablePreference": "equivalent",
+      "compactOutcome": "early",
+      "earlyDeliveryArtisticRegression": false
+    },
+    {
+      "brief": "P02",
+      "readablePreference": "late",
+      "compactOutcome": "both-fail",
+      "earlyDeliveryArtisticRegression": false
+    },
+    {
+      "brief": "P03",
+      "readablePreference": "equivalent",
+      "compactOutcome": "equivalent",
+      "earlyDeliveryArtisticRegression": false
+    },
+    {
+      "brief": "P04",
+      "readablePreference": "late",
+      "compactOutcome": "early",
+      "earlyDeliveryArtisticRegression": true
+    }
+  ],
+  "pairCounts": {
+    "early": 2,
+    "late": 0,
+    "equivalent": 1,
+    "both-fail": 1
+  },
+  "advancement": {
+    "requiresEarlyWins": 2,
+    "allowsLateWins": 0,
+    "requiresNoFewerEarlyDeliveries": true,
+    "requiresNoClearArtisticRegressions": true,
+    "earlyDeliveryArtisticRegressions": [
+      "P04"
+    ],
+    "passed": false
+  },
+  "runs": [
+    {
+      "brief": "P01",
+      "arm": "early",
+      "selectedVersion": "v3",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": true,
+      "readableCandidates": 3,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 383,
+          "xWeightedLength": 387,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 268,
+          "xWeightedLength": 272,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "P02",
+      "arm": "early",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": false,
+      "readableCandidates": 4,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 397,
+          "xWeightedLength": 401,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 286,
+          "xWeightedLength": 290,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Both compact attempts exceed the limit."
+    },
+    {
+      "brief": "P03",
+      "arm": "early",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 292,
+          "xWeightedLength": 296,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 276,
+          "xWeightedLength": 280,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "P04",
+      "arm": "early",
+      "selectedVersion": "v4",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": true,
+      "readableCandidates": 4,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 421,
+          "xWeightedLength": 425,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 239,
+          "xWeightedLength": 243,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "P01",
+      "arm": "late",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": false,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 383,
+          "xWeightedLength": 387,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 367,
+          "xWeightedLength": 371,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Both compact attempts exceed the limit."
+    },
+    {
+      "brief": "P02",
+      "arm": "late",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": false,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 397,
+          "xWeightedLength": 401,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 368,
+          "xWeightedLength": 372,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Both compact attempts exceed the limit."
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 292,
+          "xWeightedLength": 296,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 276,
+          "xWeightedLength": 280,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": true
+        }
+      ],
+      "failureReason": null
+    },
+    {
+      "brief": "P04",
+      "arm": "late",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "provisional",
+      "readableSuccess": true,
+      "allBriefRequirementsMet": true,
+      "compactSuccess": false,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        {
+          "rawCodePoints": 421,
+          "xWeightedLength": 425,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        },
+        {
+          "rawCodePoints": 404,
+          "xWeightedLength": 408,
+          "rawLimit": 280,
+          "weightedLimit": 280,
+          "pass": false
+        }
+      ],
+      "failureReason": "Both compact attempts exceed the limit."
+    }
+  ],
+  "verification": {
+    "logicalDeliveries": 4,
+    "uniqueSourcePairs": 3,
+    "framesPerDelivery": 720,
+    "physicalNumericalPointCalls": 118080000,
+    "maxGeometryError": 2.2737367544323206e-13,
+    "maxStyleError": 2.2737367544323206e-13,
+    "minPointCentersInFrame": 1,
+    "maxMotion": 2.504780437427968,
+    "sampledRasterPairs": 64,
+    "uniqueRasterPairs": 48,
+    "allSampledRasterPairsByteIdentical": true,
+    "clipsVerified": 4,
+    "causesManuallyChecked": true
+  },
+  "effort": {
+    "logicalReadableCandidates": 21,
+    "uniqueReadableProgramsRendered": 13,
+    "readableRenderReuses": 8,
+    "uniqueSampledReviewFrames": 208,
+    "chargedSampledReviewFrameUses": 336,
+    "previewDrawFrames": 9360,
+    "uniqueFinalClipsRendered": 3,
+    "finalClipReuses": 1,
+    "finalClipFramesRendered": 2160,
+    "compactAttempts": 16,
+    "uniqueCompactPrograms": 11,
+    "compactProgramReuses": 5,
+    "humanCreativeInterventions": 0,
+    "previewSubprocessWallSecondsSum": 208.106,
+    "finalSubprocessWallSecondsSum": 65.89707687497139,
+    "numericalExecutionSecondsSum": 180.69758871000002,
+    "timingCaveat": "Overlapping subprocess sums exclude authorship, reasoning, visual review, interruptions and gallery QA; they are not elapsed study time or equal-cost evidence.",
+    "tokens": null,
+    "moneyCost": null,
+    "activeReasoningSeconds": null
+  },
+  "decision": "Earlier feasibility feedback recovered Aperture and Wake within the same attempt caps, but Wake lost artistic quality. The advancement gate fails. Keep the production policy unchanged; investigate quality-preserving compact representations rather than another timing sweep."
+}

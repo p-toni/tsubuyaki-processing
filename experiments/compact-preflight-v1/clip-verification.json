@@ -1,0 +1,42 @@
+[
+  {
+    "brief": "P03",
+    "arm": "early",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "P01",
+    "arm": "early",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "P04",
+    "arm": "early",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  },
+  {
+    "brief": "P03",
+    "arm": "late",
+    "codec_name": "h264",
+    "width": 400,
+    "height": 400,
+    "r_frame_rate": "60/1",
+    "duration": "12.000000",
+    "nb_frames": "720"
+  }
+]

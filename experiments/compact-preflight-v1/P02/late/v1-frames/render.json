@@ -1,0 +1,33 @@
+{
+  "source": "P02/late/v1.js",
+  "sourceSha256": "ff03209defc60efadd582957b220f26fdc0247fb6d26a483a921fdaa0f22fc14",
+  "runtime": "p5.js 1.11.3",
+  "runtimeSha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+  "browser": "153.0.8010.12",
+  "mode": "samples",
+  "frames": [
+    1,
+    49,
+    97,
+    145,
+    193,
+    241,
+    289,
+    337,
+    384,
+    432,
+    480,
+    528,
+    576,
+    624,
+    672,
+    720
+  ],
+  "drawFrames": 720,
+  "errors": [],
+  "drawMs": {
+    "median": 9.700000047683716,
+    "max": 31.100000023841858
+  },
+  "scheduler": "sequential frameCount 1..horizon; exact candidate draw; p5 noLoop wrapper"
+}

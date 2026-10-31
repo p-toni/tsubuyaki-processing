@@ -1,0 +1,11 @@
+{
+  "auditedAtUTC": "2026-10-30T09:33:42.647270+00:00",
+  "protocolHashMatches": true,
+  "initialSourceCopiesMatch": 8,
+  "lateSourceCommitmentsMatch": 8,
+  "allSourceCommitmentsMatch": 21,
+  "compactPostHashesMatch": 16,
+  "allCompactAttemptsParse": true,
+  "sampledRasterPairsChecked": 64,
+  "sourceAndAttemptCapsRespected": true
+}

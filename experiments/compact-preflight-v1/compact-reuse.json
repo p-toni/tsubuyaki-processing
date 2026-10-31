@@ -1,0 +1,27 @@
+[
+  {
+    "post": "P01/late/compact-1.txt",
+    "reusedFrom": "P01/early/compact-1.txt",
+    "reason": "Identical selected readable source; same exact compact attempt charged to each arm."
+  },
+  {
+    "post": "P02/late/compact-1.txt",
+    "reusedFrom": "P02/early/compact-1.txt",
+    "reason": "Identical selected readable source; same exact compact attempt charged to each arm."
+  },
+  {
+    "post": "P03/late/compact-1.txt",
+    "reusedFrom": "P03/early/compact-1.txt",
+    "reason": "Identical selected readable source; same exact compact attempt charged to each arm."
+  },
+  {
+    "post": "P03/late/compact-2.txt",
+    "reusedFrom": "P03/early/compact-2.txt",
+    "reason": "Identical selected readable source; same exact compact attempt charged to each arm."
+  },
+  {
+    "post": "P04/late/compact-1.txt",
+    "reusedFrom": "P04/early/compact-1.txt",
+    "reason": "Identical selected readable source; same exact compact attempt charged to each arm."
+  }
+]

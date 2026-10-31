@@ -1,0 +1,53 @@
+{
+  "reviewer": "same primary author, manual source comparison; not an independent proof or artistic judgment",
+  "checks": [
+    {
+      "brief": "P03",
+      "arm": "early",
+      "readableSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "compactSha256": "e5808635eeda9602abee8121b639bc7aef836effe1bf288f72cb1ffe9372cb22",
+      "preserved": true,
+      "checks": [
+        "The half-angle identity preserves the shared delayed pulse: ((1+cos(x))/2)^8 = cos(x/2)^16.",
+        "j retains unit identity; u retains the within-unit coordinate to numerical precision; the root remains fixed at u=0.",
+        "Height envelope, rest curvature, material expansion and drawing styles remain in the post."
+      ]
+    },
+    {
+      "brief": "P01",
+      "arm": "early",
+      "readableSha256": "e213cf4b330ebcf27651437c51a3b7bc1d01c394a0312e916236dbfc9a155507",
+      "compactSha256": "35ca25e7c7c614dd3e2330aa7c8e90ae65282ccdce3928712ff4699a46d08ed0",
+      "preserved": true,
+      "checks": [
+        "The clamped angle-dependent opening is retained as b; b=0 hides the rear field during closure.",
+        "The conditional stroke selects the moving rear field inside the aperture and the opaque front field outside.",
+        "The shared q phase drives both front shading and the radial fold displacement, with the same 2D sampler."
+      ]
+    },
+    {
+      "brief": "P04",
+      "arm": "early",
+      "readableSha256": "cd25972cec02beb5b390ff6da5f7b93806b2d2d034d006e156ab27c89c0c5578",
+      "compactSha256": "cb636347a4fb92465c1cd1222c5df21161fbe09e8f53e83052a2df9f5d763b31",
+      "preserved": true,
+      "checks": [
+        "d and h use the same sinusoidal drive separated by 0.45 phase units, a 0.9-second delay.",
+        "The d-based distance mask retains the visible forcing spot; the h-based Gaussian retains localized deformation and relaxation.",
+        "The same two-coordinate rounded membrane and vertical envelope remain in the point mapping."
+      ]
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "readableSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "compactSha256": "e5808635eeda9602abee8121b639bc7aef836effe1bf288f72cb1ffe9372cb22",
+      "preserved": true,
+      "checks": [
+        "The half-angle identity preserves the shared delayed pulse: ((1+cos(x))/2)^8 = cos(x/2)^16.",
+        "j retains unit identity; u retains the within-unit coordinate to numerical precision; the root remains fixed at u=0.",
+        "Height envelope, rest curvature, material expansion and drawing styles remain in the post."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "post": "P03/late/compact-2.txt",
+    "reusedFrom": "P03/early/compact-2.txt",
+    "reason": "Byte-identical complete post and frozen runtime; no additional physical render."
+  }
+]

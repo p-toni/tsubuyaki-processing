@@ -1,0 +1,7 @@
+{
+  "candidate": "P04/late/v2",
+  "wallSeconds": 7.064,
+  "exitCode": 0,
+  "stdout": "{\"source\":\"P04/late/v2.js\",\"mode\":\"samples\",\"frames\":16,\"drawMs\":{\"median\":4.5,\"max\":28.600000023841858},\"errors\":[]}\n",
+  "stderr": ""
+}

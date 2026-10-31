@@ -1,0 +1,7 @@
+{
+  "candidate": "P04/early/v4",
+  "wallSeconds": 26.436,
+  "exitCode": 0,
+  "stdout": "{\"source\":\"P04/early/v4.js\",\"mode\":\"samples\",\"frames\":16,\"drawMs\":{\"median\":35.799999952316284,\"max\":41.700000047683716},\"errors\":[]}\n",
+  "stderr": ""
+}

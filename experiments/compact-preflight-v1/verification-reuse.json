@@ -1,0 +1,7 @@
+[
+  {
+    "report": "P03/late/verification-2.json",
+    "reusedFrom": "P03/early/verification-2.json",
+    "reason": "Identical readable and compact hashes; no additional numerical run."
+  }
+]

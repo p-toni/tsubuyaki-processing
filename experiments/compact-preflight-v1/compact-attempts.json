@@ -1,0 +1,324 @@
+{
+  "attempts": [
+    {
+      "brief": "P01",
+      "arm": "early",
+      "attempt": 1,
+      "stage": "first-eligible preflight",
+      "version": "v2",
+      "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+      "post": "P01/early/compact-1.txt",
+      "postSha256": "c97ff975d9b57db9c33e4069286f5f427f7be87c30486ff4724549827606686f",
+      "length": {
+        "rawCodePoints": 383,
+        "xWeightedLength": 387,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T00:47:19.341105+00:00"
+    },
+    {
+      "brief": "P02",
+      "arm": "early",
+      "attempt": 1,
+      "stage": "first-eligible preflight",
+      "version": "v2",
+      "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+      "post": "P02/early/compact-1.txt",
+      "postSha256": "7e7ca4dcc7f917ee1931938ae5f996da6394f244f16eca1c099c636bf666b164",
+      "length": {
+        "rawCodePoints": 397,
+        "xWeightedLength": 401,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T00:47:19.392243+00:00"
+    },
+    {
+      "brief": "P03",
+      "arm": "early",
+      "attempt": 1,
+      "stage": "first-eligible preflight",
+      "version": "v2",
+      "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "post": "P03/early/compact-1.txt",
+      "postSha256": "d54eaf8bcc4417a0d3ad47f3d13edb38fe110d62a7bed1f096e3beed1c09e333",
+      "length": {
+        "rawCodePoints": 292,
+        "xWeightedLength": 296,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T00:47:19.439041+00:00"
+    },
+    {
+      "brief": "P04",
+      "arm": "early",
+      "attempt": 1,
+      "stage": "first-eligible preflight",
+      "version": "v2",
+      "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+      "post": "P04/early/compact-1.txt",
+      "postSha256": "c5d6414ceb22d94b9ac4d252afa338a64af5f63ac1690c85e5d6a38e0340d610",
+      "length": {
+        "rawCodePoints": 421,
+        "xWeightedLength": 425,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T00:47:19.487871+00:00"
+    },
+    {
+      "brief": "P03",
+      "arm": "early",
+      "attempt": 2,
+      "stage": "syntax/algebra recovery on unchanged selected behavior",
+      "version": "v2",
+      "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "post": "P03/early/compact-2.txt",
+      "postSha256": "e5808635eeda9602abee8121b639bc7aef836effe1bf288f72cb1ffe9372cb22",
+      "length": {
+        "rawCodePoints": 276,
+        "xWeightedLength": 280,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:19:17.345965+00:00"
+    },
+    {
+      "brief": "P01",
+      "arm": "early",
+      "attempt": 2,
+      "stage": "new representation after failed preflight",
+      "version": "v3",
+      "sourceSha256": "e213cf4b330ebcf27651437c51a3b7bc1d01c394a0312e916236dbfc9a155507",
+      "post": "P01/early/compact-2.txt",
+      "postSha256": "35ca25e7c7c614dd3e2330aa7c8e90ae65282ccdce3928712ff4699a46d08ed0",
+      "length": {
+        "rawCodePoints": 268,
+        "xWeightedLength": 272,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:27:00.665774+00:00"
+    },
+    {
+      "brief": "P02",
+      "arm": "early",
+      "attempt": 2,
+      "stage": "new representation after failed preflight",
+      "version": "v4",
+      "sourceSha256": "dbc2250e01704d0438fb0aa5e47b56eb289c71d0fdecc8b276c21f3d399d8ef8",
+      "post": "P02/early/compact-2.txt",
+      "postSha256": "1d2d899851854db5659448c570ad715ceb37ddfee9801d231daeb95afdd6aca4",
+      "length": {
+        "rawCodePoints": 286,
+        "xWeightedLength": 290,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:27:00.712270+00:00"
+    },
+    {
+      "brief": "P04",
+      "arm": "early",
+      "attempt": 2,
+      "stage": "new representation after failed preflight",
+      "version": "v4",
+      "sourceSha256": "cd25972cec02beb5b390ff6da5f7b93806b2d2d034d006e156ab27c89c0c5578",
+      "post": "P04/early/compact-2.txt",
+      "postSha256": "cb636347a4fb92465c1cd1222c5df21161fbe09e8f53e83052a2df9f5d763b31",
+      "length": {
+        "rawCodePoints": 239,
+        "xWeightedLength": 243,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:27:00.756214+00:00"
+    },
+    {
+      "brief": "P01",
+      "arm": "late",
+      "attempt": 1,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+      "post": "P01/late/compact-1.txt",
+      "postSha256": "c97ff975d9b57db9c33e4069286f5f427f7be87c30486ff4724549827606686f",
+      "length": {
+        "rawCodePoints": 383,
+        "xWeightedLength": 387,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:03.791639+00:00"
+    },
+    {
+      "brief": "P01",
+      "arm": "late",
+      "attempt": 2,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "abdf531dd8521340afb30bd2fac5d6c88f6164982fbfc4c9a03ab1185ac34d58",
+      "post": "P01/late/compact-2.txt",
+      "postSha256": "8fc1d9360da9033152947122586f2cb1879c93bb1641b295eea014f1b8ab09b5",
+      "length": {
+        "rawCodePoints": 367,
+        "xWeightedLength": 371,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:03.838097+00:00"
+    },
+    {
+      "brief": "P02",
+      "arm": "late",
+      "attempt": 1,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+      "post": "P02/late/compact-1.txt",
+      "postSha256": "7e7ca4dcc7f917ee1931938ae5f996da6394f244f16eca1c099c636bf666b164",
+      "length": {
+        "rawCodePoints": 397,
+        "xWeightedLength": 401,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:03.881833+00:00"
+    },
+    {
+      "brief": "P02",
+      "arm": "late",
+      "attempt": 2,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "9f449793da1777f0ebb24430aa635d29ffa81801fec4edee165562c1f2042a30",
+      "post": "P02/late/compact-2.txt",
+      "postSha256": "98ec21a1e2e80fb0b09b149d3fb5937d54165eedda0eea3eded10bbb84c6488e",
+      "length": {
+        "rawCodePoints": 368,
+        "xWeightedLength": 372,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:03.926856+00:00"
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "attempt": 1,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "post": "P03/late/compact-1.txt",
+      "postSha256": "d54eaf8bcc4417a0d3ad47f3d13edb38fe110d62a7bed1f096e3beed1c09e333",
+      "length": {
+        "rawCodePoints": 292,
+        "xWeightedLength": 296,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:03.969913+00:00"
+    },
+    {
+      "brief": "P03",
+      "arm": "late",
+      "attempt": 2,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "e58fef945cfb7de9b9c4a5f523ff51b0f368b9448fe2e520e20c7aa1ebc6b4e3",
+      "post": "P03/late/compact-2.txt",
+      "postSha256": "e5808635eeda9602abee8121b639bc7aef836effe1bf288f72cb1ffe9372cb22",
+      "length": {
+        "rawCodePoints": 276,
+        "xWeightedLength": 280,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": true
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:04.015962+00:00"
+    },
+    {
+      "brief": "P04",
+      "arm": "late",
+      "attempt": 1,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+      "post": "P04/late/compact-1.txt",
+      "postSha256": "c5d6414ceb22d94b9ac4d252afa338a64af5f63ac1690c85e5d6a38e0340d610",
+      "length": {
+        "rawCodePoints": 421,
+        "xWeightedLength": 425,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:04.061686+00:00"
+    },
+    {
+      "brief": "P04",
+      "arm": "late",
+      "attempt": 2,
+      "stage": "after closed readable exploration",
+      "version": "v2",
+      "sourceSha256": "ea09fa58bd3bbd5432850bd9651149dfa1880a73af221da76a51ec4873d28e83",
+      "post": "P04/late/compact-2.txt",
+      "postSha256": "c101455d72f51a21167e4a228fce4acb8683ed6bf3dc467892f1531da837b582",
+      "length": {
+        "rawCodePoints": 404,
+        "xWeightedLength": 408,
+        "rawLimit": 280,
+        "weightedLimit": 280,
+        "pass": false
+      },
+      "syntaxPass": true,
+      "syntaxError": null,
+      "countedAtUTC": "2026-10-30T09:29:04.105796+00:00"
+    }
+  ]
+}
