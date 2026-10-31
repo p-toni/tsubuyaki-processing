@@ -1,0 +1,29 @@
+{
+  "note": "Adherence labels recorded by the October studies' own reviewer (the same agent that made the candidates). They are the reference here, not ground truth. 'uncertain' cases are reported but not scored.",
+  "cases": [
+    { "contract": "P01-aperture", "source": "compact-preflight-v1/P01/late/v1.js", "label": "unmet", "requirements": { "aperture_closure": "unmet", "changing_irregular_aperture": "met", "opaque_occlusion": "met", "moving_rear_layer": "met", "deforming_folded_annulus": "met" }, "evidence": "compact-preflight-v1/candidate-reviews.json; first passed, corrected before compact work (README)" },
+    { "contract": "P01-aperture", "source": "compact-preflight-v1/P01/late/v2.js", "label": "met", "requirements": { "aperture_closure": "met", "changing_irregular_aperture": "met", "opaque_occlusion": "met", "moving_rear_layer": "met", "deforming_folded_annulus": "met" }, "evidence": "compact-preflight-v1/candidate-reviews.json" },
+    { "contract": "P01-aperture", "source": "compact-preflight-v1/P01/early/v3.js", "label": "met", "requirements": { "aperture_closure": "met", "changing_irregular_aperture": "met", "opaque_occlusion": "met", "moving_rear_layer": "met", "deforming_folded_annulus": "met" }, "evidence": "compact-preflight-v1/candidate-reviews.json" },
+    { "contract": "F01-separate", "source": "feedback-value-v1/F01/adaptive/v1.js", "label": "uncertain", "evidence": "feedback-value-v1/decisions.md: merging interval reads as overlapping hollow rings; adherence uncertain" },
+    { "contract": "F01-separate", "source": "feedback-value-v1/F01/adaptive/v2.js", "label": "met", "evidence": "feedback-value-v1/selection.json: requirements met" },
+    { "contract": "F01-separate", "source": "feedback-value-v1/F01/batch/v3.js", "label": "unmet", "evidence": "feedback-value-v1/decisions.md: incomplete crescents, not two coherent material lobes (C, brief unmet)" },
+    { "contract": "F01-separate", "source": "feedback-value-v1/F01/batch/v4.js", "label": "uncertain", "evidence": "feedback-value-v1/decisions.md: overlapping-ring weakness (C, adherence uncertain)" },
+    { "contract": "P03-relay", "source": "compact-preflight-v1/P03/late/v1.js", "label": "met", "requirements": { "at_least_five_units": "met", "fixed_bases": "met", "local_deformation": "met", "sequential_response": "met" }, "evidence": "compact-preflight-v1/candidate-reviews.json" },
+    { "contract": "P03-relay", "source": "compact-preflight-v1/P03/late/v2.js", "label": "met", "requirements": { "at_least_five_units": "met", "fixed_bases": "met", "local_deformation": "met", "sequential_response": "met" }, "evidence": "compact-preflight-v1/candidate-reviews.json" },
+    { "contract": "F03-reflect", "source": "feedback-value-v1/F03/adaptive/v2.js", "label": "met", "evidence": "feedback-value-v1/decisions.md: location and return visible; lateral edges anchored" },
+    { "contract": "F03-reflect", "source": "feedback-value-v1/F03/adaptive/v1.js", "label": "uncertain", "evidence": "feedback-value-v1/decisions.md: packet too faint; reflection not confidently legible" },
+    { "contract": "F03-reflect", "source": "feedback-value-v1/F03/batch/v2.js", "label": "uncertain", "evidence": "feedback-value-v1/decisions.md: modest internal ripples; not eligible" },
+    { "contract": "F03-reflect", "source": "feedback-value-v1/F03/batch/v3.js", "label": "uncertain", "evidence": "feedback-value-v1/decisions.md: modest internal ripples; not eligible" },
+    { "contract": "B03-gather", "source": "autonomous-discovery-pilot-v1/B03/v1.js", "label": "met", "evidence": "autonomous-discovery-pilot-v1/decisions.md: gathering and release work (grade C for its silhouette)" },
+    { "contract": "B03-gather", "source": "autonomous-discovery-pilot-v1/B03/v2.js", "label": "met", "evidence": "autonomous-discovery-pilot-v1/selection.json" },
+    { "contract": "B01-hollow", "source": "autonomous-discovery-pilot-v1/B01/v1.js", "label": "met", "evidence": "autonomous-discovery-pilot-v1/decisions.md: the cavity persists" }
+  ],
+  "counterfeits": [
+    { "contract": "P01-aperture", "base": "compact-preflight-v1/P01/late/v2.js", "ref": 95, "kinds": ["rotate", "freeze", "rearOnTop", "translucentFront"], "note": "ref 95: aperture fully open (time ≈ π/2)" },
+    { "contract": "F01-separate", "base": "feedback-value-v1/F01/adaptive/v2.js", "ref": 284, "kinds": ["rigidHalves", "fadeHalf", "cut", "freeze"], "note": "ref 284: the joined phase" },
+    { "contract": "P03-relay", "base": "compact-preflight-v1/P03/late/v2.js", "ref": 1, "kinds": ["sway", "rotate", "flash", "freeze"] },
+    { "contract": "F03-reflect", "base": "feedback-value-v1/F03/adaptive/v2.js", "ref": 1, "kinds": ["swayVertical", "freeze", "stripe"] },
+    { "contract": "B03-gather", "base": "autonomous-discovery-pilot-v1/B03/v2.js", "ref": 1, "kinds": ["rotate", "noise"] },
+    { "contract": "B01-hollow", "base": "autonomous-discovery-pilot-v1/B01/v1.js", "ref": 1, "kinds": ["rotate", "collapse", "freeze"] }
+  ]
+}
