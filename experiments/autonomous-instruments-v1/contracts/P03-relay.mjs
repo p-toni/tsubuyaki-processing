@@ -1,6 +1,12 @@
 // Brief text: compact-preflight-v1/protocol.md (P03 Relay).
-// Thresholds were fixed before the first validation run.
-import { bestLag, nonSimilarity, positions } from '../lib/observables.mjs';
+// Thresholds were fixed before the first validation run (b57306e).
+//
+// v1.1 POST-HOC REPAIR, after the frozen run (results/contract-validation-v1-frozen.json):
+// bending was measured against the reference frame used to find units, at
+// which some units were already mid-pulse; that distorted their series. It is
+// now measured against each point's rest position (temporal median). No
+// threshold changed. The repair was informed by the cases it is re-tested on.
+import { bestLag, median, nonSimilarity, positions } from '../lib/observables.mjs';
 
 const MIN_UNIT = 0.002;     // a unit covers >= 0.2% of the canvas
 const BASE_SHARE = 0.03;    // a unit's base: its lowest 3% of points at the reference frame
@@ -22,14 +28,20 @@ function units(ctx) {
     const c = ctx.cell(frame.data[k * 7], frame.data[k * 7 + 1]);
     if (c >= 0 && regs.labels[c] >= 0) unitOf[k] = order.findIndex(r => r.id === regs.labels[c]);
   }
-  const bend = order.map((_, u) => ctx.frames.map(g => nonSimilarity(positions(frame, k => unitOf[k] === u), positions(ctx.frame(g), k => unitOf[k] === u))));
+  const all = ctx.frames.map(g => ctx.frame(g));
+  const rest = { ...frame, data: Float64Array.from(frame.data) };
+  for (let k = 0; k < frame.n; k++) {
+    rest.data[k * 7] = median(all.map(fr => fr.data[k * 7]));
+    rest.data[k * 7 + 1] = median(all.map(fr => fr.data[k * 7 + 1]));
+  }
+  const bend = order.map((_, u) => all.map(fr => nonSimilarity(positions(rest, k => unitOf[k] === u), positions(fr, k => unitOf[k] === u))));
   return { f, order, unitOf, frame, bend };
 }
 const memo = new WeakMap();
 const U = ctx => { if (!memo.has(ctx)) memo.set(ctx, units(ctx)); return memo.get(ctx); };
 
 export default {
-  brief: 'P03', title: 'Relay',
+  brief: 'P03', title: 'Relay', version: '1.1-post-hoc',
   text: 'At least five rooted soft units receive a localized bending event in sequence across the group. Bases stay fixed, each unit deforms, and neighboring response peaks occur at visibly different times. Uniform global swaying, rigid translation, or unrelated flicker fails.',
   requirements: [
     {

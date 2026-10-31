@@ -91,5 +91,6 @@ const out = {
   labelsSha256: sha(path.join(here, 'contracts/labels.json')), shimsSha256: sha(path.join(here, 'contracts/shims.mjs')),
   summary, runs,
 };
-fs.writeFileSync(path.join(here, only ? `contract-validation.${only}.json` : 'contract-validation.json'), JSON.stringify(out, null, 1) + '\n');
+const outName = process.argv.find(a => a.startsWith('--out='))?.slice(6) ?? (only ? `contract-validation.${only}.json` : 'contract-validation.json');
+fs.writeFileSync(path.join(here, outName), JSON.stringify(out, null, 1) + '\n');
 console.log(JSON.stringify(summary, null, 1));

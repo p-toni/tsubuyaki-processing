@@ -34,6 +34,8 @@ export function context(sketch, overrides = {}) {
     frame: f => sketch.frame(f),
     pos: (f, keep = null) => positions(sketch.frame(f), keep),
     raster: (f, opts = {}) => once(`r${f}:${opts.owner ? 1 : 0}`, () => rasterize(sketch.frame(f), { size: o.size, owner: !!opts.owner })),
+    weighted: f => once(`w${f}`, () => rasterize(sketch.frame(f), { size: o.size, roleWeights: true })),
+    fullRes: (f, role = null) => once(`f${f}:${role}`, () => rasterize(role ? onlyRole(sketch.frame(f), role) : sketch.frame(f), { size: 400 })),
     roleRaster: (f, role) => once(`rr${f}:${role}`, () => rasterize(onlyRole(sketch.frame(f), role), { size: o.size })),
     mask: f => once(`m${f}`, () => close(foreground(ctx.raster(f), o.threshold), o.size, o.size, o.closeRadius)),
     roleMask: (f, role) => once(`rm${f}:${role}`, () => close(foreground(ctx.roleRaster(f, role), o.threshold), o.size, o.size, o.closeRadius)),

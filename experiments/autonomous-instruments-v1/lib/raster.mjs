@@ -6,11 +6,15 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import { STRIDE } from './runtime.mjs';
 
-export function rasterize(frame, { size = 400, owner = false } = {}) {
+// roleWeights: per cell, the share of the final colour contributed by each
+// role, composited exactly like the colour (resolution- and size-independent).
+export function rasterize(frame, { size = 400, owner = false, roleWeights = false } = {}) {
   const scale = size / 400, W = size, H = size, img = new Float32Array(W * H * 3);
   const [br, bgG, bb] = frame.background;
   for (let i = 0; i < W * H; i++) { img[3 * i] = br; img[3 * i + 1] = bgG; img[3 * i + 2] = bb; }
   const own = owner ? new Int32Array(W * H).fill(-1) : null;
+  const roleNames = roleWeights && frame.roles ? [...new Set(frame.roles)] : [];
+  const weights = roleNames.map(() => new Float32Array(W * H)), roleIndex = roleNames.length ? frame.roles.map(r => roleNames.indexOf(r)) : null;
   const d = frame.data, cov = [];
   for (let p = 0, k = 0; p < d.length; p += STRIDE, k++) {
     const x = d[p] * scale, y = d[p + 1] * scale, r = Math.max(d[p + 2], 1) * scale / 2;
@@ -32,9 +36,11 @@ export function rasterize(frame, { size = 400, owner = false } = {}) {
       img[3 * i + 1] += (d[p + 4] - img[3 * i + 1]) * a;
       img[3 * i + 2] += (d[p + 5] - img[3 * i + 2]) * a;
       if (own && cov[j + 1] * norm >= 0.5) own[i] = k;
+      if (roleIndex) { for (const w of weights) w[i] *= 1 - a; weights[roleIndex[k]][i] += a; }
     }
   }
-  return { W, H, img, own, background: frame.background };
+  const roles = roleIndex ? Object.fromEntries(roleNames.map((r, n) => [r, weights[n]])) : null;
+  return { W, H, img, own, roles, background: frame.background };
 }
 
 export const luminance = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
