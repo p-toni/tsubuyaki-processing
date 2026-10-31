@@ -102,3 +102,60 @@ test('counterfeits remove deformation but keep the look', () => {
   }
   assert.ok(nonSimilarity(positions(base.frame(1)), positions(base.frame(400))) > 0.05);
 });
+
+// ---- judge card with synthetic judges ------------------------------------
+import { judgeCard, fleissKappa, cohenKappa } from './lib/judgecard.mjs';
+
+function syntheticKey() {
+  const key = {};
+  let pair = 0;
+  for (const degradation of ['density', 'freeze']) for (const level of [2, 3]) for (let b = 0; b < 5; b++, pair++) {
+    for (const flipped of [false, true]) key[`k${pair}${flipped ? 'b' : 'a'}`] = { pair, flipped, type: 'known', degradation, level, sideOfFirst: flipped ? 'B' : 'A', betterSide: flipped ? 'B' : 'A' };
+  }
+  for (let r = 0; r < 6; r++, pair++) {
+    for (const flipped of [false, true]) key[`r${pair}${flipped ? 'b' : 'a'}`] = { pair, flipped, type: 'real', brief: `R${r}`, first: 'x', second: 'y', archivedVerdict: r % 2 ? 'second' : 'first', sideOfFirst: flipped ? 'B' : 'A' };
+  }
+  return key;
+}
+const judge = (key, fn) => Object.fromEntries(Object.entries(key).map(([id, k]) => [id, { id, choice: fn(k, id) }]));
+const oracle = k => (k.type === 'known' ? k.betterSide : (k.pair % 2 ? (k.sideOfFirst === 'A' ? 'B' : 'A') : k.sideOfFirst));
+
+test('judge card: an oracle is accurate, flip-consistent and unbiased; a panel of oracles may gate', () => {
+  const key = syntheticKey(), card = judgeCard(key, { o1: judge(key, oracle), o2: judge(key, oracle) });
+  const s = card.judges.o1;
+  assert.equal(s.knownAccuracy, 1); assert.equal(s.flipConsistency.known, 1); assert.equal(s.flipConsistency.real, 1); assert.equal(s.positionBiasA, 0.5);
+  assert.deepEqual(s.resolution, { density: 2, freeze: 2 });
+  assert.equal(card.panel.fleissKappa, 1);
+  assert.equal(card.gateable.knownAnswerDistinctions.length, 4);
+  assert.equal(card.gateable.fineArtisticPreferences, true);
+  assert.ok(card.panel.octoberVerdicts.every(v => v.agreesWithArchive));
+});
+
+test('judge card: an always-A judge is caught by position bias and the flip test', () => {
+  const key = syntheticKey(), card = judgeCard(key, { o1: judge(key, oracle), left: judge(key, () => 'A') });
+  const s = card.judges.left;
+  assert.equal(s.positionBiasA, 1); assert.equal(s.knownAccuracy, 0.5); assert.equal(s.flipConsistency.known, 0);
+  assert.deepEqual(card.gateable.knownAnswerDistinctions, []);
+  assert.equal(card.gateable.fineArtisticPreferences, false);
+});
+
+test('judge card: a random judge is near chance and not gateable', () => {
+  const key = syntheticKey(), card = judgeCard(key, { o1: judge(key, oracle), rnd: judge(key, (k, id) => (hash01(id.length, id.charCodeAt(1), id.charCodeAt(id.length - 1)) < 0.5 ? 'A' : 'B')) });
+  assert.ok(card.judges.rnd.knownAccuracy > 0.2 && card.judges.rnd.knownAccuracy < 0.8);
+  assert.equal(card.gateable.fineArtisticPreferences, false);
+});
+
+test('kappa statistics behave at their reference points', () => {
+  assert.equal(cohenKappa(['first', 'second', 'equal'], ['first', 'second', 'equal']), 1);
+  assert.ok(cohenKappa(['first', 'first', 'second', 'second'], ['second', 'second', 'first', 'first']) < 0);
+  assert.equal(fleissKappa([['first', 'first', 'first'], ['second', 'second', 'second']]), 1);
+});
+
+test('role weights: a later opaque point hides an earlier one; thin points still register', () => {
+  const fr = { ...pointFrame([[100, 100, 6, 80, 80, 80, 255], [100, 100, 6, 200, 200, 200, 255]]), roles: ['rear', 'front'] };
+  const r = rasterize(fr, { size: 200, roleWeights: true }), i = 50 * 200 + 50;
+  assert.ok(r.roles.front[i] > 0.9 && r.roles.rear[i] < 0.05, `front ${r.roles.front[i]} rear ${r.roles.rear[i]}`);
+  const thin = { ...pointFrame(Array.from({ length: 40 }, () => [100.5, 100.5, 1, 255, 255, 255, 255])), roles: Array(40).fill('rear') };
+  const t = rasterize(thin, { size: 200, roleWeights: true });
+  assert.ok(t.roles.rear[i] > 0.9, `thin accumulated weight ${t.roles.rear[i]}`);
+});

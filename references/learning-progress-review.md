@@ -175,6 +175,11 @@ Every study below runs without human involvement.
 
 *Archived candidates plus programmatic degradations; judge sessions only.*
 
+**Status:** tooling built and unit-tested in
+[`experiments/autonomous-instruments-v1`](../experiments/autonomous-instruments-v1/README.md)
+— package builder, judge protocol, and judge-card scorer. The panel has not yet
+run.
+
 **Question.** Which distinctions can a model judge panel make reliably on this
 surface?
 
@@ -215,6 +220,13 @@ the Wake verdict that failed compact-preflight survives a validated panel.
 ### CONTRACT-1 — Make brief adherence executable
 
 *Archived briefs and candidates; no new solver runs.*
+
+**Status:** first version built in
+[`experiments/autonomous-instruments-v1`](../experiments/autonomous-instruments-v1/README.md).
+Of the 54 requirements in the 13 archived briefs, only 5 need judgment. Six
+contracts with frozen thresholds rejected 20/20 counterfeits and agreed with 8/11
+archive labels. A labeled post-hoc repair of three instrument defects reached
+11/11 while still rejecting every counterfeit.
 
 **Question.** How much of brief adherence can be verified from the exact point
 stream instead of judged?
