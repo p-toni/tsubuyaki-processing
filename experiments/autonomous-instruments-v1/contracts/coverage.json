@@ -1,0 +1,72 @@
+{
+  "note": "Every requirement of the 13 archived October briefs, classified before the first validation run. implemented: a v1 contract checks it from points and rasters. roles: checkable once the sketch declares roles (or a documented shim supplies them). executable: checkable from points and rasters but not yet written. judgment: needs the judge panel.",
+  "briefs": [
+    { "brief": "B01", "title": "Hollow", "requirements": [
+      { "text": "cavity remains legible", "status": "implemented", "contract": "B01-hollow:cavity_remains" },
+      { "text": "surrounding material deforms internally; not a rigidly rotating outline", "status": "implemented", "contract": "B01-hollow:material_deforms_internally" },
+      { "text": "breathes through changing folds", "status": "executable", "note": "periodic thickness or area change" },
+      { "text": "not an ordinary oscillating line", "status": "implemented", "contract": "B01-hollow:cavity_remains (a line has no cavity)" } ] },
+    { "brief": "B02", "title": "Fronds", "requirements": [
+      { "text": "several flexible fronds share a stable root", "status": "executable", "note": "fixed root points; fronds join there" },
+      { "text": "bends travel toward the tips", "status": "roles", "note": "needs frond identity and an along-frond coordinate" },
+      { "text": "differences between fronds", "status": "roles", "note": "phase differences between declared fronds" },
+      { "text": "coherent attachment throughout", "status": "executable", "note": "connectivity at the root over the horizon" },
+      { "text": "reads as an organized living structure", "status": "judgment" } ] },
+    { "brief": "B03", "title": "Gather", "requirements": [
+      { "text": "gathers and releases again", "status": "implemented", "contract": "B03-gather:gathers_and_releases" },
+      { "text": "individual paths remain coherent; not random jitter", "status": "implemented", "contract": "B03-gather:coherent_paths" },
+      { "text": "timing is staggered", "status": "implemented", "contract": "B03-gather:staggered_timing" },
+      { "text": "not whole-object rotation", "status": "implemented", "contract": "B03-gather:not_whole_object_rotation" },
+      { "text": "into a readable structure", "status": "judgment" } ] },
+    { "brief": "F01", "title": "Separate", "requirements": [
+      { "text": "one body separates into two clearly spaced lobes and reunites", "status": "implemented", "contract": "F01-separate:separation_and_reunion" },
+      { "text": "material, not rigid circles or hollow rings", "status": "implemented", "contract": "F01-separate:material_lobes" },
+      { "text": "material deforms during the transition", "status": "implemented", "contract": "F01-separate:material_deforms" },
+      { "text": "not fading one out", "status": "implemented", "contract": "F01-separate:material_conserved" },
+      { "text": "not replacing one image with another", "status": "implemented", "contract": "F01-separate:continuous_motion" } ] },
+    { "brief": "F02", "title": "Weave", "requirements": [
+      { "text": "crossing bands", "status": "roles", "note": "band identity" },
+      { "text": "readable alternating over/under", "status": "roles", "note": "band identity plus draw order at crossings" },
+      { "text": "a disturbance travels through it; no global flicker", "status": "executable", "note": "localized traveling displacement; brightness stability" } ] },
+    { "brief": "F03", "title": "Reflect", "requirements": [
+      { "text": "localized disturbance travels across a finite membrane", "status": "implemented", "contract": "F03-reflect:localized_traveling_event" },
+      { "text": "reflects at the far edge and returns", "status": "implemented", "contract": "F03-reflect:reflects_and_returns" },
+      { "text": "both lateral edges stay anchored", "status": "implemented", "contract": "F03-reflect:anchored_lateral_edges" } ] },
+    { "brief": "F04", "title": "Exchange", "requirements": [
+      { "text": "two soft bodies with fixed centers", "status": "executable", "note": "two regions with stationary centroids" },
+      { "text": "visible passage of influence between them", "status": "roles", "note": "body and bridge identity; travelling deformation along the bridge" },
+      { "text": "the receiving body responds after the passage", "status": "roles", "note": "lag ordering: source, bridge, receiver" },
+      { "text": "not alternating sizes with an unrelated decorative bridge", "status": "judgment", "note": "partly roles: shared cause is a property of the program" } ] },
+    { "brief": "F05", "title": "Twist", "requirements": [
+      { "text": "both upper corners stay fixed", "status": "executable", "note": "identity tracking of the top corners" },
+      { "text": "twists through depth", "status": "roles", "note": "needs a declared depth or facing probe" },
+      { "text": "moving fold with readable front/back occlusion", "status": "roles", "note": "front/back roles plus draw order" } ] },
+    { "brief": "F06", "title": "Divert", "requirements": [
+      { "text": "a persistent empty obstacle", "status": "executable", "note": "stationary enclosed hole" },
+      { "text": "points never pass through the obstacle", "status": "executable" },
+      { "text": "the stream splits around it and rejoins downstream", "status": "executable", "note": "cross-section band counts" },
+      { "text": "paths are coherent", "status": "executable", "note": "second difference, honoring the declared recycling exception" } ] },
+    { "brief": "P01", "title": "Aperture", "requirements": [
+      { "text": "opens and closes an aperture", "status": "implemented", "contract": "P01-aperture:aperture_closure" },
+      { "text": "the aperture changes", "status": "implemented", "contract": "P01-aperture:changing_aperture" },
+      { "text": "the aperture is irregular", "status": "judgment" },
+      { "text": "the foreground hides the rear layer where they overlap; not a transparent overlay", "status": "implemented", "contract": "P01-aperture:opaque_occlusion" },
+      { "text": "revealing a moving layer behind it", "status": "implemented", "contract": "P01-aperture:moving_rear_layer" },
+      { "text": "local folds deform; not a rigid spinning ring", "status": "implemented", "contract": "P01-aperture:deforming_folded_annulus" } ] },
+    { "brief": "P02", "title": "Thread", "requirements": [
+      { "text": "a broad undulating ribbon", "status": "roles", "note": "ribbon identity, then width" },
+      { "text": "passes through a closed solid loop", "status": "roles", "note": "loop identity; enclosed hole of the loop" },
+      { "text": "near loop occludes the ribbon; the ribbon occludes the far loop", "status": "roles", "note": "near/ribbon/far roles plus draw order" },
+      { "text": "motion travels along the ribbon with readable material width", "status": "roles" } ] },
+    { "brief": "P03", "title": "Relay", "requirements": [
+      { "text": "at least five rooted soft units", "status": "implemented", "contract": "P03-relay:at_least_five_units" },
+      { "text": "bases stay fixed; not rigid translation or global sway", "status": "implemented", "contract": "P03-relay:fixed_bases" },
+      { "text": "each unit deforms", "status": "implemented", "contract": "P03-relay:each_unit_deforms" },
+      { "text": "neighboring response peaks at visibly different times; not unrelated flicker", "status": "implemented", "contract": "P03-relay:sequential_response" } ] },
+    { "brief": "P04", "title": "Wake", "requirements": [
+      { "text": "a finite membrane", "status": "executable" },
+      { "text": "a visible moving exciter", "status": "roles", "note": "exciter identity" },
+      { "text": "localized deformation follows the passage with a visible lag, then relaxes", "status": "roles", "note": "lag between exciter position and deformation peak; decay" },
+      { "text": "exciter and wake share their cause; not lockstep or a decorative trail", "status": "judgment", "note": "lockstep is executable with roles; shared cause is a program property" } ] }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+ "study": "example-gauge-v1",
+ "note": "Committed before any run. p is the probability that the outcome happens.",
+ "forecasts": [
+  { "id": "S3-01:baseline:deliver", "quantity": "deliver", "arm": "baseline", "brief": "S3-01", "p": 0.35, "rationale": "two coupled actors; archived first forecasts for this stratum were red" },
+  { "id": "S3-01:gauge:deliver", "quantity": "deliver", "arm": "gauge", "brief": "S3-01", "p": 0.55, "rationale": "the gauge should steer authoring toward a shared sampler" },
+  { "id": "S3-01:gauge:prefer", "quantity": "prefer", "arm": "gauge", "brief": "S3-01", "p": 0.45, "rationale": "risk of self-censorship as in Wake" }
+ ]
+}

@@ -1,0 +1,1 @@
+setup=()=>createCanvas(400,400);draw=()=>{a=frameCount/60;background(9);for(i=4e4;i--;){u=i%200/100-1;v=i/2e4-1;b=u-.8*sin(a/2);c=u-.8*sin(a/2-.45);d=80*exp(-30*c*c)*(1-v*v);stroke(b*b+v*v<.01?255:150);point(200+150*u,200+90*v*sqrt(1-u*u)-d)}};//#つぶやきProcessing

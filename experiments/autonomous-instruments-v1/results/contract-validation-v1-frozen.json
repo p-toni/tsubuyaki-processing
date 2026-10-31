@@ -1,0 +1,2201 @@
+{
+ "study": "CONTRACT-1 validation on archives (diagnostic; changes no recorded grade, selection or decision)",
+ "contracts": {
+  "P01-aperture": "512031d9c8d83e669cbaa7ddf9b103e94648fb5eea0120182de1a24e8c9c93c6",
+  "F01-separate": "caff562cffc137f658ef91666af2331a2bd6c41d6cc1d975f473eee1c2be1f3d",
+  "P03-relay": "10bcf0e607af02d004625cab8e7db167268721424ad8e1247ef60032158864d2",
+  "F03-reflect": "de84c1dd8f7be301fb574213fbae2bfc8087c8cdddafb7e78b10d0f7b4ea36b0",
+  "B03-gather": "be2f385787282259075564eee7b77c6107ccb52c791d4feb0b6b5824cf483ab7",
+  "B01-hollow": "33e6fe1313d548cba130b55f73dec252dc3a109d7dd79a06985689ff398eab96"
+ },
+ "labelsSha256": "60c4bfbc848d913c962eb9c7dfa2e6b5a2fa3d0f35606e7e0a575b467c7d9b09",
+ "shimsSha256": "b972047822faf202ca189f32665b739afebbb00c4b2471c3a1afd675be1aa370",
+ "summary": {
+  "archivedBriefVerdicts": {
+   "scored": 11,
+   "agree": 8,
+   "disagreements": [
+    {
+     "source": "compact-preflight-v1/P01/early/v3.js",
+     "label": "met",
+     "verdict": "fail",
+     "failed": [
+      "aperture_closure",
+      "changing_aperture",
+      "opaque_occlusion",
+      "moving_rear_layer"
+     ]
+    },
+    {
+     "source": "compact-preflight-v1/P03/late/v1.js",
+     "label": "met",
+     "verdict": "fail",
+     "failed": [
+      "sequential_response"
+     ]
+    },
+    {
+     "source": "compact-preflight-v1/P03/late/v2.js",
+     "label": "met",
+     "verdict": "fail",
+     "failed": [
+      "sequential_response"
+     ]
+    }
+   ]
+  },
+  "archivedRequirementVerdicts": {
+   "scored": 23,
+   "agree": 17,
+   "disagreements": [
+    {
+     "contract": "P01-aperture",
+     "source": "compact-preflight-v1/P01/early/v3.js",
+     "requirement": "aperture_closure",
+     "label": "met",
+     "pass": false
+    },
+    {
+     "contract": "P01-aperture",
+     "source": "compact-preflight-v1/P01/early/v3.js",
+     "requirement": "changing_aperture",
+     "label": "met",
+     "pass": false
+    },
+    {
+     "contract": "P01-aperture",
+     "source": "compact-preflight-v1/P01/early/v3.js",
+     "requirement": "opaque_occlusion",
+     "label": "met",
+     "pass": false
+    },
+    {
+     "contract": "P01-aperture",
+     "source": "compact-preflight-v1/P01/early/v3.js",
+     "requirement": "moving_rear_layer",
+     "label": "met",
+     "pass": false
+    },
+    {
+     "contract": "P03-relay",
+     "source": "compact-preflight-v1/P03/late/v1.js",
+     "requirement": "sequential_response",
+     "label": "met",
+     "pass": false
+    },
+    {
+     "contract": "P03-relay",
+     "source": "compact-preflight-v1/P03/late/v2.js",
+     "requirement": "sequential_response",
+     "label": "met",
+     "pass": false
+    }
+   ]
+  },
+  "uncertainCases": [
+   {
+    "source": "feedback-value-v1/F01/adaptive/v1.js",
+    "verdict": "fail",
+    "failed": [
+     "material_lobes",
+     "material_conserved"
+    ]
+   },
+   {
+    "source": "feedback-value-v1/F01/batch/v4.js",
+    "verdict": "fail",
+    "failed": [
+     "material_lobes",
+     "material_conserved"
+    ]
+   },
+   {
+    "source": "feedback-value-v1/F03/adaptive/v1.js",
+    "verdict": "pass",
+    "failed": []
+   },
+   {
+    "source": "feedback-value-v1/F03/batch/v2.js",
+    "verdict": "pass",
+    "failed": []
+   },
+   {
+    "source": "feedback-value-v1/F03/batch/v3.js",
+    "verdict": "pass",
+    "failed": []
+   }
+  ],
+  "counterfeits": {
+   "total": 20,
+   "rejected": 20,
+   "accepted": [],
+   "caughtBy": [
+    {
+     "contract": "P01-aperture",
+     "counterfeit": "rotate",
+     "failed": [
+      "aperture_closure",
+      "changing_aperture",
+      "deforming_folded_annulus"
+     ]
+    },
+    {
+     "contract": "P01-aperture",
+     "counterfeit": "freeze",
+     "failed": [
+      "aperture_closure",
+      "changing_aperture",
+      "moving_rear_layer",
+      "deforming_folded_annulus"
+     ]
+    },
+    {
+     "contract": "P01-aperture",
+     "counterfeit": "rearOnTop",
+     "failed": [
+      "aperture_closure",
+      "changing_aperture",
+      "opaque_occlusion"
+     ]
+    },
+    {
+     "contract": "P01-aperture",
+     "counterfeit": "translucentFront",
+     "failed": [
+      "opaque_occlusion"
+     ]
+    },
+    {
+     "contract": "F01-separate",
+     "counterfeit": "rigidHalves",
+     "failed": [
+      "material_deforms"
+     ]
+    },
+    {
+     "contract": "F01-separate",
+     "counterfeit": "fadeHalf",
+     "failed": [
+      "separation_and_reunion",
+      "material_deforms",
+      "material_conserved"
+     ]
+    },
+    {
+     "contract": "F01-separate",
+     "counterfeit": "cut",
+     "failed": [
+      "separation_and_reunion",
+      "material_deforms",
+      "continuous_motion"
+     ]
+    },
+    {
+     "contract": "F01-separate",
+     "counterfeit": "freeze",
+     "failed": [
+      "separation_and_reunion",
+      "material_deforms"
+     ]
+    },
+    {
+     "contract": "P03-relay",
+     "counterfeit": "sway",
+     "failed": [
+      "fixed_bases",
+      "each_unit_deforms",
+      "sequential_response"
+     ]
+    },
+    {
+     "contract": "P03-relay",
+     "counterfeit": "rotate",
+     "failed": [
+      "fixed_bases",
+      "each_unit_deforms",
+      "sequential_response"
+     ]
+    },
+    {
+     "contract": "P03-relay",
+     "counterfeit": "flash",
+     "failed": [
+      "each_unit_deforms",
+      "sequential_response"
+     ]
+    },
+    {
+     "contract": "P03-relay",
+     "counterfeit": "freeze",
+     "failed": [
+      "each_unit_deforms",
+      "sequential_response"
+     ]
+    },
+    {
+     "contract": "F03-reflect",
+     "counterfeit": "swayVertical",
+     "failed": [
+      "localized_traveling_event",
+      "reflects_and_returns",
+      "anchored_lateral_edges"
+     ]
+    },
+    {
+     "contract": "F03-reflect",
+     "counterfeit": "freeze",
+     "failed": [
+      "localized_traveling_event",
+      "reflects_and_returns"
+     ]
+    },
+    {
+     "contract": "F03-reflect",
+     "counterfeit": "stripe",
+     "failed": [
+      "localized_traveling_event",
+      "reflects_and_returns"
+     ]
+    },
+    {
+     "contract": "B03-gather",
+     "counterfeit": "rotate",
+     "failed": [
+      "gathers_and_releases",
+      "not_whole_object_rotation"
+     ]
+    },
+    {
+     "contract": "B03-gather",
+     "counterfeit": "noise",
+     "failed": [
+      "coherent_paths"
+     ]
+    },
+    {
+     "contract": "B01-hollow",
+     "counterfeit": "rotate",
+     "failed": [
+      "material_deforms_internally"
+     ]
+    },
+    {
+     "contract": "B01-hollow",
+     "counterfeit": "collapse",
+     "failed": [
+      "cavity_remains"
+     ]
+    },
+    {
+     "contract": "B01-hollow",
+     "counterfeit": "freeze",
+     "failed": [
+      "material_deforms_internally"
+     ]
+    }
+   ]
+  }
+ },
+ "runs": [
+  {
+   "contract": "P01-aperture",
+   "kind": "archived",
+   "source": "compact-preflight-v1/P01/late/v1.js",
+   "label": "unmet",
+   "labelRequirements": {
+    "aperture_closure": "unmet",
+    "changing_irregular_aperture": "met",
+    "opaque_occlusion": "met",
+    "moving_rear_layer": "met",
+    "deforming_folded_annulus": "met"
+   },
+   "verdict": "fail",
+   "seconds": 14.6,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "maxOpenFraction": 0.0398,
+      "closedRatio": 0.3008793969849246
+     },
+     "ms": 8234
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "relativeChange": 0.6991206030150754
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanDifference": 5.375859178217995,
+      "overlapCells": 88915
+     },
+     "ms": 1942
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanRearChange": 14.85209732325784,
+      "framesOpen": 87
+     },
+     "ms": 4352
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanNonSimilarity": 0.07607291964633484
+     },
+     "ms": 42
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "archived",
+   "source": "compact-preflight-v1/P01/late/v2.js",
+   "label": "met",
+   "labelRequirements": {
+    "aperture_closure": "met",
+    "changing_irregular_aperture": "met",
+    "opaque_occlusion": "met",
+    "moving_rear_layer": "met",
+    "deforming_folded_annulus": "met"
+   },
+   "verdict": "pass",
+   "seconds": 11.7,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "maxOpenFraction": 0.034025,
+      "closedRatio": 0.00881704628949302
+     },
+     "ms": 8493
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "relativeChange": 0.991182953710507
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanDifference": 1.5406540168975014,
+      "overlapCells": 116553
+     },
+     "ms": 1864
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanRearChange": 16.212095192212583,
+      "framesOpen": 29
+     },
+     "ms": 1317
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanNonSimilarity": 0.11955725687832722
+     },
+     "ms": 26
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "archived",
+   "source": "compact-preflight-v1/P01/early/v3.js",
+   "label": "met",
+   "labelRequirements": {
+    "aperture_closure": "met",
+    "changing_irregular_aperture": "met",
+    "opaque_occlusion": "met",
+    "moving_rear_layer": "met",
+    "deforming_folded_annulus": "met"
+   },
+   "verdict": "fail",
+   "seconds": 21.1,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "maxOpenFraction": 0,
+      "closedRatio": null
+     },
+     "ms": 18640
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "relativeChange": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanDifference": 28.01841644588992,
+      "overlapCells": 139
+     },
+     "ms": 2309
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanRearChange": 0,
+      "framesOpen": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanNonSimilarity": 0.05050042612099338
+     },
+     "ms": 192
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "counterfeit",
+   "counterfeit": "rotate",
+   "mimics": "rigid rotation of an unchanging form",
+   "base": "compact-preflight-v1/P01/late/v2.js",
+   "ref": 95,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 5.6,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "maxOpenFraction": 0.034125,
+      "closedRatio": 0.9882783882783883
+     },
+     "ms": 2497
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "relativeChange": 0.011721611721611722
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanDifference": 0.3088451953582003,
+      "overlapCells": 64988
+     },
+     "ms": 1610
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanRearChange": 9.759379049785775,
+      "framesOpen": 87
+     },
+     "ms": 1475
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanNonSimilarity": 1.1600407725789482e-14
+     },
+     "ms": 42
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "counterfeit",
+   "counterfeit": "freeze",
+   "mimics": "a form that never changes",
+   "base": "compact-preflight-v1/P01/late/v2.js",
+   "ref": 95,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 5.1,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "maxOpenFraction": 0.03405,
+      "closedRatio": 1
+     },
+     "ms": 2492
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "relativeChange": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanDifference": 0.30401906769851156,
+      "overlapCells": 65250
+     },
+     "ms": 1644
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanRearChange": 0,
+      "framesOpen": 87
+     },
+     "ms": 921
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanNonSimilarity": 0
+     },
+     "ms": 21
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "counterfeit",
+   "counterfeit": "rearOnTop",
+   "mimics": "transparent overlap without depth order",
+   "base": "compact-preflight-v1/P01/late/v2.js",
+   "ref": 95,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 13.4,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "maxOpenFraction": 0.07385,
+      "closedRatio": 0.993906567366283
+     },
+     "ms": 7319
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "relativeChange": 0.006093432633716994
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanDifference": 65.91831815549298,
+      "overlapCells": 116553
+     },
+     "ms": 2020
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanRearChange": 14.029346671374919,
+      "framesOpen": 87
+     },
+     "ms": 3998
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanNonSimilarity": 0.11955725687832722
+     },
+     "ms": 34
+    }
+   ]
+  },
+  {
+   "contract": "P01-aperture",
+   "kind": "counterfeit",
+   "counterfeit": "translucentFront",
+   "mimics": "a transparent overlay instead of an opaque foreground",
+   "base": "compact-preflight-v1/P01/late/v2.js",
+   "ref": 95,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 5.1,
+   "results": [
+    {
+     "id": "aperture_closure",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "maxOpenFraction": 0.034025,
+      "closedRatio": 0.00881704628949302
+     },
+     "ms": 3217
+    },
+    {
+     "id": "changing_aperture",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "relativeChange": 0.991182953710507
+     },
+     "ms": 0
+    },
+    {
+     "id": "opaque_occlusion",
+     "kind": "roles",
+     "pass": false,
+     "value": {
+      "meanDifference": 24.579074142521883,
+      "overlapCells": 116133
+     },
+     "ms": 1438
+    },
+    {
+     "id": "moving_rear_layer",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanRearChange": 14.4030199135431,
+      "framesOpen": 29
+     },
+     "ms": 399
+    },
+    {
+     "id": "deforming_folded_annulus",
+     "kind": "roles",
+     "pass": true,
+     "value": {
+      "meanNonSimilarity": 0.11955725687832722
+     },
+     "ms": 32
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "archived",
+   "source": "feedback-value-v1/F01/adaptive/v1.js",
+   "label": "uncertain",
+   "labelRequirements": null,
+   "verdict": "fail",
+   "seconds": 13.8,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": 45,
+      "rejoinedAt": 149
+     },
+     "ms": 6082
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "medianHoleFraction": 0.14937965260545905
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "lobeNonSimilarity": [
+       0.0644693257062231,
+       0.06448319806815347
+      ]
+     },
+     "ms": 6
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 1.0387217352743625,
+      "at": 161
+     },
+     "ms": 7692
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minToMaxArea": 0.5636567582725743
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "archived",
+   "source": "feedback-value-v1/F01/adaptive/v2.js",
+   "label": "met",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 12,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": 17,
+      "rejoinedAt": 177
+     },
+     "ms": 5961
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianHoleFraction": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "lobeNonSimilarity": [
+       0.1653729358696249,
+       0.1654019885686991
+      ]
+     },
+     "ms": 5
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 0.8673649942221421,
+      "at": 378
+     },
+     "ms": 6041
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minToMaxArea": 0.6024549098196392
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "archived",
+   "source": "feedback-value-v1/F01/batch/v3.js",
+   "label": "unmet",
+   "labelRequirements": null,
+   "verdict": "fail",
+   "seconds": 15.9,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "joinedAt": 17,
+      "separatedAt": 177,
+      "rejoinedAt": 393
+     },
+     "ms": 6342
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "medianHoleFraction": 1.6673596673596673
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "lobeNonSimilarity": [
+       0.0673554208124609,
+       0.0768565053400982
+      ]
+     },
+     "ms": 3
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "worst": 27.65257177849361,
+      "at": 174
+     },
+     "ms": 9531
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minToMaxArea": 0.07287644787644787
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "archived",
+   "source": "feedback-value-v1/F01/batch/v4.js",
+   "label": "uncertain",
+   "labelRequirements": null,
+   "verdict": "fail",
+   "seconds": 12.9,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "joinedAt": 61,
+      "separatedAt": 321,
+      "rejoinedAt": 437
+     },
+     "ms": 6282
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "medianHoleFraction": 0.31562819203268644
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "lobeNonSimilarity": [
+       0.06515936354297971,
+       0.06516026611206895
+      ]
+     },
+     "ms": 4
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 0.7157304849992826,
+      "at": 276
+     },
+     "ms": 6642
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minToMaxArea": 0.5830675558132792
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "counterfeit",
+   "counterfeit": "rigidHalves",
+   "mimics": "two rigid halves translated apart and back together",
+   "base": "feedback-value-v1/F01/adaptive/v2.js",
+   "ref": 284,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.3,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": 13,
+      "rejoinedAt": 173
+     },
+     "ms": 3060
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianHoleFraction": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "lobeNonSimilarity": [
+       7.285994749845688e-15,
+       1.3711276752381405e-14
+      ]
+     },
+     "ms": 3
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 0.5235721931185537,
+      "at": 541
+     },
+     "ms": 233
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minToMaxArea": 0.9124004550625711
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "counterfeit",
+   "counterfeit": "fadeHalf",
+   "mimics": "one half fading out instead of separating",
+   "base": "feedback-value-v1/F01/adaptive/v2.js",
+   "ref": 284,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.2,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": null,
+      "rejoinedAt": null
+     },
+     "ms": 3047
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianHoleFraction": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": "no separated phase",
+     "ms": 0
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 0,
+      "at": 0
+     },
+     "ms": 175
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minToMaxArea": 0.5
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "counterfeit",
+   "counterfeit": "cut",
+   "mimics": "replacing one image with another",
+   "base": "feedback-value-v1/F01/adaptive/v2.js",
+   "ref": 284,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.6,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": null,
+      "rejoinedAt": null
+     },
+     "ms": 3403
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianHoleFraction": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": "no separated phase",
+     "ms": 0
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "worst": 28.98927395145441,
+      "at": 360
+     },
+     "ms": 148
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minToMaxArea": 0.8242316484632969
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F01-separate",
+   "kind": "counterfeit",
+   "counterfeit": "freeze",
+   "mimics": "a form that never changes",
+   "base": "feedback-value-v1/F01/adaptive/v2.js",
+   "ref": 284,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.3,
+   "results": [
+    {
+     "id": "separation_and_reunion",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "joinedAt": 1,
+      "separatedAt": null,
+      "rejoinedAt": null
+     },
+     "ms": 3181
+    },
+    {
+     "id": "material_lobes",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianHoleFraction": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "material_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": "no separated phase",
+     "ms": 0
+    },
+    {
+     "id": "continuous_motion",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "worst": 0,
+      "at": 0
+     },
+     "ms": 106
+    },
+    {
+     "id": "material_conserved",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minToMaxArea": 1
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "archived",
+   "source": "compact-preflight-v1/P03/late/v1.js",
+   "label": "met",
+   "labelRequirements": {
+    "at_least_five_units": "met",
+    "fixed_bases": "met",
+    "local_deformation": "met",
+    "sequential_response": "met"
+   },
+   "verdict": "fail",
+   "seconds": 7.2,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 6,
+      "atFrame": 5
+     },
+     "ms": 7114
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxBaseMotion": 0.1417226489743868
+     },
+     "ms": 27
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minPeakNonSimilarity": 0.042860165843947015
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       72,
+       -72,
+       36,
+       36,
+       36
+      ],
+      "correlations": [
+       0.43,
+       0.25,
+       0.99,
+       1,
+       1
+      ]
+     },
+     "ms": 10
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "archived",
+   "source": "compact-preflight-v1/P03/late/v2.js",
+   "label": "met",
+   "labelRequirements": {
+    "at_least_five_units": "met",
+    "fixed_bases": "met",
+    "local_deformation": "met",
+    "sequential_response": "met"
+   },
+   "verdict": "fail",
+   "seconds": 9.9,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 6,
+      "atFrame": 109
+     },
+     "ms": 9898
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxBaseMotion": 1.0088436630728168
+     },
+     "ms": 16
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "minPeakNonSimilarity": 0.0570932743282273
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       36,
+       40,
+       84,
+       108,
+       36
+      ],
+      "correlations": [
+       0.99,
+       0.24,
+       0.33,
+       0.26,
+       0.77
+      ]
+     },
+     "ms": 6
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "counterfeit",
+   "counterfeit": "sway",
+   "mimics": "uniform global sway or translation",
+   "base": "compact-preflight-v1/P03/late/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.7,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 5,
+      "atFrame": 1
+     },
+     "ms": 3709
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxBaseMotion": 30.000000000000014
+     },
+     "ms": 14
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minPeakNonSimilarity": 6.14676582249535e-15
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       88,
+       -12,
+       120,
+       0
+      ],
+      "correlations": [
+       0.23,
+       0.34,
+       0.66,
+       0.29
+      ]
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "counterfeit",
+   "counterfeit": "rotate",
+   "mimics": "rigid rotation of an unchanging form",
+   "base": "compact-preflight-v1/P03/late/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 5,
+      "atFrame": 1
+     },
+     "ms": 2984
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxBaseMotion": 343.90807572195496
+     },
+     "ms": 15
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minPeakNonSimilarity": 1.9696561653493372e-14
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       -68,
+       -116,
+       -112,
+       -112
+      ],
+      "correlations": [
+       0.25,
+       0.26,
+       0.23,
+       0.18
+      ]
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "counterfeit",
+   "counterfeit": "flash",
+   "mimics": "unrelated flashing of an unchanging form",
+   "base": "compact-preflight-v1/P03/late/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.9,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 7,
+      "atFrame": 57
+     },
+     "ms": 3886
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxBaseMotion": 0
+     },
+     "ms": 21
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minPeakNonSimilarity": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "correlations": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     "ms": 6
+    }
+   ]
+  },
+  {
+   "contract": "P03-relay",
+   "kind": "counterfeit",
+   "counterfeit": "freeze",
+   "mimics": "a form that never changes",
+   "base": "compact-preflight-v1/P03/late/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 3.4,
+   "results": [
+    {
+     "id": "at_least_five_units",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "units": 5,
+      "atFrame": 1
+     },
+     "ms": 3356
+    },
+    {
+     "id": "fixed_bases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxBaseMotion": 0
+     },
+     "ms": 14
+    },
+    {
+     "id": "each_unit_deforms",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minPeakNonSimilarity": 0
+     },
+     "ms": 0
+    },
+    {
+     "id": "sequential_response",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "neighborLagsInFrames": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "correlations": [
+       null,
+       null,
+       null,
+       null
+      ]
+     },
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "archived",
+   "source": "feedback-value-v1/F03/adaptive/v2.js",
+   "label": "met",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 2.7,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianDisturbedShare": 0.15975,
+      "centroidSpan": 0.8072238561026142
+     },
+     "ms": 2710
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "turnAtFrame": 141,
+      "turnPosition": 0.24112398608037816
+     },
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 2.10816532668435
+     },
+     "ms": 16
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "archived",
+   "source": "feedback-value-v1/F03/adaptive/v1.js",
+   "label": "uncertain",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 2.1,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianDisturbedShare": 0.09533333333333334,
+      "centroidSpan": 0.8248742831459577
+     },
+     "ms": 2059
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "turnAtFrame": 141,
+      "turnPosition": 0.2346563333425776
+     },
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 1.2604749834701465
+     },
+     "ms": 9
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "archived",
+   "source": "feedback-value-v1/F03/batch/v2.js",
+   "label": "uncertain",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 2.2,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianDisturbedShare": 0.11533333333333333,
+      "centroidSpan": 0.7836904636651226
+     },
+     "ms": 2184
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "turnAtFrame": 141,
+      "turnPosition": 0.24090691803839903
+     },
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 1.571513290214682
+     },
+     "ms": 11
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "archived",
+   "source": "feedback-value-v1/F03/batch/v3.js",
+   "label": "uncertain",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 2.6,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianDisturbedShare": 0.137,
+      "centroidSpan": 0.8371696369946745
+     },
+     "ms": 2548
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "turnAtFrame": 141,
+      "turnPosition": 0.23509900264794037
+     },
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 2.373842007689973
+     },
+     "ms": 12
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "counterfeit",
+   "counterfeit": "swayVertical",
+   "mimics": "uniform whole-sheet oscillation",
+   "base": "feedback-value-v1/F03/adaptive/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 0.6,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "medianDisturbedShare": 1,
+      "centroidSpan": 2.432498646953718e-13
+     },
+     "ms": 593
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": false,
+     "value": "no reversal near a lateral edge",
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxEdgeMotion": 30.00000000000003
+     },
+     "ms": 21
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "counterfeit",
+   "counterfeit": "freeze",
+   "mimics": "a form that never changes",
+   "base": "feedback-value-v1/F03/adaptive/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 0.2,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "framesWithEvent": 0
+     },
+     "ms": 226
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": false,
+     "value": "no reversal near a lateral edge",
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 0
+     },
+     "ms": 2
+    }
+   ]
+  },
+  {
+   "contract": "F03-reflect",
+   "kind": "counterfeit",
+   "counterfeit": "stripe",
+   "mimics": "a decorative traveling stripe on an unchanging form",
+   "base": "feedback-value-v1/F03/adaptive/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 0.4,
+   "results": [
+    {
+     "id": "localized_traveling_event",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "framesWithEvent": 0
+     },
+     "ms": 428
+    },
+    {
+     "id": "reflects_and_returns",
+     "kind": "executable",
+     "pass": false,
+     "value": "no reversal near a lateral edge",
+     "ms": 0
+    },
+    {
+     "id": "anchored_lateral_edges",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxEdgeMotion": 0
+     },
+     "ms": 13
+    }
+   ]
+  },
+  {
+   "contract": "B03-gather",
+   "kind": "archived",
+   "source": "autonomous-discovery-pilot-v1/B03/v1.js",
+   "label": "met",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 0.8,
+   "results": [
+    {
+     "id": "gathers_and_releases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "tightestFrame": 217,
+      "ratio": 0.6788749556049691
+     },
+     "ms": 678
+    },
+    {
+     "id": "coherent_paths",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianSecondDifference": 0.010235929254285254
+     },
+     "ms": 148
+    },
+    {
+     "id": "staggered_timing",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "gatheringTimeIQR": 16
+     },
+     "ms": 7
+    },
+    {
+     "id": "not_whole_object_rotation",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxNonSimilarity": 3.006322325598842
+     },
+     "ms": 10
+    }
+   ]
+  },
+  {
+   "contract": "B03-gather",
+   "kind": "archived",
+   "source": "autonomous-discovery-pilot-v1/B03/v2.js",
+   "label": "met",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 0.8,
+   "results": [
+    {
+     "id": "gathers_and_releases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "tightestFrame": 221,
+      "ratio": 0.6913266617146432
+     },
+     "ms": 586
+    },
+    {
+     "id": "coherent_paths",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianSecondDifference": 0.011241075958048442
+     },
+     "ms": 160
+    },
+    {
+     "id": "staggered_timing",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "gatheringTimeIQR": 44
+     },
+     "ms": 5
+    },
+    {
+     "id": "not_whole_object_rotation",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxNonSimilarity": 2.5285495919929377
+     },
+     "ms": 10
+    }
+   ]
+  },
+  {
+   "contract": "B03-gather",
+   "kind": "counterfeit",
+   "counterfeit": "rotate",
+   "mimics": "rigid rotation of an unchanging form",
+   "base": "autonomous-discovery-pilot-v1/B03/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 0,
+   "results": [
+    {
+     "id": "gathers_and_releases",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "minToMaxSpread": 0.9999999999999982
+     },
+     "ms": 28
+    },
+    {
+     "id": "coherent_paths",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "medianSecondDifference": 0.003402292404285463
+     },
+     "ms": 9
+    },
+    {
+     "id": "staggered_timing",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "gatheringTimeIQR": 60
+     },
+     "ms": 3
+    },
+    {
+     "id": "not_whole_object_rotation",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxNonSimilarity": 2.702066842046395e-14
+     },
+     "ms": 10
+    }
+   ]
+  },
+  {
+   "contract": "B03-gather",
+   "kind": "counterfeit",
+   "counterfeit": "noise",
+   "mimics": "random jitter replacing coherent paths",
+   "base": "autonomous-discovery-pilot-v1/B03/v2.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 0.7,
+   "results": [
+    {
+     "id": "gathers_and_releases",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "tightestFrame": 221,
+      "ratio": 0.6956935622418087
+     },
+     "ms": 524
+    },
+    {
+     "id": "coherent_paths",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "medianSecondDifference": 21.400170069419328
+     },
+     "ms": 152
+    },
+    {
+     "id": "staggered_timing",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "gatheringTimeIQR": 48
+     },
+     "ms": 10
+    },
+    {
+     "id": "not_whole_object_rotation",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxNonSimilarity": 2.4515099533551608
+     },
+     "ms": 10
+    }
+   ]
+  },
+  {
+   "contract": "B01-hollow",
+   "kind": "archived",
+   "source": "autonomous-discovery-pilot-v1/B01/v1.js",
+   "label": "met",
+   "labelRequirements": null,
+   "verdict": "pass",
+   "seconds": 7.5,
+   "results": [
+    {
+     "id": "cavity_remains",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "framesWithoutCavity": 0
+     },
+     "ms": 5062
+    },
+    {
+     "id": "material_deforms_internally",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxNonSimilarity": 0.11364101663556153
+     },
+     "ms": 2402
+    }
+   ]
+  },
+  {
+   "contract": "B01-hollow",
+   "kind": "counterfeit",
+   "counterfeit": "rotate",
+   "mimics": "rigid rotation of an unchanging form",
+   "base": "autonomous-discovery-pilot-v1/B01/v1.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 2.2,
+   "results": [
+    {
+     "id": "cavity_remains",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "framesWithoutCavity": 0
+     },
+     "ms": 1944
+    },
+    {
+     "id": "material_deforms_internally",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxNonSimilarity": 3.97013637331794e-14
+     },
+     "ms": 296
+    }
+   ]
+  },
+  {
+   "contract": "B01-hollow",
+   "kind": "counterfeit",
+   "counterfeit": "collapse",
+   "mimics": "an ordinary oscillating line in place of a form",
+   "base": "autonomous-discovery-pilot-v1/B01/v1.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 8.3,
+   "results": [
+    {
+     "id": "cavity_remains",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "framesWithoutCavity": 90
+     },
+     "ms": 4935
+    },
+    {
+     "id": "material_deforms_internally",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "maxNonSimilarity": 0.34199782691521513
+     },
+     "ms": 3337
+    }
+   ]
+  },
+  {
+   "contract": "B01-hollow",
+   "kind": "counterfeit",
+   "counterfeit": "freeze",
+   "mimics": "a form that never changes",
+   "base": "autonomous-discovery-pilot-v1/B01/v1.js",
+   "ref": 1,
+   "expected": "fail",
+   "verdict": "fail",
+   "seconds": 2.3,
+   "results": [
+    {
+     "id": "cavity_remains",
+     "kind": "executable",
+     "pass": true,
+     "value": {
+      "framesWithoutCavity": 0
+     },
+     "ms": 2147
+    },
+    {
+     "id": "material_deforms_internally",
+     "kind": "executable",
+     "pass": false,
+     "value": {
+      "maxNonSimilarity": 0
+     },
+     "ms": 128
+    }
+   ]
+  }
+ ]
+}
