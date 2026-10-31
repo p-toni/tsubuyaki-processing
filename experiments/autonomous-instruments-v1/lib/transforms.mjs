@@ -197,3 +197,27 @@ export const COUNTERFEITS = {
     },
   },
 };
+
+// Counterfeits by name, as protocols and brief banks refer to them. `ref` is the
+// reference frame a counterfeit freezes or moves (default frame 1).
+export function counterfeit(kind, ref = 1) {
+  const makers = {
+    rotate: () => COUNTERFEITS.rotate.make(ref),
+    freeze: () => COUNTERFEITS.freeze.make(ref),
+    sway: () => COUNTERFEITS.sway.make(ref, 30, 'x'),
+    swayVertical: () => COUNTERFEITS.sway.make(ref, 30, 'y'),
+    scale: () => COUNTERFEITS.scale.make(ref),
+    flash: () => COUNTERFEITS.flash.make(ref),
+    stripe: () => COUNTERFEITS.stripe.make(ref),
+    cut: () => COUNTERFEITS.cut.make(720),
+    collapse: () => COUNTERFEITS.collapse.make(),
+    noise: () => COUNTERFEITS.noise.make(),
+    rigidHalves: () => COUNTERFEITS.rigidHalves.make(ref),
+    fadeHalf: () => COUNTERFEITS.fadeHalf.make(ref),
+    rearOnTop: () => COUNTERFEITS.rearOnTop.make(),
+    translucentFront: () => COUNTERFEITS.translucentFront.make(),
+  };
+  if (!makers[kind]) throw new Error(`unknown counterfeit ${kind}; known: ${Object.keys(makers).join(', ')}`);
+  return makers[kind]();
+}
+export const COUNTERFEIT_MIMICS = { ...Object.fromEntries(Object.entries(COUNTERFEITS).map(([k, v]) => [k, v.mimics])), sway: 'uniform global sway or translation', swayVertical: 'uniform whole-sheet oscillation' };

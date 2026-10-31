@@ -1,0 +1,7 @@
+{
+ "id": "gather-fixture",
+ "stratum": "S2",
+ "text": "An organized swarm gathers into a readable structure and releases again. Individual paths remain coherent and the timing is staggered. Whole-object rotation and random jitter do not meet the brief.",
+ "counterfeits": ["rotate", "noise"],
+ "fixtureNote": "Test fixture for brief-bank.mjs, built from the archived pilot brief B03 and its v2 source. Not a bank brief and not fresh evidence."
+}

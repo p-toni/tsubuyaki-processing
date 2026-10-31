@@ -10,7 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadSketch, transformed } from './lib/runtime.mjs';
 import { runContract } from './lib/contract.mjs';
-import { COUNTERFEITS } from './lib/transforms.mjs';
+import { counterfeit, COUNTERFEIT_MIMICS } from './lib/transforms.mjs';
 import { SHIMS } from './contracts/shims.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url)), experiments = path.join(here, '..');
@@ -22,22 +22,6 @@ const names = [...new Set(labels.cases.map(c => c.contract))].filter(n => !only 
 const contracts = Object.fromEntries(await Promise.all(names.map(async n => [n, (await import(`./contracts/${n}.mjs`)).default])));
 const load = rel => loadSketch(path.join(experiments, rel), { roleShim: SHIMS[rel]?.fn ?? null });
 
-const MAKERS = {
-  rotate: ref => COUNTERFEITS.rotate.make(ref),
-  freeze: ref => COUNTERFEITS.freeze.make(ref),
-  sway: ref => COUNTERFEITS.sway.make(ref, 30, 'x'),
-  swayVertical: ref => COUNTERFEITS.sway.make(ref, 30, 'y'),
-  flash: ref => COUNTERFEITS.flash.make(ref),
-  stripe: ref => COUNTERFEITS.stripe.make(ref),
-  cut: () => COUNTERFEITS.cut.make(720),
-  collapse: () => COUNTERFEITS.collapse.make(),
-  noise: () => COUNTERFEITS.noise.make(),
-  rigidHalves: ref => COUNTERFEITS.rigidHalves.make(ref),
-  fadeHalf: ref => COUNTERFEITS.fadeHalf.make(ref),
-  rearOnTop: () => COUNTERFEITS.rearOnTop.make(),
-  translucentFront: () => COUNTERFEITS.translucentFront.make(),
-};
-const mimics = { sway: 'uniform global sway or translation', swayVertical: 'uniform whole-sheet oscillation' };
 
 function evaluate(contract, sketch) {
   const started = performance.now(), results = runContract(contract, sketch);
@@ -57,8 +41,8 @@ for (const name of names) {
   for (const fake of smoke ? fakes.slice(0, 1).map(f => ({ ...f, kinds: f.kinds.slice(0, 1) })) : fakes) {
     const base = load(fake.base);
     for (const kind of fake.kinds) {
-      const sketch = transformed(base, MAKERS[kind](fake.ref), kind), r = evaluate(contract, sketch);
-      runs.push({ contract: name, kind: 'counterfeit', counterfeit: kind, mimics: mimics[kind] ?? COUNTERFEITS[kind].mimics, base: fake.base, ref: fake.ref, expected: 'fail', ...r });
+      const sketch = transformed(base, counterfeit(kind, fake.ref), kind), r = evaluate(contract, sketch);
+      runs.push({ contract: name, kind: 'counterfeit', counterfeit: kind, mimics: COUNTERFEIT_MIMICS[kind], base: fake.base, ref: fake.ref, expected: 'fail', ...r });
       console.error(`${name} counterfeit ${kind} ${smoke ? (r.results.some(x => x.error) ? 'ERROR ' + r.results.filter(x => x.error).map(x => x.id + ': ' + x.error).join('; ') : 'ran') : r.verdict} (${r.seconds}s)`);
     }
   }
@@ -92,5 +76,5 @@ const out = {
   summary, runs,
 };
 const outName = process.argv.find(a => a.startsWith('--out='))?.slice(6) ?? (only ? `contract-validation.${only}.json` : 'contract-validation.json');
-fs.writeFileSync(path.join(here, outName), JSON.stringify(out, null, 1) + '\n');
+fs.writeFileSync(path.resolve(here, outName), JSON.stringify(out, null, 1) + '\n');
 console.log(JSON.stringify(summary, null, 1));
