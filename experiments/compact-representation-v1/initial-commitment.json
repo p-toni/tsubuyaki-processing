@@ -1,0 +1,18 @@
+{
+  "createdAtUTC": "2026-10-31T11:08:40.359530+00:00",
+  "protocolSha256": "a30352456ac026baf0e626951fd948e9193a091c3a7cd61d4a3eb18e504ff50d",
+  "renderedFeedbackSeen": false,
+  "compactCountsSeen": false,
+  "sources": [
+    {
+      "representation": "R1",
+      "source": "R1/v1.js",
+      "sha256": "4eb2554312c7405584c2c9dc9b59ff05fc4614e851f82b0ea201ec7186d50e90"
+    },
+    {
+      "representation": "R2",
+      "source": "R2/v1.js",
+      "sha256": "7107a5400e031ae4bd476e520e5bec3f0552614213af45bd007c12137f1217ff"
+    }
+  ]
+}
