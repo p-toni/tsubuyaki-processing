@@ -116,6 +116,19 @@ For comparison, the September human-pair rule (decisive win rate above 0.65 and
 one-sided p ≤ 0.10) has 65% power at a true 3:1 preference with 12 decisive
 pairs and 88% with 24, with a false-pass rate near 7%.
 
+Briefs also differ in difficulty. The script's seeded simulation draws each
+brief's control success from a logistic-normal spread (logit SD 1) and runs
+arms independently, as isolated sessions would:
+
+| Design | +25 points for a typical brief | +15 points | No effect |
+| --- | ---: | ---: | ---: |
+| `feedback-value-v1` rule, 6 briefs × 1 run | 9% | 5% | 1% |
+| 24 briefs × 1 run, sign test | 52% | 26% | 5% |
+| 12 briefs × 3 runs, paired t-test | 76% | 45% | 11% |
+| 24 briefs × 3 runs, paired t-test | 95% | 65% | 11% |
+
+The tests use one-sided α = 0.10.
+
 ## Interpretation and limits
 
 Within this regime, compaction is close to a fixed shrink factor; the decisive
