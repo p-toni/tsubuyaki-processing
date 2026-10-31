@@ -12,6 +12,37 @@ experiments can run with **no human involvement**:
 Everything uses Node.js built-ins and runs on the existing archives. Nothing here
 changes a recorded grade, selection, or decision.
 
+## Study machinery
+
+New studies start from [`study-template/protocol.md`](study-template/protocol.md).
+It turns the review's four learning-progress checks into runnable preregistration
+steps:
+
+| Check | Tool | What it enforces |
+| --- | --- | --- |
+| Forecastable? | `forecasts.mjs validate` / `score` | A `forecasts.json` committed before runs. It warns when under half the outcomes are genuinely uncertain, and Brier-scores the forecasts after closure, so forecast skill becomes the program's own learning curve. |
+| Valid instrument? | `brief-bank.mjs validate` / `verify`, the judge card | A brief is valid only if its contract passes its reference solution and rejects every negative and listed counterfeit. The reference's length forecast scores difficulty. Hashes seal the bank. |
+| Powered? | `power.mjs` | Power and false-pass rate for briefs × runs designs, accounting for briefs that differ in difficulty. It exits non-zero below `--min-power` and reports the briefs needed for 80% power. |
+| Frontier? | the benchmark's competence map | Briefs come from the four structural strata S1–S4. |
+
+Examples:
+
+```sh
+node power.mjs --briefs=24 --runs=3 --base=0.5 --effect=0.25   # power 0.94, false pass 0.10, 14 briefs for 80%
+node power.mjs --briefs=6 --runs=1 --test=sign                 # October-sized design: power 0.06, exit 1
+node forecasts.mjs validate study-template/forecasts.example.json
+node brief-bank.mjs validate test-fixtures/brief-bank
+```
+
+The fixture entry is built from the archived Gather brief. Its handmade negative,
+simultaneous gathering, is rejected by exactly `staggered_timing`. It exists to
+test the tool and is not a bank brief.
+
+CI (`autonomous-discovery-tests.yml`, job `experiment-instruments`) runs every
+test here and the length-forecaster tests. It also checks that the forecast
+retrospective reproduces byte for byte, smoke-runs every contract, and validates
+the bank fixture.
+
 ## Shared instruments (`lib/`)
 
 | Module | Role |
@@ -23,9 +54,12 @@ changes a recorded grade, selection, or decision.
 | `evidence.mjs` | Judge evidence (16-frame contact sheets; motion sheets of brightness change over 0.1 s) and manipulation checks matched to each degradation (temporal for freeze, spatial otherwise). |
 | `contract.mjs` | Contract context and runner, including full-horizon continuity. |
 | `judgecard.mjs` | Judge card: position bias, flip consistency, known-answer accuracy by degradation and strength, Cohen and Fleiss κ, panel re-judgment of the October verdicts, and the frozen gate. |
+| `design.mjs` | Seeded power simulation for briefs × runs designs with brief-to-brief difficulty spread: paired t-test, sign test, or a custom gate. Includes an exact t quantile. |
+| `forecasts.mjs` | Forecast-registry validation (including the uncertain share) and scoring: Brier, Brier skill against the base rate, log loss, calibration bins. |
 
-`node --test test.mjs` runs 16 unit tests, including synthetic judges: an oracle,
-an always-A judge, and a random judge must produce their known signatures.
+`node --test test.mjs test-machinery.mjs` runs 23 unit tests. They include synthetic
+judges: an oracle, an always-A judge, and a random judge must produce their known
+signatures.
 
 ## CONTRACT-1 on the archives
 
@@ -141,7 +175,7 @@ B-versus-B preferences gate only if Fleiss κ ≥ 0.6.
 ## Reproduce
 
 ```sh
-node --test test.mjs
+node --test test.mjs test-machinery.mjs
 node validate-contracts.mjs --out=results/contract-validation.json
 JUDGE_SEED=dry-run node build-judge-package.mjs --out=/tmp/judge-package --sealed=/tmp/judge-sealed --bases=2 --levels=3
 ```

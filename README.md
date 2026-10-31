@@ -39,6 +39,13 @@ A length pass is only one requirement. Render the exact code across a meaningful
 - [Discovery state](references/discovery-state.md) provides optional reproducible bookkeeping for resumable searches and experiments. Create state with the CLI's `init` command.
 - [Compression promotion](references/compression-promotion.md) explains visual selection, compression survival and fallback.
 - [Autonomous discovery prototype](prototypes/autonomous-discovery/README.md) is a separate research runtime. It does not implement the final golf boundary and is not required to use the skill.
+- [Experiment instruments](experiments/autonomous-instruments-v1/README.md) support autonomous studies:
+  - executable brief contracts;
+  - judge-panel validation;
+  - power checks, forecast registry and brief bank;
+  - a study template.
+
+  The [learning-progress review](references/learning-progress-review.md) explains why each exists.
 
 ## Evidence and limits
 

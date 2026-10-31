@@ -358,6 +358,15 @@ redesigned or skipped.
 
 ## 6. Process changes
 
+The [study template](../experiments/autonomous-instruments-v1/study-template/protocol.md)
+encodes these rules as runnable preregistration checks:
+
+- `forecasts.mjs` handles forecasts and their scoring;
+- `brief-bank.mjs` validates and seals briefs and contracts;
+- `power.mjs` checks a design's power and exits non-zero when it is too low.
+
+CI keeps the tools tested.
+
 1. **Separate the powers.** Brief author, solver, judges, and auditor run in
    different sessions. Judges never see authoring context and never judge their
    own outputs. Structure supplies the independence that shared context removed.
