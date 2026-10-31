@@ -57,3 +57,27 @@ jobs:
         run: node scripts/test-discovery-state.mjs
       - name: Run PNG decoder regression
         run: node --test scripts/test-png.mjs
+
+  experiment-instruments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run instrument and machinery tests
+        run: node --test experiments/autonomous-instruments-v1/test.mjs experiments/autonomous-instruments-v1/test-machinery.mjs
+      - name: Run length forecaster tests
+        run: node --test experiments/compressibility-forecast-retrospective-v1/test.mjs
+      - name: Check the forecast retrospective reproduces
+        working-directory: experiments/compressibility-forecast-retrospective-v1
+        run: |
+          node analyze.mjs > /dev/null
+          git diff --exit-code -- results.json mechanical-posts
+      - name: Smoke-run every brief contract
+        working-directory: experiments/autonomous-instruments-v1
+        run: node validate-contracts.mjs --smoke
+      - name: Validate the brief-bank fixture
+        working-directory: experiments/autonomous-instruments-v1
+        run: node brief-bank.mjs validate test-fixtures/brief-bank
