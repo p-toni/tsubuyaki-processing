@@ -1,20 +1,22 @@
-# Roadmap review — maximizing learning progress
+# Roadmap review — maximizing learning progress, autonomously
 
 *Review of the [research roadmap](research-roadmap.md) and experiment portfolio at
-`2b79bc9` (2026-10-31). These are recommendations; the roadmap is unchanged.
-Numbers computed here are descriptive statistics on consumed archives. They
-change no recorded grade, selection, or decision.*
+`2b79bc9` (2026-10-31), under the constraint that experiments run with **no human
+involvement**. These are recommendations; the roadmap is unchanged. Numbers
+computed here are descriptive statistics on consumed archives. They change no
+recorded grade, selection, or decision.*
 
 ## Summary
 
 The project has built an excellent **vault** — preregistration, hashes, sealed
-keys, closed populations — around a weak **thermometer**. Learning speed is now
-limited by what the studies can measure, not by how safely they store it.
+keys, closed populations — around a weak **thermometer**. With no human available
+as a reference, the thermometer has to be calibrated the way thermometers are
+calibrated without one: against **fixed points**, cases whose answer is known by
+construction.
 
-1. **The outcome measure is unvalidated.** The October studies replaced blinded
-   human pairs with same-agent grades. Model-mediated artistic judges were tested
-   prospectively twice and agreed with the human on 7/24 and 12/24 pairs. Every
-   October delivery was graded B and no October candidate received an A. The
+1. **The outcome measure is uncalibrated.** October gates rest on same-agent
+   grades that were never tested for consistency or sensitivity. Every October
+   delivery was graded B and no October candidate received an A. The
    compact-preflight gate failed on one such judgment (Wake).
 2. **The length outcome was forecastable for free.** A mechanical, idiom-free
    minification of the readable source predicts the agent's compact length at
@@ -23,17 +25,18 @@ limited by what the studies can measure, not by how safely they store it.
    0/5 across 10 attempts. The minification alone, audited exact over 720 frames,
    already fits for 10 of the 15 October deliveries. Under exact-equivalence
    compaction, length is decided while authoring, not while golfing.
-3. **The gates could rarely pass, even for a real effect.** If a treatment truly raised delivery from 50%
-   to 75%, the feedback-value gate would pass 14% of the time and the
-   compact-preflight gate 34% (upper bounds; [gate-power.mjs](../experiments/compressibility-forecast-retrospective-v1/gate-power.mjs)).
-   Against that alternative, a failed gate carries likelihood ratios of only 0.89
-   and 0.76.
-4. **Shared context is a choice.** Fresh sessions per arm and a separate blind
-   judge would remove the contamination every October README discloses, and make
-   cost measurable.
-5. **Next:** calibrate the judge against the human (≈30 human minutes), measure the
-   golf ceiling on closed failures, build a held-out difficulty-stratified brief
-   bank with an A/A baseline, then spend intervention studies on the frontier.
+3. **The gates could rarely pass, even for a real effect — and autonomy is the
+   cure.** Allowing for briefs that differ in difficulty, the feedback-value rule
+   passes 9% of the time if a treatment adds 25 points of delivery. Without human
+   time as the bottleneck, 24 briefs × 3 isolated runs per arm reach about 95%
+   power at an 11% false-pass rate ([gate-power.mjs](../experiments/compressibility-forecast-retrospective-v1/gate-power.mjs)).
+4. **Independence must come from structure.** Brief author, solver, judges, and
+   auditor belong in separate sessions. Requirements that can be specified become
+   executable contracts; a validated model panel judges only what remains.
+5. **Next, all on existing archives and without new solver runs:** validate a
+   judge panel, build executable brief contracts, measure the golf ceiling. Then
+   run a sealed, stratified benchmark at power and spend intervention studies on
+   the frontier.
 
 ## 1. What learning progress means operationally
 
@@ -43,38 +46,40 @@ four questions before freezing any protocol:
 | Test | Failure mode it prevents |
 | --- | --- |
 | **Forecastable?** Write the expected outcome per arm and brief. | Running a study whose answer was already known. |
-| **Valid instrument?** The outcome measure has demonstrated agreement with the artistic authority on this surface. | Precise measurement of the wrong thing. |
+| **Valid instrument?** The outcome measure is consistent and passes known-answer controls on this surface. | Precise measurement of noise or of the wrong thing. |
 | **Powered?** Compute the gate's pass probability under the null and under the smallest effect worth adopting. | A gate that fails whether or not the treatment works. |
 | **Frontier?** Target tasks where baseline success is intermediate, roughly 30–70%. | Ceiling tasks always pass; floor tasks always fail; both teach little. |
 
 The last test is the "Goldilocks" principle from learning-progress-driven
 curricula: competence improves fastest, and is most measurable, where it is
-neither saturated nor absent.
+neither saturated nor absent. A fully autonomous program can apply it to itself
+(CURRICULUM-1).
 
 ## 2. Portfolio diagnosis
 
 | Era | Studies | Outcome measure | Yield |
 | --- | --- | --- | --- |
-| Search runtime, through September 3 | ~100 experiment folders, 65 CI workflows | Mechanical proxies, with human gates at the end of chains | Of 8 interventions that reached a blinded human artistic gate, **2 passed**. The [complete workflow audit](../research-results/complete-workflow-audit-v2/results.md) then found 12/12 simple deliveries versus 0/12 for the research workflow. |
+| Search runtime, through September 3 | ~100 experiment folders, 65 CI workflows | Mechanical proxies, with outcome gates at the end of chains | Of 8 interventions that reached a blinded human artistic gate, **2 passed**. The [complete workflow audit](../research-results/complete-workflow-audit-v2/results.md) then found 12/12 simple deliveries versus 0/12 for the research workflow. |
 | Compact material, September 6–7 | 3 | 12 blinded human pairs each | **High.** Decisive results in two days: [SHEAR3 0/12](../research-results/compact-symplectic-material-v1/results.md), [PHASEPACK 2/10](../research-results/phase-native-material-v1/results.md), [MIXED12 4/12](../research-results/compact-material-grammar-portfolio-v1/results.md). |
-| Agent loop, October 24–31 | pilot, feedback, preflight, Pulse vessel | Same-agent grades, 3–6 briefs | **Low per study.** Gates with 14–34% power, forecastable length outcomes, an uncalibrated judge. |
+| Agent loop, October 24–31 | pilot, feedback, preflight, Pulse vessel | Same-agent grades, 3–6 briefs | **Low per study.** Low-power gates, forecastable length outcomes, an uncalibrated judge. |
 
-The October pivot rightly moved from proxies to the end-to-end task. It also
-dropped the project's own earlier rule — "Human review remains the artistic
-authority" — that the September studies applied so efficiently. *Autonomy
-describes how the loop operates, not who measures it.* A blinded rating after a
-run is measurement, not rescue.
+The October pivot rightly moved to the end-to-end task and to unattended
+operation. What it skipped is instrument validation. The project already knows
+how to validate an instrument that has no ground truth: when pixel MAE failed,
+the measurement-rehabilitation phase (#64–#67 in the
+[earlier roadmap](../experiments/ROADMAP.md)) required that a metric "must first
+defeat adversarial controls before it is allowed to evaluate search algorithms".
+The artistic judge never went through that phase.
 
-The September studies also left a consistent human signal: at compact scale,
-added material complexity lost to the smoother native form three times. The
-model's Wake judgment penalized the compact construction for losing "material and
-exciter expression". Material richness is exactly the axis on which the human
-preferred the simpler form. Whether the human agrees about Wake is unknown and
-cheap to find out (CAL-1).
+Two earlier lessons transfer without any human. A decisive outcome measure with a
+dozen or more comparisons answers within days, as in September. And an outcome
+gate placed first saves the mechanical work that end-of-chain gates later
+invalidated, as in the search-runtime era.
 
-Rigor is also unevenly allocated. `feedback-value-v1` archives 1,051 files (62 MB)
-— including playback, pause/resume, and mobile-overflow gallery checks — to
-support six pair outcomes graded by an uncalibrated judge.
+Rigor is also unevenly allocated, and autonomy multiplies the cost.
+`feedback-value-v1` archives 1,051 files (62 MB), including playback,
+pause/resume, and mobile-overflow gallery checks, to support six pair outcomes
+graded by an uncalibrated judge.
 
 ## 3. New evidence: length is decided at authoring time
 
@@ -119,9 +124,9 @@ candidate is a golf question until GOLF-1 says otherwise.
 | Study | Established | Limited by | Verdict |
 | --- | --- | --- | --- |
 | [Discovery pilot](../experiments/autonomous-discovery-pilot-v1/README.md) | The simple loop runs end to end on three representations | Green-zone briefs (forecasts 234–247); self-grades | Right first step; outcome was predictable |
-| [Feedback value](../experiments/feedback-value-v1/README.md) | Feedback improves readable studies, not deliveries | 14% gate power; revisions pushed two briefs into red; ties; shared context | Its real finding is feedback's length price |
-| [Compact preflight](../experiments/compact-preflight-v1/README.md) | Representation change rescued 2 of 3 red sources | Late arm predetermined; early arm knew the late trajectory; gate decided by one uncalibrated judgment | Informative content is the rescue rate and the Wake judgment; the latter needs human calibration |
-| Compact material trio | Shallow compact enrichment loses to native | — | Exemplary information per cost; reuse the template |
+| [Feedback value](../experiments/feedback-value-v1/README.md) | Feedback improves readable studies, not deliveries | Low gate power; revisions pushed two briefs into red; ties; shared context | Its real finding is feedback's length price |
+| [Compact preflight](../experiments/compact-preflight-v1/README.md) | Representation change rescued 2 of 3 red sources | Late arm predetermined; early arm knew the late trajectory; gate decided by one uncalibrated judgment | Informative content is the rescue rate; the Wake judgment needs a validated panel |
+| Compact material trio | Shallow compact enrichment loses to native | — | Exemplary information per cost; reproduce its decisiveness with a validated panel and larger n |
 | [Pulse vessel](../experiments/compact-representation-v1/protocol.md) (in flight) | Not yet run | See below | Amend before the first render |
 
 ### Pulse vessel, before anything is rendered
@@ -142,56 +147,103 @@ costs no evidence. The study as frozen has low expected information:
   about representation.
 - **The success criterion is self-judged.**
 
-Recommended amendment, committed before the first render: make a blind human pair
-the success authority (best R1 versus best R2 readable; delivery versus best
-readable); record forecasts after the selection freeze as a calibration point; log
-session cost. Either apply R2's squeeze inside the field — for example a moving
-local term in the distance product before thresholding — or record the convergence
-as a limitation. Treat the result as a shakedown of these instruments, not as
-evidence for the active priority. This review did not render its candidates and
-records no count or forecast for them. A forecast was computed in scratch before
-the boundary was noticed; it was not kept and is not reported. The committed
-forecast tool refuses these sources until `selection.json` exists.
+Recommended amendment, committed before the first render:
+
+- An executable contract for the brief, written in a separate session from the
+  brief text alone and frozen before rendering. Validate it against adversarial
+  programs built from the brief's own failure list: global scaling, rigid motion,
+  unrelated flashing, a decorative traveling stripe, disconnected blobs, and a
+  break at the waist. These are new programs, so building them observes nothing
+  about R1 or R2.
+- Self-grades remain, labeled provisional, until a JUDGE-1 panel exists.
+- Forecasts recorded after the selection freeze as a calibration point, plus
+  session cost.
+- R2's convergence either fixed — for example, a moving local term in the
+  distance product before thresholding — or recorded as a limitation.
+
+Treat the result as a shakedown of these instruments, not as evidence for the
+active priority. This review did not render its candidates and records no count
+or forecast for them. A forecast was computed in scratch before the boundary was
+noticed; it was not kept and is not reported. The committed forecast tool refuses
+these sources until `selection.json` exists.
 
 ## 5. Proposed experiments, ranked by information per cost
 
-### CAL-1 — Calibrate the self-judge against the human
+Every study below runs without human involvement.
 
-*About 30 human minutes; no new candidates.*
+### JUDGE-1 — Validate a judge panel before it gates anything
 
-**Question.** Do the agent's frozen pairwise judgments on the October surface agree
-with a blinded human?
+*Archived candidates plus programmatic degradations; judge sessions only.*
 
-**Design.** About 20 archived pairs whose model judgment is already committed in
-`decisions.md`, `selection.json`, or `candidate-reviews.json`, rendered as
-side-by-side 12-second clips:
+**Question.** Which distinctions can a model judge panel make reliably on this
+surface?
 
-- *Consequential pairs:* Wake early v4 / late v2 (the gate-deciding judgment);
-  Thread early v4 / late v2; Aperture early v3 / late v2; Twist adaptive v2 /
-  batch v4; Twist batch v4 / v3; Divert adaptive v3 / batch v4; Weave adaptive v4
-  / batch v3; Exchange adaptive v4 / batch v2; Exchange adaptive v4 / v3 (the
-  merged surface that lost two-body identity).
-- *Repair pairs (C → B), as attention checks:* late v1 / v2 for Thread, Relay,
-  and Wake; pilot Fronds and Gather v1 / v2.
-- *Four side-flipped repeats* of consequential pairs, measuring position bias and
-  test–retest consistency. The earlier replacement study's 20/24 side-B human
-  wins makes this worth checking.
+Without a human, some model judge is unavoidable: the October self-grades already
+are one. JUDGE-1 makes that judge explicit and tests it. Using a judge to
+evaluate finished runs is distinct from using one as a search objective, which
+stays parked.
 
-Use the existing reviewer and sealed-key mechanics and commit ratings before
-unblinding. Record whether the reviewer recognizes a pair from the published
-galleries.
+**Design.**
 
-**Frozen rule.** The self-judge may serve as a provisional screen only with at least
-75% agreement on decisive consequential pairs and no reversal of a gate-deciding
-judgment. Otherwise blinded human pairs become mandatory for every artistic gate.
+- *Panel.* Three judges, each in a fresh session with no authoring context, using
+  at least two different models and two evidence formats: a 16-frame contact
+  sheet and a motion sheet of frame differences. Sides are randomized and every
+  pair is shown in both orders.
+- *Fixed points.* Archived B-grade readable sources paired with programmatic
+  degradations at graded strength, applied through the same instrumented runtime
+  the auditor uses: drop a fraction of points, add positional jitter, freeze or
+  strobe time, flatten shading, push the framing toward an edge, and — once
+  contracts exist — violate a named requirement. The better side is known by
+  construction, so no taste is needed to score it.
+- *Real pairs.* The archived consequential pairs (Wake, Thread, Aperture, Twist,
+  Divert, Weave, Exchange) measure inter-judge agreement. The panel also re-judges
+  the frozen October verdicts, which annotates them without reopening their
+  populations.
 
-**Either way** it decides what every later study can use as its outcome, and
-answers whether Wake was an artistic loss to the human. The judgments in those
-closed populations remain recorded as they are; the calibration annotates them.
+**Output.** A versioned **judge card**: flip consistency, known-answer accuracy as
+a function of degradation strength, inter-judge agreement, and the resulting
+resolution.
+
+**Frozen rule.** A panel may gate only distinctions on which it shows at least 90%
+flip consistency and at least 90% known-answer accuracy. Fine B-versus-B
+preferences may gate only if inter-judge agreement reaches κ ≥ 0.6; otherwise
+they are reported descriptively.
+
+**Decision.** What every later study may use as its quality outcome, and whether
+the Wake verdict that failed compact-preflight survives a validated panel.
+
+### CONTRACT-1 — Make brief adherence executable
+
+*Archived briefs and candidates; no new solver runs.*
+
+**Question.** How much of brief adherence can be verified from the exact point
+stream instead of judged?
+
+**Design.** For each of the 13 archived October briefs, a separate session writes
+property tests from the brief text alone. They run over the per-frame points and
+rasters that the archived auditor already produces. Examples: silhouette
+connectivity, localized rather than global change, the travel path of the change
+centroid, ordered response peaks, lag between drive and response, anchored
+boundaries, and occlusion order by rendering with and without a layer. Where a
+requirement needs roles (exciter versus membrane), require a declared probe and
+cross-check it against the render, as the existing math-family probe convention
+does. Validate each contract on:
+
+- archived candidates judged to meet their requirements;
+- candidates judged unmet — for example Aperture v1, which the agent first passed
+  although its opening never closed;
+- adversarial variants built from each brief's own listed failure modes, such as
+  "a ridge that simply moves in lockstep with the exciter".
+
+**Output.** A contract library and, for each requirement, whether it is
+executable, partly executable, or judgment-only.
+
+**Decision.** Executable requirements become objective gates; the panel handles
+only the residual.
 
 ### GOLF-1 — Golf ceiling on closed failures
 
-*Agent only; one session; diagnostic.*
+*One solver session; diagnostic.*
 
 **Question.** In the amber and red zones, is the two-attempt cap or the
 representation binding?
@@ -206,15 +258,17 @@ because they need no rendering — lift the amber zone, and the compact-attempt
 budget should change. Near 0.80 or above, representation is binding and effort
 belongs entirely in authoring.
 
-### BENCH-1 — Held-out, stratified brief bank with an A/A baseline
+### BENCH-1 — Sealed, stratified brief bank with replicated runs
 
-*16 isolated agent runs; about 15 human minutes.*
+*36 solver sessions for the development set.*
 
 **Question.** What is the baseline's success rate per difficulty stratum, and how
-noisy is one run?
+much does one run vary?
 
-**Design.** A separate session, or the human, authors 16 briefs in four structural
-strata and hash-seals them:
+**Design.** A brief-author session — preferably a different model or prompt from
+the solver — writes 24 briefs. Each comes with an executable contract, a reference
+solution that proves feasibility, and adversarial negatives. They are hash-sealed
+and split into 12 development and 12 test briefs across four structural strata:
 
 | Stratum | Structure | Archived examples |
 | --- | --- | --- |
@@ -223,96 +277,127 @@ strata and hash-seals them:
 | S3 | two coupled actors, or an actor and a medium | Wake, Exchange, Divert |
 | S4 | depth order or occlusion | Aperture, Thread, Weave, Twist |
 
-Split them into eight development and eight sealed test briefs. Run the unchanged
-skill twice on each development brief in fresh sessions. Record forecast
-trajectories, delivery, self-grades, and session cost. The human gives each
-delivery a binary *keep* judgment — the primary outcome the
-[complete workflow audit](../experiments/complete-workflow-audit-v2/README.md)
-already defined — and judges each A/A pair.
+The unchanged skill runs each development brief three times in fresh sessions.
+Scores are exact verification and length, contract pass, panel judgment at its
+validated resolution, and session cost. The reference solution's forecast gives
+each brief an independent difficulty score.
 
-**Outputs.** A competence map by stratum; the A/A disagreement rate, which sizes
-every later gate; cost per kept result. The strata are themselves a hypothesis
-about difficulty, and this tests it. Rerun the development set after each skill
-change to get a learning curve. Open the test set only at milestones.
+**Outputs.** Per-brief success probability and a competence map by stratum;
+run-to-run variance, which sizes later gates; cost per verified, contract-passing
+delivery. The strata are themselves a hypothesis about difficulty, and this tests
+it. Rerun the development set after each skill change for a learning curve. Open
+the test set only at milestones.
 
 ### GAUGE-1 — Does seeing the forecast while authoring help?
 
 *S3/S4 briefs; two isolated arms.*
 
 **Question.** Does a visible length gauge during readable exploration raise
-human-judged kept deliveries, or cause the self-censorship seen in Wake?
+verified deliveries without lowering quality, or cause the self-censorship seen
+in Wake?
 
 **Design.** The baseline arm hides counts until selection, as now. The gauge arm
 sees the forecast after each readable candidate. Both use the same budgets. The
-outcome is blinded human keep judgments, plus a forced preference when both arms
-deliver.
+primary outcome is the rate of verified, contract-passing deliveries; the
+secondary outcome is panel preference at its validated resolution; cost is
+recorded.
+
+**Size.** Briefs × three runs per arm, set from BENCH-1's variance. As an anchor,
+12 briefs reach about 76% power for a 25-point gain and 24 briefs about 95%, with
+an 11% false-pass rate.
 
 **Decision.** Keep the "art first, count later" rule in [SKILL.md](../SKILL.md) and
 [compression promotion](compression-promotion.md) with fresh evidence, or replace
 it with authoring against a gauge.
 
-**Size.** Use BENCH-1's noise floor. As a planning anchor, 12 decisive human
-comparisons give about 65% power at a true 3:1 preference; 24 give about 88%.
-
 ### CONS-1 — A construction bank for expressiveness per character
 
 **Question.** Does a short reference of compact constructions mined from this
-project's own successes raise S3/S4 delivery without a human-judged loss? Examples
-include a shared sampler with visibility selection (Aperture v3), a highlighted
-actor on a shared field (Wake v4), a common pulse delayed by identity (Relay), and
-index-partitioned roles that share formulas. The bank should also record where a
-construction cost identity, as in Exchange v3's merged surface.
+project's own successes raise S3/S4 delivery without a loss in panel-judged
+quality? Examples include a shared sampler with visibility selection
+(Aperture v3), a highlighted actor on a shared field (Wake v4), a common pulse
+delayed by identity (Relay), and index-partitioned roles that share formulas. The
+bank should also record where a construction cost identity, as in Exchange v3's
+merged surface.
 
-**Design.** Same as GAUGE-1, or a 2×2 with it if budget allows. An interaction is
-plausible: the bank probably matters most when the gauge shows the need.
+**Design.** Same as GAUGE-1, or a 2×2 with it. An interaction is plausible: the
+bank probably matters most when the gauge shows the need.
 
 **Decision.** Add the bank to the skill references or close it.
 
+### CURRICULUM-1 — Let the program choose its next briefs
+
+*After contracts and a judge card exist.*
+
+A generator session proposes new briefs with contracts. The program tracks success
+by stratum across skill versions and allocates new briefs where success is
+intermediate and changing. The meta-question is whether the development-set
+learning curve rises faster than under uniform brief sampling at equal compute.
+This is the autonomous form of maximizing learning progress. The sealed test set
+stays outside the curriculum.
+
 ### Recorded alongside every study
 
-Commit a `forecasts.json` with predicted delivery and preference per arm and brief
-before any run, and score it afterward with a Brier score. Forecast skill over
-successive studies is the research program's own learning curve. A study whose
-outcome can be forecast confidently should be redesigned or skipped.
+Before any run, the research session commits a `forecasts.json` with predicted
+delivery, contract pass, and preference per arm and brief. Afterward, score it
+with a Brier score. Forecast skill over successive studies is the program's own
+learning curve. A study whose outcome can be forecast confidently should be
+redesigned or skipped.
 
 ## 6. Process changes
 
-1. **The human is the thermometer; the agent operates the loop.** Use blinded human
-   pairs or within-brief rankings as gate outcomes; use model grades for triage.
-2. **Isolate arms in fresh sessions, and judge in another.** This separates two
-   kinds of independence the roadmap merges. A separate session cannot make taste
-   independent, but it removes authorship, ordering, and memory contamination, and
-   it blinds the judge to arm identity.
-3. **Check power before freezing a gate.** Reject gates with less than 50% pass
-   probability at the smallest effect worth adopting.
-4. **Use two rigor tiers.** Screening studies: forecasts, human pairs or rankings,
-   and exact verification of delivered posts. Confirmation and promotion: the full
-   current custody. Clips, galleries, and playback QA are publication polish.
-5. **Put the human gate first in any chain.** Two of eleven interventions survived
-   it; screen before mechanical confirmation.
-6. **Closed is not unreadable.** Keep the rule against tuning or rescoring closed
+1. **Separate the powers.** Brief author, solver, judges, and auditor run in
+   different sessions. Judges never see authoring context and never judge their
+   own outputs. Structure supplies the independence that shared context removed.
+2. **Execute before judging.** Every requirement that can be a contract is one;
+   the panel decides only the residual.
+3. **No gate without a judge card.** Validate the panel first, then version and
+   freeze it per study. Keep a development panel for iteration and a separate test
+   panel for decisions, so the solver is never tuned against its own examiner.
+4. **Size by power, not by convenience.** Compute is now the binding cost. Reject
+   gates with less than 50% pass probability at the smallest effect worth adopting.
+5. **Use two rigor tiers.** Screening studies: forecasts, contracts, panel
+   judgments, and exact verification of delivered posts. Confirmation and
+   promotion: the full current custody. Clips, galleries, and playback QA are
+   publication polish; at autonomous scale they become the dominant cost.
+6. **Put the outcome gate first in any chain.** Two of eleven interventions
+   survived it historically; screen before mechanical confirmation.
+7. **Closed is not unreadable.** Keep the rule against tuning or rescoring closed
    populations. Allow labeled mechanism diagnostics that cannot change a recorded
    outcome, following the delivery-exposure diagnostic in the compact-grammar
-   study. The retrospective above and GOLF-1 are such diagnostics.
-7. **Separate brief authorship from solving.** Briefs should come from another
-   session or the human and stay sealed until run.
+   study. The retrospective above, GOLF-1, and the archival parts of JUDGE-1 and
+   CONTRACT-1 are such diagnostics.
+8. **Label every claim by its instrument:** mechanically verified,
+   contract-verified, or panel-judged with a version.
 
-## 7. Keep, stop, park
+## 7. What full autonomy can and cannot establish
+
+It can establish delivery reliability, contract-verified brief adherence, cost,
+robustness, transfer across strata, and panel-judged preference with known
+consistency. It cannot establish that people would find the work worthwhile.
+Earlier prospective tests found model and human choices diverging on this
+project's surfaces (7/24 and 12/24 agreement), so panel-judged quality is a model
+standard, not a proxy for human taste. That is a legitimate operating definition;
+the [README](../README.md) already requires keeping it distinct from human
+validation.
+
+## 8. Keep, stop, park
 
 - **Keep:** preregistration and freezing; sealed keys; closure of negative branches;
   candid limitations; exact verification of delivered posts; the simple loop as
   baseline.
-- **Stop:** model-only artistic gates; three- to six-brief gates with low power;
-  gallery and playback QA in screening studies; briefs, arms, and grades authored
-  in one shared context.
-- **Park, unchanged:** learned search operators, automatic aesthetic judges, more
-  filament machinery, and the research runtime as default.
+- **Stop:** self-graded gates; gates on distinctions finer than the panel's
+  validated resolution; briefs, arms, and grades authored in one shared context;
+  three- to six-brief gates with low power; gallery and playback QA in screening
+  studies.
+- **Park, unchanged:** learned search operators, automatic aesthetic judges as
+  search objectives, more filament machinery, and the research runtime as default.
 
 ## Suggested sequence
 
 | Step | Work | Decision it unlocks |
 | --- | --- | --- |
-| 1 | CAL-1, GOLF-1, and the Pulse vessel amendment, in parallel | Outcome measure; compact-attempt budget |
-| 2 | BENCH-1 development set with A/A runs | Noise floor; gate sizes; target strata |
-| 3 | GAUGE-1, optionally crossed with CONS-1, on S3/S4 | Authoring policy in the skill |
-| 4 | Sealed test set | First clean capability estimate per stratum |
+| 1 | JUDGE-1, CONTRACT-1, and GOLF-1 on archives, in parallel; Pulse vessel amendment | Quality outcome and its resolution; executable adherence; compact-attempt budget |
+| 2 | BENCH-1 development set, three runs per brief | Run-to-run variance; competence map; gate sizes |
+| 3 | GAUGE-1, optionally crossed with CONS-1, on S3/S4 at power | Authoring policy in the skill |
+| 4 | Sealed test set, then CURRICULUM-1 | Capability estimate per stratum; autonomous experiment allocation |
