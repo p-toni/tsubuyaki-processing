@@ -1,0 +1,52 @@
+{
+  "briefFrozenAtUTC": "2026-11-16T23:38:54.092213+00:00",
+  "briefSha256": "d4f982e33ae8b33ca92dca8252ad1b020a11db73249c6b544cf05fdaa466d815",
+  "baseCommit": "2b79bc961afbd715fa600db1fbec0c66d2dd77c7",
+  "maxReadable": 2,
+  "maxCompact": 2,
+  "initialSource": {
+    "path": "v1.js",
+    "sha256": "f4fe4bdf57c13342e111d4f265ce8ff3a3e157558b754ebf23d8a44a59a299e4",
+    "writtenAtUTC": "2026-11-16T23:39:25.550516+00:00"
+  },
+  "v1Review": {
+    "reviewedAtUTC": "2026-11-16T23:41:27.908940+00:00",
+    "grade": "B",
+    "requirements": "Travel, relaxation, steady ends and shared silhouette/light are legible.",
+    "observation": "Deep ribs open, travel and settle. Large quiet areas read flat. The silhouette ribs separate into dots at full size.",
+    "evidence": [
+      "v1-review.jpg",
+      "frame 193 at 400 x 400"
+    ],
+    "compactCountsSeen": false
+  },
+  "revision": {
+    "path": "v2.js",
+    "sha256": "71a2e0e40c7828923e29973d93611d95a929e9071d7fc32be0f7a9f11ae7e715",
+    "reason": "Increase transverse sampling, retain a shallow standing pleat, and set two six-second passes for continuous playback."
+  },
+  "selection": {
+    "timeUTC": "2026-11-16T23:42:52.238175+00:00",
+    "readable": "v2.js",
+    "sha256": "71a2e0e40c7828923e29973d93611d95a929e9071d7fc32be0f7a9f11ae7e715",
+    "grade": "B",
+    "reviewer": "authoring agent; provisional visual judgment",
+    "preferredOver": "v1.js",
+    "reasons": [
+      "The quiet end retains a shallow crease. The body reads as a folded skin between the traveling pulses.",
+      "The denser sample lines strengthen the gold ridges and violet valleys when the silhouette widens. Some openings remain at the outermost ribs."
+    ],
+    "requirements": {
+      "travel": "Deepest folds move from the lip at frame 1 through the upper wall at 97, the broad middle at 145\u2013193 and the lower wall at 241\u2013289.",
+      "relaxation": "Shallow creases remain after the deeper ones pass.",
+      "ends": "Both rim centers stay visually fixed.",
+      "sharedLightAndContour": "The bright ribs and darker valleys move with the silhouette."
+    },
+    "evidence": [
+      "v2-review.png (16 times)",
+      "400-square frame 145",
+      "24 sequential samples of the first six seconds of the encoded readable clip at 4 fps"
+    ],
+    "compactCountsSeen": false
+  }
+}
