@@ -1,0 +1,74 @@
+[
+  {
+    "reviewedAtUTC": "2026-10-31T11:10:40.631358+00:00",
+    "representation": "R1",
+    "version": "v1",
+    "sourceSha256": "4eb2554312c7405584c2c9dc9b59ff05fc4614e851f82b0ea201ec7186d50e90",
+    "provisionalGrade": "C",
+    "gradeConfidence": "provisional",
+    "requirements": {
+      "single_connected_body": "met",
+      "two_rounded_chambers": "met",
+      "traveling_local_contraction": "met",
+      "relaxation": "met",
+      "causal_deformation": "met"
+    },
+    "note": "The squeeze, continuity and relaxation are legible, but the straight body and uniform bright surface read as a bow-tie demonstration. Add contraction-driven folds and coherent surface depth on a curved body.",
+    "compactCountsSeen": false,
+    "nextAction": "One observation-led revision; no compact attempt."
+  },
+  {
+    "reviewedAtUTC": "2026-10-31T11:10:40.631581+00:00",
+    "representation": "R2",
+    "version": "v1",
+    "sourceSha256": "7107a5400e031ae4bd476e520e5bec3f0552614213af45bd007c12137f1217ff",
+    "provisionalGrade": "C",
+    "gradeConfidence": "provisional",
+    "requirements": {
+      "single_connected_body": "met",
+      "two_rounded_chambers": "uncertain",
+      "traveling_local_contraction": "met",
+      "relaxation": "met",
+      "causal_deformation": "met"
+    },
+    "note": "The body remains connected and deforms locally, but faint flat lighting obscures its volume. Use the actual surface gradient for lighting, improve opaque sample coverage, and compose the body diagonally.",
+    "compactCountsSeen": false,
+    "nextAction": "One observation-led revision; no compact attempt."
+  },
+  {
+    "reviewedAtUTC": "2026-10-31T11:12:52.623678+00:00",
+    "representation": "R1",
+    "version": "v2",
+    "sourceSha256": "ddfa42272fd4d17d038dfd80434a7e30fcd5cd90ca4a8c5a2da9e4b744869497",
+    "provisionalGrade": "B",
+    "gradeConfidence": "lower",
+    "requirements": {
+      "single_connected_body": "met",
+      "two_rounded_chambers": "met",
+      "traveling_local_contraction": "met",
+      "relaxation": "met",
+      "causal_deformation": "met"
+    },
+    "note": "The same traveling squeeze gathers local folds; the curved body and oblique front surface give the response coherent material expression. The connected waist, visiting squeeze, and relaxation are legible across sampled times. Rim sampling artifacts reduce finish, so this remains a provisional study rather than A work.",
+    "compactCountsSeen": false,
+    "nextAction": "Attempt exact compression."
+  },
+  {
+    "reviewedAtUTC": "2026-10-31T11:12:52.623678+00:00",
+    "representation": "R2",
+    "version": "v2",
+    "sourceSha256": "21cf7bfb404a2076d7be1e553e9c5a29c66de905085a3d9da5b7212221e0d3bf",
+    "provisionalGrade": "C",
+    "gradeConfidence": "provisional",
+    "requirements": {
+      "single_connected_body": "met",
+      "two_rounded_chambers": "met",
+      "traveling_local_contraction": "met",
+      "relaxation": "met",
+      "causal_deformation": "met"
+    },
+    "note": "Actual field normals and the diagonal pose improve volume. The result still reads as a smooth pinching demonstration, and a visibly darker rectangular sampling area remains around it. All causal brief requirements are now legible, but it is not promoted artistically.",
+    "compactCountsSeen": false,
+    "nextAction": "Stop; no eligible candidate."
+  }
+]

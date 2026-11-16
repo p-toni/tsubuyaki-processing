@@ -1,0 +1,90 @@
+{
+  "selectedAtUTC": "2026-10-31T11:12:52.623678+00:00",
+  "reviewer": "same primary author, shared context, model-only and not blinded",
+  "protocolSha256": "a30352456ac026baf0e626951fd948e9193a091c3a7cd61d4a3eb18e504ff50d",
+  "reviewSha256": "d32fcc30733adec10e14c74e7b3093c7a8405b80bec8f8e5dc2faa1e6b3de831",
+  "compactCountsSeen": false,
+  "preferredReadableIncumbent": {
+    "representation": "R1",
+    "version": "v2",
+    "preference": "R1",
+    "confidence": "provisional",
+    "reason": "Contraction-driven folds add coherent local material response; the implicit candidate remains a demonstration with a visible background patch."
+  },
+  "selected": [
+    {
+      "representation": "R1",
+      "version": "v2",
+      "sourceSha256": "ddfa42272fd4d17d038dfd80434a7e30fcd5cd90ca4a8c5a2da9e4b744869497",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "requirements": {
+        "single_connected_body": "met",
+        "two_rounded_chambers": "met",
+        "traveling_local_contraction": "met",
+        "relaxation": "met",
+        "causal_deformation": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": true,
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    },
+    {
+      "representation": "R2",
+      "version": "v2",
+      "sourceSha256": "21cf7bfb404a2076d7be1e553e9c5a29c66de905085a3d9da5b7212221e0d3bf",
+      "provisionalGrade": "C",
+      "gradeConfidence": "provisional",
+      "requirements": {
+        "single_connected_body": "met",
+        "two_rounded_chambers": "met",
+        "traveling_local_contraction": "met",
+        "relaxation": "met",
+        "causal_deformation": "met"
+      },
+      "allBriefRequirementsMet": true,
+      "deliveryEligible": false,
+      "generatedVersions": [
+        "v1",
+        "v2"
+      ],
+      "fallbacks": []
+    }
+  ],
+  "sourceArchive": [
+    {
+      "source": "R1/v1.js",
+      "sha256": "4eb2554312c7405584c2c9dc9b59ff05fc4614e851f82b0ea201ec7186d50e90"
+    },
+    {
+      "source": "R1/v2.js",
+      "sha256": "ddfa42272fd4d17d038dfd80434a7e30fcd5cd90ca4a8c5a2da9e4b744869497"
+    },
+    {
+      "source": "R2/v1.js",
+      "sha256": "7107a5400e031ae4bd476e520e5bec3f0552614213af45bd007c12137f1217ff"
+    },
+    {
+      "source": "R2/v2.js",
+      "sha256": "21cf7bfb404a2076d7be1e553e9c5a29c66de905085a3d9da5b7212221e0d3bf"
+    }
+  ],
+  "definingRelationships": {
+    "R1": [
+      "one continuous two-chamber radius envelope with a nonzero waist",
+      "one traveling Gaussian contraction visits and releases both chambers",
+      "the same contraction drives radial narrowing, folds, and fold shading",
+      "curved rest axis and shared front-surface projection"
+    ],
+    "R2": [
+      "joint product-distance field of stationary centers",
+      "shared transverse metric changes from one traveling contraction",
+      "surface depth and its actual field gradient determine volume shading",
+      "fixed screen samples represent a changing material boundary"
+    ]
+  }
+}

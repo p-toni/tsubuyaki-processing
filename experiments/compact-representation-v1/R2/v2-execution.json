@@ -1,0 +1,7 @@
+{
+  "candidate": "R2/v2",
+  "wallSeconds": 55.243,
+  "exitCode": 0,
+  "stdout": "{\"source\":\"R2/v2.js\",\"mode\":\"samples\",\"frames\":16,\"drawMs\":{\"median\":78.89999997615814,\"max\":95.40000009536743},\"errors\":[]}\n",
+  "stderr": ""
+}

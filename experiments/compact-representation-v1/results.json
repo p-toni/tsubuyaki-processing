@@ -1,0 +1,106 @@
+{
+  "completedAtUTC": "2026-10-31T11:14:24.461552+00:00",
+  "protocolSha256": "a30352456ac026baf0e626951fd948e9193a091c3a7cd61d4a3eb18e504ff50d",
+  "selectionSha256": "374352896528276c5c95118d1ad4e51bb243eee5533a9227443c1d61987aae87",
+  "scope": "One fresh same-author case; model-only artistic review and shared context, not independent validation or a general reliability estimate.",
+  "brief": "Pulse vessel",
+  "preferredReadableIncumbent": "R1/v2",
+  "runs": [
+    {
+      "representation": "R1",
+      "selectedVersion": "v2",
+      "provisionalGrade": "B",
+      "gradeConfidence": "lower",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": true,
+      "readableCandidates": 2,
+      "compactAttempts": 2,
+      "attemptLengths": [
+        336,
+        323
+      ],
+      "compactSuccess": false,
+      "failureClass": "COMPACT_DELIVERY",
+      "failureReason": "Both allowed posts exceed the limit; no execution-equivalence claim."
+    },
+    {
+      "representation": "R2",
+      "selectedVersion": "v2",
+      "provisionalGrade": "C",
+      "gradeConfidence": "provisional",
+      "allBriefRequirementsMet": true,
+      "readableSuccess": false,
+      "readableCandidates": 2,
+      "compactAttempts": 0,
+      "attemptLengths": [],
+      "compactSuccess": false,
+      "failureClass": "ARTISTIC_QUALITY",
+      "failureReason": "No A/B candidate; compression would not repair the artistic failure."
+    }
+  ],
+  "advancement": {
+    "required": "At least one verified A/B delivery with no clear artistic loss against the frozen best readable incumbent.",
+    "passed": false,
+    "reason": "No verified compact delivery."
+  },
+  "verification": {
+    "initialSourceCommitmentsMatch": true,
+    "readableSourceCommitmentsMatch": true,
+    "selectionReviewHashMatches": true,
+    "compactPostHashesMatch": true,
+    "allAttemptedPostsParse": true,
+    "readableRenders": [
+      {
+        "source": "R1/v1.js",
+        "sourceSha256": "4eb2554312c7405584c2c9dc9b59ff05fc4614e851f82b0ea201ec7186d50e90",
+        "drawFrames": 720,
+        "sampledFrames": 16,
+        "browser": "153.0.8010.12",
+        "errors": []
+      },
+      {
+        "source": "R1/v2.js",
+        "sourceSha256": "ddfa42272fd4d17d038dfd80434a7e30fcd5cd90ca4a8c5a2da9e4b744869497",
+        "drawFrames": 720,
+        "sampledFrames": 16,
+        "browser": "153.0.8010.12",
+        "errors": []
+      },
+      {
+        "source": "R2/v1.js",
+        "sourceSha256": "7107a5400e031ae4bd476e520e5bec3f0552614213af45bd007c12137f1217ff",
+        "drawFrames": 720,
+        "sampledFrames": 16,
+        "browser": "153.0.8010.12",
+        "errors": []
+      },
+      {
+        "source": "R2/v2.js",
+        "sourceSha256": "21cf7bfb404a2076d7be1e553e9c5a29c66de905085a3d9da5b7212221e0d3bf",
+        "drawFrames": 720,
+        "sampledFrames": 16,
+        "browser": "153.0.8010.12",
+        "errors": []
+      }
+    ],
+    "finalNumericalPairs": 0,
+    "finalRasterPairs": 0,
+    "verifiedFinalClips": 0,
+    "compactExecutionPerformed": false
+  },
+  "effort": {
+    "readableCandidates": 4,
+    "uniqueReadableProgramsRendered": 4,
+    "readableDrawFrames": 2880,
+    "sampledReviewFrames": 64,
+    "compactAttempts": 2,
+    "unusedCompactSlots": 2,
+    "humanCreativeInterventions": 0,
+    "previewSubprocessWallSecondsSum": 190.942,
+    "timingCaveat": "Overlapping subprocess times exclude authorship, reasoning, visual review, interruptions and gallery QA; not elapsed study time or equal-cost evidence.",
+    "tokens": null,
+    "moneyCost": null,
+    "activeReasoningSeconds": null
+  },
+  "decision": "Close the case without repair. One representation reached provisional B but failed the compact boundary; the other remained C. Keep the production policy unchanged. Seek a fresh construction that makes shape, material and motion share fewer independent expressions; this is an engineering hypothesis, not a validated policy."
+}

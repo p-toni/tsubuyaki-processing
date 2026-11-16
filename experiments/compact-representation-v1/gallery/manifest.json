@@ -1,0 +1,34 @@
+[
+  {
+    "representation": "R1",
+    "version": "v1",
+    "delivered": false,
+    "page": "R1-v1.html",
+    "source": "R1/v1.js",
+    "firstFrame": "R1/v1-frames/0001.png"
+  },
+  {
+    "representation": "R1",
+    "version": "v2",
+    "delivered": false,
+    "page": "R1-v2.html",
+    "source": "R1/v2.js",
+    "firstFrame": "R1/v2-frames/0001.png"
+  },
+  {
+    "representation": "R2",
+    "version": "v1",
+    "delivered": false,
+    "page": "R2-v1.html",
+    "source": "R2/v1.js",
+    "firstFrame": "R2/v1-frames/0001.png"
+  },
+  {
+    "representation": "R2",
+    "version": "v2",
+    "delivered": false,
+    "page": "R2-v2.html",
+    "source": "R2/v2.js",
+    "firstFrame": "R2/v2-frames/0001.png"
+  }
+]

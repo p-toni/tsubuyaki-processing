@@ -25,6 +25,7 @@ The separate autonomous search runtime remains optional research machinery. Neit
 
 Narrow supported claims:
 
+- the [Pulse vessel representation case](../experiments/compact-representation-v1/README.md) produced one provisional B study from four readable candidates, but both attempted posts remained overlength (336 and 323 weighted characters); the alternative remained C, and no compact delivery was verified;
 - the [compact-preflight comparison](../experiments/compact-preflight-v1/README.md) delivered 3/4 briefs with early checking and 1/4 with late checking, but the delivered Wake lost artistic quality; its no-regression gate failed, and its late-first, shared-context design does not isolate a causal effect;
 - the [rendered-feedback comparison](../experiments/feedback-value-v1/README.md) delivered 4/6 briefs in both arms, with zero adaptive pair wins, one batch preference, three equivalents, and two both-fail pairs; its same-agent, shared-context design does not establish a clean causal effect or broad batch superiority;
 - the [first complete discovery pilot](../experiments/autonomous-discovery-pilot-v1/README.md) delivered three different compact studies from five readable candidates, two observation-led revisions, and one compact attempt per brief; all passed the frozen technical checks, with provisional B grades from the same agent that authored the briefs and candidates;
@@ -66,15 +67,25 @@ Early delivered 3/4 and late 1/4: two early pair wins, one equivalent pair, and 
 
 The advancement gate required at least two early wins, zero late wins, no fewer early deliveries, and no clear artistic regressions. **It failed on Wake's artistic loss.** Both arms consumed eight compact attempts; early used thirteen readable candidates and late eight. Active reasoning and review costs were not measured, so equal attempt caps do not establish equal total cost. Keep the production policy unchanged and close this population.
 
-## Active priority — preserve artistic quality in compact representations
+## Completed case — quality-preserving compact representation
 
-The actionable gap is a worthwhile readable behavior becoming too expensive to express compactly, or losing artistic expression when its representation changes. The clean Aperture recovery is evidence that a better shared construction can help; Wake shows why brief adherence and length alone are insufficient. Another timing sweep would leave that gap unresolved.
+The [compact-representation-v1 archive](../experiments/compact-representation-v1/README.md) tested one fresh brief: a local squeeze traveling through a continuous two-chambered vessel. A swept surface and an implicit field each received one observation-led revision. Initial programs were published before rendering; all four source hashes, grades, requirements, and the preferred readable incumbent were frozen before compact work.
 
-Start with one fresh difficult brief and two meaningfully different mathematical representations, using the existing agent and tools. Freeze the brief's defining relationships, horizon, a small candidate and compact-attempt budget, and the decision rule before rendering. Inspect and grade readable candidates before counting compact code. Preserve the more expressive readable incumbent for comparison even if it cannot be delivered. Do not reuse or repair the closed Thread or Wake candidates as fresh evidence.
+Both constructions use an axial radius and the same Gaussian contraction. Their differences primarily concern the base profile, sampling, projection, and shading, which limits the breadth of this representation comparison.
 
-Use the existing [compression-promotion guidance](compression-promotion.md). Test whether a shared construction can retain the important causal relationships, material, and motion in a complete post. Keep the smallest representation that achieves the artistic objective; shorter code alone is not a win. Stop if the remaining budget cannot produce a verified A/B delivery without a clear artistic loss against the readable incumbent. Record a failure instead of weakening the brief or upgrading a grade after a length pass.
+The swept surface reached provisional B with contraction-driven folds and a curved, oblique surface; rim sampling reduced its finish. Its two exact post attempts parsed but exceeded the limit at 336 and 323 weighted characters. The implicit version improved volume through its surface gradient but remained C, with a visible background patch, so its compact allowance went unused. Both final readable candidates met the causal brief; only one was artistically eligible. No candidate earned A.
 
-A successful case would support a fresh replication across different briefs, not a universal policy. Count actual candidates and attempts, preserve failures and known effort, and distinguish artistic judgments from execution checks. No larger candidate quota, automatic aesthetic judge, or new runtime is needed for this next step.
+The case failed: zero verified compact deliveries. All four readable programs rendered 720 frames without browser errors, but the overlength posts were not executed or verified for equivalence. This is failure within the chosen budget, not proof that the stronger construction cannot be compressed or that either representation is generally unsuitable. Close the case without repair and keep the production policy unchanged.
+
+## Active priority — a compact shared construction with artistic value
+
+The actionable gap remains a worthwhile readable behavior failing to become a worthwhile compact post. Aperture showed one clean recovery; Wake lost artistic quality; Pulse vessel never reached the length boundary. Shared motion alone does not ensure that the complete shape, material, and projection are economical. These cases have not produced A-rated work, and technical adherence must not substitute for artistic value.
+
+Try one fresh construction where the same mathematical quantities determine contour, material, and motion, using the existing agent and tools. Choose a small candidate and compact-attempt budget before work, review the art before counting, and retain the strongest readable incumbent. Prefer eliminating independent embellishments during representation design to a long sequence of golf repairs after selection. This is an engineering hypothesis, not an ablated explanation of the previous failures or a validated new policy.
+
+Use the existing [compression-promotion guidance](compression-promotion.md). A successful case still requires a verified A/B post without a clear artistic loss against its readable incumbent; aim for distinctive work rather than treating a provisional B as the destination. If no worthwhile result survives within budget, report the failure and stop. Do not repair the closed Thread, Wake, or Pulse vessel candidates as fresh evidence.
+
+Do not commission another timing or representation comparison yet. First obtain one worthwhile compact construction; then decide whether fresh replication can answer a consequential question. A larger candidate quota, automatic aesthetic judge, and new runtime remain unnecessary. Count actual work and preserve failures without treating more archive material as capability progress.
 
 Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. A separate review prompt does not create independent evidence. More filament experiments, learned search operators, and automatic aesthetic judges remain parked.
 
@@ -110,7 +121,7 @@ An experiment using recurrence inside the artwork does not satisfy that reopenin
 
 ## Closed populations
 
-Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, compact-material-grammar, feedback-value-v1, or compact-preflight-v1 populations. Their negative results remain evidence, not optimizer input.
+Do not tune against consumed evidence from the closed learned-world-model, late-refinement, independent-restart, generic visual-judge, morphology-context judge, family projected-spectral artistic, compact-symplectic, phase-native, compact-material-grammar, feedback-value-v1, compact-preflight-v1, or compact-representation-v1 populations. Their negative results remain evidence, not optimizer input.
 
 ## Research discipline
 
@@ -123,4 +134,4 @@ For any decision-changing experiment:
 5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is a **small fresh test of quality-preserving compact representations**. Do not tune the completed pilot, feedback-comparison, or preflight-comparison candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.
+The immediate next step is **one fresh compact shared construction with artistic value**, before another comparison. Do not tune completed candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

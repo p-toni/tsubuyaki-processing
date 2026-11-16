@@ -1,0 +1,74 @@
+{
+  "browser": "153.0.8010.12",
+  "gallery": {
+    "videos": [],
+    "playbackTimes": [],
+    "cards": 2,
+    "readableOnlyPosters": 2,
+    "mobileWidth": 390,
+    "mobileOverflow": false,
+    "errors": []
+  },
+  "sketches": [
+    {
+      "representation": "R1",
+      "version": "v1",
+      "delivered": false,
+      "page": "R1-v1.html",
+      "source": "R1/v1.js",
+      "firstFrame": "R1/v1-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 55.54,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "representation": "R1",
+      "version": "v2",
+      "delivered": false,
+      "page": "R1-v2.html",
+      "source": "R1/v2.js",
+      "firstFrame": "R1/v2-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 58.939,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "representation": "R2",
+      "version": "v1",
+      "delivered": false,
+      "page": "R2-v1.html",
+      "source": "R2/v1.js",
+      "firstFrame": "R2/v1-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 69.655,
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "representation": "R2",
+      "version": "v2",
+      "delivered": false,
+      "page": "R2-v2.html",
+      "source": "R2/v2.js",
+      "firstFrame": "R2/v2-frames/0001.png",
+      "sourceMatches": true,
+      "firstFrameRasterMatches": true,
+      "pauseResumeRestartReplay": true,
+      "stoppedAt": 720,
+      "wallPlaybackSeconds": 69.047,
+      "mobileOverflow": false,
+      "errors": []
+    }
+  ]
+}
