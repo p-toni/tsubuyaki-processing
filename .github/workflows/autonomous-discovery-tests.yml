@@ -55,5 +55,5 @@ jobs:
           node-version: "22"
       - name: Run discovery-state regression
         run: node scripts/test-discovery-state.mjs
-      - name: Run PNG decoder regression
-        run: node --test scripts/test-png.mjs
+      - name: Test PNG decoding and mechanical post generation
+        run: node --test scripts/test-png.mjs experiments/compressibility-forecast-retrospective-v1/test.mjs

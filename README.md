@@ -28,7 +28,7 @@ The executable suffix `//#つぶやきProcessing` leaves **259 X-weighted charac
 node scripts/check-length.mjs post.txt
 ```
 
-A length pass is only one requirement. Render the exact code across a meaningful temporal horizon and verify that compression preserved the relationships that made the selected sketch work.
+An optional command can produce a first compact draft of a selected arithmetic sketch. Render the exact post over the chosen time span and verify that it preserves the relationships that made the readable sketch work. [Mechanical draft and archive results](experiments/compressibility-forecast-retrospective-v1/README.md)
 
 ## Where to look
 
