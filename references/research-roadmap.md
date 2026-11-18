@@ -6,6 +6,12 @@ Finished animations are concrete evidence of this capability. A successful disco
 
 Discovery means finding useful original programs and behaviors for the task, not a claim of globally novel mathematics. The current medium remains p5.js and a complete post within 280 raw and X-weighted characters. Readable exploration may exceed that limit before compression.
 
+## Active priority — can the agent discover a compact interaction?
+
+The two latest cases explored motion along a single skin. Pleated lantern fit the character budget and Pulse vessel exhausted it. Try one fresh brief where the viewer can tell that one form changes what another does. For example, one body could yield at contact and regain its shape after separation. Leave the representation to the agent. The artistic question is whether the encounter reads clearly and remains worth watching after the mechanism is understood. [Pleated lantern](../experiments/pleated-lantern-v1/README.md) · [Pulse vessel](../experiments/compact-representation-v1/README.md)
+
+Allow up to two readable candidates and two complete compact attempts. Inspect the motion and freeze the strongest readable selection before counting. A delivery needs a provisional A or B and a verified complete post that preserves the selected behavior. Record where the attempt stopped if it falls short. A success would extend the observed range to this interaction. Reliability across briefs and independent artistic judgment remain open. [Compression guidance](compression-promotion.md)
+
 ## Simplest autonomous baseline
 
 Start with the existing agent's coding, rendering, and inspection tools:
@@ -77,17 +83,11 @@ The swept surface reached provisional B with contraction-driven folds and a curv
 
 The case failed: zero verified compact deliveries. All four readable programs rendered 720 frames without browser errors, but the overlength posts were not executed or verified for equivalence. This is failure within the chosen budget, not proof that the stronger construction cannot be compressed or that either representation is generally unsuitable. Close the case without repair and keep the production policy unchanged.
 
-## Active priority — a compact shared construction with artistic value
+## Completed case — Pleated lantern
 
-The actionable gap remains a worthwhile readable behavior failing to become a worthwhile compact post. Aperture showed one clean recovery; Wake lost artistic quality; Pulse vessel never reached the length boundary. Shared motion alone does not ensure that the complete shape, material, and projection are economical. These cases have not produced A-rated work, and technical adherence must not substitute for artistic value.
+A single fold value changes both surface radius and lighting as a band moves down a tapered lantern. The first version went flat between pulses. The agent kept a shallow resting crease in the revision and selected it at provisional B before counting characters. Both complete compact attempts counted against the budget. Mechanical minification used 306 weighted characters. Manual compression reached 280, preserving all 720 rendered frames byte for byte. The outer ribs still open into a mesh at full expansion. This establishes one compact delivery with an author-assessed grade. [Sketch, clip, and verification](../experiments/pleated-lantern-v1/README.md)
 
-Try one fresh construction where the same mathematical quantities determine contour, material, and motion, using the existing agent and tools. Choose a small candidate and compact-attempt budget before work, review the art before counting, and retain the strongest readable incumbent. Prefer eliminating independent embellishments during representation design to a long sequence of golf repairs after selection. This is an engineering hypothesis, not an ablated explanation of the previous failures or a validated new policy.
-
-Use the existing [compression-promotion guidance](compression-promotion.md). A successful case still requires a verified A/B post without a clear artistic loss against its readable incumbent; aim for distinctive work rather than treating a provisional B as the destination. If no worthwhile result survives within budget, report the failure and stop. Do not repair the closed Thread, Wake, or Pulse vessel candidates as fresh evidence.
-
-Do not commission another timing or representation comparison yet. First obtain one worthwhile compact construction; then decide whether fresh replication can answer a consequential question. A larger candidate quota, automatic aesthetic judge, and new runtime remain unnecessary. Count actual work and preserve failures without treating more archive material as capability progress.
-
-Independent calibration would strengthen artistic claims without becoming a prerequisite for operating the loop. A separate review prompt does not create independent evidence. More filament experiments, learned search operators, and automatic aesthetic judges remain parked.
+Keep the mechanical length retrospective from PR #143 as an optional aid after artistic selection. It produced a reproducible first attempt at 306 weighted characters. Rejecting the sketch on that count would have discarded a delivery. Defer the broader instrument suite. In review, a panel that always answered “equal” qualified to judge artistic differences at zero known-answer accuracy, and the brief bank accepted an exception as a successful rejection of a bad example. [Length retrospective](https://github.com/p-toni/tsubuyaki-processing/tree/6927be1156a198971f0ef05e63339aa07b762d50/experiments/compressibility-forecast-retrospective-v1) · [Reviewed PR](https://github.com/p-toni/tsubuyaki-processing/pull/143)
 
 ## Bottleneck discipline
 
@@ -134,4 +134,4 @@ For any decision-changing experiment:
 5. freeze any blinded ratings before unblinding, identifying whether the reviewer is human or a model;
 6. close negative branches rather than tuning them against consumed ratings.
 
-The immediate next step is **one fresh compact shared construction with artistic value**, before another comparison. Do not tune completed candidates to improve their recorded grades. Preserve historical protocols and results as evidence; the [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.
+Historical protocols and results remain available in the archives. The [older experiment roadmap](../experiments/ROADMAP.md) records an earlier prototype plan.

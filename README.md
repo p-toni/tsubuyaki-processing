@@ -2,13 +2,11 @@
 
 An Agent Skill and research project for **autonomous discovery of compact mathematical animations**, expressed as original **#つぶやきProcessing**.
 
-Given a fresh visual intent and a bounded budget, the agent should choose a representation, construct and inspect animated programs, use rendered feedback to improve or change direction, and deliver a verified result without requiring human rescue.
+Given a fresh visual brief and an attempt budget, can an agent choose the mathematics, inspect what it made, and decide what to keep, revise, or abandon? A successful run delivers a worthwhile p5.js sketch without human creative intervention. Its defining behavior must survive in a complete runnable post of at most 280 characters. Readable exploration can be longer. A run that exhausts its budget without a qualifying post counts as a failure.
 
-The research product is that discovery capability. Finished animations provide concrete evidence of its usefulness. Success requires worthwhile behavior, sound decisions, and transfer across different briefs; unattended execution or a large candidate archive alone does not establish it. This is the project's objective, not a claim that general autonomous discovery has already been demonstrated.
+In **Pleated lantern**, one traveling fold changes both the outline and the light on a hanging form. The agent selected the readable sketch before counting characters. The complete post used all 280 weighted characters and reproduced all 720 frames exactly. [Watch the 12-second clip](experiments/pleated-lantern-v1/lantern.mp4?raw=1) or [inspect the sketches and the provisional B grade](experiments/pleated-lantern-v1/README.md).
 
-A successful run delivers a compelling, runnable p5.js sketch that retains its defining behavior in a complete post of at most 280 characters. Readable exploration may exceed that limit before compression. An honest failure is a valid way to stop, but still counts as an unsuccessful discovery attempt.
-
-The [research roadmap](references/research-roadmap.md) defines the current milestone and evidence needed. The starting aesthetic is organic form and apparent life emerging from shared mathematical rules; no single formula family or search architecture defines the project.
+The open question is whether that judgment transfers to different briefs. Organic form and apparent life are the starting aesthetic. The next case asks for an interaction between separate forms. [Research roadmap](references/research-roadmap.md)
 
 ## Use the skill
 
@@ -42,9 +40,9 @@ A length pass is only one requirement. Render the exact code across a meaningful
 
 ## Evidence and limits
 
-The [Pulse vessel representation case](experiments/compact-representation-v1/README.md) produced one provisional B study from four readable candidates, but its two posts remained overlength at 336 and 323 weighted characters. The alternative representation remained C and was not compacted. No final post was delivered or verified. This small case keeps the focus on constructions that give shape, material, and motion a compact shared basis; it does not justify a new workflow or a general claim against either representation.
+Pulse vessel shows what an unsuccessful run looks like. Four readable candidates produced one provisional B. Both attempted posts exceeded the limit at 336 and 323 weighted characters. [Pulse vessel archive](experiments/compact-representation-v1/README.md)
 
-The [compact-preflight comparison](experiments/compact-preflight-v1/README.md) delivered 3/4 briefs with early checking and 1/4 with late checking. Aperture recovered without a clear artistic loss, but the delivered Wake was less expressive than the late readable selection. The no-regression gate therefore failed, and the production policy remains unchanged. All four deliveries passed 720-frame verification and 64 sampled image comparisons (48 unique). The same author knew both arms, and the early arm used more readable candidates; this is provisional engineering evidence, not a clean causal effect or equal-cost advantage. The next priority is compact representations that preserve artistic quality.
+The [compact-preflight comparison](experiments/compact-preflight-v1/README.md) delivered 3/4 briefs with early checking and 1/4 with late checking. Aperture recovered without a clear artistic loss, but the delivered Wake was less expressive than the late readable selection. The no-regression gate therefore failed, and the production policy remains unchanged. All four deliveries passed 720-frame verification and 64 sampled image comparisons (48 unique). The same author knew both arms, and the early arm used more readable candidates; this is provisional engineering evidence, not a clean causal effect or equal-cost advantage.
 
 The [rendered-feedback comparison](experiments/feedback-value-v1/README.md) delivered four of six briefs in each arm: zero adaptive wins, one batch preference, three equivalents, and two both-fail pairs. Adaptive revision improved two additional readable studies, but neither passed the compact boundary within its budget. All eight delivered posts passed 720-frame verification and 128 sampled image comparisons. The same agent authored and graded both arms in shared context; this does not establish broad batch superiority or a clean causal effect. The advancement rule failed; revision remains targeted at concrete observed shortcomings.
 

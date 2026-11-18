@@ -1,0 +1,115 @@
+{
+  "outcome": "delivered",
+  "exactPost": "attempt-2.txt",
+  "briefSha256": "d4f982e33ae8b33ca92dca8252ad1b020a11db73249c6b544cf05fdaa466d815",
+  "selection": {
+    "commit": "e970290d43957d003561ee3239431740a7508d90",
+    "recordSha256": "951681f0f91dd608ec61233be4f0d681afc4e50d0732c9684a20ea3b6309802e",
+    "source": "v2.js",
+    "sourceSha256": "71a2e0e40c7828923e29973d93611d95a929e9071d7fc32be0f7a9f11ae7e715",
+    "grade": "B",
+    "reviewer": "authoring agent; provisional visual judgment"
+  },
+  "attempts": [
+    {
+      "file": "attempt-1.txt",
+      "method": "Mechanical minification",
+      "sha256": "86cd448d8d123c7cc87e36a37ef5664cd90104899f24fb283739d369b9df60a1",
+      "parses": true,
+      "rawCodePoints": 302,
+      "xWeightedLength": 306,
+      "withinBudget": false
+    },
+    {
+      "file": "attempt-2.txt",
+      "method": "Manual compression of the selected readable",
+      "sha256": "4e9903bf5144107b9b17cf2d8545b9461fbf8f40f0676657e3d60f354c1627ee",
+      "parses": true,
+      "rawCodePoints": 276,
+      "xWeightedLength": 280,
+      "withinBudget": true
+    }
+  ],
+  "mechanicalMinifier": {
+    "commit": "6927be1156a198971f0ef05e63339aa07b762d50",
+    "path": "experiments/compressibility-forecast-retrospective-v1/forecast-length.mjs",
+    "gitBlob": "15abc736358e4cc516d386b0321872ce53d1f2a0"
+  },
+  "geometryAndStyle": {
+    "frames": 720,
+    "pointsPerFrame": 46080,
+    "pointCalls": 66355200,
+    "minInFrame": 1,
+    "maxMotion": 0.3581970721467297,
+    "maxGeometryError": 0,
+    "maxStyleError": 0,
+    "pass": true
+  },
+  "browser": {
+    "runtime": "p5.js 1.11.3",
+    "p5Sha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+    "chromium": "153.0.8010.12",
+    "fullRenders": [
+      {
+        "source": "v1.js",
+        "frames": 720,
+        "pageErrors": 0,
+        "medianDrawMs": 15.5
+      },
+      {
+        "source": "v2.js",
+        "frames": 720,
+        "pageErrors": 0,
+        "medianDrawMs": 40.4
+      },
+      {
+        "source": "attempt-2.txt",
+        "frames": 720,
+        "pageErrors": 0,
+        "medianDrawMs": 34.7
+      }
+    ],
+    "liveP5Startup": {
+      "canvasCount": 1,
+      "width": 400,
+      "height": 400,
+      "frameCount": 5,
+      "postFrame": 5,
+      "nonBackgroundPixels": 35794,
+      "errors": []
+    }
+  },
+  "raster": {
+    "framesCompared": 720,
+    "byteIdenticalPairs": 720,
+    "hashMethod": "SHA-256 of the concatenated 32-byte PNG SHA-256 digests in frame order, starting at frame 1",
+    "readableSequenceSha256": "5c47a907819b99f50d9c68e479d6cdc7e2bc655bfc4e3c3cee052a25700d9d61",
+    "postSequenceSha256": "5c47a907819b99f50d9c68e479d6cdc7e2bc655bfc4e3c3cee052a25700d9d61"
+  },
+  "poster": {
+    "file": "poster.png",
+    "frame": 145,
+    "sha256": "ab909fe26f2e53faeafcfb836249a9c424020173039663df7a5aecece4080ca8"
+  },
+  "video": {
+    "file": "lantern.mp4",
+    "source": "attempt-2.txt",
+    "sha256": "7170f2e6e15c24936bcdf3ac720ce9f46ded2ee985dfdd660c6051753e589e94",
+    "codec": "h264",
+    "width": 400,
+    "height": 400,
+    "frames": 720,
+    "framesPerSecond": 60,
+    "durationSeconds": 12.0
+  },
+  "effort": {
+    "readableCandidates": 2,
+    "completeCompactAttempts": 2,
+    "humanCreativeSelections": 0,
+    "unmeasured": [
+      "active reasoning time",
+      "tokens",
+      "monetary cost"
+    ]
+  }
+}
