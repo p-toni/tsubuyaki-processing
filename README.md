@@ -6,7 +6,7 @@ Given a fresh visual brief and an attempt budget, can an agent choose the mathem
 
 In **Pleated lantern**, one traveling fold changes both the outline and the light on a hanging form. The agent selected the readable sketch before counting characters. The complete post used all 280 weighted characters and reproduced all 720 frames exactly. [Watch the 12-second clip](experiments/pleated-lantern-v1/lantern.mp4?raw=1) or [inspect the sketches and the provisional B grade](experiments/pleated-lantern-v1/README.md).
 
-The open question is whether that judgment transfers to different briefs. Organic form and apparent life are the starting aesthetic. The next case asks for an interaction between separate forms. [Research roadmap](references/research-roadmap.md)
+Organic form and apparent life are the starting aesthetic. The open question is whether the agent's judgment transfers to different briefs. In **Pearl and silk**, moving the pearl moved a pocket in the fabric by the same distance. The shorter attempt reproduced all 720 frames but exceeded the post limit by 36 weighted characters. This counts as a failed compact delivery. [Watch the readable study](experiments/pearl-and-silk-v1/README.md) · [Research roadmap](references/research-roadmap.md)
 
 ## Use the skill
 

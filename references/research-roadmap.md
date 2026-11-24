@@ -8,9 +8,9 @@ Discovery means finding useful original programs and behaviors for the task, not
 
 ## Active priority — can the agent discover a compact interaction?
 
-The two latest cases explored motion along a single skin. Pleated lantern fit the character budget and Pulse vessel exhausted it. Try one fresh brief where the viewer can tell that one form changes what another does. For example, one body could yield at contact and regain its shape after separation. Leave the representation to the agent. The artistic question is whether the encounter reads clearly and remains worth watching after the mechanism is understood. [Pleated lantern](../experiments/pleated-lantern-v1/README.md) · [Pulse vessel](../experiments/compact-representation-v1/README.md)
+Pearl and silk produced a provisional B interaction. Moving the pearl 40 pixels at the same instant moved a 64-pixel-deep pocket the same distance. The two complete attempts used 330 and 316 weighted characters. The shorter one preserved every rendered frame. This closes the case as a compact-delivery failure. The result isolates the character limit for these attempts. It leaves the cost of each individual visual feature open. [Animation and contact experiment](../experiments/pearl-and-silk-v1/README.md)
 
-Allow up to two readable candidates and two complete compact attempts. Inspect the motion and freeze the strongest readable selection before counting. A delivery needs a provisional A or B and a verified complete post that preserves the selected behavior. Record where the attempt stopped if it falls short. A success would extend the observed range to this interaction. Reliability across briefs and independent artistic judgment remain open. [Compression guidance](compression-promotion.md)
+Try a fresh encounter in which the two moving forms share one drawing rule. One should change the other's motion, with a visible consequence after they separate. This tests whether shared drawing code can leave enough room for both the interaction and its aftermath. Allow up to two readable sketches and two compact attempts. Select the motion before counting and require a verified A/B post. Keep the two Pearl and silk attempts closed. [Compression guidance](compression-promotion.md)
 
 ## Simplest autonomous baseline
 

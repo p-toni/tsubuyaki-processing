@@ -1,0 +1,141 @@
+{
+  "outcome": "no qualifying compact post",
+  "brief": {
+    "commit": "d4631bf8ebc72ddd0bea63ff6298abcea4a966b5",
+    "sha256": "8ba7e10a139dad572ca0a68a90baf54c0da9c53df61b29bd7b43970527df0010"
+  },
+  "selection": {
+    "commit": "9400fd39ce39101c1241c2e86c0290c4038d03e2",
+    "recordSha256": "b1b42d35e88694dc2d09ec5c657961d13cfd92acc6f3ca6f7d434f7d58db80e4",
+    "source": "v2.js",
+    "grade": "B",
+    "reviewer": "authoring agent",
+    "v1Grade": "C",
+    "countsSeenBeforeSelection": false
+  },
+  "attempts": [
+    {
+      "file": "attempt-1.txt",
+      "sha256": "3d530a04d40e139381e19d2fa7f06f358fbe7af182ba22a78cc3864e33752439",
+      "parses": true,
+      "rawCodePoints": 326,
+      "xWeightedLength": 330,
+      "withinLimit": false
+    },
+    {
+      "file": "attempt-2.txt",
+      "sha256": "aea4faae2a78d96252af4f67feeb65d50f7767079eb42bbee9bddbd6f95e2014",
+      "parses": true,
+      "rawCodePoints": 312,
+      "xWeightedLength": 316,
+      "withinLimit": false
+    }
+  ],
+  "contact": {
+    "frames": 720,
+    "loadedFrames": 358,
+    "separatedFrames": 358,
+    "touchingFrames": 4,
+    "largestPocket": 64,
+    "pearlAndAnchorsIdenticalThroughout": true,
+    "peakAtFrame90": {
+      "indentation": 64,
+      "peakX": 200
+    },
+    "peakAfter40pxShift": {
+      "indentation": 64,
+      "peakX": 240
+    },
+    "readableVsUnloaded": {
+      "loaded": {
+        "total": 358,
+        "same": 0
+      },
+      "separated": {
+        "total": 358,
+        "same": 358
+      },
+      "touch": {
+        "total": 4,
+        "same": 4
+      }
+    },
+    "unloadedSequenceSha256": "fa6540f1d7780caeb9fff8bb8797fd128ee97f3ed55fe72619c77f46d5e4ec92"
+  },
+  "shorterAttempt": {
+    "source": "attempt-2.txt",
+    "geometryAndStyle": {
+      "frames": 720,
+      "pointsPerFrame": 10272,
+      "pointCalls": 14791680,
+      "minInFrame": 1,
+      "maxMotion": 2.106076190197882,
+      "maxGeometryError": 5.684341886080802e-14,
+      "maxStyleError": 0
+    },
+    "raster": {
+      "pairs": 720,
+      "equal": 720,
+      "digestMethod": "SHA-256 of the concatenated binary SHA-256 digests of PNG frames 1 through 720",
+      "readableSequenceSha256": "3e63aade3d42ba92c0f41ffdc96d6a301f206f060e0a260fe5a8807d42c3cb33",
+      "shortestSequenceSha256": "3e63aade3d42ba92c0f41ffdc96d6a301f206f060e0a260fe5a8807d42c3cb33"
+    },
+    "overallAuditPass": false,
+    "failedCriterion": "complete post length"
+  },
+  "runtime": {
+    "library": "p5.js 1.11.3",
+    "librarySha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+    "chromium": "153.0.8010.12",
+    "fullRenders": [
+      {
+        "source": "v1.js",
+        "sourceSha256": "01d32d8d566b695cf80820c950fb9e9d53e39094a15d4a86515d74d80288a13d",
+        "medianDrawMs": 3.8
+      },
+      {
+        "source": "v2.js",
+        "sourceSha256": "541b5b5b186f61404e3014e63186ce25c8087153fb3ac9afdf8334f01b44e49e",
+        "medianDrawMs": 4.3
+      },
+      {
+        "source": "attempt-2.txt",
+        "sourceSha256": "aea4faae2a78d96252af4f67feeb65d50f7767079eb42bbee9bddbd6f95e2014",
+        "medianDrawMs": 2.8
+      },
+      {
+        "source": "v2 with load set to zero",
+        "sourceSha256": "276d7d8a1cc8c6f2e326e3347f2fee01da84464d624078d2f226ab37bd677b48",
+        "medianDrawMs": 4
+      }
+    ],
+    "framesPerRender": 720,
+    "pageErrorsAcrossFullRenders": 0,
+    "normalP5StartupOfV2": {
+      "canvasCount": 1,
+      "width": 400,
+      "height": 400,
+      "frameCount": 5,
+      "nonBackgroundPixels": 9477,
+      "errors": []
+    }
+  },
+  "readableVideo": {
+    "file": "readable.mp4",
+    "source": "v2.js",
+    "sha256": "49ab7dca8409074fe481443934da8f8481f09fff613a5c9ff0ec81eac2382318",
+    "codec": "h264",
+    "width": 400,
+    "height": 400,
+    "frames": 720,
+    "fps": 60,
+    "seconds": 12,
+    "identicalPairs360FramesApart": 360
+  },
+  "budget": {
+    "readableCandidatesUsed": 2,
+    "completeCompactAttemptsUsed": 2,
+    "humanCreativeSelections": 0,
+    "activeReasoningTimeAndCostMeasured": false
+  }
+}
