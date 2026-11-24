@@ -1,0 +1,114 @@
+{
+  "title": "Thirst",
+  "briefCommit": "af11c0b64576ba0f2412b5f2b28cf2c98946eaa1",
+  "selectionCommit": "87d429c270ccb2fdcf2361098409b77eefb88845",
+  "selection": {
+    "authorGrade": "B",
+    "source": "v2.js",
+    "sourceSha256": "f8f87f7a7a75aea854cfe1df1782c7130a7281d8d8fb632c762dfaed111e5881",
+    "readableUsed": 2,
+    "compactUsed": 2,
+    "chosenCompact": "attempt-1.txt"
+  },
+  "runtime": {
+    "library": "p5.js 1.11.3",
+    "librarySha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+    "chromium": "153.0.8010.12",
+    "framesPerRender": 720,
+    "framesPerEncounter": 360,
+    "frameSize": [
+      400,
+      400
+    ],
+    "noPageErrorsInAllSixFullRenders": true
+  },
+  "rasterHashMethod": "SHA-256 of the concatenated binary SHA-256 digests of PNG frames 1 through 720",
+  "attempts": [
+    {
+      "source": "attempt-1.txt",
+      "sourceSha256": "8f25ba14ca90b3be0a21637a5c2d96b4dc5e737540e757e8a901b96101816bda",
+      "rawCodePoints": 630,
+      "xWeightedCharacters": 634,
+      "fits280": false,
+      "raster": {
+        "matchesReadable": 720,
+        "unmodifiedFirstEqualsUnmodifiedSecond": 0,
+        "firstEqualsResetSecond": 360,
+        "firstUntouchedByReset": 360,
+        "normalSequenceSha256": "a67014c39d94053cba2b81b278b9dbc6b5b1c7bf387547cdfd27d0d257067751",
+        "resetSequenceSha256": "613048756b88f260d6b2e58a4b010553c9779b224622a80b413420f7bd22ad45"
+      },
+      "normalPlaybackMatchedFrames": [
+        71,
+        244,
+        497,
+        604,
+        628
+      ]
+    },
+    {
+      "source": "attempt-2.txt",
+      "sourceSha256": "49e791dab90397a6a9c907c8dc9bb8f01e279ea08636276aae32d4b55265f7c8",
+      "rawCodePoints": 539,
+      "xWeightedCharacters": 543,
+      "fits280": false,
+      "raster": {
+        "matchesReadable": 0,
+        "unmodifiedFirstEqualsUnmodifiedSecond": 0,
+        "firstEqualsResetSecond": 360,
+        "firstUntouchedByReset": 360,
+        "normalSequenceSha256": "77f84074098bc7c168efe5b3e6c3ac9cede74a9e8363e39aee0bbd6b2e14938a",
+        "resetSequenceSha256": "aa172b856a1f5e252290fb7b950bbcd6373111e27c8e8ccc905241c9df141912"
+      },
+      "normalPlaybackMatchedFrames": [
+        71,
+        244,
+        497,
+        604,
+        628
+      ]
+    }
+  ],
+  "inkReplay": {
+    "first": {
+      "wetPairsAtStart": 0,
+      "wetPairsAtEnd": 64,
+      "exitUnits": 0,
+      "firstFramePastTipInPass": null,
+      "firstFrameExhaustedInPass": 244,
+      "dropXAtFrame137": 124.80000000000001
+    },
+    "second": {
+      "wetPairsAtStart": 64,
+      "wetPairsAtEnd": 96,
+      "exitUnits": 32,
+      "firstFramePastTipInPass": 244,
+      "firstFrameExhaustedInPass": null,
+      "dropXAtFrame137": 189.60000000000002
+    },
+    "cleared": {
+      "wetPairsAtStart": 0,
+      "wetPairsAtEnd": 64,
+      "exitUnits": 0,
+      "firstFramePastTipInPass": null,
+      "firstFrameExhaustedInPass": 244,
+      "dropXAtFrame137": 124.80000000000001
+    },
+    "kept48": {
+      "wetPairsAtStart": 48,
+      "wetPairsAtEnd": 96,
+      "exitUnits": 16,
+      "firstFramePastTipInPass": 266,
+      "firstFrameExhaustedInPass": null,
+      "dropXAtFrame137": 189.60000000000002
+    }
+  },
+  "video": {
+    "name": "thirst.mp4",
+    "source": "attempt-1.txt",
+    "sha256": "c46969dde0526df4ebacf523804eac9f6ed481785179761cdb0d67c208a813be",
+    "fps": 60,
+    "frames": 720,
+    "seconds": 12
+  }
+}

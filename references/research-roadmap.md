@@ -6,11 +6,11 @@ Finished animations are concrete evidence of this capability. A successful disco
 
 Discovery means finding an original program whose behavior serves the brief. Work in p5.js and aim for 280 characters including the hashtag. Select the artwork from rendered motion, verify the compressed sketch, and report its raw and X-weighted lengths. A worthwhile longer sketch can succeed. Historical studies retain the delivery rules they registered.
 
-## Active priority — can the agent choose what an encounter leaves behind?
+## Active priority — can many marks read as one body?
 
-Give the agent one visual intent. **Make the second encounter visibly different because of what the first left behind.** Leave the forms, material, and mechanism open. Borrowed spin specified the desired transfer in advance. This brief asks the agent to choose the cause as well as its mathematical representation.
+Give the agent a fresh visual intent. **Scattered marks gather into one breathing form, then disperse.** Leave the material and mathematics open. Thirst found a cause for an open brief, but its faithful sketch took 634 weighted characters. This time look for a relationship that shapes both the individual marks and their collective motion.
 
-Allow up to two readable sketches and two compact attempts. Select from rendered motion before counting. After selection, clear only what the first encounter left behind and replay the same inputs into the second. Compare the visible outcome. Keep a worthwhile result with a demonstrated cause, or record where the attempt fell short.
+Allow up to two readable sketches and two compact attempts. Select from rendered motion before counting. Then disturb the relationship credited with bringing the marks together and inspect the same interval. Record whether the body still reads as a whole, the exact length of the version worth keeping, and any visual cost of compression.
 
 ## Simplest autonomous baseline
 
@@ -94,6 +94,8 @@ We kept one optional tool from PR #143. After artistic selection it emits a comp
 In **Pearl and silk**, moving the pearl 40 pixels moved a 64-pixel-deep pocket the same distance. The silk returned to its resting shape as soon as the pearl lifted. The 316-weighted-character version preserved all 720 frames and missed that experiment's registered size limit. [Animation and contact test](../experiments/pearl-and-silk-v1/README.md)
 
 **Borrowed spin** tested whether an interaction could outlast contact. Two whorls share one drawing rule. After separation the receiver turned 76.4° in the first second and 29.0° in the next. Removing the contact torque left it still with the driver's path and spin intact. The first compact version used 375 weighted characters and matched all 720 readable frames. The author graded the selected sketch B. These two cases used prescribed encounters and self-assessment. [Animation, control, and selection](../experiments/borrowed-spin-v1/README.md)
+
+**Thirst** left the material and mechanism open. The agent chose ink uptake in a feather. Equal incoming drops left 0 and 32 ink units beyond the tip. Clearing the first stain restored the first encounter on all 360 matched frames. Retaining 48 of the 64 wet pairs let 16 units escape. The author selected the revised feather at provisional B. The faithful sketch used 634 weighted characters. The 543-character alternative kept the motion and lost the shaft that made the route legible. This is one open-brief result with a large cost in code. [Film, replay, and compression comparison](../experiments/second-encounter-v1/README.md)
 
 ## Bottleneck discipline
 
