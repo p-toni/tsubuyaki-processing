@@ -1,6 +1,6 @@
 ---
 name: tsubuyaki-processing
-description: "Autonomously discover and refine original #つぶやきProcessing p5.js animations: choose mathematical representations, inspect motion, and deliver verified executable posts within 280 characters."
+description: "Autonomously discover and refine original #つぶやきProcessing p5.js animations, inspect motion, and deliver verified executable sketches aiming for 280 characters."
 ---
 
 # Tsubuyaki Processing
@@ -12,8 +12,8 @@ The capability being developed is discovery across fresh briefs. A finished sket
 ## Essential constraints
 
 - Use p5.js global mode unless asked otherwise. Final code must execute.
-- The complete post must fit both 280 X-weighted characters and 280 raw Unicode code points. The limit is a ceiling, not a target.
-- Work in readable mathematical roles before golfing; exploratory source may exceed the final length limit. Prefer shared latent variables and reusable generators over independent decoration; recurrence is one possible representation.
+- Aim for 280 characters including the hashtag. Report both X-weighted length and raw Unicode code points. Enforce both limits only when the brief requires a standard post.
+- Explore in readable code. Prefer shared mathematical causes and reusable generators. Recurrence is one possible representation.
 - Preserve the defining mathematical relationships and animated identity when compressing. Matching a few frames is insufficient if the cause was removed.
 - Create original work; do not reconstruct or lightly mutate a published artist's formula.
 
@@ -54,9 +54,9 @@ After visual selection, load [compression-promotion.md](references/compression-p
 
 Name the defining relationships and choose a meaningful behavioral horizon before compression. It must expose the motion, relative phases or recurrence drift that make this sketch work. Keep that horizon and those relationships fixed through preflight and exact verification.
 
-Try the cheapest plausible compression of the best visual candidate. If its cause and animated identity survive, finish golfing with [code-golf-techniques.md](references/code-golf-techniques.md). If it fails, retain the artistic discovery and try the next visually worthwhile candidate. Stop when none remain; report the limitation instead of weakening the identity to obtain a length pass.
+Try a simple compression of the best visual candidate. Keep the shortest version you verified that preserves its cause and animated identity. An over-target sketch can satisfy the brief. If a strict format was requested and the winner misses it, preserve the winner and try the next visually worthwhile candidate within budget. [Code golf techniques](references/code-golf-techniques.md)
 
-Character count constrains deployment, not artistic ranking. There is no required shortlist size. If the preflight already uses the exact final code and covers all final checks, reuse that verification; changed code needs verification again.
+Reuse a preflight that already verified the exact final code over the chosen horizon. Verify changed code again.
 
 Verify the complete executable post, including its hashtag:
 
@@ -64,7 +64,7 @@ Verify the complete executable post, including its hashtag:
 node scripts/check-length.mjs post.txt
 ```
 
-`CODE//#つぶやきProcessing` leaves 259 X-weighted characters for code. Execute and render the exact post over the chosen horizon. Confirm both observable survival and preservation of the named causes; see [preservation-contract.md](references/preservation-contract.md).
+At the 280-character target, `CODE//#つぶやきProcessing` leaves 259 X-weighted characters for code. The checker's pass flag answers the standard-post size question. Execute and render the exact sketch over the chosen horizon and confirm each named cause survives. [Preservation contract](references/preservation-contract.md)
 
 Use diagnostics only for claims they can test:
 
@@ -81,6 +81,6 @@ Diagnostics can reveal failures; they cannot establish artistic quality. Low occ
 
 ## Deliver
 
-Provide the concept, readable p5.js, executable tweet line, and verification results: raw and weighted length, runtime, temporal horizon and compression survival. Include a few useful variation controls when relevant.
+Provide the concept, readable p5.js, the complete executable sketch with its hashtag, both length counts, the runtime, the temporal horizon, and what survived compression. Include useful variation controls when relevant.
 
 Explain consequential observation-led decisions when they help assess the discovery process. Distinguish the readable artistic winner from the deployment candidate if they differ. Report failed attempts and any human intervention when evaluating autonomy; an honest failure is still an unsuccessful discovery. Label model aesthetic judgments as provisional and report anything not actually verified.

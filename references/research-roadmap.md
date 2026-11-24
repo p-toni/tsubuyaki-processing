@@ -4,13 +4,13 @@ The primary research goal is **autonomous discovery capability**: given a fresh 
 
 Finished animations are concrete evidence of this capability. A successful discovery must produce worthwhile behavior; reliable unattended execution alone is insufficient. One attractive result does not establish transfer across briefs. An honest failure is an appropriate way to stop, but still counts as an unsuccessful discovery attempt.
 
-Discovery means finding useful original programs and behaviors for the task, not a claim of globally novel mathematics. The current medium remains p5.js and a complete post within 280 raw and X-weighted characters. Readable exploration may exceed that limit before compression.
+Discovery means finding an original program whose behavior serves the brief. Work in p5.js and aim for 280 characters including the hashtag. Select the artwork from rendered motion, verify the compressed sketch, and report its raw and X-weighted lengths. A worthwhile longer sketch can succeed. Historical studies retain the delivery rules they registered.
 
 ## Active priority — can the agent discover a compact interaction?
 
-Pearl and silk produced a provisional B interaction. Moving the pearl 40 pixels at the same instant moved a 64-pixel-deep pocket the same distance. The two complete attempts used 330 and 316 weighted characters. The shorter one preserved every rendered frame. This closes the case as a compact-delivery failure. The result isolates the character limit for these attempts. It leaves the cost of each individual visual feature open. [Animation and contact experiment](../experiments/pearl-and-silk-v1/README.md)
+Pearl and silk produced a provisional B interaction. Moving the pearl 40 pixels at the same instant moved a 64-pixel-deep pocket the same distance. Its 316-weighted-character sketch preserved every rendered frame and missed the study's registered size limit. The silk returned to its resting shape as soon as the pearl lifted. [Animation and contact experiment](../experiments/pearl-and-silk-v1/README.md)
 
-Try a fresh encounter in which the two moving forms share one drawing rule. One should change the other's motion, with a visible consequence after they separate. This tests whether shared drawing code can leave enough room for both the interaction and its aftermath. Allow up to two readable sketches and two compact attempts. Select the motion before counting and require a verified A/B post. Keep the two Pearl and silk attempts closed. [Compression guidance](compression-promotion.md)
+Try a fresh encounter in which two moving forms share one drawing rule. One should change the other's motion, with a visible consequence after they separate. Allow up to two readable sketches and two compact attempts. Select the motion before counting and verify the defining relationship in the exact compact sketch. [Borrowed spin brief](../experiments/borrowed-spin-v1/brief.md)
 
 ## Simplest autonomous baseline
 

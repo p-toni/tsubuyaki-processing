@@ -1,6 +1,6 @@
 # Adaptive Compression-Survival Promotion
 
-Description length is a **deployment constraint on promotion**, not an aesthetic objective and not a search objective.
+Use 280 characters as a compactness target. A longer verified sketch is eligible when its defining motion justifies the code. Apply a strict size gate only to a brief that requires a standard post. The experiments below used that stricter format.
 
 The description-length experiments support this order:
 
@@ -80,8 +80,8 @@ For each candidate:
 
 1. name the high-leverage mathematical relationships that define its identity;
 2. sketch the cheapest plausible semantic compression that preserves those relationships;
-3. estimate whether the resulting cause can plausibly fit the practical code budget;
-4. if plausible, render the compressed form across the chosen temporal horizon;
+3. check size if the brief specifies a hard maximum;
+4. render the compressed form across the chosen temporal horizon;
 5. decide pass/fail on phenotype survival across that horizon;
 6. require Grade 1 cause preservation before deployment promotion.
 
@@ -194,6 +194,4 @@ The adaptive follow-up reused the same archive:
 
 The fresh v0.14 cold test added a temporal result. On a new recurrence brief, a short preflight window made the artistic winner look deployable, while the longer final-verification horizon exposed later thinning and loss of persistent internal crossing. Aligning the horizons correctly rejected that candidate and promoted the next-ranked recurrence candidate; a fresh sheet control passed at rank 1.
 
-The strongest current policy is therefore:
-
-> **discover and rank freely; apply description length only as an adaptive promotion gate into deployment, freeze the observation/cause contract before compression, require Grade 1 cause preservation, and evaluate preflight and exact verification over the same meaningful behavioral horizon.**
+Select the work from rendered motion. Record its defining cause and verification horizon before compression. Use the same horizon to check the exact result. The historical fallback results apply when a fixed publication size is part of the brief.

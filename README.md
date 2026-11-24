@@ -2,11 +2,11 @@
 
 An Agent Skill and research project for **autonomous discovery of compact mathematical animations**, expressed as original **#つぶやきProcessing**.
 
-Given a fresh visual brief and an attempt budget, can an agent choose the mathematics, inspect what it made, and decide what to keep, revise, or abandon? A successful run delivers a worthwhile p5.js sketch without human creative intervention. Its defining behavior must survive in a complete runnable post of at most 280 characters. Readable exploration can be longer. A run that exhausts its budget without a qualifying post counts as a failure.
+Given a fresh visual brief and an attempt budget, can an agent choose the mathematics, inspect what it made, and decide what to keep, revise, or abandon? A successful run delivers a worthwhile p5.js sketch without human creative intervention and verifies that its defining behavior survives compression. Aim for 280 characters including the hashtag. Keep a longer version when the extra code earns its place in the animation. Report its exact length and whether it fits a standard post.
 
 In **Pleated lantern**, one traveling fold changes both the outline and the light on a hanging form. The agent selected the readable sketch before counting characters. The complete post used all 280 weighted characters and reproduced all 720 frames exactly. [Watch the 12-second clip](experiments/pleated-lantern-v1/lantern.mp4?raw=1) or [inspect the sketches and the provisional B grade](experiments/pleated-lantern-v1/README.md).
 
-Organic form and apparent life are the starting aesthetic. The open question is whether the agent's judgment transfers to different briefs. In **Pearl and silk**, moving the pearl moved a pocket in the fabric by the same distance. The shorter attempt reproduced all 720 frames but exceeded the post limit by 36 weighted characters. This counts as a failed compact delivery. [Watch the readable study](experiments/pearl-and-silk-v1/README.md) · [Research roadmap](references/research-roadmap.md)
+Organic form and apparent life are the starting aesthetic. In **Pearl and silk**, moving the pearl moved a pocket in the fabric by the same distance. The 316-weighted-character sketch preserved all 720 frames. That experiment had a firm 280-character delivery rule and missed it. The pocket is still worth keeping. [Animation and contact test](experiments/pearl-and-silk-v1/README.md) · [Research roadmap](references/research-roadmap.md)
 
 ## Use the skill
 
@@ -22,7 +22,7 @@ choose a suitable mathematical representation
 
 Keep a good incumbent and stop within the budget. More search, a larger archive or a higher diagnostic score does not by itself improve the art. The separate research runtime is optional; autonomy does not depend on adopting it.
 
-The executable suffix `//#つぶやきProcessing` leaves **259 X-weighted characters for code**. Check the complete post:
+When aiming for 280, the executable suffix `//#つぶやきProcessing` leaves **259 X-weighted characters for code**. The checker reports both counts and exits with status 1 when the standard-post size is exceeded.
 
 ```sh
 node scripts/check-length.mjs post.txt
@@ -40,7 +40,7 @@ An optional command can produce a first compact draft of a selected arithmetic s
 
 ## Evidence and limits
 
-Pulse vessel shows what an unsuccessful run looks like. Four readable candidates produced one provisional B. Both attempted posts exceeded the limit at 336 and 323 weighted characters. [Pulse vessel archive](experiments/compact-representation-v1/README.md)
+Pulse vessel produced one provisional B from four readable candidates. Its 336- and 323-weighted-character attempts missed that study's required post size. Their visual equivalence remains unverified. [Pulse vessel archive](experiments/compact-representation-v1/README.md)
 
 The [compact-preflight comparison](experiments/compact-preflight-v1/README.md) delivered 3/4 briefs with early checking and 1/4 with late checking. Aperture recovered without a clear artistic loss, but the delivered Wake was less expressive than the late readable selection. The no-regression gate therefore failed, and the production policy remains unchanged. All four deliveries passed 720-frame verification and 64 sampled image comparisons (48 unique). The same author knew both arms, and the early arm used more readable candidates; this is provisional engineering evidence, not a clean causal effect or equal-cost advantage.
 
