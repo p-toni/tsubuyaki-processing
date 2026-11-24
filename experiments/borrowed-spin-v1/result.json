@@ -1,0 +1,96 @@
+{
+  "case": "Borrowed spin",
+  "briefCommit": "6cce70818b497023759be1656f3f75409e246947",
+  "selectionCommit": "61181a3e8a0b54d90933d043dbf0b6a324dea08e",
+  "grade": {
+    "reviewer": "authoring agent",
+    "v1": "C",
+    "v2": "B",
+    "selected": "v2.js"
+  },
+  "attemptsUsed": {
+    "readable": 2,
+    "compact": 1
+  },
+  "completeSketch": {
+    "file": "sketch.txt",
+    "sha256": "4d567a3699ab6f377966c558baea641c01d1a1a16ab5b25a4940c86740f6f215",
+    "rawCodePoints": 371,
+    "xWeightedLength": 375,
+    "fitsStandardPost": false,
+    "sizeTarget": 280
+  },
+  "runtime": {
+    "p5": "p5.js 1.11.3",
+    "p5Sha256": "af51e6211e061b5ae463fbc5c3c1c272e5ca67fa560ed3513fde17325d837506",
+    "chromium": "153.0.8010.12",
+    "framesPerRender": 720,
+    "renders": [
+      "v1.js",
+      "v2.js",
+      "sketch.txt",
+      "sketch.txt with contact torque zeroed"
+    ],
+    "pageErrors": [],
+    "normalP5Playback": {
+      "browser": "153.0.8010.12",
+      "canvas": [
+        400,
+        400
+      ],
+      "normalPlaybackMatchedFrames": [
+        45,
+        181,
+        301
+      ],
+      "errors": []
+    }
+  },
+  "raster": {
+    "byteIdenticalReadableAndCompactPNGPairs": 720,
+    "sequenceHashMethod": "SHA-256 over the concatenated binary SHA-256 digests of PNG frames 1 through 720",
+    "readableAndCompactSequenceSha256": "996aec27c56d9b2633892c72668f388381984e95711d6a7e16bc3b894696189c",
+    "control": {
+      "equalBeforeFirstContact": 123,
+      "differentFromFirstContactOnward": 597,
+      "changedPixelsOutsideReceiverWith1pxAntialiasMargin": 0,
+      "changedPixelsByFrame": {
+        "123": 0,
+        "124": 3893,
+        "241": 13406,
+        "301": 13414,
+        "361": 13399
+      },
+      "controlSequenceSha256": "4dc5df2bd3e918d9948c8155c6e919c67b46e78c30f103f631a158263db8731a"
+    }
+  },
+  "coast": {
+    "frames": 720,
+    "touchingFramesInclusive": [
+      [
+        124,
+        241
+      ],
+      [
+        488,
+        605
+      ]
+    ],
+    "beforeFirstTouchIdenticalFrames": 123,
+    "driverIdenticalFrames": 720,
+    "stationaryControlFrames": 720,
+    "receiverDegreesFirstSecondAfterRelease": -76.37598076198903,
+    "receiverDegreesNextSecondAfterRelease": -29.017681265822606,
+    "controlDegreesAfterRelease": 0
+  },
+  "video": {
+    "file": "borrowed-spin.mp4",
+    "source": "sketch.txt",
+    "sha256": "80927a75d5ea0a7e4a6faf383a8d8cea8242660a0a6c7e66aab56f3d3f763ebb",
+    "frames": 720,
+    "fps": 60,
+    "seconds": 12,
+    "width": 400,
+    "height": 400
+  }
+}

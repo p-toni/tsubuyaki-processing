@@ -6,11 +6,11 @@ Finished animations are concrete evidence of this capability. A successful disco
 
 Discovery means finding an original program whose behavior serves the brief. Work in p5.js and aim for 280 characters including the hashtag. Select the artwork from rendered motion, verify the compressed sketch, and report its raw and X-weighted lengths. A worthwhile longer sketch can succeed. Historical studies retain the delivery rules they registered.
 
-## Active priority — can the agent discover a compact interaction?
+## Active priority — can the agent choose what an encounter leaves behind?
 
-Pearl and silk produced a provisional B interaction. Moving the pearl 40 pixels at the same instant moved a 64-pixel-deep pocket the same distance. Its 316-weighted-character sketch preserved every rendered frame and missed the study's registered size limit. The silk returned to its resting shape as soon as the pearl lifted. [Animation and contact experiment](../experiments/pearl-and-silk-v1/README.md)
+Give the agent one visual intent. **Make the second encounter visibly different because of what the first left behind.** Leave the forms, material, and mechanism open. Borrowed spin specified the desired transfer in advance. This brief asks the agent to choose the cause as well as its mathematical representation.
 
-Try a fresh encounter in which two moving forms share one drawing rule. One should change the other's motion, with a visible consequence after they separate. Allow up to two readable sketches and two compact attempts. Select the motion before counting and verify the defining relationship in the exact compact sketch. [Borrowed spin brief](../experiments/borrowed-spin-v1/brief.md)
+Allow up to two readable sketches and two compact attempts. Select from rendered motion before counting. After selection, clear only what the first encounter left behind and replay the same inputs into the second. Compare the visible outcome. Keep a worthwhile result with a demonstrated cause, or record where the attempt fell short.
 
 ## Simplest autonomous baseline
 
@@ -88,6 +88,12 @@ The case failed: zero verified compact deliveries. All four readable programs re
 A single fold value changes both surface radius and lighting as a band moves down a tapered lantern. The first version went flat between pulses. The agent kept a shallow resting crease in the revision and selected it at provisional B before counting characters. Both complete compact attempts counted against the budget. Mechanical minification used 306 weighted characters. Manual compression reached 280, preserving all 720 rendered frames byte for byte. The outer ribs still open into a mesh at full expansion. This establishes one compact delivery with an author-assessed grade. [Sketch, clip, and verification](../experiments/pleated-lantern-v1/README.md)
 
 We kept one optional tool from PR #143. After artistic selection it emits a complete mechanical draft for the existing character checker. Eight of 18 distinct archived sources fit on that attempt. We declined the broader instrument suite. In review, a panel that always answered “equal” qualified to judge artistic differences despite zero known-answer accuracy, and the brief bank accepted an exception as a successful rejection of a bad example. The next discovery brief uses the existing visual selection and verification process. [Retained command and evidence](../experiments/compressibility-forecast-retrospective-v1/README.md) · [PR #143](https://github.com/p-toni/tsubuyaki-processing/pull/143)
+
+## Completed cases — what happens after contact?
+
+In **Pearl and silk**, moving the pearl 40 pixels moved a 64-pixel-deep pocket the same distance. The silk returned to its resting shape as soon as the pearl lifted. The 316-weighted-character version preserved all 720 frames and missed that experiment's registered size limit. [Animation and contact test](../experiments/pearl-and-silk-v1/README.md)
+
+**Borrowed spin** tested whether an interaction could outlast contact. Two whorls share one drawing rule. After separation the receiver turned 76.4° in the first second and 29.0° in the next. Removing the contact torque left it still with the driver's path and spin intact. The first compact version used 375 weighted characters and matched all 720 readable frames. The author graded the selected sketch B. These two cases used prescribed encounters and self-assessment. [Animation, control, and selection](../experiments/borrowed-spin-v1/README.md)
 
 ## Bottleneck discipline
 

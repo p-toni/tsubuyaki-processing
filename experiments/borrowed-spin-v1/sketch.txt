@@ -1,0 +1,1 @@
+v=a=0;setup=()=>{createCanvas(400,400);noStroke()};draw=()=>{background(16,21,24);g=max(0,22+42*(C=cos)(t=(f=frameCount)/58));b=.33+.38*sin(t);a-=v+=g?-.016*v:.055*(.035-v);for(i=0;i<130;i++){d=i<65?130+g:0;h=(d?f*.035:a)+(j=i%65)/19;r=.59*j;l=125+48*C(j*.83)+26*C(h+1);fill(l+(k=d?46:-27),l,l-k);circle(276-d*C(b)+r*C(h),190+d*sin(b)+r*sin(h),130-2*j)}}//#つぶやきProcessing
